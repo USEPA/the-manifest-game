@@ -1,35 +1,62 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {useCallback} from 'react';
+import ReactFlow, {useNodesState, useEdgesState, addEdge, Node, MiniMap, Controls, Edge, Connection} from 'reactflow';
 
-function App() {
-  const [count, setCount] = useState(0)
+import 'reactflow/dist/style.css';
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+interface ManifestNode extends Node {
 }
 
-export default App
+const initialNodes: Array<ManifestNode> = [
+    {id: '1', connectable: false, draggable: false, position: {x: 100, y: 100}, data: {label: 'foo'}},
+    {id: '2', hidden: true, connectable: false, draggable: false, position: {x: 100, y: 200}, data: {label: 'bar'}},
+    {id: '3', hidden: true, connectable: false, draggable: false, position: {x: 300, y: 200}, data: {label: 'xxx'}},
+];
+const initialEdges: Array<Edge> = [{id: 'e1-2', source: '1', target: '2'}, {id: 'e1-3', source: '1', target: '3'}];
+
+const getNodeTargets = ({edges, source}: { edges: Array<Edge>, source: string }): Array<string> => {
+    const targets = edges.filter(edge => edge.source === source).map(edge => edge.target)
+    console.log(targets)
+    return targets
+}
+
+const setHiddenFalse = ({targets, nodes}: { targets: Array<string>, nodes: Array<Node> }): Array<Node> => {
+    return nodes.map(node => {
+        if (targets.includes(node.id)) {
+            return {...node, hidden: false}
+        }
+        return node
+    })
+
+}
+
+export default function App() {
+    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+    const onConnect = useCallback(
+        (params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)),
+        [setEdges],
+    );
+
+    const onClick = (event: any, node: any) => {
+        const targets = getNodeTargets({edges, source: node.id})
+        const newNodes = setHiddenFalse({nodes, targets})
+        setNodes(newNodes)
+    }
+
+    return (
+        <div style={{width: '100vw', height: '100vh'}}>
+            <ReactFlow
+                nodes={nodes}
+                edges={edges}
+                onEdgesChange={onEdgesChange}
+                onConnect={onConnect}
+                onNodeClick={onClick}
+            >
+                <MiniMap nodeStrokeWidth={3}/>
+                <Controls/>
+            </ReactFlow>
+        </div>
+    );
+}
+
