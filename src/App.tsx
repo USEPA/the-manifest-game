@@ -23,15 +23,20 @@ const initialNodes: Array<ManifestNode> = [
     {id: '2', hidden: true, connectable: false, draggable: false, position: {x: 100, y: 200}, data: {label: 'bar'}},
     {id: '3', hidden: true, connectable: false, draggable: false, position: {x: 300, y: 200}, data: {label: 'xxx'}},
 ];
-const initialEdges: Array<Edge> = [{id: 'e1-2', source: '1', target: '2'}, {id: 'e1-3', source: '1', target: '3'}];
+const initialEdges: Array<Edge> = [{id: 'e1-2', hidden: true, source: '1', target: '2'}, {
+    id: 'e1-3',
+    hidden: true,
+    source: '1',
+    target: '3'
+}];
 
 const getNodeTargets = ({edges, source}: { edges: Array<Edge>, source: string }): Array<string> => {
     return edges.filter(edge => edge.source === source).map(edge => edge.target)
 }
 
-const getEdges = ({edges, source}: { edges: Array<Edge>, source: string }): Array<Edge> => {
-    return edges.filter(edge => edge.source !== source)
-}
+// const getEdges = ({edges, source}: { edges: Array<Edge>, source: string }): Array<Edge> => {
+//     return edges.filter(edge => edge.source !== source)
+// }
 
 const setHiddenNodes = ({targets, nodes, expanded}: {
     targets: Array<string>,
@@ -63,19 +68,24 @@ export default function App() {
         (params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)),
         [setEdges],
     );
+    console.log(edges)
 
     const onClick = useCallback(
         (event: React.MouseEvent, node: ManifestNode) => {
-            console.log('click', node)
-            const targets = getNodeTargets({edges, source: node.id})
+            const targets: Array<string> = getNodeTargets({edges, source: node.id})
+            console.log(targets)
             const intermediaNodes = setExpanded({source: node.id, nodes})
             const newNodes = setHiddenNodes({nodes: intermediaNodes, targets, expanded: !node.expanded})
-            if (node.expanded) {
-                setEdges(getEdges({edges, source: node.id}))
-            }
+            const updatedEdges = edges.map(edge => {
+                if (targets.includes(edge.target)) {
+                    return {...edge, hidden: node.expanded}
+                }
+                return edge
+            })
+            setEdges(updatedEdges)
             setNodes(newNodes)
         },
-        [edges, nodes, setNodes]
+        [edges, nodes, setEdges, setNodes]
     )
 
     return (
