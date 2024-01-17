@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import { ManifestNode } from "components/Tree/nodes";
 import { useManifestTree } from "hooks/useManifestTree";
+import { ManifestNode } from "services/treeService";
 import { afterEach, describe, expect, test } from "vitest";
 
 afterEach(() => {});
@@ -51,9 +51,11 @@ describe("useManifestTree", () => {
     expect(screen.queryByText("2")).not.toBeInTheDocument();
   });
   test("creates and returns an array of edges", () => {
+    const parentId = "1";
+    const childId = "2";
     const myNodes: Array<ManifestNode> = [
       {
-        id: "1",
+        id: parentId,
         expanded: false,
         connectable: false,
         draggable: false,
@@ -61,7 +63,7 @@ describe("useManifestTree", () => {
         data: { label: "foo" },
         children: [
           {
-            id: "2",
+            id: childId,
             connectable: false,
             draggable: false,
             position: { x: 100, y: 100 },
@@ -71,6 +73,7 @@ describe("useManifestTree", () => {
       },
     ];
     render(<TestComponent initialNodes={myNodes} />);
-    screen.debug();
+    expect(screen.getByText(`source: ${parentId}`)).toBeInTheDocument();
+    expect(screen.getByText(`target: ${childId}`)).toBeInTheDocument();
   });
 });

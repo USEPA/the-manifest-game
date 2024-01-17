@@ -1,7 +1,14 @@
-import { ManifestNode } from "components/Tree/nodes";
-import { Edge } from "reactflow";
+import { Edge, Node } from "reactflow";
+
+export interface ManifestNode extends Node {
+  expanded?: boolean;
+  children?: Array<ManifestNode>;
+}
+
+export type ManifestTree = Record<string, ManifestNode>;
 
 export const Tree = {
+  // ToDo: createManifestNode should be removed. meant for development purposes
   /** Create a decision tree node with defaults applied */
   createManifestNode: (data: Partial<ManifestNode>): ManifestNode => {
     return {
@@ -16,14 +23,14 @@ export const Tree = {
   },
 
   /** Recursively convert a nested array/tree of nodes into a flattened representation */
-  flattenTreeNodes: (nodes: Array<ManifestNode>): Array<ManifestNode> => {
+  buildTreeNodes: (nodes: Array<ManifestNode>): Array<ManifestNode> => {
     let flatNodes: Array<ManifestNode> = [];
 
     nodes.forEach((node) => {
       flatNodes.push(node);
 
       if (node.children) {
-        flatNodes = flatNodes.concat(Tree.flattenTreeNodes(node.children));
+        flatNodes = flatNodes.concat(Tree.buildTreeNodes(node.children));
       }
     });
 
@@ -31,10 +38,8 @@ export const Tree = {
   },
 
   /** Recursively convert a nested array/tree of nodes into a flattened object */
-  flattenNodesToObject: (
-    nodes: Array<ManifestNode>,
-  ): Record<string, ManifestNode> => {
-    let flatNodes: Record<string, ManifestNode> = {};
+  flattenNodesToObject: (nodes: Array<ManifestNode>): ManifestTree => {
+    let flatNodes: ManifestTree = {};
 
     nodes.forEach((node) => {
       flatNodes[node.id] = node;
@@ -61,7 +66,7 @@ export const Tree = {
   },
 
   /** Recursively traverse and create the edges of the decision tree */
-  createTreeEdges: (nodes: Array<ManifestNode>): Array<Edge> => {
+  buildTreeEdges: (nodes: Array<ManifestNode>): Array<Edge> => {
     let edges: Array<Edge> = [];
 
     nodes.forEach((node) => {
@@ -69,7 +74,7 @@ export const Tree = {
         node.children.forEach((child) => {
           edges.push(Tree.createManifestEdge(node.id, child.id));
         });
-        edges = edges.concat(Tree.createTreeEdges(node.children));
+        edges = edges.concat(Tree.buildTreeEdges(node.children));
       }
     });
 
@@ -77,10 +82,7 @@ export const Tree = {
   },
 
   /** Recursively get a node's children IDs */
-  getRecursiveChildrenIds: (
-    nodes: Record<string, ManifestNode>,
-    id: string,
-  ): string[] => {
+  getRecursiveChildrenIds: (nodes: ManifestTree, id: string): string[] => {
     let childrenIds: string[] = [];
 
     if (nodes[id]?.children) {
@@ -96,14 +98,17 @@ export const Tree = {
   },
 
   /** a node's direct children IDs */
-  getChildrenIds: (
-    nodes: Record<string, ManifestNode>,
-    id: string,
-  ): string[] => {
+  getChildrenIds: ({
+    tree,
+    id,
+  }: {
+    tree: ManifestTree;
+    id: string;
+  }): string[] => {
     const childrenIds: string[] = [];
 
-    if (nodes[id]?.children) {
-      nodes[id].children?.forEach((child) => {
+    if (tree[id]?.children) {
+      tree[id].children?.forEach((child) => {
         childrenIds.push(child.id);
       });
     }
@@ -112,26 +117,28 @@ export const Tree = {
   },
 
   /** Convert an object tree into an array of nodes */
-  convertObjectToNodes: (
-    nodes: Record<string, ManifestNode>,
-  ): Array<ManifestNode> => {
+  mapTreeToNodes: (tree: ManifestTree): Array<ManifestNode> => {
     const nodesArray: Array<ManifestNode> = [];
 
-    Object.keys(nodes).forEach((key) => {
-      nodesArray.push(nodes[key]);
+    Object.keys(tree).forEach((key) => {
+      nodesArray.push(tree[key]);
     });
 
     return nodesArray;
   },
 
   /** Hide edges by node IDs */
-  setHiddenEdges: (
-    edges: Array<Edge>,
-    nodeId: string[],
-    hidden: boolean,
-  ): Array<Edge> => {
+  setHiddenEdges: ({
+    edges,
+    targetNodeIDs,
+    hidden = true,
+  }: {
+    edges: Array<Edge>;
+    targetNodeIDs: string[];
+    hidden?: boolean;
+  }): Array<Edge> => {
     return edges.map((edge) => {
-      if (nodeId.includes(edge.target)) {
+      if (targetNodeIDs.includes(edge.target)) {
         return { ...edge, hidden };
       }
       return edge;
@@ -139,11 +146,14 @@ export const Tree = {
   },
 
   /** expand a node and un-hide its children */
-  expandNode: (
-    tree: Record<string, ManifestNode>,
-    node: ManifestNode,
-  ): Record<string, ManifestNode> => {
-    const childrenIds = Tree.getChildrenIds(tree, node.id);
+  expandNode: ({
+    tree,
+    node,
+  }: {
+    tree: ManifestTree;
+    node: ManifestNode;
+  }): Record<string, ManifestNode> => {
+    const childrenIds = Tree.getChildrenIds({ tree, id: node.id });
     const newTree = { ...tree };
     newTree[node.id] = { ...node, expanded: !node.expanded };
     childrenIds.forEach((target) => {

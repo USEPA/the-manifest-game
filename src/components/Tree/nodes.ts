@@ -1,9 +1,4 @@
-import { Node } from "reactflow";
-
-export interface ManifestNode extends Node {
-  expanded?: boolean;
-  children?: Array<ManifestNode>;
-}
+import { ManifestNode } from "services/treeService";
 
 export const dummyManifestTree: Array<ManifestNode> = [
   {
