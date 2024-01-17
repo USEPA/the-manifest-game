@@ -5,6 +5,45 @@ export interface ManifestNode extends Node {
   children?: Array<ManifestNode>;
 }
 
+export const manifestNodes2: Array<ManifestNode> = [
+  {
+    id: "1",
+    expanded: true,
+    connectable: false,
+    draggable: false,
+    position: { x: 100, y: 100 },
+    data: { label: "foo" },
+    children: [
+      {
+        id: "2",
+        hidden: false,
+        connectable: false,
+        draggable: false,
+        position: { x: 100, y: 200 },
+        data: { label: "bar" },
+      },
+      {
+        id: "3",
+        hidden: false,
+        connectable: false,
+        draggable: false,
+        position: { x: 300, y: 200 },
+        data: { label: "xxx" },
+        children: [
+          {
+            id: "4",
+            hidden: false,
+            connectable: false,
+            draggable: false,
+            position: { x: 300, y: 300 },
+            data: { label: "xxx" },
+          },
+        ],
+      },
+    ],
+  },
+];
+
 export const manifestNodes: Array<ManifestNode> = [
   {
     id: "1",

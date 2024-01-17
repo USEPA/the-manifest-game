@@ -1,2 +1,1 @@
-export { createManifestNode } from "./manifestNodes";
-export { createManifestEdge } from "./manifestEdges";
+export { tree } from "components/services/treeService";
