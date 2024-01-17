@@ -1,42 +1,7 @@
-import { tree } from "components/services/treeService";
+import { Tree } from "components/services";
 import { ManifestNode } from "components/Tree/nodes";
-import React, { useCallback } from "react";
-import {
-  addEdge,
-  Connection,
-  Edge,
-  useEdgesState,
-  useNodesState,
-} from "reactflow";
-
-const getNodeTargets = ({
-  edges,
-  source,
-}: {
-  edges: Array<Edge>;
-  source: string;
-}): Array<string> => {
-  return edges
-    .filter((edge) => edge.source === source)
-    .map((edge) => edge.target);
-};
-
-const setHiddenNodes = ({
-  targets,
-  nodes,
-  expanded,
-}: {
-  targets: Array<string>;
-  nodes: Array<ManifestNode>;
-  expanded: boolean;
-}): Array<ManifestNode> => {
-  return nodes.map((node) => {
-    if (targets.includes(node.id)) {
-      return { ...node, hidden: !expanded };
-    }
-    return node;
-  });
-};
+import React, { useCallback, useEffect, useState } from "react";
+import { useEdgesState, useNodesState } from "reactflow";
 
 const setExpanded = ({
   source,
@@ -58,55 +23,50 @@ const setExpanded = ({
  *
  * logic and interface for managing the interactive e-Manifest decision tree
  * returns an array of nodes to be used with the React Flow library and getter/setter functions
- * @param initialNodes
+ * @param manifestTree
  */
-export const useManifestTree = (initialNodes: Array<ManifestNode>) => {
+export const useManifestTree = (manifestTree: Array<ManifestNode>) => {
   const [flowNodes, setFlowNodes] = useNodesState(
-    tree.flattenTreeNodes(initialNodes),
+    Tree.flattenTreeNodes(manifestTree),
   );
   const [flowEdges, setFlowEdges, onFlowEdgesChange] = useEdgesState(
-    tree.createTreeEdges(initialNodes),
+    Tree.createTreeEdges(manifestTree),
   );
 
-  const onConnect = useCallback(
-    (params: Edge | Connection) => setFlowEdges((eds) => addEdge(params, eds)),
-    [setFlowEdges],
+  const [tree, setTree] = useState<Record<string, ManifestNode>>(
+    Tree.flattenNodesToObject(manifestTree),
   );
+
+  useEffect(() => {
+    setFlowNodes(Tree.convertObjectToNodes(tree));
+  }, [tree, setFlowNodes]);
 
   const onClick = useCallback(
     (event: React.MouseEvent, node: ManifestNode) => {
-      const targets: Array<string> = getNodeTargets({
-        edges: flowEdges,
-        source: node.id,
-      });
-      console.log("targets", targets);
-      const intermediaNodes = setExpanded({
-        source: node.id,
-        nodes: flowNodes,
-      });
-      const newNodes = setHiddenNodes({
-        nodes: intermediaNodes,
-        targets,
-        expanded: !node.expanded,
-      });
-      const updatedEdges = flowEdges.map((edge) => {
-        if (targets.includes(edge.target)) {
-          return { ...edge, hidden: node.expanded };
-        }
-        return edge;
-      });
-      setFlowEdges(updatedEdges);
-      setFlowNodes(newNodes);
+      if (node.expanded) {
+        // if node is open, close it and hide all children
+        const childrenIds = Tree.getRecursiveChildrenIds(tree, node.id);
+        const newTree = { ...tree };
+        newTree[node.id] = { ...node, expanded: false };
+        childrenIds.forEach((id) => {
+          newTree[id].hidden = true;
+          newTree[id].expanded = false;
+        });
+        setTree(newTree);
+        setFlowEdges(Tree.setHiddenEdges(flowEdges, childrenIds, true));
+      } else {
+        // if node is closed, open it and show direct children
+        const childrenIds = Tree.getChildrenIds(tree, node.id);
+        setTree(Tree.expandNode(tree, node));
+        setFlowEdges(Tree.setHiddenEdges(flowEdges, childrenIds, false));
+      }
     },
-    [flowEdges, flowNodes, setFlowNodes, setFlowEdges],
+    [tree, flowEdges, setFlowEdges],
   );
 
   return {
     nodes: flowNodes,
-    setNodes: setFlowNodes,
     edges: flowEdges,
-    setEdges: setFlowEdges,
-    onConnect,
     onEdgesChange: onFlowEdgesChange,
     onClick,
   } as const;

@@ -6,14 +6,11 @@ import ReactFlow, {
   Controls,
   MiniMap,
 } from "reactflow";
-import { manifestNodes2 } from "./nodes";
+import { dummyManifestTree } from "./nodes";
 
 export const Tree = () => {
-  const { nodes, edges, onConnect, onEdgesChange, onClick } =
-    useManifestTree(manifestNodes2);
-
-  console.log("treeNodes", nodes);
-  console.log("treeEdges", edges);
+  const { nodes, edges, onEdgesChange, onClick } =
+    useManifestTree(dummyManifestTree);
 
   return (
     <>
@@ -22,7 +19,6 @@ export const Tree = () => {
           nodes={nodes}
           edges={edges}
           onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
           onNodeClick={onClick}
         >
           <Background variant={BackgroundVariant.Dots} />

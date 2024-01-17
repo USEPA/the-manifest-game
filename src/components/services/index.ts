@@ -1,1 +1,1 @@
-export { tree } from "components/services/treeService";
+export { Tree } from "components/services/treeService";
