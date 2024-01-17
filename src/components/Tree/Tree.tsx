@@ -10,7 +10,7 @@ import ReactFlow, {
   useEdgesState,
   useNodesState,
 } from "reactflow";
-import { ManifestNode, manifestNodes, manifestEdges } from "./nodes";
+import { manifestEdges, ManifestNode, manifestNodes } from "./nodes";
 
 const getNodeTargets = ({
   edges,
@@ -68,7 +68,7 @@ export const Tree = () => {
   const onClick = useCallback(
     (event: React.MouseEvent, node: ManifestNode) => {
       const targets: Array<string> = getNodeTargets({ edges, source: node.id });
-      console.log(targets);
+      console.log("targets", targets);
       const intermediaNodes = setExpanded({ source: node.id, nodes });
       const newNodes = setHiddenNodes({
         nodes: intermediaNodes,

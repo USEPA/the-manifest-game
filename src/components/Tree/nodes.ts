@@ -2,6 +2,7 @@ import { Edge, Node } from "reactflow";
 
 export interface ManifestNode extends Node {
   expanded?: boolean;
+  children?: Array<ManifestNode>;
 }
 
 export const manifestNodes: Array<ManifestNode> = [
