@@ -11,6 +11,7 @@ import { ManifestNode, ManifestTree } from "services/tree/treeService";
  * @param manifestTree
  */
 export const useDecisionTree = (manifestTree: Array<ManifestNode>) => {
+  // @ts-expect-error - TODO: fix this
   const [nodes, setNodes] = useNodesState(Tree.buildTreeNodes(manifestTree));
   const [edges, setEdges] = useEdgesState(Tree.buildTreeEdges(manifestTree));
 
@@ -19,6 +20,7 @@ export const useDecisionTree = (manifestTree: Array<ManifestNode>) => {
   );
 
   useEffect(() => {
+    // @ts-expect-error - TODO: fix this
     setNodes(Tree.mapTreeToNodes(tree));
   }, [tree, setNodes]);
 

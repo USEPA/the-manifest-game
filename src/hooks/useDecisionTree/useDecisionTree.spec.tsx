@@ -42,7 +42,6 @@ describe("useDecisionTree", () => {
         expanded: false,
         connectable: false,
         draggable: false,
-        position: { x: 100, y: 100 },
         data: { label: "foo" },
       },
     ];
@@ -59,14 +58,12 @@ describe("useDecisionTree", () => {
         expanded: false,
         connectable: false,
         draggable: false,
-        position: { x: 100, y: 100 },
         data: { label: "foo" },
         children: [
           {
             id: childId,
             connectable: false,
             draggable: false,
-            position: { x: 100, y: 100 },
             data: { label: "foo" },
           },
         ],

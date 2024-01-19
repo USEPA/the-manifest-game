@@ -23,7 +23,6 @@ const createMockNode = (overWrites: Partial<ManifestNode>): ManifestNode => {
     hidden: true,
     connectable: false,
     draggable: false,
-    position: { x: 100, y: 100 },
     data: { label: "foo" },
     ...overWrites,
   };
