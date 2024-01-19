@@ -61,6 +61,7 @@ export const Tree = {
       hidden: false,
       source,
       target,
+      type: "smoothstep",
     };
   },
 
