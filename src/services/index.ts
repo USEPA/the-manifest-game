@@ -1,1 +1,1 @@
-export { Tree } from "services/treeService";
+export { Tree } from "services/tree/treeService";

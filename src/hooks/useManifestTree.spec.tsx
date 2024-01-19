@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { useManifestTree } from "hooks/useManifestTree";
-import { ManifestNode } from "services/treeService";
+import { ManifestNode } from "services/tree/treeService";
 import { afterEach, describe, expect, test } from "vitest";
 
 afterEach(() => {});

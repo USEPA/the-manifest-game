@@ -1,9 +1,9 @@
-import {Tree} from "components/Tree/Tree";
+import { Tree } from "components/Tree/Tree";
 
-import 'reactflow/dist/style.css';
-
+import "reactflow/dist/style.css";
+import { Config } from "services/config/configService";
 
 export default function App() {
-    return <Tree/>
+  Config.readTree();
+  return <Tree />;
 }
-

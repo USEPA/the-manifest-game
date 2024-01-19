@@ -1,4 +1,4 @@
-import { ManifestNode } from "services/treeService";
+import { ManifestNode } from "services/tree/treeService";
 
 export const dummyManifestTree: Array<ManifestNode> = [
   {
