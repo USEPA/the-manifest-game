@@ -2,9 +2,8 @@
 
 export const Config = {
   /** read and return the decision tree from a json file */
-  readTree: async () => {
+  fetchSubmitManifestTree: async () => {
     const foo = await fetch("/submit-manifest.json");
-    console.log(foo.json());
     return foo;
   },
 };

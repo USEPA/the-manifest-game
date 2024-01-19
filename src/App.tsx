@@ -4,6 +4,6 @@ import "reactflow/dist/style.css";
 import { Config } from "services/config/configService";
 
 export default function App() {
-  Config.readTree();
+  Config.fetchSubmitManifestTree();
   return <Tree />;
 }

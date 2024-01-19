@@ -1,4 +1,4 @@
-import { useManifestTree } from "hooks/useManifestTree";
+import { useDecisionTree } from "hooks";
 import React from "react";
 import ReactFlow, {
   Background,
@@ -9,7 +9,7 @@ import ReactFlow, {
 import { dummyManifestTree } from "./nodes";
 
 export const Tree = () => {
-  const { nodes, edges, onClick } = useManifestTree(dummyManifestTree);
+  const { nodes, edges, onClick } = useDecisionTree(dummyManifestTree);
 
   return (
     <>
