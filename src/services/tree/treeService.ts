@@ -1,6 +1,6 @@
 import { Edge, Node } from "reactflow";
 
-export interface ManifestNode extends Node {
+export interface ManifestNode extends Omit<Node, "position"> {
   expanded?: boolean;
   children?: Array<ManifestNode>;
 }
@@ -16,7 +16,6 @@ export const Tree = {
       hidden: true,
       connectable: false,
       draggable: false,
-      position: { x: 100, y: 100 },
       data: { label: "foo" },
       ...data,
     };

@@ -6,7 +6,6 @@ export const dummyManifestTree: Array<ManifestNode> = [
     expanded: false,
     connectable: false,
     draggable: false,
-    position: { x: 100, y: 100 },
     data: { label: "foo" },
     children: [
       {
@@ -14,7 +13,6 @@ export const dummyManifestTree: Array<ManifestNode> = [
         hidden: true,
         connectable: false,
         draggable: false,
-        position: { x: 100, y: 200 },
         data: { label: "bar" },
       },
       {
@@ -22,7 +20,6 @@ export const dummyManifestTree: Array<ManifestNode> = [
         hidden: true,
         connectable: false,
         draggable: false,
-        position: { x: 300, y: 200 },
         data: { label: "xxx" },
         children: [
           {
@@ -30,7 +27,6 @@ export const dummyManifestTree: Array<ManifestNode> = [
             hidden: true,
             connectable: false,
             draggable: false,
-            position: { x: 300, y: 300 },
             data: { label: "xxx" },
           },
           {
@@ -38,7 +34,6 @@ export const dummyManifestTree: Array<ManifestNode> = [
             hidden: true,
             connectable: false,
             draggable: false,
-            position: { x: 500, y: 300 },
             data: { label: "xxx" },
             children: [
               {
@@ -46,7 +41,6 @@ export const dummyManifestTree: Array<ManifestNode> = [
                 hidden: true,
                 connectable: false,
                 draggable: false,
-                position: { x: 500, y: 400 },
                 data: { label: "xxx" },
               },
               {
@@ -54,8 +48,14 @@ export const dummyManifestTree: Array<ManifestNode> = [
                 hidden: true,
                 connectable: false,
                 draggable: false,
-                position: { x: 700, y: 400 },
                 data: { label: "xxx" },
+              },
+              {
+                id: "8",
+                hidden: true,
+                connectable: false,
+                draggable: false,
+                data: { label: "hhh" },
               },
             ],
           },
