@@ -1,7 +1,7 @@
-import React, {useCallback, useEffect, useState} from "react";
-import {useEdgesState, useNodesState} from "reactflow";
-import {Tree} from "services";
-import {ManifestNode, ManifestTree} from "services/treeService";
+import React, { useCallback, useEffect, useState } from "react";
+import { useEdgesState, useNodesState } from "reactflow";
+import { Tree } from "services";
+import { ManifestNode, ManifestTree } from "services/tree/treeService";
 
 /**
  * useManifestTree
@@ -10,7 +10,7 @@ import {ManifestNode, ManifestTree} from "services/treeService";
  * returns an array of nodes to be used with the React Flow library and getter/setter functions
  * @param manifestTree
  */
-export const useManifestTree = (manifestTree: Array<ManifestNode>) => {
+export const useDecisionTree = (manifestTree: Array<ManifestNode>) => {
   const [nodes, setNodes] = useNodesState(Tree.buildTreeNodes(manifestTree));
   const [edges, setEdges] = useEdgesState(Tree.buildTreeEdges(manifestTree));
 

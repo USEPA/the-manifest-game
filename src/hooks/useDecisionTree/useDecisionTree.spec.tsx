@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import { useManifestTree } from "hooks/useManifestTree";
-import { ManifestNode } from "services/treeService";
+import { useDecisionTree } from "hooks/useDecisionTree/useDecisionTree";
+import { ManifestNode } from "services/tree/treeService";
 import { afterEach, describe, expect, test } from "vitest";
 
 afterEach(() => {});
@@ -12,7 +12,7 @@ const TestComponent = ({
   initialNodes?: Array<ManifestNode>;
 }) => {
   const initialValue = initialNodes || [];
-  const { nodes, edges } = useManifestTree(initialValue);
+  const { nodes, edges } = useDecisionTree(initialValue);
   return (
     <>
       <p>nodes</p>
@@ -34,7 +34,7 @@ const TestComponent = ({
   );
 };
 
-describe("useManifestTree", () => {
+describe("useDecisionTree", () => {
   test("returns an object containing the nodes", () => {
     const myNodes: Array<ManifestNode> = [
       {

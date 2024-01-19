@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { Edge } from "reactflow";
-import { ManifestNode, ManifestTree, Tree } from "services/treeService";
+import { ManifestNode, ManifestTree, Tree } from "services/tree/treeService";
 import { describe, expect, test } from "vitest";
 
 const createMockEdge = (

@@ -1,4 +1,5 @@
-import { useManifestTree } from "hooks/useManifestTree";
+import { getLayoutElements } from "components/Tree/layout";
+import { useDecisionTree } from "hooks";
 import React from "react";
 import ReactFlow, {
   Background,
@@ -9,7 +10,13 @@ import ReactFlow, {
 import { dummyManifestTree } from "./nodes";
 
 export const Tree = () => {
-  const { nodes, edges, onClick } = useManifestTree(dummyManifestTree);
+  const {
+    nodes: rawNodes,
+    edges: rawEdges,
+    onClick,
+  } = useDecisionTree(dummyManifestTree);
+
+  const { nodes, edges } = getLayoutElements(rawNodes, rawEdges);
 
   return (
     <>
