@@ -1,0 +1,7 @@
+**/build
+**/dist
+**/node_modules/
+**/.env*
+**/*.bak
+/client/public/mockServiceWorker.js
+.github/pull_request_template.md

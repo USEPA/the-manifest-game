@@ -2,25 +2,17 @@
   {
     "id": "site-type",
     "text": "site type",
-    "children": [
-      "generator",
-      "transporter",
-      "tsdf"
-    ]
+    "children": ["generator", "transporter", "tsdf"]
   },
   {
     "id": "generator",
     "text": "generator",
-    "children": [
-      "registration-status"
-    ]
+    "children": ["registration-status"]
   },
   {
     "id": "transporter",
     "text": "transporter",
-    "children": [
-      "registration-status"
-    ]
+    "children": ["registration-status"]
   },
   {
     "id": "tsdf",

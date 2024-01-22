@@ -35,4 +35,4 @@ The decision tree should meet the following requirements for a minimum viable pr
 
 1. Recursion is the name of the game. The decision tree lends itself to logic that needs to repeat up/down the tree an
    unknown number of times depending on the depth.
-2. 
+2.

@@ -1,6 +1,6 @@
-import { Edge, MarkerType, Node } from "reactflow";
+import { Edge, MarkerType, Node } from 'reactflow';
 
-export interface ManifestNode extends Omit<Node, "position"> {
+export interface ManifestNode extends Omit<Node, 'position'> {
   expanded?: boolean;
   children?: Array<ManifestNode>;
 }
@@ -12,11 +12,11 @@ export const Tree = {
   /** Create a decision tree node with defaults applied */
   createManifestNode: (data: Partial<ManifestNode>): ManifestNode => {
     return {
-      id: "1",
+      id: '1',
       hidden: true,
       connectable: false,
       draggable: false,
-      data: { label: "foo" },
+      data: { label: 'foo' },
       ...data,
     };
   },
@@ -61,7 +61,7 @@ export const Tree = {
       hidden: false,
       source,
       target,
-      type: "smoothstep",
+      type: 'smoothstep',
       markerEnd: { type: MarkerType.ArrowClosed },
     };
   },
@@ -89,9 +89,7 @@ export const Tree = {
     if (nodes[id]?.children) {
       nodes[id].children?.forEach((child) => {
         childrenIds.push(child.id);
-        childrenIds = childrenIds.concat(
-          Tree.getRecursiveChildrenIds(nodes, child.id),
-        );
+        childrenIds = childrenIds.concat(Tree.getRecursiveChildrenIds(nodes, child.id));
       });
     }
 
@@ -99,13 +97,7 @@ export const Tree = {
   },
 
   /** a node's direct children IDs */
-  getChildrenIds: ({
-    tree,
-    id,
-  }: {
-    tree: ManifestTree;
-    id: string;
-  }): string[] => {
+  getChildrenIds: ({ tree, id }: { tree: ManifestTree; id: string }): string[] => {
     const childrenIds: string[] = [];
 
     if (tree[id]?.children) {

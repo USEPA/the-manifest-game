@@ -1,9 +1,11 @@
-import { Handle, NodeProps, Position } from "reactflow";
+import { Handle, NodeProps, Position } from 'reactflow';
 
-import "./bool-node.css";
+import './bool-node.css';
 
 interface BoolNodeData {
   question: string;
+  yesId: string;
+  noId: string;
 }
 
 export const BoolNode = ({ data, id }: NodeProps<BoolNodeData>) => {

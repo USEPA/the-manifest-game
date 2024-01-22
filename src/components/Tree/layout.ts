@@ -1,5 +1,5 @@
-import dagre from "@dagrejs/dagre";
-import { Edge, Node } from "reactflow";
+import dagre from '@dagrejs/dagre';
+import { Edge, Node } from 'reactflow';
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -9,7 +9,7 @@ const nodeHeight = 36;
 
 /** Apply positioning through implementing a Directed Acyclic Graph (DAG) */
 export const getLayoutElements = (nodes: Array<Node>, edges: Array<Edge>) => {
-  dagreGraph.setGraph({ rankdir: "TB" });
+  dagreGraph.setGraph({ rankdir: 'TB' });
 
   nodes.forEach((node) => {
     dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
