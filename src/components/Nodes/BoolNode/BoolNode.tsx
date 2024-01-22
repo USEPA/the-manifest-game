@@ -10,7 +10,7 @@ interface BoolNodeData {
 
 export const BoolNode = ({ data, id }: NodeProps<BoolNodeData>) => {
   return (
-    <div>
+    <>
       <Handle type="target" position={Position.Top} />
       <div className="boolean-node-text">
         <p>{data.question}</p>
@@ -20,6 +20,6 @@ export const BoolNode = ({ data, id }: NodeProps<BoolNodeData>) => {
         <button>No</button>
       </div>
       <Handle type="source" position={Position.Bottom} id={id} />
-    </div>
+    </>
   );
 };
