@@ -57,6 +57,11 @@ export const dummyManifestTree: Array<ManifestNode> = [
                 draggable: false,
                 data: { label: "hhh" },
               },
+              {
+                id: "89",
+                type: "BoolNode",
+                data: { question: "what is your name?" },
+              },
             ],
           },
         ],

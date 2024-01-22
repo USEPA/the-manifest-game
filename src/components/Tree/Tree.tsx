@@ -1,6 +1,7 @@
+import { BoolNode } from "components/Nodes/BoolNode";
 import { getLayoutElements } from "components/Tree/layout";
 import { useDecisionTree } from "hooks";
-import React from "react";
+import React, { useMemo } from "react";
 import ReactFlow, {
   Background,
   BackgroundVariant,
@@ -18,10 +19,17 @@ export const Tree = () => {
 
   const { nodes, edges } = getLayoutElements(rawNodes, rawEdges);
 
+  const nodeTypes = useMemo(() => ({ BoolNode: BoolNode }), []);
+
   return (
     <>
       <div style={{ width: "100vw", height: "100vh" }}>
-        <ReactFlow nodes={nodes} edges={edges} onNodeClick={onClick}>
+        <ReactFlow
+          nodeTypes={nodeTypes}
+          nodes={nodes}
+          edges={edges}
+          onNodeClick={onClick}
+        >
           <Background variant={BackgroundVariant.Dots} />
           <MiniMap nodeStrokeWidth={3} />
           <Controls />
