@@ -6,18 +6,18 @@ interface BoolNodeData {
   question: string;
 }
 
-export const BoolNode = (props: NodeProps<BoolNodeData>) => {
+export const BoolNode = ({ data, id }: NodeProps<BoolNodeData>) => {
   return (
     <div className="boolean-node">
       <Handle type="target" position={Position.Top} />
-      <div>
-        <p>{props.data.question}</p>
+      <div className="boolean-node-text">
+        <p>{data.question}</p>
       </div>
       <div className="boolean-node-options">
         <button>Yes</button>
         <button>No</button>
       </div>
-      <Handle type="source" position={Position.Bottom} id={props.id} />
+      <Handle type="source" position={Position.Bottom} id={id} />
     </div>
   );
 };

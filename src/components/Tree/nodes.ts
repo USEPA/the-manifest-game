@@ -20,7 +20,8 @@ export const dummyManifestTree: Array<ManifestNode> = [
         hidden: true,
         connectable: false,
         draggable: false,
-        data: { label: "xxx" },
+        type: "BoolNode",
+        data: { question: "xxx" },
         children: [
           {
             id: "4",
