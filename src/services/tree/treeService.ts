@@ -1,4 +1,4 @@
-import { Edge, Node } from "reactflow";
+import { Edge, MarkerType, Node } from "reactflow";
 
 export interface ManifestNode extends Omit<Node, "position"> {
   expanded?: boolean;
@@ -62,6 +62,7 @@ export const Tree = {
       source,
       target,
       type: "smoothstep",
+      markerEnd: { type: MarkerType.ArrowClosed },
     };
   },
 

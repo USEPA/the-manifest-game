@@ -30,3 +30,9 @@ The decision tree should meet the following requirements for a minimum viable pr
    visiting the page.
 2. The widget should be configurable with a JSON file to allow for easy updates and use of multiple decision
    trees.
+
+## Lessons learned from the POC
+
+1. Recursion is the name of the game. The decision tree lends itself to logic that needs to repeat up/down the tree an
+   unknown number of times depending on the depth.
+2. 
