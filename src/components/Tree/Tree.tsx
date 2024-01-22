@@ -1,4 +1,5 @@
-import { BoolNode } from 'components/Nodes/BoolNode';
+import { BoolNode } from 'components/Nodes/BoolNode/BoolNode';
+import { DefaultNode } from 'components/Nodes/DefaultNode/DefaultNode';
 import { getLayoutElements } from 'components/Tree/layout';
 import { useDecisionTree } from 'hooks';
 import React, { useMemo } from 'react';
@@ -10,7 +11,7 @@ export const Tree = () => {
 
   const { nodes, edges } = getLayoutElements(rawNodes, rawEdges);
 
-  const nodeTypes = useMemo(() => ({ BoolNode: BoolNode }), []);
+  const nodeTypes = useMemo(() => ({ BoolNode: BoolNode, default: DefaultNode }), []);
 
   return (
     <>

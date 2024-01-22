@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { BoolNode } from 'components/Nodes/BoolNode';
+import { BoolNode } from 'components/Nodes/BoolNode/BoolNode';
 import { ReactFlowProvider } from 'reactflow';
 import { afterEach, describe, expect, it } from 'vitest';
 

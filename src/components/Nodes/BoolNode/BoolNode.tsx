@@ -1,6 +1,6 @@
 import { Handle, NodeProps, Position } from 'reactflow';
 
-import './bool-node.css';
+import 'components/Nodes/BoolNode/bool-node.css';
 
 interface BoolNodeData {
   question: string;
