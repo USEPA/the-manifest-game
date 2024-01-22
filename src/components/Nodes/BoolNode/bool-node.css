@@ -1,0 +1,21 @@
+.boolean-node-text p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px 10px 0 10px;
+}
+
+.boolean-node-options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.boolean-node-options button {
+    color: #000;
+    border: 1px solid #000;
+    border-radius: 5px;
+    padding: 2px 5px;
+    margin: 0 5px;
+}

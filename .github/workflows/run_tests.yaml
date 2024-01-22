@@ -1,12 +1,10 @@
-name: 'Haztrak Client Tests'
+name: 'Unit & Build Tests'
 # This workflow is responsible for running the Haztrak react client tests.
 
 on:
   pull_request:
     branches: [ 'main' ]
   push:
-  workflow_call:
-  workflow_dispatch:
 
 jobs:
   run_client_tests:

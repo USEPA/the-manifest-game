@@ -1,4 +1,25 @@
-{
-  "id": "1",
-  "text": "Hello World"
-}
+[
+  {
+    "id": "site-type",
+    "text": "site type",
+    "children": ["generator", "transporter", "tsdf"]
+  },
+  {
+    "id": "generator",
+    "text": "generator",
+    "children": ["registration-status"]
+  },
+  {
+    "id": "transporter",
+    "text": "transporter",
+    "children": ["registration-status"]
+  },
+  {
+    "id": "tsdf",
+    "text": "tsdf"
+  },
+  {
+    "id": "registration-status",
+    "text": "Are you registered?"
+  }
+]

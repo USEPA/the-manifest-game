@@ -1,13 +1,13 @@
 /// <reference types="vitest" />
-import react from "@vitejs/plugin-react";
-import { defineConfig } from "vite";
-import tsconfigPaths from "vite-tsconfig-paths";
+import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   build: {
     sourcemap: true,
-    outDir: "build",
+    outDir: 'build',
     chunkSizeWarningLimit: 500,
   },
   plugins: [react(), tsconfigPaths()],
@@ -16,7 +16,7 @@ export default defineConfig({
     port: 3000,
   },
   test: {
-    environment: "jsdom",
+    environment: 'jsdom',
     globals: true,
   },
 });

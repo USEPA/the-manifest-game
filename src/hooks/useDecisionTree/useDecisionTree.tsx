@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useEdgesState, useNodesState } from "reactflow";
-import { Tree } from "services";
-import { ManifestNode, ManifestTree } from "services/tree/treeService";
+import React, { useCallback, useEffect, useState } from 'react';
+import { useEdgesState, useNodesState } from 'reactflow';
+import { Tree } from 'services';
+import { ManifestNode, ManifestTree } from 'services/tree/treeService';
 
 /**
  * useManifestTree
@@ -15,9 +15,7 @@ export const useDecisionTree = (manifestTree: Array<ManifestNode>) => {
   const [nodes, setNodes] = useNodesState(Tree.buildTreeNodes(manifestTree));
   const [edges, setEdges] = useEdgesState(Tree.buildTreeEdges(manifestTree));
 
-  const [tree, setTree] = useState<ManifestTree>(
-    Tree.flattenNodesToObject(manifestTree),
-  );
+  const [tree, setTree] = useState<ManifestTree>(Tree.flattenNodesToObject(manifestTree));
 
   useEffect(() => {
     // @ts-expect-error - TODO: fix this
@@ -41,7 +39,7 @@ export const useDecisionTree = (manifestTree: Array<ManifestNode>) => {
             edges,
             targetNodeIDs: childrenIds,
             hidden: true,
-          }),
+          })
         );
       } else {
         // if node is closed, open it and show direct children
@@ -52,11 +50,11 @@ export const useDecisionTree = (manifestTree: Array<ManifestNode>) => {
             edges,
             targetNodeIDs: childrenIds,
             hidden: false,
-          }),
+          })
         );
       }
     },
-    [tree, edges, setEdges],
+    [tree, edges, setEdges]
   );
 
   return {

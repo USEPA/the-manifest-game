@@ -1,16 +1,12 @@
-import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
-import { useDecisionTree } from "hooks/useDecisionTree/useDecisionTree";
-import { ManifestNode } from "services/tree/treeService";
-import { afterEach, describe, expect, test } from "vitest";
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import { useDecisionTree } from 'hooks/useDecisionTree/useDecisionTree';
+import { ManifestNode } from 'services/tree/treeService';
+import { afterEach, describe, expect, test } from 'vitest';
 
 afterEach(() => {});
 
-const TestComponent = ({
-  initialNodes,
-}: {
-  initialNodes?: Array<ManifestNode>;
-}) => {
+const TestComponent = ({ initialNodes }: { initialNodes?: Array<ManifestNode> }) => {
   const initialValue = initialNodes || [];
   const { nodes, edges } = useDecisionTree(initialValue);
   return (
@@ -19,7 +15,7 @@ const TestComponent = ({
       {nodes.map((node) => (
         <ul key={node.id}>
           <li>id: {node.id}</li>
-          <li>hidden: {node.hidden ? "yes" : "no"} </li>
+          <li>hidden: {node.hidden ? 'yes' : 'no'} </li>
         </ul>
       ))}
       <p>edges</p>
@@ -34,37 +30,37 @@ const TestComponent = ({
   );
 };
 
-describe("useDecisionTree", () => {
-  test("returns an object containing the nodes", () => {
+describe('useDecisionTree', () => {
+  test('returns an object containing the nodes', () => {
     const myNodes: Array<ManifestNode> = [
       {
-        id: "1",
+        id: '1',
         expanded: false,
         connectable: false,
         draggable: false,
-        data: { label: "foo" },
+        data: { label: 'foo' },
       },
     ];
     render(<TestComponent initialNodes={myNodes} />);
-    expect(screen.getByText("id: 1")).toBeInTheDocument();
-    expect(screen.queryByText("2")).not.toBeInTheDocument();
+    expect(screen.getByText('id: 1')).toBeInTheDocument();
+    expect(screen.queryByText('2')).not.toBeInTheDocument();
   });
-  test("creates and returns an array of edges", () => {
-    const parentId = "1";
-    const childId = "2";
+  test('creates and returns an array of edges', () => {
+    const parentId = '1';
+    const childId = '2';
     const myNodes: Array<ManifestNode> = [
       {
         id: parentId,
         expanded: false,
         connectable: false,
         draggable: false,
-        data: { label: "foo" },
+        data: { label: 'foo' },
         children: [
           {
             id: childId,
             connectable: false,
             draggable: false,
-            data: { label: "foo" },
+            data: { label: 'foo' },
           },
         ],
       },
