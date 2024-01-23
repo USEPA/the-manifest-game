@@ -11,12 +11,21 @@ import {
   applyEdgeChanges,
   EdgeChange,
 } from 'reactflow';
-import { ManifestNode, ManifestTree, Tree } from 'services/tree/treeService';
+import { ManifestNode, ManifestTree } from 'services/tree/treeService';
 import type {} from '@redux-devtools/extension';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
+export interface TreeNode extends Omit<Node, 'position'> {
+  children?: string[];
+  yesId?: string;
+  noId?: string;
+}
+
+export type DecisionTree = Record<string, TreeNode>;
+
 export type TreeStore = {
+  decisionTree: DecisionTree;
   tree: ManifestTree;
   nodes: Node[];
   edges: Edge[];
@@ -26,11 +35,13 @@ export type TreeStore = {
   setNodes: (nodes: ManifestNode[]) => void;
   setEdges: (edges: Edge[]) => void;
   setTree: (tree: ManifestTree) => void;
+  setDecisionTree: (tree: DecisionTree) => void;
 };
 
 const treeStore = create<TreeStore>()(
   devtools(
     (set, get) => ({
+      decisionTree: {},
       tree: {},
       nodes: [],
       edges: [],
@@ -63,6 +74,11 @@ const treeStore = create<TreeStore>()(
       setTree: (tree: ManifestTree) => {
         set({
           tree: tree,
+        });
+      },
+      setDecisionTree: (tree: DecisionTree) => {
+        set({
+          decisionTree: tree,
         });
       },
     }),

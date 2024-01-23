@@ -34,7 +34,7 @@ const TestComponent = ({ edges }: TestComponentProps) => {
 };
 
 describe('Tree store', () => {
-  test('saves nodes to global state on change', () => {
+  test('sets nodes', () => {
     const nodeId = '1';
     useTreeStore.setState({ nodes: [{ id: nodeId, position: { x: 100, y: 200 }, data: {} }] });
     render(<TestComponent />);
