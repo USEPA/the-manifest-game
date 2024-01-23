@@ -1,4 +1,6 @@
 import { Edge, MarkerType, Node } from 'reactflow';
+import { BoolNodeConfig, DefaultNodeConfig } from 'store/jsonDummyTree';
+import { DecisionTree, TreeNode } from 'store/treeStore';
 
 export interface ManifestNode extends Omit<Node, 'position'> {
   expanded?: boolean;
