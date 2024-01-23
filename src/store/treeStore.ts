@@ -11,7 +11,7 @@ import {
   applyEdgeChanges,
   EdgeChange,
 } from 'reactflow';
-import { ManifestTree } from 'services/tree/treeService';
+import { ManifestNode, ManifestTree, Tree } from 'services/tree/treeService';
 import type {} from '@redux-devtools/extension';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
@@ -23,6 +23,9 @@ export type TreeStore = {
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
+  setNodes: (nodes: ManifestNode[]) => void;
+  setEdges: (edges: Edge[]) => void;
+  setTree: (tree: ManifestTree) => void;
 };
 
 const treeStore = create<TreeStore>()(
@@ -46,11 +49,21 @@ const treeStore = create<TreeStore>()(
           edges: addEdge(connection, get().edges),
         });
       },
-      showNode: (nodeId: string): void => {
-        const node = get().tree[nodeId];
-        if (node) {
-          console.log(node);
-        }
+      setNodes: (nodes: ManifestNode[]) => {
+        set({
+          // @ts-expect-error - there's a difference between ManifestNode and Node
+          nodes: nodes,
+        });
+      },
+      setEdges: (edges: Edge[]) => {
+        set({
+          edges: edges,
+        });
+      },
+      setTree: (tree: ManifestTree) => {
+        set({
+          tree: tree,
+        });
       },
     }),
     { name: 'decisionTree', anonymousActionType: 'unknown' }
@@ -58,3 +71,4 @@ const treeStore = create<TreeStore>()(
 );
 
 export default treeStore;
+export { treeStore as useTreeStore };
