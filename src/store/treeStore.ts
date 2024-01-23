@@ -36,6 +36,7 @@ export type TreeStore = {
   setEdges: (edges: Edge[]) => void;
   setTree: (tree: ManifestTree) => void;
   setDecisionTree: (tree: DecisionTree) => void;
+  updateNode: (node: Partial<TreeNode>) => void;
 };
 
 const treeStore = create<TreeStore>()(
@@ -79,6 +80,21 @@ const treeStore = create<TreeStore>()(
       setDecisionTree: (tree: DecisionTree) => {
         set({
           decisionTree: tree,
+        });
+      },
+      /** updates the TreeNode by id */
+      updateNode: (node: Partial<TreeNode>) => {
+        if (!node.id) {
+          throw new Error('Cannot update node without id');
+        }
+        set({
+          decisionTree: {
+            ...get().decisionTree,
+            [node.id]: {
+              ...get().decisionTree[node.id],
+              ...node,
+            },
+          },
         });
       },
     }),

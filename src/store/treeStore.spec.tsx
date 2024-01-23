@@ -3,16 +3,16 @@ import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import { Edge } from 'reactflow';
 import { describe, expect, test } from 'vitest';
-import useTreeStore from 'store/treeStore';
+import useTreeStore, { TreeNode } from 'store/treeStore';
 
 interface TestComponentProps {
   edges?: Edge[];
+  treeNodeUpdates?: Partial<TreeNode>;
 }
 
-const TestComponent = ({ edges }: TestComponentProps) => {
-  const nodes = useTreeStore((state) => state.nodes);
-  const setEdges = useTreeStore((state) => state.setEdges);
+const TestComponent = ({ edges, treeNodeUpdates }: TestComponentProps) => {
   const globalEdges = useTreeStore((state) => state.edges);
+  const { decisionTree, setEdges, nodes, updateNode } = useTreeStore((state) => state);
 
   return (
     <>
@@ -27,6 +27,17 @@ const TestComponent = ({ edges }: TestComponentProps) => {
           {globalEdges.map((edge) => (
             <p key={edge.id}>edge: {edge.id}</p>
           ))}
+        </>
+      )}
+      {decisionTree && treeNodeUpdates && (
+        <>
+          <p>Decision tree</p>
+          {Object.values(decisionTree).map((node) => (
+            <p key={node.id}>
+              {node.id}: {node.data.label}
+            </p>
+          ))}
+          <button onClick={() => updateNode(treeNodeUpdates)}>Update node</button>
         </>
       )}
     </>
@@ -46,5 +57,13 @@ describe('Tree store', () => {
     expect(screen.queryByText(/edge: 1/i)).not.toBeInTheDocument();
     await userEvent.click(screen.getByText(/set edges/i));
     expect(screen.getByText(/edge: 1/i)).toBeInTheDocument();
+  });
+  test('allows tree nodes to be updated', async () => {
+    const nodeId = '1';
+    useTreeStore.setState({ decisionTree: { [nodeId]: { id: nodeId, data: { label: 'foo' } } } });
+    render(<TestComponent treeNodeUpdates={{ id: nodeId, data: { label: 'bar' } }} />);
+    expect(screen.getByText(/foo/i)).toBeInTheDocument();
+    await userEvent.click(screen.getByText(/update node/i));
+    expect(await screen.findByText(/bar/i)).toBeInTheDocument();
   });
 });

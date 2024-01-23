@@ -1,21 +1,21 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useEdgesState, useNodesState } from 'reactflow';
-import { Tree } from 'services';
-import { ManifestNode, ManifestTree } from 'services/tree/treeService';
-import { useTreeStore } from 'store/treeStore';
+import { useTreeNodes } from 'hooks/useTreeNodes/useTreeNodes';
+import { useCallback, useEffect } from 'react';
+import { ManifestNode, Tree } from 'services/tree/treeService';
+import { DecisionTree, useTreeStore } from 'store/treeStore';
 
 /**
  * useManifestTree
  *
  * logic and interface for managing the interactive e-Manifest decision tree
  * returns an array of nodes to be used with the React Flow library and getter/setter functions
- * @param manifestTree
+ * @param initialTree
  */
-export const useDecisionTree = (manifestTree: Array<ManifestNode>) => {
-  const { nodes, setNodes } = useTreeStore((state) => ({
-    nodes: state.nodes,
-    setNodes: state.setNodes,
-  }));
+export const useDecisionTree = (initialTree: DecisionTree) => {
+  const { nodes } = useTreeNodes(initialTree);
+  // const { setNodes } = useTreeStore((state) => ({
+  //   nodes: state.nodes,
+  //   setNodes: state.setNodes,
+  // }));
 
   const { edges, setEdges } = useTreeStore((state) => ({
     edges: state.edges,
@@ -28,17 +28,17 @@ export const useDecisionTree = (manifestTree: Array<ManifestNode>) => {
   }));
 
   useEffect(() => {
-    setTree(Tree.flattenNodesToObject(manifestTree));
-    setNodes(Tree.buildTreeNodes(manifestTree));
-    setEdges(Tree.buildTreeEdges(manifestTree));
-  }, [manifestTree, setEdges, setNodes, setTree]);
+    // setTree(Tree.flattenNodesToObject(initialTree));
+    // setEdges(buildTreeEdges(initialTree));
+  }, [initialTree, setEdges, setTree]);
 
-  useEffect(() => {
-    setNodes(Tree.mapTreeToNodes(tree));
-  }, [tree, setNodes]);
+  // useEffect(() => {
+  //   setNodes(Tree.mapTreeToNodes(tree));
+  // }, [tree, setNodes]);
 
   const onClick = useCallback(
-    (event: React.MouseEvent, node: ManifestNode) => {
+    (event: MouseEvent, node: ManifestNode) => {
+      console.log('onClick', node);
       if (node.expanded) {
         // if node is open, close it and hide all children
         const childrenIds = Tree.getRecursiveChildrenIds(tree, node.id);
@@ -69,7 +69,7 @@ export const useDecisionTree = (manifestTree: Array<ManifestNode>) => {
         );
       }
     },
-    [tree, edges, setEdges]
+    [tree, setTree, setEdges, edges]
   );
 
   return {
