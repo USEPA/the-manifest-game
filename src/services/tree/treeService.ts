@@ -1,6 +1,5 @@
 import { Edge, MarkerType, Node } from 'reactflow';
-import { BoolNodeConfig, DefaultNodeConfig } from 'store/jsonDummyTree';
-import { DecisionTree, TreeNode } from 'store/treeStore';
+import { DecisionTree } from 'store/treeStore';
 
 export interface ManifestNode extends Omit<Node, 'position'> {
   expanded?: boolean;
@@ -156,4 +155,23 @@ export const Tree = {
     });
     return newTree;
   },
+};
+
+/** loop through DecisionTree and create an array of React flow edges */
+export const buildTreeEdges = (tree: DecisionTree): Array<Edge> => {
+  const edges: Array<Edge> = [];
+
+  Object.keys(tree).forEach((key) => {
+    const node = tree[key];
+    if (node.children) {
+      node.children.forEach((child) => {
+        edges.push(Tree.createManifestEdge(node.id, child));
+      });
+    } else if (node.yesId && node.noId) {
+      edges.push(Tree.createManifestEdge(node.id, node.yesId));
+      edges.push(Tree.createManifestEdge(node.id, node.noId));
+    }
+  });
+
+  return edges;
 };

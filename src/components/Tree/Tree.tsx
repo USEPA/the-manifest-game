@@ -4,10 +4,11 @@ import { getLayoutElements } from 'components/Tree/layout';
 import { useDecisionTree } from 'hooks';
 import React, { useMemo } from 'react';
 import ReactFlow, { Background, BackgroundVariant, Controls, MiniMap } from 'reactflow';
-import { dummyManifestTree } from './nodes';
+import { loadTree } from 'services/config/config';
+import { jsonDummyTree } from 'store/jsonDummyTree';
 
 export const Tree = () => {
-  const { nodes: rawNodes, edges: rawEdges, onClick } = useDecisionTree(dummyManifestTree);
+  const { nodes: rawNodes, edges: rawEdges, onClick } = useDecisionTree(loadTree(jsonDummyTree));
 
   const { nodes, edges } = getLayoutElements(rawNodes, rawEdges);
 
