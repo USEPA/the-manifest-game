@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useEdgesState, useNodesState } from 'reactflow';
 import { Tree } from 'services';
 import { ManifestNode, ManifestTree } from 'services/tree/treeService';
+import { useTreeStore } from 'store/treeStore';
 
 /**
  * useManifestTree
@@ -11,14 +12,28 @@ import { ManifestNode, ManifestTree } from 'services/tree/treeService';
  * @param manifestTree
  */
 export const useDecisionTree = (manifestTree: Array<ManifestNode>) => {
-  // @ts-expect-error - TODO: fix this
-  const [nodes, setNodes] = useNodesState(Tree.buildTreeNodes(manifestTree));
-  const [edges, setEdges] = useEdgesState(Tree.buildTreeEdges(manifestTree));
+  const { nodes, setNodes } = useTreeStore((state) => ({
+    nodes: state.nodes,
+    setNodes: state.setNodes,
+  }));
 
-  const [tree, setTree] = useState<ManifestTree>(Tree.flattenNodesToObject(manifestTree));
+  const { edges, setEdges } = useTreeStore((state) => ({
+    edges: state.edges,
+    setEdges: state.setEdges,
+  }));
+
+  const { tree, setTree } = useTreeStore((state) => ({
+    tree: state.tree,
+    setTree: state.setTree,
+  }));
 
   useEffect(() => {
-    // @ts-expect-error - TODO: fix this
+    setTree(Tree.flattenNodesToObject(manifestTree));
+    setNodes(Tree.buildTreeNodes(manifestTree));
+    setEdges(Tree.buildTreeEdges(manifestTree));
+  }, [manifestTree, setEdges, setNodes, setTree]);
+
+  useEffect(() => {
     setNodes(Tree.mapTreeToNodes(tree));
   }, [tree, setNodes]);
 
