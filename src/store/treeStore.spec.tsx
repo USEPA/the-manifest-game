@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Edge } from 'reactflow';
-import useTreeStore, { TreeNode } from 'store/treeStore';
+import { useTreeStore, TreeNode } from 'store';
 import { describe, expect, test } from 'vitest';
 
 interface TestComponentProps {
@@ -60,7 +60,7 @@ describe('Tree store', () => {
   });
   test('allows tree nodes to be updated', async () => {
     const nodeId = '1';
-    useTreeStore.setState({ decisionTree: { [nodeId]: { id: nodeId, data: { label: 'foo' } } } });
+    useTreeStore.setState({ tree: { [nodeId]: { id: nodeId, data: { label: 'foo' } } } });
     render(<TestComponent treeNodeUpdates={{ id: nodeId, data: { label: 'bar' } }} />);
     expect(screen.getByText(/foo/i)).toBeInTheDocument();
     await userEvent.click(screen.getByText(/update node/i));

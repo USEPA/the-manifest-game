@@ -32,6 +32,7 @@ body {
     border-radius: 10px;
     background: #3e6d9b;
     color: #fff;
+    cursor: auto;
 }
 
 .react-flow__node-default {
@@ -40,4 +41,5 @@ body {
     border-radius: 10px;
     background: #3e6d9b;
     color: #fff;
+    cursor: pointer;
 }

@@ -1,7 +1,8 @@
 import { useTreeNodes } from 'hooks/useTreeNodes/useTreeNodes';
 import { useEffect } from 'react';
+import { NodeMouseHandler } from 'reactflow';
 import { buildTreeEdges } from 'services/tree/treeService';
-import { DecisionTree, useTreeStore } from 'store/treeStore';
+import { DecisionTree, useTreeStore } from 'store';
 
 /**
  * useManifestTree
@@ -11,7 +12,7 @@ import { DecisionTree, useTreeStore } from 'store/treeStore';
  * @param initialTree
  */
 export const useDecisionTree = (initialTree: DecisionTree) => {
-  const { nodes } = useTreeNodes(initialTree);
+  const { nodes, tree } = useTreeNodes(initialTree);
 
   const { edges, setEdges } = useTreeStore((state) => ({
     edges: state.edges,
@@ -19,11 +20,12 @@ export const useDecisionTree = (initialTree: DecisionTree) => {
   }));
 
   useEffect(() => {
-    // setTree(Tree.flattenNodesToObject(initialTree));
-    setEdges(buildTreeEdges(initialTree));
-  }, []);
+    setEdges(buildTreeEdges(tree));
+  }, [tree, setEdges]);
 
-  const onClick = () => console.log('onclick');
+  const onClick: NodeMouseHandler = (event, node) => {
+    console.log('onClick', node);
+  };
   // const onClick: NodeMouseHandler = useCallback(
   //   (event: MouseEvent, node: ManifestNode) => {
   //     console.log('onClick', node);

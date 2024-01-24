@@ -15,10 +15,19 @@ import { ManifestNode } from 'services/tree/treeService';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
+interface TreeNodeData {
+  label: string;
+  children?: string[];
+  expanded?: boolean;
+  yesId?: string;
+  noId?: string;
+}
+
 export interface TreeNode extends Omit<Node, 'position'> {
   children?: string[];
   yesId?: string;
   noId?: string;
+  data: TreeNodeData;
 }
 
 export type DecisionTree = Record<string, TreeNode>;
@@ -94,4 +103,3 @@ const treeStore = create<TreeStore>()(
 );
 
 export default treeStore;
-export { treeStore as useTreeStore };

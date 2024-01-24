@@ -37,6 +37,7 @@ export const loadTree = (configs: Array<BoolNodeConfig | DefaultNodeConfig>): De
       data: {
         ...config.data,
         children: children || [],
+        expanded: false,
       },
     };
     tree[node.id] = node;

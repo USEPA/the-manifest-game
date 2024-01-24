@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { ManifestNode } from 'services/tree/treeService';
-import { DecisionTree, useTreeStore } from 'store/treeStore';
+import { DecisionTree, useTreeStore } from 'store';
 
 const treeToNodes = (tree: DecisionTree): Array<ManifestNode> => {
   return Object.values(tree).map((node, index) => ({
