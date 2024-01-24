@@ -1,13 +1,13 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { useDecisionTree } from 'hooks/useDecisionTree/useDecisionTree';
-import { ManifestNode } from 'services/tree/treeService';
+import { DecisionTree } from 'store/treeStore';
 import { afterEach, describe, expect, test } from 'vitest';
 
 afterEach(() => {});
 
-const TestComponent = ({ initialNodes }: { initialNodes?: Array<ManifestNode> }) => {
-  const initialValue = initialNodes || [];
+const TestComponent = ({ initialTree }: { initialTree?: DecisionTree }) => {
+  const initialValue = initialTree || {};
   const { nodes, edges } = useDecisionTree(initialValue);
   return (
     <>
@@ -32,40 +32,33 @@ const TestComponent = ({ initialNodes }: { initialNodes?: Array<ManifestNode> })
 
 describe('useDecisionTree', () => {
   test('returns an object containing the nodes', () => {
-    const myNodes: Array<ManifestNode> = [
-      {
+    const myNodes: DecisionTree = {
+      1: {
         id: '1',
-        expanded: false,
-        connectable: false,
-        draggable: false,
         data: { label: 'foo' },
       },
-    ];
-    render(<TestComponent initialNodes={myNodes} />);
+    };
+    render(<TestComponent initialTree={myNodes} />);
     expect(screen.getByText('id: 1')).toBeInTheDocument();
     expect(screen.queryByText('2')).not.toBeInTheDocument();
   });
   test('creates and returns an array of edges', () => {
     const parentId = '1';
     const childId = '2';
-    const myNodes: Array<ManifestNode> = [
-      {
+    const myNodes: DecisionTree = {
+      [parentId]: {
         id: parentId,
-        expanded: false,
+        data: { label: 'foo' },
+        children: [childId],
+      },
+      [childId]: {
+        id: childId,
         connectable: false,
         draggable: false,
         data: { label: 'foo' },
-        children: [
-          {
-            id: childId,
-            connectable: false,
-            draggable: false,
-            data: { label: 'foo' },
-          },
-        ],
       },
-    ];
-    render(<TestComponent initialNodes={myNodes} />);
+    };
+    render(<TestComponent initialTree={myNodes} />);
     expect(screen.getByText(`source: ${parentId}`)).toBeInTheDocument();
     expect(screen.getByText(`target: ${childId}`)).toBeInTheDocument();
   });

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { ManifestNode } from 'services/tree/treeService';
 import { DecisionTree, useTreeStore } from 'store/treeStore';
 
-const decisionTreeToNodes = (tree: DecisionTree): Array<ManifestNode> => {
+const treeToNodes = (tree: DecisionTree): Array<ManifestNode> => {
   return Object.values(tree).map((node, index) => ({
     id: node.id,
     data: node.data,
@@ -14,12 +14,12 @@ const decisionTreeToNodes = (tree: DecisionTree): Array<ManifestNode> => {
 };
 
 export const useTreeNodes = (initialTree?: DecisionTree) => {
-  const { nodes, decisionTree: tree, setDecisionTree, setNodes } = useTreeStore((state) => state);
+  const { nodes, tree, setTree, setNodes } = useTreeStore((state) => state);
 
   useEffect(() => {
     if (initialTree) {
-      setNodes(decisionTreeToNodes(initialTree));
-      setDecisionTree(initialTree);
+      setNodes(treeToNodes(initialTree));
+      setTree(initialTree);
     }
   }, []);
 

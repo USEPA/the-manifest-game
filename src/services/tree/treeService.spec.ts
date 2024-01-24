@@ -25,7 +25,7 @@ const createMockNode = (overWrites: Partial<ManifestNode>): ManifestNode => {
 };
 
 describe('Tree services', () => {
-  test('createManifestNode requires an ID', () => {
+  test('createManifestNode requires an Id', () => {
     const node = Tree.createManifestNode({ id: '2' });
     expect(node.id).toBe('2');
   });
@@ -46,7 +46,7 @@ describe('Tree services', () => {
     expect(flatNodeIds).toContain(parentId);
     expect(flatNodeIds).toContain(childId);
   });
-  test('createManifestEdge takes 2 ID and returns an edge', () => {
+  test('createManifestEdge takes 2 Id and returns an edge', () => {
     const sourceId = '2';
     const targetId = '3';
     const edge = Tree.createManifestEdge(sourceId, targetId);
@@ -54,10 +54,10 @@ describe('Tree services', () => {
     expect(edge.source).toBe(sourceId);
     expect(edge.target).toBe(targetId);
   });
-  test('setHiddenEdges hides all edges that lead to target IDs', () => {
+  test('setHiddenEdges hides all edges that lead to target Ids', () => {
     const id2 = '2';
     const id3 = '3';
-    const targetNodeIDs = [id2, id3];
+    const targetNodeIds = [id2, id3];
     const edges: Array<Edge> = [
       // source, target, overwrites
       createMockEdge('1', '2', { hidden: false }),
@@ -65,7 +65,7 @@ describe('Tree services', () => {
       createMockEdge('2', '4', { hidden: false }),
       createMockEdge('4', '5', { hidden: false }),
     ];
-    const updatedEdges = Tree.setHiddenEdges({ targetNodeIDs, edges });
+    const updatedEdges = Tree.setHiddenEdges({ targetNodeIds, edges });
     expect(updatedEdges).toHaveLength(4);
     const hiddenEdges = updatedEdges.filter((edge) => edge.target === id2 || edge.target === id3);
     hiddenEdges.forEach((edge) => expect(edge.hidden).toBe(true));

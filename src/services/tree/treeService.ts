@@ -83,7 +83,7 @@ export const Tree = {
     return edges;
   },
 
-  /** Recursively get a node's children IDs */
+  /** Recursively get a node's children Ids */
   getRecursiveChildrenIds: (nodes: ManifestTree, id: string): string[] => {
     let childrenIds: string[] = [];
 
@@ -97,7 +97,7 @@ export const Tree = {
     return childrenIds;
   },
 
-  /** a node's direct children IDs */
+  /** a node's direct children Ids */
   getChildrenIds: ({ tree, id }: { tree: ManifestTree; id: string }): string[] => {
     const childrenIds: string[] = [];
 
@@ -121,18 +121,18 @@ export const Tree = {
     return nodesArray;
   },
 
-  /** Hide edges by node IDs */
+  /** Hide edges by node Ids */
   setHiddenEdges: ({
     edges,
-    targetNodeIDs,
+    targetNodeIds,
     hidden = true,
   }: {
     edges: Array<Edge>;
-    targetNodeIDs: string[];
+    targetNodeIds: string[];
     hidden?: boolean;
   }): Array<Edge> => {
     return edges.map((edge) => {
-      if (targetNodeIDs.includes(edge.target)) {
+      if (targetNodeIds.includes(edge.target)) {
         return { ...edge, hidden };
       }
       return edge;

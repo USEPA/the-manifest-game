@@ -3,9 +3,10 @@ import { Handle, NodeProps, Position } from 'reactflow';
 import 'components/Nodes/BoolNode/bool-node.css';
 
 interface BoolNodeData {
-  question: string;
+  label: string;
   yesId: string;
   noId: string;
+  children: string[];
 }
 
 export const BoolNode = ({ data, id }: NodeProps<BoolNodeData>) => {
@@ -13,7 +14,7 @@ export const BoolNode = ({ data, id }: NodeProps<BoolNodeData>) => {
     <>
       <Handle type="target" position={Position.Top} />
       <div className="boolean-node-text">
-        <p>{data.question}</p>
+        <p>{data.label}</p>
       </div>
       <div className="boolean-node-options">
         <button>Yes</button>
