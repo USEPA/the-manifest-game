@@ -1,18 +1,30 @@
 import { BoolNode } from 'components/Nodes/BoolNode/BoolNode';
 import { DefaultNode } from 'components/Nodes/DefaultNode/DefaultNode';
 import { getLayoutElements } from 'components/Tree/layout';
-import { useDecisionTree } from 'hooks';
 import React, { useMemo } from 'react';
-import ReactFlow, { Background, BackgroundVariant, Controls, MiniMap } from 'reactflow';
-import { loadTree } from 'services/config/config';
-import { jsonDummyTree } from 'store/jsonDummyTree';
+import ReactFlow, {
+  Background,
+  BackgroundVariant,
+  Controls,
+  Edge,
+  MiniMap,
+  Node,
+  NodeMouseHandler,
+} from 'reactflow';
 
-export const Tree = () => {
-  const { nodes: rawNodes, edges: rawEdges, onClick } = useDecisionTree(loadTree(jsonDummyTree));
+interface TreeProps {
+  nodes: Node[];
+  edges: Edge[];
+  onClick: NodeMouseHandler;
+}
+
+/**
+ * Tree - responsible for rendering the decision tree
+ */
+export const Tree = ({ nodes: rawNodes, edges: rawEdges, onClick }: TreeProps) => {
+  const nodeTypes = useMemo(() => ({ BoolNode: BoolNode, default: DefaultNode }), []);
 
   const { nodes, edges } = getLayoutElements(rawNodes, rawEdges);
-
-  const nodeTypes = useMemo(() => ({ BoolNode: BoolNode, default: DefaultNode }), []);
 
   return (
     <>

@@ -163,13 +163,10 @@ export const buildTreeEdges = (tree: DecisionTree): Array<Edge> => {
 
   Object.keys(tree).forEach((key) => {
     const node = tree[key];
-    if (node.children) {
-      node.children.forEach((child) => {
-        edges.push(Tree.createManifestEdge(node.id, child));
+    if (node.data.children) {
+      node.data.children.forEach((childId: string) => {
+        edges.push(Tree.createManifestEdge(node.id, childId));
       });
-    } else if (node.yesId && node.noId) {
-      edges.push(Tree.createManifestEdge(node.id, node.yesId));
-      edges.push(Tree.createManifestEdge(node.id, node.noId));
     }
   });
 
