@@ -23,6 +23,14 @@ export const jsonDummyTree: Array<BoolNodeConfig | DefaultNodeConfig> = [
     type: 'default',
     data: {
       label: "You don't like cats",
+      children: ['3'],
+    },
+  },
+  {
+    id: '3',
+    type: 'default',
+    data: {
+      label: 'You must like dogs',
       children: [],
     },
   },

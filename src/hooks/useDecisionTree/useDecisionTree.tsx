@@ -1,8 +1,9 @@
+import { useTreeEdges } from 'hooks/useTreeEdges/useTreeEdges';
 import { useTreeNodes } from 'hooks/useTreeNodes/useTreeNodes';
 import { useEffect } from 'react';
 import { NodeMouseHandler } from 'reactflow';
-import { buildTreeEdges } from 'services/tree/treeService';
-import { DecisionTree, useTreeStore } from 'store';
+import { buildTreeEdges, getRecursiveChildrenIds, Tree } from 'services/tree/treeService';
+import { DecisionTree } from 'store';
 
 /**
  * useManifestTree
@@ -12,19 +13,42 @@ import { DecisionTree, useTreeStore } from 'store';
  * @param initialTree
  */
 export const useDecisionTree = (initialTree: DecisionTree) => {
-  const { nodes, tree } = useTreeNodes(initialTree);
-
-  const { edges, setEdges } = useTreeStore((state) => ({
-    edges: state.edges,
-    setEdges: state.setEdges,
-  }));
-
-  useEffect(() => {
-    setEdges(buildTreeEdges(tree));
-  }, [tree, setEdges]);
+  const { nodes, tree, setTree } = useTreeNodes(initialTree);
+  const { edges, setEdges } = useTreeEdges(initialTree);
 
   const onClick: NodeMouseHandler = (event, node) => {
-    console.log('onClick', node);
+    const { data } = node;
+    if (!data.expanded) {
+      const childrenIds = data.children;
+      const newTree = { ...tree };
+      newTree[node.id] = { ...node, data: { ...data, expanded: true } };
+      childrenIds.forEach((id: string) => {
+        newTree[id].hidden = false;
+      });
+      setTree(newTree);
+      setEdges(
+        Tree.setHiddenEdges({
+          edges,
+          targetNodeIds: childrenIds,
+          hidden: false,
+        })
+      );
+    } else {
+      const childrenIds = getRecursiveChildrenIds(tree, node.id);
+      const newTree = { ...tree };
+      newTree[node.id] = { ...node, data: { ...data, expanded: false } };
+      childrenIds.forEach((id: string) => {
+        newTree[id].hidden = true;
+      });
+      setTree(newTree);
+      setEdges(
+        Tree.setHiddenEdges({
+          edges,
+          targetNodeIds: childrenIds,
+          hidden: true,
+        })
+      );
+    }
   };
   // const onClick: NodeMouseHandler = useCallback(
   //   (event: MouseEvent, node: ManifestNode) => {

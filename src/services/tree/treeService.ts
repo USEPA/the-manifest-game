@@ -172,3 +172,17 @@ export const buildTreeEdges = (tree: DecisionTree): Array<Edge> => {
 
   return edges;
 };
+
+/** recursively traverse a DecisionTree and create an array of nodes children IDs */
+export const getRecursiveChildrenIds = (tree: DecisionTree, id: string): string[] => {
+  let childrenIds: string[] = [];
+
+  if (tree[id]?.data.children) {
+    tree[id].data.children?.forEach((child) => {
+      childrenIds.push(child);
+      childrenIds = childrenIds.concat(getRecursiveChildrenIds(tree, child));
+    });
+  }
+
+  return childrenIds;
+};

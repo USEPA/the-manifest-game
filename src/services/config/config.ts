@@ -28,12 +28,13 @@ export interface BoolNodeConfig extends BaseConfig {
 export const loadTree = (configs: Array<BoolNodeConfig | DefaultNodeConfig>): DecisionTree => {
   const tree: DecisionTree = {};
 
-  configs.forEach((config) => {
+  configs.forEach((config, index) => {
     const children =
       config.type === 'BoolNode' ? [config.data.yesId, config.data.noId] : config.data.children;
     const node: TreeNode = {
       ...config,
       type: config.type ? config.type : 'default',
+      hidden: index !== 0,
       data: {
         ...config.data,
         children: children || [],
