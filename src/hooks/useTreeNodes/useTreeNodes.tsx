@@ -3,11 +3,11 @@ import { ManifestNode } from 'services/tree/treeService';
 import { DecisionTree, useTreeStore } from 'store';
 
 const treeToNodes = (tree: DecisionTree): Array<ManifestNode> => {
-  return Object.values(tree).map((node, index) => ({
+  return Object.values(tree).map((node) => ({
     id: node.id,
     data: node.data,
     type: node.type ?? 'default',
-    hidden: index !== 0,
+    hidden: node.hidden,
     connectable: false,
     draggable: false,
   }));
@@ -23,8 +23,13 @@ export const useTreeNodes = (initialTree?: DecisionTree) => {
     }
   }, []);
 
+  useEffect(() => {
+    setNodes(treeToNodes(tree));
+  }, [tree, setNodes]);
+
   return {
     nodes,
+    setTree,
     tree,
   } as const;
 };
