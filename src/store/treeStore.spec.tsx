@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom';
-import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Edge } from 'reactflow';
-import { describe, expect, test } from 'vitest';
 import useTreeStore, { TreeNode } from 'store/treeStore';
+import { describe, expect, test } from 'vitest';
 
 interface TestComponentProps {
   edges?: Edge[];
@@ -12,7 +12,7 @@ interface TestComponentProps {
 
 const TestComponent = ({ edges, treeNodeUpdates }: TestComponentProps) => {
   const globalEdges = useTreeStore((state) => state.edges);
-  const { decisionTree, setEdges, nodes, updateNode } = useTreeStore((state) => state);
+  const { tree, setEdges, nodes, updateNode } = useTreeStore((state) => state);
 
   return (
     <>
@@ -29,10 +29,10 @@ const TestComponent = ({ edges, treeNodeUpdates }: TestComponentProps) => {
           ))}
         </>
       )}
-      {decisionTree && treeNodeUpdates && (
+      {tree && treeNodeUpdates && (
         <>
           <p>Decision tree</p>
-          {Object.values(decisionTree).map((node) => (
+          {Object.values(tree).map((node) => (
             <p key={node.id}>
               {node.id}: {node.data.label}
             </p>

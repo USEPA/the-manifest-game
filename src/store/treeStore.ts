@@ -1,18 +1,17 @@
 import {
+  addEdge,
+  applyEdgeChanges,
+  applyNodeChanges,
+  Connection,
   Edge,
+  EdgeChange,
   Node,
+  NodeChange,
+  OnConnect,
   OnEdgesChange,
   OnNodesChange,
-  OnConnect,
-  applyNodeChanges,
-  NodeChange,
-  addEdge,
-  Connection,
-  applyEdgeChanges,
-  EdgeChange,
 } from 'reactflow';
-import { ManifestNode, ManifestTree } from 'services/tree/treeService';
-import type {} from '@redux-devtools/extension';
+import { ManifestNode } from 'services/tree/treeService';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
@@ -25,8 +24,7 @@ export interface TreeNode extends Omit<Node, 'position'> {
 export type DecisionTree = Record<string, TreeNode>;
 
 export type TreeStore = {
-  decisionTree: DecisionTree;
-  tree: ManifestTree;
+  tree: DecisionTree;
   nodes: Node[];
   edges: Edge[];
   onNodesChange: OnNodesChange;
@@ -34,15 +32,13 @@ export type TreeStore = {
   onConnect: OnConnect;
   setNodes: (nodes: ManifestNode[]) => void;
   setEdges: (edges: Edge[]) => void;
-  setTree: (tree: ManifestTree) => void;
-  setDecisionTree: (tree: DecisionTree) => void;
+  setTree: (tree: DecisionTree) => void;
   updateNode: (node: Partial<TreeNode>) => void;
 };
 
 const treeStore = create<TreeStore>()(
   devtools(
     (set, get) => ({
-      decisionTree: {},
       tree: {},
       nodes: [],
       edges: [],
@@ -72,14 +68,9 @@ const treeStore = create<TreeStore>()(
           edges: edges,
         });
       },
-      setTree: (tree: ManifestTree) => {
+      setTree: (tree: DecisionTree) => {
         set({
           tree: tree,
-        });
-      },
-      setDecisionTree: (tree: DecisionTree) => {
-        set({
-          decisionTree: tree,
         });
       },
       /** updates the TreeNode by id */
@@ -88,10 +79,10 @@ const treeStore = create<TreeStore>()(
           throw new Error('Cannot update node without id');
         }
         set({
-          decisionTree: {
-            ...get().decisionTree,
+          tree: {
+            ...get().tree,
             [node.id]: {
-              ...get().decisionTree[node.id],
+              ...get().tree[node.id],
               ...node,
             },
           },

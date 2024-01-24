@@ -8,15 +8,16 @@ afterEach(() => {});
 
 describe('BoolNode', () => {
   it('renders a node', () => {
-    const question = 'what site type?';
+    const label = 'what site type?';
     render(
       <ReactFlowProvider>
         <BoolNode
           id={''}
           data={{
-            question,
+            label,
             yesId: '',
             noId: '',
+            children: [],
           }}
           selected={false}
           type={''}
@@ -28,7 +29,7 @@ describe('BoolNode', () => {
         />
       </ReactFlowProvider>
     );
-    expect(screen.getByText(question)).toBeInTheDocument();
+    expect(screen.getByText(label)).toBeInTheDocument();
   });
   it('renders a yes and no button', () => {
     render(
@@ -36,9 +37,10 @@ describe('BoolNode', () => {
         <BoolNode
           id={''}
           data={{
-            question: 'this is a question?',
+            label: 'this is a question?',
             noId: '',
             yesId: '',
+            children: [],
           }}
           selected={false}
           type={''}

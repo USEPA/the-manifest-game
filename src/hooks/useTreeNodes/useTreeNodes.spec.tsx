@@ -13,8 +13,6 @@ interface TestComponentProps {
 const TestComponent = ({ initialTree }: TestComponentProps) => {
   const { nodes, tree } = useTreeNodes(initialTree);
 
-  console.log('nodes', nodes);
-
   return (
     <>
       <div>
