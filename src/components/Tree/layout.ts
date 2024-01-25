@@ -1,5 +1,6 @@
 import dagre from '@dagrejs/dagre';
 import { Edge, Node } from 'reactflow';
+import { DecisionTreeNode } from 'store';
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -10,7 +11,7 @@ const boolNodeWidth = defaultNodeWidth + 50;
 const boolNodeHeight = defaultNodeHeight + 50;
 
 /** Apply positioning through implementing a Directed Acyclic Graph (DAG) */
-export const getLayoutElements = (nodes: Array<Node>, edges: Array<Edge>) => {
+export const getLayoutElements = (nodes: Array<DecisionTreeNode>, edges: Array<Edge>) => {
   dagreGraph.setGraph({ rankdir: 'TB' });
 
   nodes.forEach((node) => {
@@ -36,5 +37,5 @@ export const getLayoutElements = (nodes: Array<Node>, edges: Array<Edge>) => {
     return node;
   });
 
-  return { nodes, edges };
+  return { nodes, edges } as { nodes: Node[]; edges: Edge[] };
 };

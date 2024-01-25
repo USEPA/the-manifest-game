@@ -6,14 +6,14 @@ interface BoolNodeData {
   label: string;
 }
 
-export const DefaultNode = ({ data, id }: NodeProps<BoolNodeData>) => {
+export const DefaultNode = ({ data, id, isConnectable }: NodeProps<BoolNodeData>) => {
   return (
     <>
-      <Handle type="target" position={Position.Top} />
+      <Handle type="target" position={Position.Top} isConnectable={isConnectable} />
       <div className="default-node-text">
         <p>{data.label}</p>
       </div>
-      <Handle type="source" position={Position.Bottom} id={id} />
+      <Handle type="source" position={Position.Bottom} id={id} isConnectable={isConnectable} />
     </>
   );
 };
