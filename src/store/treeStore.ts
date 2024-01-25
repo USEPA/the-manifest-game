@@ -5,13 +5,13 @@ import {
   Connection,
   Edge,
   EdgeChange,
+  MarkerType,
   Node,
   NodeChange,
   OnConnect,
   OnEdgesChange,
   OnNodesChange,
 } from 'reactflow';
-import { ManifestNode } from 'services/tree/treeService';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
@@ -32,14 +32,16 @@ export interface TreeNode extends Omit<Node, 'position'> {
 
 export type DecisionTree = Record<string, TreeNode>;
 
+export interface DecisionTreeNode extends Node {}
+
 export type TreeStore = {
   tree: DecisionTree;
-  nodes: Node[];
+  nodes: DecisionTreeNode[];
   edges: Edge[];
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
-  setNodes: (nodes: ManifestNode[]) => void;
+  setNodes: (nodes: DecisionTreeNode[]) => void;
   setEdges: (edges: Edge[]) => void;
   setTree: (tree: DecisionTree) => void;
   updateNode: (node: Partial<TreeNode>) => void;
@@ -66,9 +68,8 @@ const treeStore = create<TreeStore>()(
           edges: addEdge(connection, get().edges),
         });
       },
-      setNodes: (nodes: ManifestNode[]) => {
+      setNodes: (nodes: DecisionTreeNode[]) => {
         set({
-          // @ts-expect-error - there's a difference between ManifestNode and Node
           nodes: nodes,
         });
       },
@@ -101,5 +102,63 @@ const treeStore = create<TreeStore>()(
     { name: 'decisionTree', anonymousActionType: 'unknown' }
   )
 );
+
+/** creates the edges (lines between nodes) that connect nodes */
+export const createManifestEdge = (source: string, target: string): Edge => {
+  return {
+    id: `${source}-${target}`,
+    hidden: false,
+    source,
+    target,
+    type: 'smoothstep',
+    markerEnd: { type: MarkerType.ArrowClosed },
+  };
+};
+
+/** Hide edges by node Ids */
+export const setHiddenEdges = ({
+  edges,
+  targetNodeIds,
+  hidden = true,
+}: {
+  edges: Array<Edge>;
+  targetNodeIds: string[];
+  hidden?: boolean;
+}): Array<Edge> => {
+  return edges.map((edge) => {
+    if (targetNodeIds.includes(edge.target)) {
+      return { ...edge, hidden };
+    }
+    return edge;
+  });
+};
+/** loop through DecisionTree and create an array of React flow edges */
+export const buildTreeEdges = (tree: DecisionTree): Array<Edge> => {
+  const edges: Array<Edge> = [];
+
+  Object.keys(tree).forEach((key) => {
+    const node = tree[key];
+    if (node.data.children) {
+      node.data.children.forEach((childId: string) => {
+        edges.push(createManifestEdge(node.id, childId));
+      });
+    }
+  });
+
+  return edges;
+};
+/** recursively traverse a DecisionTree and create an array of nodes children IDs */
+export const getRecursiveChildrenIds = (tree: DecisionTree, id: string): string[] => {
+  let childrenIds: string[] = [];
+
+  if (tree[id]?.data.children) {
+    tree[id].data.children?.forEach((child) => {
+      childrenIds.push(child);
+      childrenIds = childrenIds.concat(getRecursiveChildrenIds(tree, child));
+    });
+  }
+
+  return childrenIds;
+};
 
 export default treeStore;

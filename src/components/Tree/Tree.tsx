@@ -8,20 +8,33 @@ import ReactFlow, {
   Controls,
   Edge,
   MiniMap,
-  Node,
   NodeMouseHandler,
+  OnConnect,
+  OnEdgesChange,
+  OnNodesChange,
 } from 'reactflow';
+import { DecisionTreeNode } from 'store';
 
 interface TreeProps {
-  nodes: Node[];
+  nodes: DecisionTreeNode[];
   edges: Edge[];
   onClick: NodeMouseHandler;
+  onNodesChange: OnNodesChange;
+  onEdgesChange: OnEdgesChange;
+  onConnect: OnConnect;
 }
 
 /**
  * Tree - responsible for rendering the decision tree
  */
-export const Tree = ({ nodes: rawNodes, edges: rawEdges, onClick }: TreeProps) => {
+export const Tree = ({
+  nodes: rawNodes,
+  edges: rawEdges,
+  onClick,
+  onEdgesChange,
+  onNodesChange,
+  onConnect,
+}: TreeProps) => {
   const nodeTypes = useMemo(() => ({ BoolNode: BoolNode, default: DefaultNode }), []);
 
   const { nodes, edges } = getLayoutElements(rawNodes, rawEdges);
@@ -29,7 +42,15 @@ export const Tree = ({ nodes: rawNodes, edges: rawEdges, onClick }: TreeProps) =
   return (
     <>
       <div style={{ width: '100vw', height: '100vh' }}>
-        <ReactFlow nodeTypes={nodeTypes} nodes={nodes} edges={edges} onNodeClick={onClick}>
+        <ReactFlow
+          nodeTypes={nodeTypes}
+          nodes={nodes}
+          edges={edges}
+          onNodeClick={onClick}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+        >
           <Background variant={BackgroundVariant.Dots} />
           <MiniMap nodeStrokeWidth={3} />
           <Controls />

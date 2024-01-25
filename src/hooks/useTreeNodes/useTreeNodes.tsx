@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
-import { ManifestNode } from 'services/tree/treeService';
-import { DecisionTree, useTreeStore } from 'store';
+import { DecisionTree, DecisionTreeNode, useTreeStore } from 'store';
 
-const treeToNodes = (tree: DecisionTree): Array<ManifestNode> => {
+const treeToNodes = (tree: DecisionTree): Array<DecisionTreeNode> => {
   return Object.values(tree).map((node) => ({
     id: node.id,
     data: node.data,
@@ -10,11 +9,14 @@ const treeToNodes = (tree: DecisionTree): Array<ManifestNode> => {
     hidden: node.hidden,
     connectable: false,
     draggable: false,
+    position: { x: 0, y: 0 }, // position is set by our layout library, this is a dummy value
   }));
 };
 
 export const useTreeNodes = (initialTree?: DecisionTree) => {
-  const { nodes, tree, setTree, setNodes } = useTreeStore((state) => state);
+  const { nodes, tree, setTree, setNodes, onNodesChange, onConnect } = useTreeStore(
+    (state) => state
+  );
 
   useEffect(() => {
     if (initialTree) {
@@ -31,5 +33,7 @@ export const useTreeNodes = (initialTree?: DecisionTree) => {
     nodes,
     setTree,
     tree,
+    onConnect,
+    onNodesChange,
   } as const;
 };

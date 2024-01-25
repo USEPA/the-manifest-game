@@ -9,10 +9,10 @@ interface BoolNodeData {
   children: string[];
 }
 
-export const BoolNode = ({ data, id }: NodeProps<BoolNodeData>) => {
+export const BoolNode = ({ data, id, isConnectable }: NodeProps<BoolNodeData>) => {
   return (
     <>
-      <Handle type="target" position={Position.Top} />
+      <Handle type="target" position={Position.Top} isConnectable={isConnectable} />
       <div className="boolean-node-text">
         <p>{data.label}</p>
       </div>
@@ -20,7 +20,7 @@ export const BoolNode = ({ data, id }: NodeProps<BoolNodeData>) => {
         <button>Yes</button>
         <button>No</button>
       </div>
-      <Handle type="source" position={Position.Bottom} id={id} />
+      <Handle type="source" position={Position.Bottom} id={id} isConnectable={isConnectable} />
     </>
   );
 };

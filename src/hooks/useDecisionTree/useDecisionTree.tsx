@@ -1,9 +1,8 @@
 import { useTreeEdges } from 'hooks/useTreeEdges/useTreeEdges';
 import { useTreeNodes } from 'hooks/useTreeNodes/useTreeNodes';
-import { useEffect } from 'react';
 import { NodeMouseHandler } from 'reactflow';
-import { buildTreeEdges, getRecursiveChildrenIds, Tree } from 'services/tree/treeService';
-import { DecisionTree } from 'store';
+import { DecisionTree, setHiddenEdges } from 'store';
+import { getRecursiveChildrenIds } from 'store/treeStore';
 
 /**
  * useManifestTree
@@ -13,10 +12,11 @@ import { DecisionTree } from 'store';
  * @param initialTree
  */
 export const useDecisionTree = (initialTree: DecisionTree) => {
-  const { nodes, tree, setTree } = useTreeNodes(initialTree);
-  const { edges, setEdges } = useTreeEdges(initialTree);
+  const { nodes, tree, setTree, onNodesChange, onConnect } = useTreeNodes(initialTree);
+  const { edges, setEdges, onEdgesChange } = useTreeEdges(initialTree);
 
   const onClick: NodeMouseHandler = (event, node) => {
+    console.log('node clicked', node);
     const { data } = node;
     if (!data.expanded) {
       const childrenIds = data.children;
@@ -27,7 +27,7 @@ export const useDecisionTree = (initialTree: DecisionTree) => {
       });
       setTree(newTree);
       setEdges(
-        Tree.setHiddenEdges({
+        setHiddenEdges({
           edges,
           targetNodeIds: childrenIds,
           hidden: false,
@@ -42,7 +42,7 @@ export const useDecisionTree = (initialTree: DecisionTree) => {
       });
       setTree(newTree);
       setEdges(
-        Tree.setHiddenEdges({
+        setHiddenEdges({
           edges,
           targetNodeIds: childrenIds,
           hidden: true,
@@ -50,45 +50,13 @@ export const useDecisionTree = (initialTree: DecisionTree) => {
       );
     }
   };
-  // const onClick: NodeMouseHandler = useCallback(
-  //   (event: MouseEvent, node: ManifestNode) => {
-  //     console.log('onClick', node);
-  //     if (node.expanded) {
-  //       // if node is open, close it and hide all children
-  //       const childrenIds = Tree.getRecursiveChildrenIds(tree, node.id);
-  //       const newTree = { ...tree };
-  //       newTree[node.id] = { ...node, expanded: false };
-  //       childrenIds.forEach((id) => {
-  //         newTree[id].hidden = true;
-  //         newTree[id].expanded = false;
-  //       });
-  //       setTree(newTree);
-  //       setEdges(
-  //         Tree.setHiddenEdges({
-  //           edges,
-  //           targetNodeIds: childrenIds,
-  //           hidden: true,
-  //         })
-  //       );
-  //     } else {
-  //       // if node is closed, open it and show direct children
-  //       const childrenIds = Tree.getChildrenIds({ tree, id: node.id });
-  //       setTree(Tree.expandNode({ tree, node }));
-  //       setEdges(
-  //         Tree.setHiddenEdges({
-  //           edges,
-  //           targetNodeIds: childrenIds,
-  //           hidden: false,
-  //         })
-  //       );
-  //     }
-  //   },
-  //   [tree, setTree, setEdges, edges]
-  // );
 
   return {
     nodes,
     edges,
     onClick,
+    onConnect,
+    onNodesChange,
+    onEdgesChange,
   } as const;
 };
