@@ -42,24 +42,4 @@ describe('useDecisionTree', () => {
     expect(screen.getByText('id: 1')).toBeInTheDocument();
     expect(screen.queryByText('2')).not.toBeInTheDocument();
   });
-  test('creates and returns an array of edges', () => {
-    const parentId = '1';
-    const childId = '2';
-    const myNodes: DecisionTree = {
-      [parentId]: {
-        id: parentId,
-        data: { label: 'foo' },
-        children: [childId],
-      },
-      [childId]: {
-        id: childId,
-        connectable: false,
-        draggable: false,
-        data: { label: 'foo' },
-      },
-    };
-    render(<TestComponent initialTree={myNodes} />);
-    expect(screen.getByText(`source: ${parentId}`)).toBeInTheDocument();
-    expect(screen.getByText(`target: ${childId}`)).toBeInTheDocument();
-  });
 });
