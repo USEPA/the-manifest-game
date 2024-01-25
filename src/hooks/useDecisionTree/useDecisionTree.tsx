@@ -1,8 +1,28 @@
 import { useTreeEdges } from 'hooks/useTreeEdges/useTreeEdges';
 import { useTreeNodes } from 'hooks/useTreeNodes/useTreeNodes';
-import { NodeMouseHandler } from 'reactflow';
+import { Node, NodeMouseHandler } from 'reactflow';
 import { DecisionTree, setHiddenEdges } from 'store';
 import { getRecursiveChildrenIds } from 'store/treeStore';
+
+const closeChildren = (tree: DecisionTree, node: Node) => {
+  const childrenIds = getRecursiveChildrenIds(tree, node.id);
+  const newTree = { ...tree };
+  newTree[node.id] = { ...node, data: { ...node.data, expanded: false } };
+  childrenIds.forEach((id: string) => {
+    newTree[id].hidden = true;
+  });
+  return { newTree, childrenIds };
+};
+
+const openDirectChildren = (tree: DecisionTree, node: Node) => {
+  const childrenIds = node.data.children;
+  const newTree = { ...tree };
+  newTree[node.id] = { ...node, data: { ...node.data, expanded: true } };
+  childrenIds.forEach((id: string) => {
+    newTree[id].hidden = false;
+  });
+  return { newTree, childrenIds };
+};
 
 /**
  * useManifestTree
@@ -16,38 +36,32 @@ export const useDecisionTree = (initialTree: DecisionTree) => {
   const { edges, setEdges, onEdgesChange } = useTreeEdges(initialTree);
 
   const onClick: NodeMouseHandler = (event, node) => {
-    console.log('node clicked', node);
     const { data } = node;
-    if (!data.expanded) {
-      const childrenIds = data.children;
-      const newTree = { ...tree };
-      newTree[node.id] = { ...node, data: { ...data, expanded: true } };
-      childrenIds.forEach((id: string) => {
-        newTree[id].hidden = false;
-      });
-      setTree(newTree);
-      setEdges(
-        setHiddenEdges({
-          edges,
-          targetNodeIds: childrenIds,
-          hidden: false,
-        })
-      );
-    } else {
-      const childrenIds = getRecursiveChildrenIds(tree, node.id);
-      const newTree = { ...tree };
-      newTree[node.id] = { ...node, data: { ...data, expanded: false } };
-      childrenIds.forEach((id: string) => {
-        newTree[id].hidden = true;
-      });
-      setTree(newTree);
-      setEdges(
-        setHiddenEdges({
-          edges,
-          targetNodeIds: childrenIds,
-          hidden: true,
-        })
-      );
+    switch (node.type) {
+      case 'BoolNode':
+        return null; // offload click handling to the BoolNode component
+      default:
+        if (!data.expanded) {
+          const { newTree, childrenIds } = openDirectChildren(tree, node);
+          setTree(newTree);
+          setEdges(
+            setHiddenEdges({
+              edges,
+              targetNodeIds: childrenIds,
+              hidden: false,
+            })
+          );
+        } else {
+          const { newTree, childrenIds } = closeChildren(tree, node);
+          setTree(newTree);
+          setEdges(
+            setHiddenEdges({
+              edges,
+              targetNodeIds: childrenIds,
+              hidden: true,
+            })
+          );
+        }
     }
   };
 

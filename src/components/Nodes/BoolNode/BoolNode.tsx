@@ -1,3 +1,4 @@
+import { useTreeNodes } from 'hooks/useTreeNodes/useTreeNodes';
 import { Handle, NodeProps, Position } from 'reactflow';
 
 import 'components/Nodes/BoolNode/bool-node.css';
@@ -10,6 +11,18 @@ interface BoolNodeData {
 }
 
 export const BoolNode = ({ data, id, isConnectable }: NodeProps<BoolNodeData>) => {
+  const { showNode } = useTreeNodes();
+
+  const handleYes = () => {
+    showNode({ nodeId: data.yesId, hide: false });
+    showNode({ nodeId: data.noId, hide: true });
+  };
+
+  const handleNo = () => {
+    showNode({ nodeId: data.yesId, hide: true });
+    showNode({ nodeId: data.noId, hide: false });
+  };
+
   return (
     <>
       <Handle type="target" position={Position.Top} isConnectable={isConnectable} />
@@ -17,8 +30,8 @@ export const BoolNode = ({ data, id, isConnectable }: NodeProps<BoolNodeData>) =
         <p>{data.label}</p>
       </div>
       <div className="boolean-node-options">
-        <button>Yes</button>
-        <button>No</button>
+        <button onClick={handleYes}>Yes</button>
+        <button onClick={handleNo}>No</button>
       </div>
       <Handle type="source" position={Position.Bottom} id={id} isConnectable={isConnectable} />
     </>
