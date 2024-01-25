@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { DecisionTree, DecisionTreeNode, useTreeStore } from 'store';
+import { getRecursiveChildrenIds } from 'store/treeStore';
 
 const treeToNodes = (tree: DecisionTree): Array<DecisionTreeNode> => {
   return Object.values(tree).map((node) => ({
@@ -18,6 +19,18 @@ export const useTreeNodes = (initialTree?: DecisionTree) => {
     (state) => state
   );
 
+  const showNode = ({ nodeId, hide = false }: { nodeId: string; hide: boolean }) => {
+    const newTree = { ...tree };
+    newTree[nodeId].hidden = hide;
+    if (hide) {
+      const childrenIds = getRecursiveChildrenIds(tree, nodeId);
+      childrenIds.forEach((id: string) => {
+        newTree[id].hidden = true;
+      });
+    }
+    setTree(newTree);
+  };
+
   useEffect(() => {
     if (initialTree) {
       setNodes(treeToNodes(initialTree));
@@ -35,5 +48,6 @@ export const useTreeNodes = (initialTree?: DecisionTree) => {
     tree,
     onConnect,
     onNodesChange,
+    showNode,
   } as const;
 };
