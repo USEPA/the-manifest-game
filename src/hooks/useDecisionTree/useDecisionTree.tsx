@@ -2,9 +2,9 @@ import { useTreeEdges } from 'hooks/useTreeEdges/useTreeEdges';
 import { useTreeNodes } from 'hooks/useTreeNodes/useTreeNodes';
 import { useEffect } from 'react';
 import { NodeMouseHandler } from 'reactflow';
-import { DecisionTree, DecisionTreeNode, useTreeStore } from 'store';
+import { DagNode, DecisionTree, useTreeStore } from 'store';
 
-const treeToNodes = (tree: DecisionTree): Array<DecisionTreeNode> => {
+const treeToNodes = (tree: DecisionTree): Array<DagNode> => {
   return Object.values(tree).map((node) => ({
     id: node.id,
     data: node.data,
@@ -19,7 +19,7 @@ const treeToNodes = (tree: DecisionTree): Array<DecisionTreeNode> => {
 /**
  * useDecisionTree
  *
- * Returns an array of nodes and edges to be used with the ReactFlow library
+ * Returns an array of nodes & edges to be used with the ReactFlow library
  * @param initialTree
  */
 export const useDecisionTree = (initialTree: DecisionTree) => {
