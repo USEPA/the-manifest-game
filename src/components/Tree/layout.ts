@@ -1,6 +1,6 @@
 import dagre from '@dagrejs/dagre';
 import { Edge, Node } from 'reactflow';
-import { DecisionTreeNode } from 'store';
+import { DagNode } from 'store';
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -14,7 +14,7 @@ const boolNodeHeight = defaultNodeHeight + 50;
  * This was pulled from the reactflow documentation
  * https://reactflow.dev/learn/layouting/layouting
  * */
-export const getLayoutElements = (nodes: Array<DecisionTreeNode>, edges: Array<Edge>) => {
+export const getLayoutElements = (nodes: Array<DagNode>, edges: Array<Edge>) => {
   dagreGraph.setGraph({ rankdir: 'TB' });
 
   nodes.forEach((node) => {

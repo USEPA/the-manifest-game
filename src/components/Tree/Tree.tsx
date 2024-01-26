@@ -10,10 +10,10 @@ import ReactFlow, {
   MiniMap,
   NodeMouseHandler,
 } from 'reactflow';
-import { DecisionTreeNode } from 'store';
+import { DagNode } from 'store';
 
 interface TreeProps {
-  nodes: DecisionTreeNode[];
+  nodes: DagNode[];
   edges: Edge[];
   onClick: NodeMouseHandler;
 }
