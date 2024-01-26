@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
-import { DecisionTree, useTreeStore } from 'store';
-import { buildTreeEdges } from 'store/treeStore';
+import { buildTreeEdges, DecisionTree, useTreeStore } from 'store';
 
 export const useTreeEdges = (initialTree: DecisionTree) => {
   const { edges, setEdges } = useTreeStore((state) => state);
