@@ -15,7 +15,7 @@ const treeToNodes = (tree: DecisionTree): Array<DecisionTreeNode> => {
 };
 
 export const useTreeNodes = (initialTree?: DecisionTree) => {
-  const { nodes, tree, setTree, setNodes, onNodesChange, onConnect } = useTreeStore(
+  const { nodes, tree, setTree, setNodes, onNodesChange, onConnect, hideNode } = useTreeStore(
     (state) => state
   );
 
@@ -36,7 +36,7 @@ export const useTreeNodes = (initialTree?: DecisionTree) => {
       setNodes(treeToNodes(initialTree));
       setTree(initialTree);
     }
-  }, []);
+  }, [initialTree, setNodes, setTree]);
 
   useEffect(() => {
     setNodes(treeToNodes(tree));
@@ -49,5 +49,6 @@ export const useTreeNodes = (initialTree?: DecisionTree) => {
     onConnect,
     onNodesChange,
     showNode,
+    hideNode,
   } as const;
 };

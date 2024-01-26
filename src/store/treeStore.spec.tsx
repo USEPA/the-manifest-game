@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Edge } from 'reactflow';
-import { createManifestEdge, setHiddenEdges, TreeNode, useTreeStore } from 'store';
+import { createManifestEdge, hideTargetEdges, TreeNode, useTreeStore } from 'store';
 import { describe, expect, test } from 'vitest';
 
 const createMockEdge = (source: string, target: string, overWrites: Partial<Edge>): Edge => {
@@ -95,7 +95,7 @@ describe('Tree store', () => {
       createMockEdge('2', '4', { hidden: false }),
       createMockEdge('4', '5', { hidden: false }),
     ];
-    const updatedEdges = setHiddenEdges({ targetNodeIds, edges });
+    const updatedEdges = hideTargetEdges({ targetNodeIds, edges });
     expect(updatedEdges).toHaveLength(4);
     const hiddenEdges = updatedEdges.filter((edge) => edge.target === id2 || edge.target === id3);
     hiddenEdges.forEach((edge) => expect(edge.hidden).toBe(true));

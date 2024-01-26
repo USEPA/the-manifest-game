@@ -11,16 +11,16 @@ interface BoolNodeData {
 }
 
 export const BoolNode = ({ data, id, isConnectable }: NodeProps<BoolNodeData>) => {
-  const { showNode } = useTreeNodes();
+  const { showNode, hideNode } = useTreeNodes();
 
   const handleYes = () => {
     showNode({ nodeId: data.yesId, hide: false });
-    showNode({ nodeId: data.noId, hide: true });
+    hideNode(data.noId);
   };
 
   const handleNo = () => {
-    showNode({ nodeId: data.yesId, hide: true });
     showNode({ nodeId: data.noId, hide: false });
+    hideNode(data.yesId);
   };
 
   return (
