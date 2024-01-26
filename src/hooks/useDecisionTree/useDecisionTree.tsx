@@ -1,61 +1,49 @@
 import { useTreeEdges } from 'hooks/useTreeEdges/useTreeEdges';
 import { useTreeNodes } from 'hooks/useTreeNodes/useTreeNodes';
-import { Node, NodeMouseHandler } from 'reactflow';
-import { DecisionTree, hideTargetEdges } from 'store';
-import { getDescendantIds } from 'store/treeStore';
+import { useEffect } from 'react';
+import { NodeMouseHandler } from 'reactflow';
+import { DecisionTree, DecisionTreeNode, useTreeStore } from 'store';
 
-const hideChildren = (tree: DecisionTree, node: Node) => {
-  const childrenIds = getDescendantIds(tree, node.id);
-  const newTree = { ...tree };
-  newTree[node.id] = { ...node, data: { ...node.data, expanded: false } };
-  childrenIds.forEach((id: string) => {
-    newTree[id].hidden = true;
-  });
-  return { newTree, childrenIds };
-};
-
-const showChildren = (tree: DecisionTree, node: Node) => {
-  const childrenIds = node.data.children;
-  const newTree = { ...tree };
-  newTree[node.id] = { ...node, data: { ...node.data, expanded: true } };
-  childrenIds.forEach((id: string) => {
-    newTree[id].hidden = false;
-  });
-  return { newTree, childrenIds };
+const treeToNodes = (tree: DecisionTree): Array<DecisionTreeNode> => {
+  return Object.values(tree).map((node) => ({
+    id: node.id,
+    data: node.data,
+    type: node.type ?? 'default',
+    hidden: node.hidden,
+    connectable: false,
+    draggable: false,
+    position: { x: 0, y: 0 }, // position is set by our layout library, this is a dummy value
+  }));
 };
 
 /**
- * useManifestTree
+ * useDecisionTree
  *
- * logic and interface for managing the interactive e-Manifest decision tree
- * returns an array of nodes to be used with the ReactFlow library and getter/setter functions
+ * Returns an array of nodes and edges to be used with the ReactFlow library
  * @param initialTree
  */
 export const useDecisionTree = (initialTree: DecisionTree) => {
-  const { nodes, tree, setTree, hideDescendants } = useTreeNodes(initialTree);
-  const { edges, setEdges } = useTreeEdges(initialTree);
+  const { hideDescendants, showChildren, tree } = useTreeNodes(initialTree);
+  const { edges } = useTreeEdges(initialTree);
+  const { nodes, setNodes } = useTreeStore((state) => state);
 
-  const onClick: NodeMouseHandler = (event, node) => {
-    const { data } = node;
+  /** handle node click events */
+  const onClick: NodeMouseHandler = (_event, node) => {
     switch (node.type) {
       case 'BoolNode':
         return null; // offload click handling to the BoolNode component
       default:
-        if (!data.expanded) {
-          const { newTree, childrenIds } = showChildren(tree, node);
-          setTree(newTree);
-          setEdges(
-            hideTargetEdges({
-              edges,
-              targetNodeIds: childrenIds,
-              hidden: false,
-            })
-          );
+        if (!node.data.expanded) {
+          showChildren(node.id);
         } else {
           hideDescendants(node.id);
         }
     }
   };
+
+  useEffect(() => {
+    setNodes(treeToNodes(tree));
+  }, [tree, setNodes]);
 
   return {
     nodes,

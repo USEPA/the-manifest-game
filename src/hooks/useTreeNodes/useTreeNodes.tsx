@@ -1,24 +1,17 @@
 import { useEffect } from 'react';
-import { DecisionTree, DecisionTreeNode, useTreeStore } from 'store';
+import { DecisionTree, useTreeStore } from 'store';
 
-const treeToNodes = (tree: DecisionTree): Array<DecisionTreeNode> => {
-  return Object.values(tree).map((node) => ({
-    id: node.id,
-    data: node.data,
-    type: node.type ?? 'default',
-    hidden: node.hidden,
-    connectable: false,
-    draggable: false,
-    position: { x: 0, y: 0 }, // position is set by our layout library, this is a dummy value
-  }));
-};
-
+/**
+ * useTreeNodes
+ *
+ * custom hook that wraps around the tree store to provide a simplified interface for common tasks
+ * such as showing and hiding nodes and edges
+ * @param initialTree
+ */
 export const useTreeNodes = (initialTree?: DecisionTree) => {
   const {
-    nodes,
     tree,
     setTree,
-    setNodes,
     hideNode: hideStoreNode,
     showNode: showStoreNode,
     hideDescendantEdges,
@@ -26,6 +19,19 @@ export const useTreeNodes = (initialTree?: DecisionTree) => {
     showTargetEdges,
     hideTargetEdges,
   } = useTreeStore((state) => state);
+
+  /** show a node's direct children and the edges leading to them */
+  const showChildren = (nodeId: string) => {
+    const node = tree[nodeId];
+    const childrenIds = node.data.children;
+    const newTree = { ...tree };
+    newTree[node.id] = { ...node, data: { ...node.data, expanded: true } };
+    childrenIds.forEach((id: string) => {
+      showNode(id);
+    });
+    setTree(newTree);
+    childrenIds.forEach((id) => showTargetEdges(id));
+  };
 
   /** hide a node's descendant nodes and edges, but not the node itself */
   const hideDescendants = (nodeId: string) => {
@@ -40,8 +46,7 @@ export const useTreeNodes = (initialTree?: DecisionTree) => {
     hideTargetEdges(nodeId);
   };
 
-  /**
-   * show a node and the edge leading to it */
+  /** show a node and the edge leading to it */
   const showNode = (nodeId: string) => {
     showStoreNode(nodeId);
     showTargetEdges(nodeId);
@@ -49,21 +54,15 @@ export const useTreeNodes = (initialTree?: DecisionTree) => {
 
   useEffect(() => {
     if (initialTree) {
-      setNodes(treeToNodes(initialTree));
       setTree(initialTree);
     }
-  }, [initialTree, setNodes, setTree]);
-
-  useEffect(() => {
-    setNodes(treeToNodes(tree));
-  }, [tree, setNodes]);
+  }, [initialTree, setTree]);
 
   return {
-    nodes,
-    setTree,
     tree,
     showNode,
     hideNode,
     hideDescendants,
+    showChildren,
   } as const;
 };
