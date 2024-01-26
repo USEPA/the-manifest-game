@@ -17,34 +17,33 @@ import { devtools } from 'zustand/middleware';
 
 interface TreeNodeData {
   label: string;
-  children?: string[];
+  children: string[];
   expanded?: boolean;
-  yesId?: string;
-  noId?: string;
+}
+
+interface BooleanTreeNodeData extends TreeNodeData {
+  yesId: string;
+  noId: string;
 }
 
 export interface TreeNode extends Omit<Node, 'position'> {
-  children?: string[];
-  yesId?: string;
-  noId?: string;
-  data: TreeNodeData;
+  data: TreeNodeData | BooleanTreeNodeData;
 }
 
 export type DecisionTree = Record<string, TreeNode>;
 
-export interface DecisionTreeNode extends Node {}
-
 export type TreeStore = {
   tree: DecisionTree;
-  nodes: DecisionTreeNode[];
+  nodes: Node[];
   edges: Edge[];
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
-  setNodes: (nodes: DecisionTreeNode[]) => void;
+  setNodes: (nodes: Node[]) => void;
   setEdges: (edges: Edge[]) => void;
   setTree: (tree: DecisionTree) => void;
   updateNode: (node: Partial<TreeNode>) => void;
+  hideNode: (nodeId: string) => void;
 };
 
 const treeStore = create<TreeStore>()(
@@ -68,7 +67,7 @@ const treeStore = create<TreeStore>()(
           edges: addEdge(connection, get().edges),
         });
       },
-      setNodes: (nodes: DecisionTreeNode[]) => {
+      setNodes: (nodes: Node[]) => {
         set({
           nodes: nodes,
         });
@@ -80,6 +79,26 @@ const treeStore = create<TreeStore>()(
       },
       setTree: (tree: DecisionTree) => {
         set({
+          tree: tree,
+        });
+      },
+      /** hides the TreeNode by id and all nodes and edges recursively */
+      hideNode: (nodeId: string) => {
+        const childrenIds = getRecursiveChildrenIds(get().tree, nodeId);
+        const targetNodeIds = [nodeId, ...childrenIds];
+        const updatedEdges = hideTargetEdges({
+          edges: get().edges,
+          targetNodeIds: targetNodeIds,
+        });
+        // update the tree
+        const tree = get().tree;
+        Object.keys(tree).forEach((key) => {
+          if (targetNodeIds.includes(key)) {
+            tree[key].hidden = true;
+          }
+        });
+        set({
+          edges: updatedEdges,
           tree: tree,
         });
       },
@@ -115,8 +134,8 @@ export const createManifestEdge = (source: string, target: string): Edge => {
   };
 };
 
-/** Hide edges by node Ids */
-export const setHiddenEdges = ({
+/** Hide edges that include the given node IDs as their target - returns a new array of edges */
+export const hideTargetEdges = ({
   edges,
   targetNodeIds,
   hidden = true,

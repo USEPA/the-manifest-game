@@ -1,7 +1,7 @@
 import { useTreeEdges } from 'hooks/useTreeEdges/useTreeEdges';
 import { useTreeNodes } from 'hooks/useTreeNodes/useTreeNodes';
 import { Node, NodeMouseHandler } from 'reactflow';
-import { DecisionTree, setHiddenEdges } from 'store';
+import { DecisionTree, hideTargetEdges } from 'store';
 import { getRecursiveChildrenIds } from 'store/treeStore';
 
 const closeChildren = (tree: DecisionTree, node: Node) => {
@@ -45,7 +45,7 @@ export const useDecisionTree = (initialTree: DecisionTree) => {
           const { newTree, childrenIds } = openDirectChildren(tree, node);
           setTree(newTree);
           setEdges(
-            setHiddenEdges({
+            hideTargetEdges({
               edges,
               targetNodeIds: childrenIds,
               hidden: false,
@@ -55,7 +55,7 @@ export const useDecisionTree = (initialTree: DecisionTree) => {
           const { newTree, childrenIds } = closeChildren(tree, node);
           setTree(newTree);
           setEdges(
-            setHiddenEdges({
+            hideTargetEdges({
               edges,
               targetNodeIds: childrenIds,
               hidden: true,
