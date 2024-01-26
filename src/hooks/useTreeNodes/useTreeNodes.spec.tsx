@@ -31,12 +31,12 @@ const TestComponent = ({ initialTree }: TestComponentProps) => {
 
 describe('useTreeNodes', () => {
   test('accepts a initial DecisionTree and updates the store', () => {
-    const initialTree: DecisionTree = { '1': { id: '1', data: { label: 'foo' } } };
+    const initialTree: DecisionTree = { '1': { id: '1', data: { label: 'foo', children: [] } } };
     render(<TestComponent initialTree={initialTree} />);
     expect(screen.getByText(/tree id: 1/i)).toBeInTheDocument();
   });
-  test('setting an initial tree creates an array of react flow nodes', () => {
-    const initialTree: DecisionTree = { '1': { id: '1', data: { label: 'foo' } } };
+  test('setting an initial tree creates an array of reactflow nodes', () => {
+    const initialTree: DecisionTree = { '1': { id: '1', data: { label: 'foo', children: [] } } };
     render(<TestComponent initialTree={initialTree} />);
     expect(screen.getByText(/node id: 1/i)).toBeInTheDocument();
   });

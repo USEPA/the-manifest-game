@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Edge } from 'reactflow';
-import { createManifestEdge, hideTargetEdges, TreeNode, useTreeStore } from 'store';
+import { createTreeEdge, hideTargetEdges, TreeNode, useTreeStore } from 'store';
 import { describe, expect, test } from 'vitest';
 
 const createMockEdge = (source: string, target: string, overWrites: Partial<Edge>): Edge => {
@@ -20,9 +20,9 @@ interface TestComponentProps {
   treeNodeUpdates?: Partial<TreeNode>;
 }
 
-const TestComponent = ({ edges, treeNodeUpdates }: TestComponentProps) => {
+const TestComponent = ({ edges }: TestComponentProps) => {
   const globalEdges = useTreeStore((state) => state.edges);
-  const { tree, setEdges, nodes, updateNode } = useTreeStore((state) => state);
+  const { setEdges, nodes } = useTreeStore((state) => state);
 
   return (
     <>
@@ -37,17 +37,6 @@ const TestComponent = ({ edges, treeNodeUpdates }: TestComponentProps) => {
           {globalEdges.map((edge) => (
             <p key={edge.id}>edge: {edge.id}</p>
           ))}
-        </>
-      )}
-      {tree && treeNodeUpdates && (
-        <>
-          <p>Decision tree</p>
-          {Object.values(tree).map((node) => (
-            <p key={node.id}>
-              {node.id}: {node.data.label}
-            </p>
-          ))}
-          <button onClick={() => updateNode(treeNodeUpdates)}>Update node</button>
         </>
       )}
     </>
@@ -68,18 +57,10 @@ describe('Tree store', () => {
     await userEvent.click(screen.getByText(/set edges/i));
     expect(screen.getByText(/edge: 1/i)).toBeInTheDocument();
   });
-  test('allows tree nodes to be updated', async () => {
-    const nodeId = '1';
-    useTreeStore.setState({ tree: { [nodeId]: { id: nodeId, data: { label: 'foo' } } } });
-    render(<TestComponent treeNodeUpdates={{ id: nodeId, data: { label: 'bar' } }} />);
-    expect(screen.getByText(/foo/i)).toBeInTheDocument();
-    await userEvent.click(screen.getByText(/update node/i));
-    expect(await screen.findByText(/bar/i)).toBeInTheDocument();
-  });
   test('createManifestEdge takes 2 Id and returns an edge', () => {
     const sourceId = '2';
     const targetId = '3';
-    const edge = createManifestEdge(sourceId, targetId);
+    const edge = createTreeEdge(sourceId, targetId);
     expect(typeof edge).toBe('object');
     expect(edge.source).toBe(sourceId);
     expect(edge.target).toBe(targetId);

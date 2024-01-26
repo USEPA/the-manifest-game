@@ -6,11 +6,14 @@ const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
 
 const defaultNodeWidth = 175;
-const defaultNodeHeight = 50;
+const defaultNodeHeight = 75;
 const boolNodeWidth = defaultNodeWidth + 50;
 const boolNodeHeight = defaultNodeHeight + 50;
 
-/** Apply positioning through implementing a Directed Acyclic Graph (DAG) */
+/** Apply positioning through implementing a Directed Acyclic Graph (DAG)
+ * This was pulled from the reactflow documentation
+ * https://reactflow.dev/learn/layouting/layouting
+ * */
 export const getLayoutElements = (nodes: Array<DecisionTreeNode>, edges: Array<Edge>) => {
   dagreGraph.setGraph({ rankdir: 'TB' });
 

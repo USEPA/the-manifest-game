@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { DecisionTree, DecisionTreeNode, useTreeStore } from 'store';
-import { getRecursiveChildrenIds } from 'store/treeStore';
 
 const treeToNodes = (tree: DecisionTree): Array<DecisionTreeNode> => {
   return Object.values(tree).map((node) => ({
@@ -15,20 +14,37 @@ const treeToNodes = (tree: DecisionTree): Array<DecisionTreeNode> => {
 };
 
 export const useTreeNodes = (initialTree?: DecisionTree) => {
-  const { nodes, tree, setTree, setNodes, onNodesChange, onConnect, hideNode } = useTreeStore(
-    (state) => state
-  );
+  const {
+    nodes,
+    tree,
+    setTree,
+    setNodes,
+    hideNode: hideStoreNode,
+    showNode: showStoreNode,
+    hideDescendantEdges,
+    hideDescendantNodes: hideStoreDescendantNodes,
+    showTargetEdges,
+    hideTargetEdges,
+  } = useTreeStore((state) => state);
 
-  const showNode = ({ nodeId, hide = false }: { nodeId: string; hide: boolean }) => {
-    const newTree = { ...tree };
-    newTree[nodeId].hidden = hide;
-    if (hide) {
-      const childrenIds = getRecursiveChildrenIds(tree, nodeId);
-      childrenIds.forEach((id: string) => {
-        newTree[id].hidden = true;
-      });
-    }
-    setTree(newTree);
+  /** hide a node's descendant nodes and edges, but not the node itself */
+  const hideDescendants = (nodeId: string) => {
+    hideStoreDescendantNodes(nodeId);
+    hideDescendantEdges(nodeId);
+  };
+
+  /** hide a node and all descendant nodes and edges */
+  const hideNode = (nodeId: string) => {
+    hideStoreNode(nodeId);
+    hideDescendantEdges(nodeId);
+    hideTargetEdges(nodeId);
+  };
+
+  /**
+   * show a node and the edge leading to it */
+  const showNode = (nodeId: string) => {
+    showStoreNode(nodeId);
+    showTargetEdges(nodeId);
   };
 
   useEffect(() => {
@@ -46,9 +62,8 @@ export const useTreeNodes = (initialTree?: DecisionTree) => {
     nodes,
     setTree,
     tree,
-    onConnect,
-    onNodesChange,
     showNode,
     hideNode,
+    hideDescendants,
   } as const;
 };

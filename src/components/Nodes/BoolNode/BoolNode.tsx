@@ -10,24 +10,28 @@ interface BoolNodeData {
   children: string[];
 }
 
-export const BoolNode = ({ data, id, isConnectable }: NodeProps<BoolNodeData>) => {
+export const BoolNode = ({
+  data: { yesId, noId, label },
+  id,
+  isConnectable,
+}: NodeProps<BoolNodeData>) => {
   const { showNode, hideNode } = useTreeNodes();
 
   const handleYes = () => {
-    showNode({ nodeId: data.yesId, hide: false });
-    hideNode(data.noId);
+    showNode(yesId);
+    hideNode(noId);
   };
 
   const handleNo = () => {
-    showNode({ nodeId: data.noId, hide: false });
-    hideNode(data.yesId);
+    showNode(noId);
+    hideNode(yesId);
   };
 
   return (
     <>
       <Handle type="target" position={Position.Top} isConnectable={isConnectable} />
       <div className="boolean-node-text">
-        <p>{data.label}</p>
+        <p>{label}</p>
       </div>
       <div className="boolean-node-options">
         <button onClick={handleYes}>Yes</button>
