@@ -6,7 +6,11 @@
 import { Edge, MarkerType } from 'reactflow';
 import { DecisionTree, TreeNode } from 'store/treeStore';
 
-export const setTreeAttributesToHide = (tree: DecisionTree, node: TreeNode) => {
+/**
+ * returns a new tree and node's descendent ID.
+ * The new tree's selected node.expanded as false and set all children to hidden
+ */
+export const hideDescendantNodes = (tree: DecisionTree, node: TreeNode) => {
   const childrenIds = getDescendantIds(tree, node.id);
   const newTree = { ...tree };
   newTree[node.id] = { ...node, data: { ...node.data, expanded: false } };

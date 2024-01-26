@@ -1,5 +1,5 @@
 import { Edge, Node } from 'reactflow';
-import { getDescendantIds, hideTargetEdges, setTreeAttributesToHide } from 'store/treeUtils';
+import { getDescendantIds, hideDescendantNodes, hideTargetEdges } from 'store/treeUtils';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
@@ -142,7 +142,7 @@ const treeStore = create<TreeStore>()(
       hideDescendantNodes: (nodeId: string) => {
         const node = get().tree[nodeId];
         const oldTree = get().tree;
-        const { newTree } = setTreeAttributesToHide(oldTree, node);
+        const { newTree } = hideDescendantNodes(oldTree, node);
         set({
           tree: newTree,
         });
