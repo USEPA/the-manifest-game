@@ -12,7 +12,7 @@ import ReactFlow, {
 } from 'reactflow';
 import { DagNode } from 'store';
 
-interface TreeProps {
+export interface TreeProps {
   nodes: DagNode[];
   edges: Edge[];
   onClick: NodeMouseHandler;

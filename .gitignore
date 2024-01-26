@@ -11,6 +11,7 @@ tsconfig.tsbuildinfo
 node_modules
 dist
 build
+coverage
 dist-ssr
 *.local
 

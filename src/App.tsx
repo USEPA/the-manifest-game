@@ -4,6 +4,11 @@ import { useMemo } from 'react';
 import { loadTree } from 'services/config/config';
 import { jsonDummyTree } from 'services/config/jsonDummyTree';
 
+/**
+ * App - responsible for rendering the decision tree
+ * Future work - add a spinner, error handling, and a way to load a tree from (multiple) files
+ * @constructor
+ */
 export default function App() {
   const decisionTree = useMemo(() => loadTree(jsonDummyTree), []);
   const { nodes, edges, onClick } = useDecisionTree(decisionTree);

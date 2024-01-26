@@ -19,5 +19,25 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./src/setupTests.ts'],
+    coverage: {
+      provider: 'v8', // 'v8' or 'istanbul'
+      reporter: ['text', 'json', 'html'],
+      exclude: [
+        '**/src/setupTests.ts',
+        '**/src/index.tsx',
+        '**/__mocks__/*',
+        '**/node_modules/**/*',
+        '**/build/**',
+        '**/dist/**',
+        '**/coverage/**',
+        '**/public/**',
+        '**/*.d.ts',
+        '**/index.tsx',
+        '**/index.ts',
+        '**/index.html',
+        '**/jsonDummyTree.ts',
+        '**/.eslintrc.cjs',
+      ],
+    },
   },
 });

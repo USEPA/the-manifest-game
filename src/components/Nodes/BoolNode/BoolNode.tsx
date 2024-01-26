@@ -3,7 +3,7 @@ import { Handle, NodeProps, Position } from 'reactflow';
 
 import 'components/Nodes/BoolNode/bool-node.css';
 
-interface BoolNodeData {
+export interface BoolNodeData {
   label: string;
   yesId: string;
   noId: string;
@@ -28,7 +28,7 @@ export const BoolNode = ({
   };
 
   return (
-    <>
+    <div data-testid={`node-${id}`}>
       <Handle type="target" position={Position.Top} isConnectable={isConnectable} />
       <div className="boolean-node-text">
         <p>{label}</p>
@@ -38,6 +38,6 @@ export const BoolNode = ({
         <button onClick={handleNo}>No</button>
       </div>
       <Handle type="source" position={Position.Bottom} id={id} isConnectable={isConnectable} />
-    </>
+    </div>
   );
 };
