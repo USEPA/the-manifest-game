@@ -35,7 +35,7 @@ describe('useDecisionTree', () => {
     const myNodes: DecisionTree = {
       1: {
         id: '1',
-        data: { label: 'foo' },
+        data: { label: 'foo', children: ['2'] },
       },
     };
     render(<TestComponent initialTree={myNodes} />);

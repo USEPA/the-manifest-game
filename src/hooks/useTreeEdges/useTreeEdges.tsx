@@ -3,7 +3,7 @@ import { DecisionTree, useTreeStore } from 'store';
 import { buildTreeEdges } from 'store/treeStore';
 
 export const useTreeEdges = (initialTree: DecisionTree) => {
-  const { edges, setEdges, onEdgesChange } = useTreeStore((state) => state);
+  const { edges, setEdges } = useTreeStore((state) => state);
 
   useEffect(() => {
     setEdges(buildTreeEdges(initialTree));
@@ -12,6 +12,5 @@ export const useTreeEdges = (initialTree: DecisionTree) => {
   return {
     edges,
     setEdges,
-    onEdgesChange,
   } as const;
 };

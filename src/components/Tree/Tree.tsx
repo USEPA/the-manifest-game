@@ -9,9 +9,6 @@ import ReactFlow, {
   Edge,
   MiniMap,
   NodeMouseHandler,
-  OnConnect,
-  OnEdgesChange,
-  OnNodesChange,
 } from 'reactflow';
 import { DecisionTreeNode } from 'store';
 
@@ -19,22 +16,12 @@ interface TreeProps {
   nodes: DecisionTreeNode[];
   edges: Edge[];
   onClick: NodeMouseHandler;
-  onNodesChange: OnNodesChange;
-  onEdgesChange: OnEdgesChange;
-  onConnect: OnConnect;
 }
 
 /**
  * Tree - responsible for rendering the decision tree
  */
-export const Tree = ({
-  nodes: rawNodes,
-  edges: rawEdges,
-  onClick,
-  onEdgesChange,
-  onNodesChange,
-  onConnect,
-}: TreeProps) => {
+export const Tree = ({ nodes: rawNodes, edges: rawEdges, onClick }: TreeProps) => {
   const nodeTypes = useMemo(() => ({ BoolNode: BoolNode, default: DefaultNode }), []);
 
   const { nodes, edges } = getLayoutElements(rawNodes, rawEdges);
@@ -42,15 +29,7 @@ export const Tree = ({
   return (
     <>
       <div style={{ width: '100vw', height: '100vh' }}>
-        <ReactFlow
-          nodeTypes={nodeTypes}
-          nodes={nodes}
-          edges={edges}
-          onNodeClick={onClick}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-        >
+        <ReactFlow nodeTypes={nodeTypes} nodes={nodes} edges={edges} onNodeClick={onClick}>
           <Background variant={BackgroundVariant.Dots} />
           <MiniMap nodeStrokeWidth={3} />
           <Controls />

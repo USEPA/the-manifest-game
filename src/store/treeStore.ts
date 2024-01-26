@@ -1,17 +1,4 @@
-import {
-  addEdge,
-  applyEdgeChanges,
-  applyNodeChanges,
-  Connection,
-  Edge,
-  EdgeChange,
-  MarkerType,
-  Node,
-  NodeChange,
-  OnConnect,
-  OnEdgesChange,
-  OnNodesChange,
-} from 'reactflow';
+import { Edge, MarkerType, Node } from 'reactflow';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
@@ -32,18 +19,21 @@ export interface TreeNode extends Omit<Node, 'position'> {
 
 export type DecisionTree = Record<string, TreeNode>;
 
+export interface DecisionTreeNode extends Node {}
+
 export type TreeStore = {
   tree: DecisionTree;
   nodes: Node[];
   edges: Edge[];
-  onNodesChange: OnNodesChange;
-  onEdgesChange: OnEdgesChange;
-  onConnect: OnConnect;
   setNodes: (nodes: Node[]) => void;
   setEdges: (edges: Edge[]) => void;
   setTree: (tree: DecisionTree) => void;
-  updateNode: (node: Partial<TreeNode>) => void;
   hideNode: (nodeId: string) => void;
+  showNode: (nodeId: string) => void;
+  showTargetEdges: (nodeId: string) => void;
+  hideTargetEdges: (nodeId: string) => void;
+  hideDescendantEdges: (nodeId: string) => void;
+  hideDescendantNodes: (nodeId: string) => void;
 };
 
 const treeStore = create<TreeStore>()(
@@ -52,21 +42,6 @@ const treeStore = create<TreeStore>()(
       tree: {},
       nodes: [],
       edges: [],
-      onNodesChange: (changes: NodeChange[]) => {
-        set({
-          nodes: applyNodeChanges(changes, get().nodes),
-        });
-      },
-      onEdgesChange: (changes: EdgeChange[]) => {
-        set({
-          edges: applyEdgeChanges(changes, get().edges),
-        });
-      },
-      onConnect: (connection: Connection) => {
-        set({
-          edges: addEdge(connection, get().edges),
-        });
-      },
       setNodes: (nodes: Node[]) => {
         set({
           nodes: nodes,
@@ -82,39 +57,64 @@ const treeStore = create<TreeStore>()(
           tree: tree,
         });
       },
-      /** hides the TreeNode by id and all nodes and edges recursively */
-      hideNode: (nodeId: string) => {
-        const childrenIds = getRecursiveChildrenIds(get().tree, nodeId);
-        const targetNodeIds = [nodeId, ...childrenIds];
+      /** hide all edges below the given node ID in the DAG */
+      hideDescendantEdges: (nodeId: string) => {
+        const childrenIds = getDescendantIds(get().tree, nodeId);
         const updatedEdges = hideTargetEdges({
           edges: get().edges,
-          targetNodeIds: targetNodeIds,
-        });
-        // update the tree
-        const tree = get().tree;
-        Object.keys(tree).forEach((key) => {
-          if (targetNodeIds.includes(key)) {
-            tree[key].hidden = true;
-          }
+          targetNodeIds: childrenIds,
         });
         set({
           edges: updatedEdges,
+        });
+      },
+      /** hide all nodes below the given node ID in the DAG */
+      hideDescendantNodes: (nodeId: string) => {
+        const node = get().tree[nodeId];
+        const oldTree = get().tree;
+        const { newTree } = setTreeAttributesToHide(oldTree, node);
+        set({
+          tree: newTree,
+        });
+      },
+      /** hides the TreeNode by id and all nodes and edges recursively */
+      hideNode: (nodeId: string) => {
+        const childrenIds = getDescendantIds(get().tree, nodeId);
+        const tree = get().tree;
+        [nodeId, ...childrenIds].forEach((id) => (tree[id].hidden = true));
+        set({
           tree: tree,
         });
       },
-      /** updates the TreeNode by id */
-      updateNode: (node: Partial<TreeNode>) => {
-        if (!node.id) {
-          throw new Error('Cannot update node without id');
-        }
+      showNode: (nodeId: string) => {
+        const newTree = { ...get().tree };
+        newTree[nodeId].hidden = false;
         set({
-          tree: {
-            ...get().tree,
-            [node.id]: {
-              ...get().tree[node.id],
-              ...node,
-            },
-          },
+          tree: newTree,
+        });
+      },
+      /** show the edges that connect to (target) the given node ID */
+      showTargetEdges: (nodeId: string) => {
+        const edges = get().edges.map((edge) => {
+          if (edge.target === nodeId) {
+            return { ...edge, hidden: false };
+          }
+          return edge;
+        });
+        set({
+          edges: edges,
+        });
+      },
+      /** hide the edges that connect to (target) the given node ID */
+      hideTargetEdges: (nodeId: string) => {
+        const edges = get().edges.map((edge) => {
+          if (edge.target === nodeId) {
+            return { ...edge, hidden: true };
+          }
+          return edge;
+        });
+        set({
+          edges: edges,
         });
       },
     }),
@@ -122,8 +122,18 @@ const treeStore = create<TreeStore>()(
   )
 );
 
-/** creates the edges (lines between nodes) that connect nodes */
-export const createManifestEdge = (source: string, target: string): Edge => {
+const setTreeAttributesToHide = (tree: DecisionTree, node: TreeNode) => {
+  const childrenIds = getDescendantIds(tree, node.id);
+  const newTree = { ...tree };
+  newTree[node.id] = { ...node, data: { ...node.data, expanded: false } };
+  childrenIds.forEach((id: string) => {
+    newTree[id].hidden = true;
+  });
+  return { newTree, childrenIds };
+};
+
+/** creates the edges between two nodes with defaults applied */
+export const createTreeEdge = (source: string, target: string): Edge => {
   return {
     id: `${source}-${target}`,
     hidden: false,
@@ -151,7 +161,8 @@ export const hideTargetEdges = ({
     return edge;
   });
 };
-/** loop through DecisionTree and create an array of React flow edges */
+
+/** loop through DecisionTree and create an array of Reactflow edges */
 export const buildTreeEdges = (tree: DecisionTree): Array<Edge> => {
   const edges: Array<Edge> = [];
 
@@ -159,21 +170,21 @@ export const buildTreeEdges = (tree: DecisionTree): Array<Edge> => {
     const node = tree[key];
     if (node.data.children) {
       node.data.children.forEach((childId: string) => {
-        edges.push(createManifestEdge(node.id, childId));
+        edges.push(createTreeEdge(node.id, childId));
       });
     }
   });
 
   return edges;
 };
-/** recursively traverse a DecisionTree and create an array of nodes children IDs */
-export const getRecursiveChildrenIds = (tree: DecisionTree, id: string): string[] => {
+/** Accepts a DecisionTree and node ID and returns an array of children IDs of all descendant nodes in the DAG */
+export const getDescendantIds = (tree: DecisionTree, id: string): string[] => {
   let childrenIds: string[] = [];
 
   if (tree[id]?.data.children) {
     tree[id].data.children?.forEach((child) => {
       childrenIds.push(child);
-      childrenIds = childrenIds.concat(getRecursiveChildrenIds(tree, child));
+      childrenIds = childrenIds.concat(getDescendantIds(tree, child));
     });
   }
 
