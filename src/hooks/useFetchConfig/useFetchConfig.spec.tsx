@@ -3,10 +3,10 @@ import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import { useFetchConfig } from 'hooks/useFetchConfig/useFetchConfig';
 import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
-import { afterEach, beforeAll, describe, expect, test } from 'vitest';
+import { afterAll, afterEach, beforeAll, describe, expect, test } from 'vitest';
 
 const handlers = [
-  http.get('/config.json', () => {
+  http.get('/default.json', () => {
     return HttpResponse.json([{ id: '1', type: 'default', label: 'foo', children: [] }]);
   }),
 ];
@@ -15,9 +15,10 @@ const server = setupServer(...handlers);
 
 afterEach(() => cleanup());
 beforeAll(() => server.listen());
+afterAll(() => server.close());
 
 const TestComponent = () => {
-  const { tree, error, isLoading } = useFetchConfig('/config.json');
+  const { tree, error, isLoading } = useFetchConfig('/default.json');
   return (
     <>
       {isLoading && <p>loading...</p>}
@@ -50,7 +51,7 @@ describe('useFetchConfig', async () => {
   });
   test('sets the first node in the array to visible and the rest to hidden', async () => {
     server.use(
-      http.get('/config.json', () => {
+      http.get('/default.json', () => {
         return HttpResponse.json([
           { id: '1', type: 'default', label: 'foo', children: [] },
           { id: '2', type: 'default', label: 'bar', children: [] },
