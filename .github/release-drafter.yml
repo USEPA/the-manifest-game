@@ -1,0 +1,62 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+
+# map PR labels to changelog categories
+categories:
+  - title: '🚀 Features'
+    labels:
+      - 'enhancement'
+  - title: '🐛 Bug Fixes'
+    labels:
+      - 'bug'
+  - title: ':nut_and_bolt: Maintenance'
+    labels:
+      - 'chore'
+      - 'documentation'
+
+exclude-labels:
+  - 'skip-changelog'
+
+# map PR labels to semantic version updates (e.g., if  a feature is added, the minor version is incremented)
+version-resolver:
+  major:
+    labels:
+      - 'major'
+  minor:
+    labels:
+      - 'enhancement'
+  patch:
+    labels:
+      - 'bug'
+      - 'chore'
+  default: patch
+
+# used for auto-labeling PRs, used instead of actions/labeler
+# https://github.com/release-drafter/release-drafter#autolabeler
+autolabeler:
+  - label: 'documentation'
+    files:
+      - 'docs/**/*'
+      - '**/README.md'
+  - label: 'CI/CD'
+    files:
+      - '.github/**/*'
+      - '**/*Dockerfile'
+      - '**/*.dockerignore'
+      - '**/compose.yaml'
+    body:
+      - '/workflow/gmi'
+  - label: 'dependencies'
+    files:
+      - 'package*.json'
+
+  # template for the release notes (changelog)
+template: |
+  ## Changes
+
+  $CHANGES
+
+  ## Contributor
+
+  $CONTRIBUTORS
