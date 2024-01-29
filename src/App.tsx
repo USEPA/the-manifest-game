@@ -1,9 +1,7 @@
 import { Header } from 'components/Header/Header';
 import { Tree } from 'components/Tree/Tree';
-import { useDecisionTree } from 'hooks';
-import { useMemo, useState } from 'react';
-import { loadTree } from 'services/config/config';
-import { jsonDummyTree } from 'services/config/jsonDummyTree';
+import { useFetchConfig } from 'hooks/useFetchConfig/useFetchConfig';
+import { useState } from 'react';
 
 /**
  * App - responsible for rendering the decision tree
@@ -12,15 +10,18 @@ import { jsonDummyTree } from 'services/config/jsonDummyTree';
  */
 export default function App() {
   const [title] = useState<string>('Manifest Decision Tree');
-  const decisionTree = useMemo(() => loadTree(jsonDummyTree), []);
-  const { nodes, edges, onClick } = useDecisionTree(decisionTree);
+  const { tree, isLoading, error } = useFetchConfig('/submit-manifest.json');
 
-  if (!nodes || !edges || nodes.length === 0 || edges.length === 0) return <div>Loading...</div>;
+  if (isLoading) return <p>loading...</p>;
+
+  if (error || (!tree && !isLoading)) return <p>error</p>;
+
+  if (!tree) return null;
 
   return (
     <>
       <Header treeTitle={title} />
-      <Tree nodes={nodes} edges={edges} onClick={onClick} />
+      <Tree tree={tree} />
     </>
   );
 }
