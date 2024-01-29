@@ -4,7 +4,6 @@ import { Header } from 'components/Header/Header';
 import { Spinner } from 'components/Spinner/Spinner';
 import { Tree } from 'components/Tree/Tree';
 import { useFetchConfig } from 'hooks/useFetchConfig/useFetchConfig';
-import { useState } from 'react';
 
 /**
  * App - responsible for rendering the decision tree
@@ -12,7 +11,7 @@ import { useState } from 'react';
  * @constructor
  */
 export default function App() {
-  const [title] = useState<string>('The Manifest Game');
+  const title = import.meta.env.VITE_APP_TITLE ?? 'The Manifest Game';
   const { tree, isLoading, error } = useFetchConfig('/default.json');
 
   if (isLoading || !tree) return <Spinner />;
