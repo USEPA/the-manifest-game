@@ -1,6 +1,7 @@
+import { Header } from 'components/Header/Header';
 import { Tree } from 'components/Tree/Tree';
 import { useDecisionTree } from 'hooks';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { loadTree } from 'services/config/config';
 import { jsonDummyTree } from 'services/config/jsonDummyTree';
 
@@ -10,10 +11,16 @@ import { jsonDummyTree } from 'services/config/jsonDummyTree';
  * @constructor
  */
 export default function App() {
+  const [title] = useState<string>('Manifest Decision Tree');
   const decisionTree = useMemo(() => loadTree(jsonDummyTree), []);
   const { nodes, edges, onClick } = useDecisionTree(decisionTree);
 
   if (!nodes || !edges || nodes.length === 0 || edges.length === 0) return <div>Loading...</div>;
 
-  return <Tree nodes={nodes} edges={edges} onClick={onClick} />;
+  return (
+    <>
+      <Header treeTitle={title} />
+      <Tree nodes={nodes} edges={edges} onClick={onClick} />
+    </>
+  );
 }

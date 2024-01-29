@@ -1,0 +1,13 @@
+.decision-tree-header {
+    padding: 10px;
+    background: #3e6d9b;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.decision-tree-header h1 {
+    color: #fff;
+    font-size: 1.5em;
+    margin: 0;
+}
