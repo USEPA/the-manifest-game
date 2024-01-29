@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
-import { DefaultNode } from './DefaultNode';
+import { cleanup, render, screen } from '@testing-library/react';
 import { ReactFlowProvider } from 'reactflow';
 import { afterEach, describe, expect, it } from 'vitest';
+import { DefaultNode } from './DefaultNode';
 
-afterEach(() => {});
+afterEach(() => cleanup());
 
 describe('DefaultNode', () => {
   it('renders a node with text', () => {
