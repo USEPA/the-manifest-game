@@ -1,10 +1,31 @@
 import { BoolNodeData } from 'components/Nodes/BoolNode/BoolNode';
 import { useEffect, useState } from 'react';
-import { BoolNodeConfig, DefaultNodeConfig } from 'services/config/config';
 import { DecisionTree, TreeNode } from 'store';
 
 interface UseFetchConfigError {
   message: string;
+}
+
+export interface BaseConfig {
+  id: string;
+  type?: 'default' | 'BoolNode';
+  data: {
+    label: string;
+    children?: string[];
+  };
+}
+
+export interface DefaultNodeConfig extends BaseConfig {
+  type?: 'default';
+}
+
+export interface BoolNodeConfig extends BaseConfig {
+  type: 'BoolNode';
+  data: {
+    label: string;
+    yesId: string;
+    noId: string;
+  };
 }
 
 /** Parses the config file (an array of BoolNodeConfig and DefaultNodeConfig types) and returns a DecisionTree */

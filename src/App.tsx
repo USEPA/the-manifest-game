@@ -1,4 +1,6 @@
+import { Header } from 'components/Header/Header';
 import { Spinner } from 'components/Spinner/Spinner';
+import { Tree } from 'components/Tree/Tree';
 import { useFetchConfig } from 'hooks/useFetchConfig/useFetchConfig';
 import { useState } from 'react';
 
@@ -11,17 +13,14 @@ export default function App() {
   const [title] = useState<string>('Manifest Decision Tree');
   const { tree, isLoading, error } = useFetchConfig('/submit-manifest.json');
 
-  if (isLoading) return <Spinner />;
+  if (isLoading || !tree) return <Spinner />;
 
   if (error || (!tree && !isLoading)) return <p>error</p>;
 
-  if (!tree) return null;
-
   return (
     <>
-      <Spinner />
-      {/*<Header treeTitle={title} />*/}
-      {/*<Tree tree={tree} />*/}
+      <Header treeTitle={title} />
+      <Tree tree={tree} />
     </>
   );
 }

@@ -18,7 +18,7 @@ export const Tree = ({ tree }: TreeProps) => {
 
   return (
     <>
-      <div style={{ width: '100vw', height: '100vh' }}>
+      <div style={{ width: '100vw', height: '100vh' }} data-testid="decision-tree">
         <ReactFlow nodeTypes={nodeTypes} nodes={nodes} edges={edges} onNodeClick={onClick}>
           <Background variant={BackgroundVariant.Dots} />
           <MiniMap nodeStrokeWidth={3} />

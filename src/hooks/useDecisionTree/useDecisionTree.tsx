@@ -1,4 +1,4 @@
-import { getLayoutElements } from 'components/Tree/layout';
+import { getLayoutElements } from 'hooks/useDecisionTree/layout';
 import { useTreeEdges } from 'hooks/useTreeEdges/useTreeEdges';
 import { useTreeNodes } from 'hooks/useTreeNodes/useTreeNodes';
 import { useEffect, useMemo } from 'react';
