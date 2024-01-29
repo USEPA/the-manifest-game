@@ -69,6 +69,10 @@ This project config files also include a Dockerfile and a docker-compose file, b
 Both will deploy the project on port 3000 behind an [Nginx](https://www.nginx.com/) reverse proxy. The docker-compose
 just makes to easier to build, run, and expose the project on port 3000.
 
+```shell
+docker compose up
+```
+
 ## Future Work
 
 1. It should be possible to link to a specific node in the decision tree so that the tree starts at that node open upon
