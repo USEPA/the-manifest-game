@@ -11,7 +11,7 @@ import { useState } from 'react';
  */
 export default function App() {
   const [title] = useState<string>('Manifest Decision Tree');
-  const { tree, isLoading, error } = useFetchConfig('/submit-manifest.json');
+  const { tree, isLoading, error } = useFetchConfig('/default.json');
 
   if (isLoading || !tree) return <Spinner />;
 
