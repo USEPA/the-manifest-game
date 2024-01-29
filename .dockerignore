@@ -1,0 +1,13 @@
+.gitignore
+.dockerignore
+README.md
+.editorconfig
+.eslintrc.cjs
+.prettier*
+.github
+__mocks__
+docs
+node_modules/
+**/.idea
+.run
+coverage

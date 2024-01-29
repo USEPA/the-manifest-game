@@ -1,11 +1,13 @@
-# Documentation
+# The Manifest Game Docs
 
 ## Table of Contents
 
 1. [Introduction](#introduction)
 2. [specification](#specification)
-3. [Nominclature](#nomenclature)
-3. [Future Work](#future-work)
+3. [Nomenclature](#nomenclature)
+4. [Implementation Notes](#implementation-notes)
+5. [Deployment](#deployment)
+6. [Future Work](#future-work)
 
 ## Introduction
 
@@ -46,24 +48,37 @@ The following terms are used throughout the documentation and code:
 ## Implementation Notes
 
 This project is implemented using [React](https://reactjs.org/) and the [react-flow](https://reactflow.dev/) library.
-this made the prototyping possible in a short amount of time.
+which made prototyping possible in a short amount of time.
 
 A dependency that came with the react-flow library is [zustand](https://github.com/pmndrs/zustand), a state management
 library that is gaining popularity in the React community. We use this library to manage the state of the decision tree.
 It does not cost us on bundle size as (A) it already was included as a dependency of react-flow and (B) it is a very
 small library. We avoid using the state hooks directly in the UI and wrap that functionality in a custom hooks.
 
-We, essentially, keep two copies of the decision tree in memory: one as an array (used by the react-flow library) and
+We, essentially, keep two copies of the decision tree in memory: one as an array of nodes (used by the react-flow
+library) and
 one as a map (really it's a typescript Record at the moment) which we call the tree. We operate on the tree and then
-convert it to an array when we need to display it. Currently, this works, but if the decision tree becomes large, we may
-need to rethink this approach.
+convert it to an array when we need to display it. Currently, this works, but we may need to rethink this approach.
+
+## Deployment
+
+The development server can be started using the npm run dev command. This will start a server on port 3000 (by default).
+The project currently uses [vite](https://vitejs.dev/) as the development server, bundler, and build tool.
+
+This project config files also include a Dockerfile and a docker-compose file, both of which are fairly straightforward.
+Both will deploy the project on port 3000 behind an [Nginx](https://www.nginx.com/) reverse proxy. The docker-compose
+just makes to easier to build, run, and expose the project on port 3000.
+
+```shell
+docker compose up
+```
 
 ## Future Work
 
 1. It should be possible to link to a specific node in the decision tree so that the tree starts at that node open upon
    visiting the page.
-2. The widget should be configurable with a JSON file to allow for easy updates and use of multiple decision
-   trees.
-3. Currently, we rely on `useEffects` to keep the tree and array in sync. This is a 'bad smell' and we should (I
-   believe) move that logic into the global state managemnt store.
-
+2. Currently, we rely on `useEffects` to keep the tree and array in sync. This is a 'bad smell' and we should (I
+   believe) move that logic into the global state management store.
+3. A new custom node type for multiple choice questions (e.g., what type of site are you? A generator, a TSDF, or a
+   transporter).
+4. Add a dropdown menu that will allow users to load multiple decision trees for different use cases.

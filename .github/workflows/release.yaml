@@ -1,0 +1,17 @@
+name: 'Create Release'
+
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  run_tests:
+    name: 'Run Tests'
+    uses: ./.github/workflows/test_client.yaml
+
+  build_container_image:
+    name: 'Build Image'
+    needs: [ run_tests ]
+    uses: ./.github/workflows/build-image.yaml
+    with:
+      image_name: the-manifest-game
