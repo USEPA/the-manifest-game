@@ -1,6 +1,5 @@
 import { BoolNode } from 'components/Nodes/BoolNode/BoolNode';
 import { DefaultNode } from 'components/Nodes/DefaultNode/DefaultNode';
-import { getLayoutElements } from 'components/Tree/layout';
 import { useDecisionTree } from 'hooks';
 import React, { useMemo } from 'react';
 import ReactFlow, { Background, BackgroundVariant, Controls, MiniMap } from 'reactflow';
@@ -15,10 +14,7 @@ export interface TreeProps {
  */
 export const Tree = ({ tree }: TreeProps) => {
   const nodeTypes = useMemo(() => ({ BoolNode: BoolNode, default: DefaultNode }), []);
-  const { nodes: rawNodes, edges: rawEdges, onClick } = useDecisionTree(tree);
-
-  if (!rawNodes || !rawEdges || rawNodes.length === 0) return null;
-  const { nodes, edges } = getLayoutElements(rawNodes, rawEdges);
+  const { nodes, edges, onClick } = useDecisionTree(tree);
 
   return (
     <>

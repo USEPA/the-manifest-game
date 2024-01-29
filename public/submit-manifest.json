@@ -53,6 +53,16 @@
     "type": "default",
     "data": {
       "label": "I like lizards",
+      "children": [
+        "6"
+      ]
+    }
+  },
+  {
+    "id": "6",
+    "type": "default",
+    "data": {
+      "label": "OK weirdo",
       "children": []
     }
   }
