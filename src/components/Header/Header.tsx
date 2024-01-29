@@ -1,4 +1,4 @@
-import './Header.css';
+import styles from './header.module.css';
 
 interface HeaderProps {
   treeTitle: string;
@@ -7,8 +7,10 @@ interface HeaderProps {
 export const Header = ({ treeTitle }: HeaderProps) => {
   return (
     <>
-      <div className="decision-tree-header">
-        <h1>{treeTitle}</h1>
+      <div className={styles.treeHeader}>
+        <div className={styles.headerBanner}>
+          <h1>{treeTitle}</h1>
+        </div>
       </div>
     </>
   );

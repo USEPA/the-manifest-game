@@ -1,4 +1,4 @@
-import './Spinner.css';
+import styles from 'components/Spinner/spinner.module.css';
 
 /**
  * Spinner - a loading spinner
@@ -7,8 +7,8 @@ import './Spinner.css';
  */
 export const Spinner = () => {
   return (
-    <div className="center" data-testid="spinner">
-      <div className="lds-ring">
+    <div className={styles.center} data-testid="spinner">
+      <div className={styles.spinnerRing}>
         <div></div>
         <div></div>
         <div></div>

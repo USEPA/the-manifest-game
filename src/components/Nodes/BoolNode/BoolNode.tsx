@@ -1,7 +1,7 @@
 import { useTreeNodes } from 'hooks/useTreeNodes/useTreeNodes';
 import { Handle, NodeProps, Position } from 'reactflow';
 
-import 'components/Nodes/BoolNode/bool-node.css';
+import styles from './bool.module.css';
 
 export interface BoolNodeData {
   label: string;
@@ -30,10 +30,10 @@ export const BoolNode = ({
   return (
     <div data-testid={`node-${id}`}>
       <Handle type="target" position={Position.Top} isConnectable={isConnectable} />
-      <div className="boolean-node-text">
+      <div className={styles.boolNodeText}>
         <p>{label}</p>
       </div>
-      <div className="boolean-node-options">
+      <div className={styles.boolNodeOptions}>
         <button onClick={handleYes}>Yes</button>
         <button onClick={handleNo}>No</button>
       </div>
