@@ -12,7 +12,7 @@ import { useState } from 'react';
  * @constructor
  */
 export default function App() {
-  const [title] = useState<string>('Manifest Decision Tree');
+  const [title] = useState<string>('The Manifest Game');
   const { tree, isLoading, error } = useFetchConfig('/default.json');
 
   if (isLoading || !tree) return <Spinner />;
