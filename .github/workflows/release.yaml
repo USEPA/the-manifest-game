@@ -7,7 +7,7 @@ on:
 jobs:
   run_tests:
     name: 'Run Tests'
-    uses: ./.github/workflows/test_client.yaml
+    uses: ./.github/workflows/test.yaml
 
   build_container_image:
     name: 'Build Image'
