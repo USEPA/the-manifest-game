@@ -1,3 +1,5 @@
+import { ErrorBoundary } from 'components/Error/ErrorBoundary';
+import { ErrorMsg } from 'components/Error/ErrorMsg';
 import { Header } from 'components/Header/Header';
 import { Spinner } from 'components/Spinner/Spinner';
 import { Tree } from 'components/Tree/Tree';
@@ -19,8 +21,10 @@ export default function App() {
 
   return (
     <>
-      <Header treeTitle={title} />
-      <Tree tree={tree} />
+      <ErrorBoundary fallback={<ErrorMsg />}>
+        <Header treeTitle={title} />
+        <Tree tree={tree} />
+      </ErrorBoundary>
     </>
   );
 }
