@@ -1,6 +1,7 @@
+import { getLayoutElements } from 'components/Tree/layout';
 import { useTreeEdges } from 'hooks/useTreeEdges/useTreeEdges';
 import { useTreeNodes } from 'hooks/useTreeNodes/useTreeNodes';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { NodeMouseHandler } from 'reactflow';
 import { DagNode, DecisionTree, useTreeStore } from 'store';
 
@@ -41,13 +42,20 @@ export const useDecisionTree = (initialTree: DecisionTree) => {
     }
   };
 
+  const { nodes: positionedNodes, edges: positionedEdges } = useMemo(() => {
+    if (!nodes || !edges || nodes.length === 0 || edges.length === 0) {
+      return { nodes: [], edges: [] };
+    }
+    return getLayoutElements(nodes, edges);
+  }, [nodes, edges]);
+
   useEffect(() => {
     setNodes(treeToNodes(tree));
   }, [tree, setNodes]);
 
   return {
-    nodes,
-    edges,
+    nodes: positionedNodes,
+    edges: positionedEdges,
     onClick,
   } as const;
 };
