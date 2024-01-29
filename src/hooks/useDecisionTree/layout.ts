@@ -9,6 +9,7 @@ const defaultNodeWidth = 175;
 const defaultNodeHeight = 75;
 const boolNodeWidth = defaultNodeWidth + 50;
 const boolNodeHeight = defaultNodeHeight + 50;
+const shiftYForHeader = 100;
 
 /** Apply positioning through implementing a Directed Acyclic Graph (DAG)
  * This was pulled from the reactflow documentation
@@ -34,7 +35,7 @@ export const getLayoutElements = (nodes: Array<DagNode>, edges: Array<Edge>) => 
 
     node.position = {
       x: nodeWithPosition.x - defaultNodeWidth / 2,
-      y: nodeWithPosition.y - defaultNodeHeight / 2,
+      y: nodeWithPosition.y - defaultNodeHeight / 2 + shiftYForHeader,
     };
 
     return node;
