@@ -5,8 +5,8 @@ import { DagNode } from 'store';
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-const defaultNodeWidth = 175;
-const defaultNodeHeight = 75;
+const defaultNodeWidth = 200;
+const defaultNodeHeight = 150;
 const boolNodeWidth = defaultNodeWidth + 50;
 const boolNodeHeight = defaultNodeHeight + 50;
 const shiftYForHeader = 100;
