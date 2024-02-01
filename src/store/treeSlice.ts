@@ -19,22 +19,20 @@ interface BooleanTreeNodeData extends TreeNodeData {
   noId: string;
 }
 
-/**
- * A vertex in our decision tree. it is position (x/Y coordinate) unaware
- */
+/** A vertex in our decision tree. it is position (x/Y coordinate) unaware */
 export interface TreeNode extends Omit<Node, 'position'> {
   data: TreeNodeData | BooleanTreeNodeData;
 }
 
 /**
  * A decision tree is a map of all node IDs to TreeNodes
- *
  * There may be some performance optimizations to be made here by using a Map instead of a Record
  */
 export type DecisionTree = Record<string, TreeNode>;
 
 /**
- * A wrapper for the ReactFlow Node (to make things easier to read and avoid the IDE trying to use the Node.js runtime)
+ * A wrapper for the ReactFlow Node
+ * (to make things easier to read and avoid the IDE trying to use the Node.js runtime)
  */
 export interface DagNode extends Node {}
 
@@ -48,9 +46,9 @@ export interface DagNode extends Node {}
  */
 export type TreeSlice = {
   tree: DecisionTree;
-  nodes: Node[];
+  nodes: DagNode[];
   edges: Edge[];
-  setNodes: (nodes: Node[]) => void;
+  setNodes: (nodes: DagNode[]) => void;
   setEdges: (edges: Edge[]) => void;
   setTree: (tree: DecisionTree) => void;
   hideNode: (nodeId: string) => void;
@@ -71,7 +69,7 @@ export const createTreeSlice: StateCreator<
   nodes: [],
   edges: [],
   /** set the nodes, does not affect the edges and tree */
-  setNodes: (nodes: Node[]) => {
+  setNodes: (nodes: DagNode[]) => {
     set(
       {
         nodes: nodes,

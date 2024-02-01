@@ -54,13 +54,12 @@ export const buildTreeEdges = (tree: DecisionTree): Array<Edge> => {
 
   Object.keys(tree).forEach((key) => {
     const node = tree[key];
-    if (node.data.children) {
+    if (node.data.children && !node.hidden) {
       node.data.children.forEach((childId: string) => {
         edges.push(createTreeEdge(node.id, childId));
       });
     }
   });
-
   return edges;
 };
 /** Accepts a DecisionTree and node ID and returns an array of children IDs of all descendant nodes in the DAG */
