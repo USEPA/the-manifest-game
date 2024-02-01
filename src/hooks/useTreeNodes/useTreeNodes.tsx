@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { DecisionTree, useTreeStore } from 'store';
+import useStore, { DecisionTree } from 'store';
 
 /**
  * useTreeNodes
@@ -18,7 +18,7 @@ export const useTreeNodes = (initialTree?: DecisionTree) => {
     hideDescendantNodes: hideStoreDescendantNodes,
     showTargetEdges,
     hideTargetEdges,
-  } = useTreeStore((state) => state);
+  } = useStore((state) => state);
 
   /** show a node's direct children and the edges leading to them */
   const showChildren = (nodeId: string) => {
@@ -30,7 +30,7 @@ export const useTreeNodes = (initialTree?: DecisionTree) => {
       showNode(id);
     });
     setTree(newTree);
-    childrenIds.forEach((id) => showTargetEdges(id));
+    childrenIds.forEach((id: string) => showTargetEdges(id));
   };
 
   /** hide a node's descendant nodes and edges, but not the node itself */

@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BoolNode, BoolNodeData } from 'components/Nodes/BoolNode/BoolNode';
 import { NodeProps, ReactFlowProvider } from 'reactflow';
-import { useTreeStore } from 'store';
+import useStore from 'store';
 import { afterEach, describe, expect, it } from 'vitest';
 
 afterEach(() => {});
@@ -54,7 +54,7 @@ describe('BoolNode', () => {
     const primaryId = '1';
     const yesId = '2';
     const noId = '3';
-    useTreeStore.setState({
+    useStore.setState({
       tree: {
         [primaryId]: {
           id: primaryId,
@@ -76,8 +76,8 @@ describe('BoolNode', () => {
       </ReactFlowProvider>
     );
     await userEvent.click(screen.getByRole('button', { name: /yes/i }));
-    expect(useTreeStore.getState().tree[yesId].hidden).toBe(false);
+    expect(useStore.getState().tree[yesId].hidden).toBe(false);
     await userEvent.click(screen.getByRole('button', { name: /no/i }));
-    expect(useTreeStore.getState().tree[yesId].hidden).toBe(true);
+    expect(useStore.getState().tree[yesId].hidden).toBe(true);
   });
 });

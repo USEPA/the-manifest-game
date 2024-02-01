@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { Edge } from 'reactflow';
-import { DecisionTree, TreeNode } from 'store/treeStore';
+import { DecisionTree, TreeNode } from 'store/treeSlice';
 import { describe, expect, test } from 'vitest';
 import { createTreeEdge, hideDescendantNodes, hideTargetEdges } from './treeUtils';
 

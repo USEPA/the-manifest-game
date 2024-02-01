@@ -4,7 +4,7 @@
  *  Do not export outside this module
  * */
 import { Edge, MarkerType } from 'reactflow';
-import { DecisionTree, TreeNode } from 'store/treeStore';
+import { DecisionTree, TreeNode } from 'store/treeSlice';
 
 /**
  * returns a new tree and node's descendent ID.

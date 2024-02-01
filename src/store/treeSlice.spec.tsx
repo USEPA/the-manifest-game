@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Edge } from 'reactflow';
-import { TreeNode, useTreeStore } from 'store';
+import useStore, { TreeNode } from 'store';
 import { describe, expect, test } from 'vitest';
 
 interface TestComponentProps {
@@ -11,8 +11,8 @@ interface TestComponentProps {
 }
 
 const TestComponent = ({ edges }: TestComponentProps) => {
-  const globalEdges = useTreeStore((state) => state.edges);
-  const { setEdges, nodes } = useTreeStore((state) => state);
+  const globalEdges = useStore((state) => state.edges);
+  const { setEdges, nodes } = useStore((state) => state);
 
   return (
     <>
@@ -36,7 +36,7 @@ const TestComponent = ({ edges }: TestComponentProps) => {
 describe('Tree store', () => {
   test('sets nodes', () => {
     const nodeId = '1';
-    useTreeStore.setState({ nodes: [{ id: nodeId, position: { x: 100, y: 200 }, data: {} }] });
+    useStore.setState({ nodes: [{ id: nodeId, position: { x: 100, y: 200 }, data: {} }] });
     render(<TestComponent />);
     expect(screen.getByText(nodeId)).toBeInTheDocument();
   });

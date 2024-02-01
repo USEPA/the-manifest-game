@@ -3,7 +3,7 @@ import { useTreeEdges } from 'hooks/useTreeEdges/useTreeEdges';
 import { useTreeNodes } from 'hooks/useTreeNodes/useTreeNodes';
 import { useEffect, useMemo } from 'react';
 import { NodeMouseHandler } from 'reactflow';
-import { DagNode, DecisionTree, useTreeStore } from 'store';
+import useStore, { DagNode, DecisionTree } from 'store';
 
 const treeToNodes = (tree: DecisionTree): Array<DagNode> => {
   return Object.values(tree).map((node) => ({
@@ -26,7 +26,7 @@ const treeToNodes = (tree: DecisionTree): Array<DagNode> => {
 export const useDecisionTree = (initialTree: DecisionTree) => {
   const { hideDescendants, showChildren, tree } = useTreeNodes(initialTree);
   const { edges } = useTreeEdges(initialTree);
-  const { nodes, setNodes } = useTreeStore((state) => state);
+  const { nodes, setNodes } = useStore((state) => state);
 
   /** handle node click events */
   const onClick: NodeMouseHandler = (_event, node) => {
