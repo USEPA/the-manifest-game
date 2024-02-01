@@ -1,6 +1,6 @@
 import dagre from '@dagrejs/dagre';
-import { Edge, Node } from 'reactflow';
-import { DagNode } from 'store';
+import { Edge } from 'reactflow';
+import { DagNode, TreeNode } from 'store';
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -15,7 +15,13 @@ const shiftYForHeader = 100;
  * This was pulled from the reactflow documentation
  * https://reactflow.dev/learn/layouting/layouting
  * */
-export const getLayoutElements = (nodes: Array<DagNode>, edges: Array<Edge>) => {
+export const getLayoutElements = (
+  nodes: Array<TreeNode | DagNode>,
+  edges: Array<Edge>
+): {
+  nodes: Array<DagNode>;
+  edges: Array<Edge>;
+} => {
   dagreGraph.setGraph({ rankdir: 'TB' });
 
   nodes.forEach((node) => {
@@ -30,16 +36,21 @@ export const getLayoutElements = (nodes: Array<DagNode>, edges: Array<Edge>) => 
 
   dagre.layout(dagreGraph);
 
-  nodes.forEach((node) => {
-    const nodeWithPosition = dagreGraph.node(node.id);
-
-    node.position = {
-      x: nodeWithPosition.x - defaultNodeWidth / 2,
-      y: nodeWithPosition.y - defaultNodeHeight / 2 + shiftYForHeader,
-    };
-
-    return node;
+  const dagNodes = nodes.map((node) => {
+    if ('position' in node) {
+      return node as DagNode;
+    } else {
+      const nodeWithPosition = dagreGraph.node(node.id);
+      const newNode = {
+        ...node,
+        position: {
+          x: nodeWithPosition.x - defaultNodeWidth / 2,
+          y: nodeWithPosition.y - defaultNodeHeight / 2 + shiftYForHeader,
+        },
+      };
+      return newNode as DagNode;
+    }
   });
 
-  return { nodes, edges } as { nodes: Node[]; edges: Edge[] };
+  return { nodes: dagNodes, edges } as { nodes: DagNode[]; edges: Edge[] };
 };

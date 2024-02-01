@@ -12,12 +12,15 @@ export const useTreeNodes = (initialTree?: DecisionTree) => {
   const {
     tree,
     setTree,
+    setDagTree,
     hideNode: hideStoreNode,
     showNode: showStoreNode,
     hideDescendantEdges,
     hideDescendantNodes: hideStoreDescendantNodes,
     showTargetEdges,
     hideTargetEdges,
+    showDagChildren,
+    showDagNode,
   } = useStore((state) => state);
 
   /** show a node's direct children and the edges leading to them */
@@ -30,7 +33,9 @@ export const useTreeNodes = (initialTree?: DecisionTree) => {
       showNode(id);
     });
     setTree(newTree);
+    setDagTree(newTree);
     childrenIds.forEach((id: string) => showTargetEdges(id));
+    showDagChildren(nodeId);
   };
 
   /** hide a node's descendant nodes and edges, but not the node itself */
@@ -55,8 +60,10 @@ export const useTreeNodes = (initialTree?: DecisionTree) => {
   useEffect(() => {
     if (initialTree) {
       setTree(initialTree);
+      setDagTree(initialTree);
+      showDagNode(Object.keys(initialTree)[0]);
     }
-  }, [initialTree, setTree]);
+  }, [initialTree, setTree, setDagTree]);
 
   return {
     tree,
