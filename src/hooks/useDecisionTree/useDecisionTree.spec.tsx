@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { useDecisionTree } from 'hooks/useDecisionTree/useDecisionTree';
-import { DecisionTree } from 'store/treeStore';
+import { DecisionTree } from 'store';
 import { afterEach, describe, expect, test } from 'vitest';
 
 afterEach(() => {});

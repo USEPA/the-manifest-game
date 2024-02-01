@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useTreeNodes } from 'hooks/useTreeNodes/useTreeNodes';
-import { DecisionTree } from 'store/treeStore';
+import { DecisionTree } from 'store';
 import { afterEach, describe, expect, test } from 'vitest';
 
 afterEach(() => cleanup());
