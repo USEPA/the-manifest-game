@@ -1,8 +1,41 @@
 import { getLayoutElements } from 'hooks/useDecisionTree/layout';
-import { Edge } from 'reactflow';
-import { DagNode, DecisionTree, TreeNode } from 'store/treeSlice';
+import { Edge, Node } from 'reactflow';
 import { getDescendantIds } from 'store/treeUtils';
 import { StateCreator } from 'zustand';
+
+/**
+ * data needed by all TreeNodes that contains the nodes expanded state, the node's children, and the node's text
+ */
+interface TreeNodeData {
+  label: string;
+  children: string[];
+  expanded?: boolean;
+}
+
+/**
+ * data needed by the BooleanTreeNode to render decisions
+ */
+interface BooleanTreeNodeData extends TreeNodeData {
+  yesId: string;
+  noId: string;
+}
+
+/** A vertex in our decision tree. it is position (x/Y coordinate) unaware */
+export interface TreeNode extends Omit<Node, 'position'> {
+  data: TreeNodeData | BooleanTreeNodeData;
+}
+
+/**
+ * A decision tree is a map of all node IDs to TreeNodes
+ * There may be some performance optimizations to be made here by using a Map instead of a Record
+ */
+export type DecisionTree = Record<string, TreeNode>;
+
+/**
+ * A wrapper for the ReactFlow Node
+ * (to make things easier to read and avoid the IDE trying to use the Node.js runtime)
+ */
+export interface DagNode extends Node {}
 
 export interface ShowDagNodeOptions {
   parentId?: string;
