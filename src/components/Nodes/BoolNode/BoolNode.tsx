@@ -18,12 +18,12 @@ export const BoolNode = ({
   const { showNode, hideNode } = useTreeNodes();
 
   const handleYes = () => {
-    showNode(yesId);
+    showNode(yesId, { parentId: id });
     hideNode(noId);
   };
 
   const handleNo = () => {
-    showNode(noId);
+    showNode(noId, { parentId: id });
     hideNode(yesId);
   };
 
