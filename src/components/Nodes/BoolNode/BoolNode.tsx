@@ -1,4 +1,4 @@
-import { useTreeNodes } from 'hooks/useTreeNodes/useTreeNodes';
+import { useDAG } from 'hooks/useDAG/useDAG';
 import { Handle, NodeProps, Position } from 'reactflow';
 
 import styles from './bool.module.css';
@@ -15,7 +15,7 @@ export const BoolNode = ({
   id,
   isConnectable,
 }: NodeProps<BoolNodeData>) => {
-  const { showNode, hideNode } = useTreeNodes();
+  const { showNode, hideNode } = useDAG();
 
   const handleYes = () => {
     showNode(yesId, { parentId: id });

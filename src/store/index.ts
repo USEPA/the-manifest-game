@@ -1,16 +1,15 @@
-import { createDagSlice, DagSlice } from 'store/dagSlice';
+import { createDagSlice, DagSlice } from 'store/DagSlice/dagSlice';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-export type { DecisionTree, TreeNode, DagNode } from './dagSlice';
-export { buildTreeEdges } from 'store/treeUtils';
+export type { DecisionTree, TreeNode, DagNode } from 'store/DagSlice/dagSlice';
 
 export const useStore = create<DagSlice>()(
   devtools(
     (...args) => ({
       ...createDagSlice(...args),
     }),
-    { name: 'The Manifest Game', store: 'decisionTree' }
+    { name: 'The Manifest Game' }
   )
 );
 

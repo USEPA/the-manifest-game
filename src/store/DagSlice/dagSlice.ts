@@ -1,12 +1,12 @@
-import { getLayoutElements } from 'hooks/useDecisionTree/layout';
 import { Edge, Node } from 'reactflow';
-import { getDescendantIds } from 'store/treeUtils';
+import { createDagEdge, createDagNode, getDescendantIds } from 'store/DagSlice/dagUtils';
+import { getLayoutElements } from 'store/DagSlice/layout';
 import { StateCreator } from 'zustand';
 
 /**
  * data needed by all TreeNodes that contains the nodes expanded state, the node's children, and the node's text
  */
-interface TreeNodeData {
+export interface TreeNodeData {
   label: string;
   children: string[];
   expanded?: boolean;
@@ -15,7 +15,7 @@ interface TreeNodeData {
 /**
  * data needed by the BooleanTreeNode to render decisions
  */
-interface BooleanTreeNodeData extends TreeNodeData {
+export interface BooleanTreeNodeData extends TreeNodeData {
   yesId: string;
   noId: string;
 }
@@ -61,6 +61,8 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
   dagTree: {},
   /**
    * Set the decision tree for the DAG
+   * The decision tree acts as the source of truth for the DAG - we create nodes and edges from it
+   * and then use the DAG to render the graph
    * @param tree
    */
   setDagTree: (tree: DecisionTree) => {
@@ -75,32 +77,18 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
   /**
    * Show a node in the tree - Currently does not create edges
    * @param nodeId
+   * @param options
    */
   showDagNode: (nodeId: string, options?: ShowDagNodeOptions) => {
     // Get the data for the tree
     const dagTree = { ...get().dagTree };
     const dagNodes = [...get().dagNodes.filter((node) => node.id !== nodeId)];
     const dagEdges = [...get().dagEdges];
-    // set the node as not hidden in the tree
     dagTree[nodeId].hidden = false;
-    // create the new node
-    const newNode: TreeNode = {
-      ...dagTree[nodeId],
-      connectable: false,
-      draggable: false,
-      id: nodeId,
-      data: dagTree[nodeId].data,
-      type: dagTree[nodeId].type ?? 'default',
-    };
-    // if parentId is provided, create an edge
+    const newNode = createDagNode(nodeId, dagTree[nodeId]);
     if (options?.parentId) {
-      dagEdges.push({
-        id: `${options.parentId}-${nodeId}`,
-        source: options.parentId,
-        target: nodeId,
-      });
+      dagEdges.push(createDagEdge(options.parentId, nodeId));
     }
-    // get layout position for the node
     const { nodes: positionedNodes, edges: positionedEdges } = getLayoutElements(
       [...dagNodes, newNode],
       dagEdges
@@ -115,11 +103,14 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
       'showDagNode'
     );
   },
+  /**
+   * Hide a node and all of its descendants
+   * @param nodeId
+   */
   hideDagNode: (nodeId: string) => {
     const dagTree = get().dagTree;
     const dagNodes = get().dagNodes;
     const dagEdges = get().dagEdges;
-    // set the node as hidden in the tree
     dagTree[nodeId].hidden = true;
     // remove the node and edges
     const newNodes = dagNodes.filter((node) => node.id !== nodeId);
@@ -148,41 +139,27 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
     const treeNode = dagTree[nodeId];
     const dagEdges = get().dagEdges;
     const dagNodes = get().dagNodes;
-    // check if the node has children
     if (!treeNode.data.children) return;
     // Get the children nodes
     const childrenNodes = treeNode.data.children.map((childId) => ({
       ...dagTree[childId],
       type: dagTree[childId].type ?? 'default',
     }));
-    // create the new edges
     const newEdges = childrenNodes.map((childNode) => {
-      return {
-        id: `${nodeId}-${childNode.id}`,
-        source: nodeId,
-        target: childNode.id,
-      };
+      return createDagEdge(nodeId, childNode.id);
     });
     // create the new nodes
     const newNodes = childrenNodes.map((childNode) => {
-      return {
-        ...childNode,
-        id: childNode.id,
-        data: childNode.data,
-        hidden: false,
-      };
+      return createDagNode(childNode.id, { ...childNode, hidden: false });
     });
     // set the children as not hidden in the tree
     const newTree = { ...dagTree };
     childrenNodes.forEach((childNode) => (newTree[childNode.id].hidden = false));
-    // set the parent as expanded
     newTree[nodeId].data.expanded = true;
-    // get layout position for the nodes
     const { nodes: positionedNodes, edges: positionedEdges } = getLayoutElements(
       [...dagNodes, ...newNodes],
       [...dagEdges, ...newEdges]
     );
-    // set the new nodes and edges
     set(
       {
         dagNodes: positionedNodes,
@@ -202,7 +179,6 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
     const dagNodes = get().dagNodes;
     const dagEdges = get().dagEdges;
     const childrenIds = getDescendantIds(dagTree, nodeId);
-    // set the children as hidden in the tree
     childrenIds.forEach((id) => (dagTree[id].hidden = true));
     // remove the children nodes and edges
     const newNodes = dagNodes.filter((node) => !childrenIds.includes(node.id));

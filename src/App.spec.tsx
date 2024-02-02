@@ -65,6 +65,7 @@ describe('App', () => {
     );
     render(<App />);
     await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
-    expect(screen.getByTestId(`node-${myNodeId}`)).toBeInTheDocument();
-  });
+    await waitFor(() => expect(screen.queryByText('error')).not.toBeInTheDocument());
+    expect(screen.queryByTestId(`node-${myNodeId}`)).toBeInTheDocument();
+  }, 1000); // timeout in ms
 });

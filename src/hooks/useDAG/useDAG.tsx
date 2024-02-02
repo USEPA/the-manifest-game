@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import useStore, { DecisionTree } from 'store';
-import { ShowDagNodeOptions } from 'store/dagSlice';
+import { ShowDagNodeOptions } from 'store/DagSlice/dagSlice';
 
 /**
  * useTreeNodes
@@ -9,7 +9,7 @@ import { ShowDagNodeOptions } from 'store/dagSlice';
  * such as showing and hiding nodes and edges
  * @param initialTree
  */
-export const useTreeNodes = (initialTree?: DecisionTree) => {
+export const useDAG = (initialTree?: DecisionTree) => {
   const { dagTree, setDagTree, showDagChildren, showDagNode, hideDagDescendants, hideDagNode } =
     useStore((state) => state);
 

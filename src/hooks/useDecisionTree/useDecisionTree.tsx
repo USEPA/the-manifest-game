@@ -1,4 +1,4 @@
-import { useTreeNodes } from 'hooks/useTreeNodes/useTreeNodes';
+import { useDAG } from 'hooks/useDAG/useDAG';
 import { NodeMouseHandler } from 'reactflow';
 import useStore, { DecisionTree } from 'store';
 
@@ -9,7 +9,7 @@ import useStore, { DecisionTree } from 'store';
  * @param initialTree
  */
 export const useDecisionTree = (initialTree: DecisionTree) => {
-  const { hideDescendants, showChildren } = useTreeNodes(initialTree);
+  const { hideDescendants, showChildren } = useDAG(initialTree);
   const { dagNodes, dagEdges } = useStore((state) => state);
 
   /** handle node click events */
