@@ -1,23 +1,6 @@
-import { getLayoutElements } from 'hooks/useDecisionTree/layout';
-import { useTreeEdges } from 'hooks/useTreeEdges/useTreeEdges';
 import { useTreeNodes } from 'hooks/useTreeNodes/useTreeNodes';
-import { useEffect, useMemo } from 'react';
 import { NodeMouseHandler } from 'reactflow';
-import useStore, { DagNode, DecisionTree } from 'store';
-
-const treeToNodes = (tree: DecisionTree): Array<DagNode> => {
-  return Object.values(tree)
-    .filter((node) => !node.hidden)
-    .map((node) => ({
-      id: node.id,
-      data: node.data,
-      type: node.type ?? 'default',
-      hidden: node.hidden,
-      connectable: false,
-      draggable: false,
-      position: { x: 0, y: 0 },
-    }));
-};
+import useStore, { DecisionTree } from 'store';
 
 /**
  * useDecisionTree
@@ -26,9 +9,8 @@ const treeToNodes = (tree: DecisionTree): Array<DagNode> => {
  * @param initialTree
  */
 export const useDecisionTree = (initialTree: DecisionTree) => {
-  const { hideDescendants, showChildren, tree } = useTreeNodes(initialTree);
-  const { edges } = useTreeEdges(tree);
-  const { nodes, setNodes, dagNodes, dagEdges } = useStore((state) => state);
+  const { hideDescendants, showChildren } = useTreeNodes(initialTree);
+  const { dagNodes, dagEdges } = useStore((state) => state);
 
   /** handle node click events */
   const onClick: NodeMouseHandler = (_event, node) => {
@@ -43,17 +25,6 @@ export const useDecisionTree = (initialTree: DecisionTree) => {
         }
     }
   };
-
-  const { nodes: positionedNodes, edges: positionedEdges } = useMemo(() => {
-    if (!nodes || !edges || nodes.length === 0 || edges.length === 0) {
-      return { nodes: [], edges: [] };
-    }
-    return getLayoutElements(nodes, edges);
-  }, [nodes, edges]);
-
-  useEffect(() => {
-    setNodes(treeToNodes(tree));
-  }, [tree, setNodes]);
 
   return {
     nodes: dagNodes,
