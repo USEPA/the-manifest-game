@@ -1,6 +1,6 @@
 import dagre from '@dagrejs/dagre';
 import { Edge } from 'reactflow';
-import { DagNode, TreeNode } from 'store';
+import { DagNode, TreeNode } from 'store/index';
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));

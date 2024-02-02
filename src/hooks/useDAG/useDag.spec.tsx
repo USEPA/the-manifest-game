@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { useTreeNodes } from 'hooks/useTreeNodes/useTreeNodes';
+import { useDAG } from 'hooks/useDAG/useDAG';
 import { DecisionTree } from 'store';
 import { afterEach, describe, expect, test } from 'vitest';
 
@@ -14,7 +14,7 @@ interface TestComponentProps {
 }
 
 const TestComponent = ({ initialTree, hideNodeId = '1', showNodeId = '1' }: TestComponentProps) => {
-  const { tree, hideNode, showNode } = useTreeNodes(initialTree);
+  const { tree, hideNode, showNode } = useDAG(initialTree);
 
   return (
     <>
