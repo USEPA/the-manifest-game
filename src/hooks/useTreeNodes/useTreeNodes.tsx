@@ -25,7 +25,6 @@ export const useTreeNodes = (initialTree?: DecisionTree) => {
 
   /** hide a node and all descendant nodes and edges */
   const hideNode = (nodeId: string) => {
-    console.log('hideNode', nodeId);
     hideDagNode(nodeId);
   };
 
