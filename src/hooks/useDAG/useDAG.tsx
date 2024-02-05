@@ -10,8 +10,17 @@ import { PositionUnawareDecisionTree, ShowDagNodeOptions } from 'store/DagSlice/
  * @param initialTree
  */
 export const useDAG = (initialTree?: PositionUnawareDecisionTree) => {
-  const { dagTree, setDagTree, showDagChildren, showDagNode, hideDagDescendants, hideDagNode } =
-    useStore((state) => state);
+  const {
+    dagTree,
+    setDagTree,
+    showDagChildren,
+    showDagNode,
+    hideDagDescendants,
+    hideDagNode,
+    dagNodes,
+    dagEdges,
+    hideNiblings,
+  } = useStore((state) => state);
 
   /** show a node's direct children and the edges leading to them */
   const showChildren = (nodeId: string) => {
@@ -36,8 +45,10 @@ export const useDAG = (initialTree?: PositionUnawareDecisionTree) => {
   useEffect(() => {
     if (initialTree) {
       setDagTree(initialTree);
-      // ToDo: this is a temporary solution to show the first node in the tree
       showDagNode(Object.keys(initialTree)[0]);
+      Object.values(initialTree).forEach((node) => {
+        if (!node.hidden) showDagNode(node.id);
+      });
     }
   }, [initialTree, setDagTree, showDagNode]);
 
@@ -46,6 +57,9 @@ export const useDAG = (initialTree?: PositionUnawareDecisionTree) => {
     showNode,
     hideNode,
     hideDescendants,
+    hideNiblings,
     showChildren,
+    edges: dagEdges,
+    nodes: dagNodes,
   } as const;
 };

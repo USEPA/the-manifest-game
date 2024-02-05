@@ -1,20 +1,27 @@
 import { BoolNode } from 'components/Nodes/BoolNode/BoolNode';
 import { DefaultNode } from 'components/Nodes/DefaultNode/DefaultNode';
-import { useDecisionTree } from 'hooks';
 import React, { useMemo } from 'react';
-import ReactFlow, { Background, BackgroundVariant, Controls, MiniMap } from 'reactflow';
-import { PositionUnawareDecisionTree } from 'store/DagSlice/dagSlice';
+import ReactFlow, {
+  Background,
+  BackgroundVariant,
+  Controls,
+  Edge,
+  MiniMap,
+  NodeMouseHandler,
+} from 'reactflow';
+import { DagNode } from 'store/DagSlice/dagSlice';
 
 export interface TreeProps {
-  tree: PositionUnawareDecisionTree;
+  nodes: DagNode[];
+  edges: Edge[];
+  onClick: NodeMouseHandler;
 }
 
 /**
  * Tree - responsible for rendering the decision tree
  */
-export const Tree = ({ tree }: TreeProps) => {
+export const Tree = ({ nodes, edges, onClick }: TreeProps) => {
   const nodeTypes = useMemo(() => ({ BoolNode: BoolNode, default: DefaultNode }), []);
-  const { nodes, edges, onClick } = useDecisionTree(tree);
 
   return (
     <>

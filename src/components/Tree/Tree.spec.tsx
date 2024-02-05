@@ -1,13 +1,15 @@
 import '@testing-library/jest-dom';
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { Tree } from 'components/Tree/Tree';
+import { useDecisionTree } from 'hooks';
 import { ReactFlowProvider } from 'reactflow';
 import { DecisionTree } from 'store';
+import { PositionUnawareDecisionTree } from 'store/DagSlice/dagSlice';
 import { afterEach, describe, expect, it } from 'vitest';
 
 afterEach(() => cleanup());
 
-const TestComponent = ({ tree }: { tree?: DecisionTree }) => {
+const TestComponent = ({ tree }: { tree?: PositionUnawareDecisionTree }) => {
   const myTree = tree || {
     ['1']: {
       id: '1',
@@ -36,14 +38,15 @@ const TestComponent = ({ tree }: { tree?: DecisionTree }) => {
       hidden: false,
     },
   };
-  return <Tree tree={myTree} />;
+  const { nodes, edges, onClick } = useDecisionTree(myTree);
+  return <Tree nodes={nodes} edges={edges} onClick={onClick} />;
 };
 
-describe('Tree UI', () => {
+describe('Tree Component', () => {
   it('renders', () => {
     render(
       <ReactFlowProvider>
-        <TestComponent />
+        <Tree nodes={[]} edges={[]} onClick={() => undefined} />
       </ReactFlowProvider>
     );
     expect(screen.getByTestId('decision-tree')).toBeInTheDocument();
@@ -52,7 +55,7 @@ describe('Tree UI', () => {
     const parentId = '1';
     const childId2 = '2';
     const childId3 = '3';
-    const tree = {
+    const tree: DecisionTree = {
       [parentId]: {
         id: parentId,
         data: {
@@ -90,5 +93,158 @@ describe('Tree UI', () => {
     fireEvent.click(parentNode!);
     expect(screen.queryByTestId(`node-${childId2}`)).toBeInTheDocument();
     expect(screen.queryByTestId(`node-${childId3}`)).toBeInTheDocument();
+  });
+  it('hides niblings (the descendants of children) on click', () => {
+    const parentId = '1';
+    const siblingWithChild2 = '2';
+    const sibling3 = '3';
+    const grandchildId = '4';
+    const tree: DecisionTree = {
+      [parentId]: {
+        id: parentId,
+        data: {
+          label: 'this is a question?',
+          children: ['2', '3'],
+          expanded: true,
+        },
+        position: { x: 0, y: 0 },
+        type: 'default',
+        hidden: false,
+      },
+      [siblingWithChild2]: {
+        id: siblingWithChild2,
+        data: {
+          label: 'this is an answer?',
+          children: ['4'],
+          expanded: true,
+        },
+        position: { x: 0, y: 0 },
+        type: 'default',
+        hidden: false,
+      },
+      [sibling3]: {
+        id: sibling3,
+        data: { label: 'this is an answer?', children: [] },
+        position: { x: 0, y: 0 },
+        type: 'default',
+        hidden: false,
+      },
+      [grandchildId]: {
+        id: grandchildId,
+        data: { label: 'this is an answer?', children: [] },
+        position: { x: 0, y: 0 },
+        type: 'default',
+        hidden: false,
+      },
+    };
+    render(
+      <ReactFlowProvider>
+        <TestComponent tree={tree} />
+      </ReactFlowProvider>
+    );
+    [parentId, siblingWithChild2, sibling3, grandchildId].forEach((nodeId: string) => {
+      expect(screen.queryByTestId(`node-${nodeId}`)).toBeInTheDocument();
+    });
+    fireEvent.click(screen.queryByTestId(`node-${siblingWithChild2}`)!);
+    expect(screen.queryByTestId(`node-${grandchildId}`)).not.toBeInTheDocument();
+  });
+  it('hides all descendants of expanded nodes on click', () => {
+    const parentId = '1';
+    const childId = '2';
+    const grandchildId = '3';
+    const greatGrandchildId = '4';
+    const tree: DecisionTree = {
+      [parentId]: {
+        id: parentId,
+        data: {
+          label: 'this is a question?',
+          children: ['2'],
+          expanded: true,
+        },
+        position: { x: 0, y: 0 },
+        type: 'default',
+        hidden: false,
+      },
+      [childId]: {
+        id: childId,
+        data: {
+          label: 'this is an answer?',
+          children: ['3'],
+          expanded: true,
+        },
+        position: { x: 0, y: 0 },
+        type: 'default',
+        hidden: false,
+      },
+      [grandchildId]: {
+        id: grandchildId,
+        data: { label: 'this is an answer?', children: ['4'] },
+        position: { x: 0, y: 0 },
+        type: 'default',
+        hidden: false,
+      },
+      [greatGrandchildId]: {
+        id: greatGrandchildId,
+        data: { label: 'this is an answer?', children: [] },
+        position: { x: 0, y: 0 },
+        type: 'default',
+        hidden: false,
+      },
+    };
+    render(
+      <ReactFlowProvider>
+        <TestComponent tree={tree} />
+      </ReactFlowProvider>
+    );
+    [parentId, childId, grandchildId, greatGrandchildId].forEach((nodeId: string) => {
+      expect(screen.queryByTestId(`node-${nodeId}`)).toBeInTheDocument();
+    });
+    fireEvent.click(screen.queryByTestId(`node-${childId}`)!);
+    [parentId, childId].forEach((nodeId) => {
+      expect(screen.queryByTestId(`node-${nodeId}`)).toBeInTheDocument();
+    });
+    [grandchildId, greatGrandchildId].forEach((nodeId) => {
+      expect(screen.queryByTestId(`node-${nodeId}`)).not.toBeInTheDocument();
+    });
+  });
+  it('ignores yes/no clicks', () => {
+    const parentId = '1';
+    const childId = '2';
+    const tree: DecisionTree = {
+      [parentId]: {
+        id: parentId,
+        type: 'BoolNode',
+        data: {
+          label: 'this is a question?',
+          children: ['2'],
+          expanded: true,
+        },
+        position: { x: 0, y: 0 },
+        hidden: false,
+      },
+      [childId]: {
+        id: childId,
+        data: {
+          label: 'this is an answer?',
+          children: [],
+          expanded: true,
+        },
+        position: { x: 0, y: 0 },
+        type: 'default',
+        hidden: false,
+      },
+    };
+    render(
+      <ReactFlowProvider>
+        <TestComponent tree={tree} />
+      </ReactFlowProvider>
+    );
+    [parentId, childId].forEach((nodeId: string) => {
+      expect(screen.queryByTestId(`node-${nodeId}`)).toBeInTheDocument();
+    });
+    fireEvent.click(screen.queryByTestId(`node-${parentId}`)!);
+    [parentId, childId].forEach((nodeId) => {
+      expect(screen.queryByTestId(`node-${nodeId}`)).toBeInTheDocument();
+    });
   });
 });

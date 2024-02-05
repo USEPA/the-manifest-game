@@ -48,3 +48,14 @@ export const getDescendantIds = (tree: DecisionTree, id: string): string[] => {
 
   return childrenIds;
 };
+
+/** Accepts a DecisionTree and node ID and returns an array of sibling IDs */
+export const getSiblingIds = (tree: DecisionTree, id: string): string[] => {
+  const node = tree[id];
+  if (node.position.rank === undefined) throw new Error('Node must have a rank to find siblings');
+  const rank = node.position.rank;
+  const siblingIds = Object.values(tree)
+    .filter((n) => n.position.rank === rank && n.id !== id)
+    .map((n) => n.id);
+  return siblingIds;
+};

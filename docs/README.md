@@ -44,6 +44,15 @@ The following terms are used throughout the documentation and code:
 5. **Descendant** (or **Descendants**): The descendants of a node are the vertices that are connected to the parent node
    by a path of edges such that in the topological order `f(u, v)` of the DAG, for every edge `(u, v)`, where `u` is the
    parent of `v`, `u` comes before `v`. (you will see this term in the code many times)
+6. **Parent**: The parent of a node is the vertex that is connected to the child node by a direct edge such that in the
+   topological order `f(u, v)` of the DAG, for every edge `(u, v)`, where `u` is the parent of `v`, `u` comes
+   before `v`.
+   (you will see this term in the code many times)
+7. **Sibling**: The siblings of a node are the vertices that are connected to the same parent node as the child node.
+   Siblings have the same "rank" in the DAG.
+8. **_Nibling_**: The niblings of a node are the descendants of the node's siblings (those that reside at the same level
+   or rank in the
+   DAG)
 
 ## Implementation Notes
 

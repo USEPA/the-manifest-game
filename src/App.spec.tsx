@@ -83,4 +83,8 @@ describe('App', () => {
     await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
     expect(screen.getByText('The Manifest Game')).toBeInTheDocument();
   });
+  it('Throws an error if there is an error fetching the config', async () => {
+    // ToDo - implement this test
+    expect(true).toBe(true);
+  });
 });

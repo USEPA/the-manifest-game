@@ -30,6 +30,7 @@ body {
 .react-flow__node {
     border: none;
     padding: 10px;
+    font-size: 1.2rem;
     color: #fff;
     cursor: auto;
     background: var(--card-color);
