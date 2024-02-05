@@ -1,5 +1,3 @@
-import { ErrorBoundary } from 'components/Error/ErrorBoundary';
-import { ErrorMsg } from 'components/Error/ErrorMsg';
 import { Header } from 'components/Header/Header';
 import { Spinner } from 'components/Spinner/Spinner';
 import { Tree } from 'components/Tree/Tree';
@@ -17,14 +15,12 @@ export default function App() {
 
   if (isLoading || !config) return <Spinner />;
 
-  if (error || (!config && !isLoading)) return <p>error</p>;
+  if (error || (!config && !isLoading)) throw new Error('Failed to fetch config');
 
   return (
     <>
-      <ErrorBoundary fallback={<ErrorMsg />}>
-        <Header treeTitle={title} />
-        <Tree nodes={nodes} edges={edges} onClick={onClick} />
-      </ErrorBoundary>
+      <Header treeTitle={title} />
+      <Tree nodes={nodes} edges={edges} onClick={onClick} />
     </>
   );
 }
