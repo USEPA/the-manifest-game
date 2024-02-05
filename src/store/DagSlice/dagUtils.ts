@@ -4,7 +4,7 @@
  *  Do not export outside this module
  * */
 import { Edge, MarkerType } from 'reactflow';
-import { DecisionTree, TreeNode } from './dagSlice';
+import { DagNode, DecisionTree, TreeNode } from './dagSlice';
 
 /** creates the edges between two nodes with defaults applied */
 export const createDagEdge = (source: string, target: string): Edge => {
@@ -19,7 +19,7 @@ export const createDagEdge = (source: string, target: string): Edge => {
 };
 
 /** create a new position unaware node with defaults applied */
-export const createDagNode = (id: string, config: Partial<TreeNode>): TreeNode => {
+export const createDagNode = (id: string, config: Partial<TreeNode>): DagNode => {
   const { data } = config;
   if (!data) throw new Error('data is required for a node');
   return {
@@ -29,6 +29,8 @@ export const createDagNode = (id: string, config: Partial<TreeNode>): TreeNode =
     hidden: false,
     connectable: false,
     draggable: false,
+    // @ts-expect-error - we are converting TreeNode to position aware once loaded into the store
+    position: config.position,
     ...config,
   };
 };

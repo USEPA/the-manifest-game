@@ -23,7 +23,7 @@ export const getLayoutElements = (
   nodes: Array<DagNode>;
   edges: Array<Edge>;
 } => {
-  dagreGraph.setGraph({ rankdir: 'TB', nodesep: boolNodeWidth });
+  dagreGraph.setGraph({ rankdir: 'TB' });
 
   nodes.forEach((node) => {
     const nodeHeight = node.type === 'BoolNode' ? boolNodeHeight : defaultNodeHeight;
@@ -42,7 +42,6 @@ export const getLayoutElements = (
       return node as DagNode;
     } else {
       const nodeWithPosition = dagreGraph.node(node.id);
-      console.log(nodeWithPosition);
       const newNode = {
         ...node,
         position: {
