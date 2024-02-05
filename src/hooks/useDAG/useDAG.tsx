@@ -45,8 +45,10 @@ export const useDAG = (initialTree?: PositionUnawareDecisionTree) => {
   useEffect(() => {
     if (initialTree) {
       setDagTree(initialTree);
-      // ToDo: this is a temporary solution to show the first node in the tree
       showDagNode(Object.keys(initialTree)[0]);
+      Object.values(initialTree).forEach((node) => {
+        if (!node.hidden) showDagNode(node.id);
+      });
     }
   }, [initialTree, setDagTree, showDagNode]);
 

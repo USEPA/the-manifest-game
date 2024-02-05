@@ -10,7 +10,6 @@ import { afterEach, describe, expect, it } from 'vitest';
 afterEach(() => cleanup());
 
 const TestComponent = ({ tree }: { tree?: PositionUnawareDecisionTree }) => {
-  const { nodes, edges, onClick } = useDecisionTree(tree);
   const myTree = tree || {
     ['1']: {
       id: '1',
@@ -39,6 +38,7 @@ const TestComponent = ({ tree }: { tree?: PositionUnawareDecisionTree }) => {
       hidden: false,
     },
   };
+  const { nodes, edges, onClick } = useDecisionTree(myTree);
   return <Tree nodes={nodes} edges={edges} onClick={onClick} />;
 };
 
@@ -93,5 +93,62 @@ describe('Tree Component', () => {
     fireEvent.click(parentNode!);
     expect(screen.queryByTestId(`node-${childId2}`)).toBeInTheDocument();
     expect(screen.queryByTestId(`node-${childId3}`)).toBeInTheDocument();
+  });
+  it('hides niblings (the descendants of children) on click', () => {
+    const parentId = '1';
+    const siblingWithChild2 = '2';
+    const sibling3 = '3';
+    const grandchildId = '4';
+    const tree: DecisionTree = {
+      [parentId]: {
+        id: parentId,
+        data: {
+          label: 'this is a question?',
+          children: ['2', '3'],
+          expanded: true,
+        },
+        position: { x: 0, y: 0 },
+        type: 'default',
+        hidden: false,
+      },
+      [siblingWithChild2]: {
+        id: siblingWithChild2,
+        data: {
+          label: 'this is an answer?',
+          children: ['4'],
+          expanded: true,
+        },
+        position: { x: 0, y: 0 },
+        type: 'default',
+        hidden: false,
+      },
+      [sibling3]: {
+        id: sibling3,
+        data: { label: 'this is an answer?', children: [] },
+        position: { x: 0, y: 0 },
+        type: 'default',
+        hidden: false,
+      },
+      [grandchildId]: {
+        id: grandchildId,
+        data: { label: 'this is an answer?', children: [] },
+        position: { x: 0, y: 0 },
+        type: 'default',
+        hidden: false,
+      },
+    };
+    render(
+      <ReactFlowProvider>
+        <TestComponent tree={tree} />
+      </ReactFlowProvider>
+    );
+    const siblingWithoutChild = screen.queryByTestId(`node-${sibling3}`);
+    const siblingWithChild = screen.queryByTestId(`node-${siblingWithChild2}`);
+    const grandchild = screen.queryByTestId(`node-${grandchildId}`);
+    expect(siblingWithChild).toBeInTheDocument();
+    expect(siblingWithoutChild).toBeInTheDocument();
+    expect(grandchild).toBeInTheDocument();
+    fireEvent.click(siblingWithoutChild!);
+    expect(grandchild).not.toBeInTheDocument();
   });
 });
