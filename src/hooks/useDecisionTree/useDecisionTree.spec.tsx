@@ -33,9 +33,10 @@ const TestComponent = ({ initialTree }: { initialTree?: DecisionTree }) => {
 describe('useDecisionTree', () => {
   test('returns an object containing the nodes', () => {
     const myNodes: DecisionTree = {
-      1: {
+      '1': {
         id: '1',
         data: { label: 'foo', children: ['2'] },
+        position: { x: 0, y: 0, rank: 0 },
       },
     };
     render(<TestComponent initialTree={myNodes} />);

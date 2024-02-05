@@ -18,15 +18,15 @@ beforeAll(() => server.listen());
 afterAll(() => server.close());
 
 const TestComponent = () => {
-  const { tree, error, isLoading } = useFetchConfig('/default.json');
+  const { config, error, isLoading } = useFetchConfig('/default.json');
   return (
     <>
       {isLoading && <p>loading...</p>}
       {error && <p>error</p>}
-      {tree && <p>data</p>}
+      {config && <p>data</p>}
       <ul>
-        {tree
-          ? Object.values(tree).map((item) => (
+        {config
+          ? Object.values(config).map((item) => (
               <li key={item.id}>
                 data id: {item.id} - {item.hidden ? 'hidden' : 'visible'}
               </li>

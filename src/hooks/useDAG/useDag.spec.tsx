@@ -36,6 +36,7 @@ describe('useTreeNodes', () => {
         id: '1',
         data: { label: 'foo', children: [] },
         hidden: false,
+        position: { x: 0, y: 0, rank: 0 },
       },
     };
     render(<TestComponent initialTree={initialTree} />);
@@ -47,6 +48,7 @@ describe('useTreeNodes', () => {
         id: '1',
         hidden: false,
         data: { label: 'foo', children: [] },
+        position: { x: 0, y: 0, rank: 0 },
       },
     };
     render(<TestComponent initialTree={initialTree} />);
@@ -62,11 +64,13 @@ describe('useTreeNodes', () => {
         id: parentId,
         hidden: false,
         data: { label: 'foo', children: [childId] },
+        position: { x: 0, y: 0, rank: 0 },
       },
       [childId]: {
         id: childId,
         hidden: true,
         data: { label: 'foo', children: [] },
+        position: { x: 0, y: 0, rank: 0 },
       },
     };
     render(<TestComponent initialTree={initialTree} showNodeId={childId} />);

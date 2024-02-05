@@ -3,7 +3,7 @@ import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import App from 'App';
 import { delay, http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
-import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
+import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 
 const handlers = [
   http.get('/default.json', async () => {
@@ -22,7 +22,10 @@ const handlers = [
 
 const server = setupServer(...handlers);
 
-afterEach(() => cleanup());
+afterEach(() => {
+  cleanup();
+  vi.unstubAllEnvs();
+});
 beforeAll(() => server.listen());
 afterAll(() => server.close());
 
@@ -68,4 +71,16 @@ describe('App', () => {
     await waitFor(() => expect(screen.queryByText('error')).not.toBeInTheDocument());
     expect(screen.queryByTestId(`node-${myNodeId}`)).toBeInTheDocument();
   }, 1000); // timeout in ms
+  it('renders a title if provided', async () => {
+    const title = 'Zee bananas';
+    vi.stubEnv('VITE_APP_TITLE', title);
+    render(<App />);
+    await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
+    expect(screen.getByText(title)).toBeInTheDocument();
+  });
+  it('defaults title to "The Manifest Game"', async () => {
+    render(<App />);
+    await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
+    expect(screen.getByText('The Manifest Game')).toBeInTheDocument();
+  });
 });

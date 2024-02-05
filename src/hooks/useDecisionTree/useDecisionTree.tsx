@@ -1,6 +1,7 @@
 import { useDAG } from 'hooks/useDAG/useDAG';
 import { NodeMouseHandler } from 'reactflow';
-import useStore, { DecisionTree } from 'store';
+import useStore from 'store';
+import { PositionUnawareDecisionTree } from 'store/DagSlice/dagSlice';
 
 /**
  * useDecisionTree
@@ -8,7 +9,7 @@ import useStore, { DecisionTree } from 'store';
  * Returns an array of nodes & edges to be used with the ReactFlow library
  * @param initialTree
  */
-export const useDecisionTree = (initialTree: DecisionTree) => {
+export const useDecisionTree = (initialTree: PositionUnawareDecisionTree) => {
   const { hideDescendants, showChildren } = useDAG(initialTree);
   const { dagNodes, dagEdges } = useStore((state) => state);
 

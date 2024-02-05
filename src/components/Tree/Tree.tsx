@@ -3,10 +3,10 @@ import { DefaultNode } from 'components/Nodes/DefaultNode/DefaultNode';
 import { useDecisionTree } from 'hooks';
 import React, { useMemo } from 'react';
 import ReactFlow, { Background, BackgroundVariant, Controls, MiniMap } from 'reactflow';
-import { DecisionTree } from 'store';
+import { PositionUnawareDecisionTree } from 'store/DagSlice/dagSlice';
 
 export interface TreeProps {
-  tree: DecisionTree;
+  tree: PositionUnawareDecisionTree;
 }
 
 /**
