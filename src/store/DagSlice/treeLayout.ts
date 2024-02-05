@@ -1,5 +1,6 @@
 import dagre from '@dagrejs/dagre';
 import { Edge } from 'reactflow';
+import { createDagEdge } from 'store/DagSlice/dagUtils';
 import { DagNode, TreeNode } from 'store/index';
 
 const dagreGraph = new dagre.graphlib.Graph();
@@ -12,20 +13,22 @@ const boolNodeHeight = defaultNodeHeight + 50;
 const shiftYForHeader = 100;
 const shiftOffEdge = 50;
 
-/** Apply positioning through implementing a Directed Acyclic Graph (DAG)
- * This was pulled from the reactflow documentation
- * https://reactflow.dev/learn/layouting/layouting
- * */
-export const getLayoutElements = (
-  nodes: Array<TreeNode | DagNode>,
-  edges: Array<Edge>
-): {
-  nodes: Array<DagNode>;
-  edges: Array<Edge>;
-} => {
-  dagreGraph.setGraph({ rankdir: 'TB', nodesep: boolNodeWidth });
+/** Accepts a object of position unaware nodes, builds a temporary edges and nodes array,
+ * and returns an object of position aware nodes */
+export const buildDagPositions = (tree: Record<string, TreeNode>) => {
+  dagreGraph.setGraph({ rankdir: 'TB' });
 
-  nodes.forEach((node) => {
+  // build edges
+  const edges: Edge[] = [];
+  Object.values(tree).forEach((node) => {
+    if (node.data.children) {
+      node.data.children.forEach((child) => {
+        edges.push(createDagEdge(node.id, child));
+      });
+    }
+  });
+
+  Object.values(tree).forEach((node) => {
     const nodeHeight = node.type === 'BoolNode' ? boolNodeHeight : defaultNodeHeight;
     const nodeWidth = node.type === 'BoolNode' ? boolNodeWidth : defaultNodeWidth;
     dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
@@ -37,12 +40,11 @@ export const getLayoutElements = (
 
   dagre.layout(dagreGraph);
 
-  const dagNodes = nodes.map((node) => {
+  Object.values(tree).forEach((node) => {
     if ('position' in node) {
       return node as DagNode;
     } else {
       const nodeWithPosition = dagreGraph.node(node.id);
-      console.log(nodeWithPosition);
       const newNode = {
         ...node,
         position: {
@@ -54,5 +56,5 @@ export const getLayoutElements = (
     }
   });
 
-  return { nodes: dagNodes, edges } as { nodes: DagNode[]; edges: Edge[] };
+  return { nodes: tree, edges } as const;
 };

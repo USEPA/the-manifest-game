@@ -1,6 +1,7 @@
 import { Edge, Node } from 'reactflow';
 import { createDagEdge, createDagNode, getDescendantIds } from 'store/DagSlice/dagUtils';
 import { getLayoutElements } from 'store/DagSlice/layout';
+import { buildDagPositions } from 'store/DagSlice/treeLayout';
 import { StateCreator } from 'zustand';
 
 /**
@@ -66,6 +67,10 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
    * @param tree
    */
   setDagTree: (tree: DecisionTree) => {
+    // create a temporary of nodes and edges
+    const { nodes } = buildDagPositions(tree);
+    console.log(nodes);
+
     set(
       {
         dagTree: tree,
