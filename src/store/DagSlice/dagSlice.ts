@@ -1,29 +1,13 @@
+import { BooleanNodeData, NodeData } from 'hooks/useFetchConfig/useFetchConfig';
 import { Edge, Node } from 'reactflow';
 import { createDagEdge, createDagNode, getDescendantIds } from 'store/DagSlice/dagUtils';
-import { buildPositionedTree } from 'store/DagSlice/treeLayout';
+import { buildPositionedTree } from 'store/DagSlice/layout';
 import { StateCreator } from 'zustand';
-
-/**
- * data needed by all TreeNodes that contains the nodes expanded state, the node's children, and the node's text
- */
-export interface NodeConfig {
-  label: string;
-  children: string[];
-  expanded?: boolean;
-}
-
-/**
- * data needed by the BooleanTreeNode to render decisions
- */
-export interface BooleanNodeConfig extends NodeConfig {
-  yesId: string;
-  noId: string;
-}
 
 /** A vertex in our decision tree.*/
 export interface TreeNode extends Omit<Node, 'position'> {
-  data: NodeConfig | BooleanNodeConfig;
-  position?: { x: number; y: number };
+  data: NodeData | BooleanNodeData;
+  position: { x: number; y: number; rank?: number };
 }
 
 /**
@@ -31,6 +15,8 @@ export interface TreeNode extends Omit<Node, 'position'> {
  * There may be some performance optimizations to be made here by using a Map instead of a Object
  */
 export type DecisionTree = Record<string, TreeNode>;
+
+export type PositionUnawareDecisionTree = Record<string, Omit<TreeNode, 'position'>>;
 
 /**
  * A wrapper for the ReactFlow Node
@@ -46,7 +32,7 @@ export type DagSlice = {
   dagTree: DecisionTree;
   dagNodes: DagNode[];
   dagEdges: Edge[];
-  setDagTree: (tree: DecisionTree) => void;
+  setDagTree: (tree: PositionUnawareDecisionTree) => void;
   showDagChildren: (nodeId: string) => void;
   hideDagDescendants: (nodeId: string) => void;
   showDagNode: (nodeId: string, options?: ShowDagNodeOptions) => void;
@@ -61,12 +47,12 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
   dagNodes: [],
   dagTree: {},
   /**
-   * Set the decision tree for the DAG
+   * Set the decision tree and build positions for the DAG from a configuration
    * The decision tree acts as the source of truth for the DAG - we create nodes and edges from it
-   * and then use the DAG to render the graph
+   * and then use the DAG nodes to render the graph
    * @param tree
    */
-  setDagTree: (tree: DecisionTree) => {
+  setDagTree: (tree: PositionUnawareDecisionTree) => {
     const positionAwareTree = buildPositionedTree(tree);
     set(
       {

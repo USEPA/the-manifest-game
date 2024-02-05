@@ -1,8 +1,15 @@
 import dagre from '@dagrejs/dagre';
 import { Edge } from 'reactflow';
-import { DagNode, TreeNode } from 'store/index';
+import { DecisionTree, PositionUnawareDecisionTree } from 'store/DagSlice/dagSlice';
+import { createDagEdge } from 'store/DagSlice/dagUtils';
 
-const dagreGraph = new dagre.graphlib.Graph();
+const dagreGraph = new dagre.graphlib.Graph<{
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  rank: number;
+}>();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
 
 const defaultNodeWidth = 200;
@@ -12,20 +19,26 @@ const boolNodeHeight = defaultNodeHeight + 50;
 const shiftYForHeader = 100;
 const shiftOffEdge = 50;
 
-/** Apply positioning through implementing a Directed Acyclic Graph (DAG)
- * This was pulled from the reactflow documentation
+/** Accepts an object of position unaware nodes, builds a temporary tree
+ * and returns an object of position aware nodes
+ *
+ * This was initially pulled from the reactflow documentation
  * https://reactflow.dev/learn/layouting/layouting
- * */
-export const getLayoutElements = (
-  nodes: Array<TreeNode | DagNode>,
-  edges: Array<Edge>
-): {
-  nodes: Array<DagNode>;
-  edges: Array<Edge>;
-} => {
+ */
+export const buildPositionedTree = (tree: PositionUnawareDecisionTree): DecisionTree => {
   dagreGraph.setGraph({ rankdir: 'TB' });
 
-  nodes.forEach((node) => {
+  // build edges
+  const edges: Edge[] = [];
+  Object.values(tree).forEach((node) => {
+    if (node.data.children && node.data.children.length > 0) {
+      node.data.children.forEach((child) => {
+        edges.push(createDagEdge(node.id, child));
+      });
+    }
+  });
+
+  Object.values(tree).forEach((node) => {
     const nodeHeight = node.type === 'BoolNode' ? boolNodeHeight : defaultNodeHeight;
     const nodeWidth = node.type === 'BoolNode' ? boolNodeWidth : defaultNodeWidth;
     dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
@@ -37,21 +50,19 @@ export const getLayoutElements = (
 
   dagre.layout(dagreGraph);
 
-  const dagNodes = nodes.map((node) => {
-    if ('position' in node) {
-      return node as DagNode;
-    } else {
-      const nodeWithPosition = dagreGraph.node(node.id);
-      const newNode = {
-        ...node,
-        position: {
-          x: nodeWithPosition.x - defaultNodeWidth / 2 + shiftOffEdge,
-          y: nodeWithPosition.y - defaultNodeHeight / 2 + shiftYForHeader,
-        },
-      };
-      return newNode as DagNode;
-    }
+  const decisionTree: DecisionTree = {};
+
+  Object.values(tree).forEach((node) => {
+    const position = dagreGraph.node(node.id);
+    decisionTree[node.id] = {
+      ...node,
+      position: {
+        x: position.x - defaultNodeWidth / 2 + shiftOffEdge,
+        y: position.y - defaultNodeHeight / 2 + shiftYForHeader,
+        rank: position.rank,
+      },
+    };
   });
 
-  return { nodes: dagNodes, edges } as { nodes: DagNode[]; edges: Edge[] };
+  return decisionTree;
 };

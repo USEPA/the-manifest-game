@@ -60,9 +60,20 @@ describe('BoolNode', () => {
           id: primaryId,
           hidden: false,
           data: { label: 'question', children: [yesId, noId] },
+          position: { x: 0, y: 0, rank: 0 },
         },
-        [yesId]: { id: yesId, hidden: true, data: { children: [], label: 'foo' } },
-        [noId]: { id: noId, hidden: true, data: { children: [], label: 'bar' } },
+        [yesId]: {
+          id: yesId,
+          hidden: true,
+          data: { children: [], label: 'foo' },
+          position: { x: 0, y: 0, rank: 0 },
+        },
+        [noId]: {
+          id: noId,
+          hidden: true,
+          data: { children: [], label: 'bar' },
+          position: { x: 0, y: 0, rank: 0 },
+        },
       },
     });
     render(
