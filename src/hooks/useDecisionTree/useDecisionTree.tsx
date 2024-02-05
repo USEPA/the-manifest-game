@@ -8,7 +8,7 @@ import { PositionUnawareDecisionTree } from 'store/DagSlice/dagSlice';
  * Returns an array of nodes & edges to be used with the ReactFlow library
  * @param initialTree
  */
-export const useDecisionTree = (initialTree: PositionUnawareDecisionTree) => {
+export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree) => {
   const { hideDescendants, showChildren, edges, nodes, hideNiblings } = useDAG(initialTree);
 
   /** handle node click events */

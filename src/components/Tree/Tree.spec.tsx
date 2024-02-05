@@ -1,13 +1,16 @@
 import '@testing-library/jest-dom';
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { Tree } from 'components/Tree/Tree';
+import { useDecisionTree } from 'hooks';
 import { ReactFlowProvider } from 'reactflow';
 import { DecisionTree } from 'store';
+import { PositionUnawareDecisionTree } from 'store/DagSlice/dagSlice';
 import { afterEach, describe, expect, it } from 'vitest';
 
 afterEach(() => cleanup());
 
-const TestComponent = ({ tree }: { tree?: DecisionTree }) => {
+const TestComponent = ({ tree }: { tree?: PositionUnawareDecisionTree }) => {
+  const { nodes, edges, onClick } = useDecisionTree(tree);
   const myTree = tree || {
     ['1']: {
       id: '1',
@@ -36,14 +39,14 @@ const TestComponent = ({ tree }: { tree?: DecisionTree }) => {
       hidden: false,
     },
   };
-  return <Tree tree={myTree} />;
+  return <Tree nodes={nodes} edges={edges} onClick={onClick} />;
 };
 
-describe('Tree UI', () => {
+describe('Tree Component', () => {
   it('renders', () => {
     render(
       <ReactFlowProvider>
-        <TestComponent />
+        <Tree nodes={[]} edges={[]} onClick={() => undefined} />
       </ReactFlowProvider>
     );
     expect(screen.getByTestId('decision-tree')).toBeInTheDocument();
@@ -52,7 +55,7 @@ describe('Tree UI', () => {
     const parentId = '1';
     const childId2 = '2';
     const childId3 = '3';
-    const tree = {
+    const tree: DecisionTree = {
       [parentId]: {
         id: parentId,
         data: {
