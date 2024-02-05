@@ -10,8 +10,17 @@ import { PositionUnawareDecisionTree, ShowDagNodeOptions } from 'store/DagSlice/
  * @param initialTree
  */
 export const useDAG = (initialTree?: PositionUnawareDecisionTree) => {
-  const { dagTree, setDagTree, showDagChildren, showDagNode, hideDagDescendants, hideDagNode } =
-    useStore((state) => state);
+  const {
+    dagTree,
+    setDagTree,
+    showDagChildren,
+    showDagNode,
+    hideDagDescendants,
+    hideDagNode,
+    dagNodes,
+    dagEdges,
+    hideNiblings,
+  } = useStore((state) => state);
 
   /** show a node's direct children and the edges leading to them */
   const showChildren = (nodeId: string) => {
@@ -46,6 +55,9 @@ export const useDAG = (initialTree?: PositionUnawareDecisionTree) => {
     showNode,
     hideNode,
     hideDescendants,
+    hideNiblings,
     showChildren,
+    edges: dagEdges,
+    nodes: dagNodes,
   } as const;
 };

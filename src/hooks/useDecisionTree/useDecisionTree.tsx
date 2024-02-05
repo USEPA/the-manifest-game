@@ -1,6 +1,5 @@
 import { useDAG } from 'hooks/useDAG/useDAG';
 import { NodeMouseHandler } from 'reactflow';
-import useStore from 'store';
 import { PositionUnawareDecisionTree } from 'store/DagSlice/dagSlice';
 
 /**
@@ -10,8 +9,7 @@ import { PositionUnawareDecisionTree } from 'store/DagSlice/dagSlice';
  * @param initialTree
  */
 export const useDecisionTree = (initialTree: PositionUnawareDecisionTree) => {
-  const { hideDescendants, showChildren } = useDAG(initialTree);
-  const { dagNodes, dagEdges } = useStore((state) => state);
+  const { hideDescendants, showChildren, edges, nodes, hideNiblings } = useDAG(initialTree);
 
   /** handle node click events */
   const onClick: NodeMouseHandler = (_event, node) => {
@@ -21,6 +19,7 @@ export const useDecisionTree = (initialTree: PositionUnawareDecisionTree) => {
       default:
         if (!node.data.expanded) {
           showChildren(node.id);
+          hideNiblings(node.id);
         } else {
           hideDescendants(node.id);
         }
@@ -28,8 +27,8 @@ export const useDecisionTree = (initialTree: PositionUnawareDecisionTree) => {
   };
 
   return {
-    nodes: dagNodes,
-    edges: dagEdges,
+    nodes,
+    edges,
     onClick,
   } as const;
 };

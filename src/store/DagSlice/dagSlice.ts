@@ -1,6 +1,11 @@
 import { BooleanNodeData, NodeData } from 'hooks/useFetchConfig/useFetchConfig';
 import { Edge, Node } from 'reactflow';
-import { createDagEdge, createDagNode, getDescendantIds } from 'store/DagSlice/dagUtils';
+import {
+  createDagEdge,
+  createDagNode,
+  getDescendantIds,
+  getSiblingIds,
+} from 'store/DagSlice/dagUtils';
 import { buildPositionedTree } from 'store/DagSlice/layout';
 import { StateCreator } from 'zustand';
 
@@ -37,6 +42,7 @@ export type DagSlice = {
   hideDagDescendants: (nodeId: string) => void;
   showDagNode: (nodeId: string, options?: ShowDagNodeOptions) => void;
   hideDagNode: (nodeId: string) => void;
+  hideNiblings: (nodeId: string) => void;
 };
 
 export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]], [], DagSlice> = (
@@ -169,6 +175,27 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
       },
       false,
       'hideDagDescendants'
+    );
+  },
+  /** Hide the descendants of a node's siblings in the tree (the nodes nieces/nephews AKA niblings)*/
+  hideNiblings: (nodeId: string) => {
+    const dagTree = get().dagTree;
+    const dagNodes = get().dagNodes;
+    const dagEdges = get().dagEdges;
+    const siblingIds = getSiblingIds(dagTree, nodeId);
+    const siblingDescendants = siblingIds.flatMap((id) => getDescendantIds(dagTree, id));
+    siblingIds.forEach((id) => (dagTree[id].data.expanded = false));
+    // remove the nieces/nephews nodes and edges
+    const newNodes = dagNodes.filter((node) => !siblingDescendants.includes(node.id));
+    const newEdges = dagEdges.filter((edge) => !siblingDescendants.includes(edge.target));
+    set(
+      {
+        dagTree: dagTree,
+        dagNodes: newNodes,
+        dagEdges: newEdges,
+      },
+      false,
+      'hideNiblings'
     );
   },
 });
