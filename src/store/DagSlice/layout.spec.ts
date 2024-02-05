@@ -9,15 +9,15 @@ describe('DAG layout', () => {
     const positionUnawareTree: PositionUnawareDecisionTree = {
       [nodeId]: {
         id: nodeId,
-        name: 'node',
         data: {
           children: [],
+          label: 'node',
         },
       },
     };
     expect(typeof positionUnawareTree).toBe('object');
     const tree = buildPositionedTree(positionUnawareTree);
-    expect(positionUnawareTree[nodeId].position).not.toBeDefined();
+    expect('position' in positionUnawareTree[nodeId]).toBe(false);
     expect(typeof tree).toBe('object');
     expect(tree[nodeId].position).toBeDefined();
   });

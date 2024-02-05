@@ -12,17 +12,17 @@ import { useFetchConfig } from 'hooks/useFetchConfig/useFetchConfig';
  */
 export default function App() {
   const title = import.meta.env.VITE_APP_TITLE ?? 'The Manifest Game';
-  const { tree, isLoading, error } = useFetchConfig('/default.json');
+  const { config, isLoading, error } = useFetchConfig('/default.json');
 
-  if (isLoading || !tree) return <Spinner />;
+  if (isLoading || !config) return <Spinner />;
 
-  if (error || (!tree && !isLoading)) return <p>error</p>;
+  if (error || (!config && !isLoading)) return <p>error</p>;
 
   return (
     <>
       <ErrorBoundary fallback={<ErrorMsg />}>
         <Header treeTitle={title} />
-        <Tree tree={tree} />
+        <Tree tree={config} />
       </ErrorBoundary>
     </>
   );

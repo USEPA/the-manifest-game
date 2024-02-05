@@ -79,25 +79,25 @@ const parseConfig = (config: TreeConfig): PositionUnawareDecisionTree => {
  * This hook is used to fetch the config from the server.
  */
 export const useFetchConfig = (configPath: string) => {
-  const [tree, setTree] = useState<PositionUnawareDecisionTree>();
+  const [config, setConfig] = useState<PositionUnawareDecisionTree>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<UseFetchConfigError | undefined>();
 
   useEffect(() => {
     setIsLoading(true);
-    setTree(undefined);
+    setConfig(undefined);
     setError(undefined);
     fetch(configPath)
       .then((response) => response.json())
       .then((data) => {
-        setTree(parseConfig(data));
+        setConfig(parseConfig(data));
       })
       .catch((error) => setError(error))
       .finally(() => setIsLoading(false));
   }, [configPath]);
 
   return {
-    tree,
+    config,
     isLoading,
     error,
   } as const;
