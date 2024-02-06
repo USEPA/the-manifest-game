@@ -1,3 +1,5 @@
+import styles from './layoutbtn.module.css';
+
 interface LayoutBtnProps {
   isHorizontal: boolean;
   toggleDirection: () => void;
@@ -7,6 +9,7 @@ interface LayoutBtnProps {
 export const LayoutBtn = ({ isHorizontal, toggleDirection }: LayoutBtnProps) => {
   return (
     <button
+      className={styles.layoutBtn}
       aria-label={`switch to ${isHorizontal ? 'vertical' : 'horizontal'} layout`}
       onClick={toggleDirection}
     >
