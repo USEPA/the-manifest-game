@@ -1,6 +1,7 @@
 import { useDAG } from 'hooks/useDAG/useDAG';
 import { useTreeDirection } from 'hooks/useTreeDirection/useTreeDirection';
-import { Handle, NodeProps, Position } from 'reactflow';
+import { useEffect } from 'react';
+import { Handle, NodeProps, Position, useUpdateNodeInternals } from 'reactflow';
 
 import styles from './bool.module.css';
 
@@ -17,7 +18,14 @@ export const BoolNode = ({
   isConnectable,
 }: NodeProps<BoolNodeData>) => {
   const { showNode, hideNode } = useDAG();
+  const updateNodeInternals = useUpdateNodeInternals();
   const [, , isHorizontal] = useTreeDirection();
+
+  useEffect(() => {
+    // Since we dynamically change the handle locations, we need to update the node internals
+    // or the edges will not be re-rendered by react flow.
+    updateNodeInternals(id);
+  }, [isHorizontal, updateNodeInternals, id]);
 
   const handleYes = () => {
     showNode(yesId, { parentId: id });

@@ -1,5 +1,6 @@
 import { useTreeDirection } from 'hooks/useTreeDirection/useTreeDirection';
-import { Handle, NodeProps, Position } from 'reactflow';
+import { useEffect } from 'react';
+import { Handle, NodeProps, Position, useUpdateNodeInternals } from 'reactflow';
 
 import styles from './default.module.css';
 
@@ -8,9 +9,15 @@ interface BoolNodeData {
 }
 
 export const DefaultNode = ({ data, id, isConnectable }: NodeProps<BoolNodeData>) => {
+  const updateNodeInternals = useUpdateNodeInternals();
   const [, , isHorizontal] = useTreeDirection();
+
+  useEffect(() => {
+    updateNodeInternals(id);
+  }, [isHorizontal, updateNodeInternals, id]);
+
   return (
-    <div data-testid={`node-${id}`}>
+    <div data-testid={`node-${id}`} className="nodrag">
       <Handle
         type="target"
         position={isHorizontal ? Position.Left : Position.Top}
