@@ -11,9 +11,10 @@ describe('LayoutBtn', () => {
     expect(screen.getByRole('button', { name: /switch to vertical layout/i })).toBeInTheDocument();
   });
   it('should toggle layout direction on click', async () => {
+    const user = userEvent.setup();
     const toggleDirection = vi.fn();
     render(<LayoutBtn isHorizontal={true} toggleDirection={toggleDirection} />);
-    await userEvent.click(screen.getByRole('button', { name: /switch to vertical layout/i }));
+    await user.click(screen.getByRole('button', { name: /switch to vertical layout/i }));
     expect(toggleDirection).toHaveBeenCalled();
   });
   it('should update aria-label when layout direction changes', () => {

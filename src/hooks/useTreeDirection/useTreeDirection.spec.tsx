@@ -30,15 +30,17 @@ describe('useTreeDirection', () => {
     expect(screen.getByText('TB')).toBeInTheDocument();
   });
   it('sets the tree direction', async () => {
+    const user = userEvent.setup();
     render(<TestComponent initialDir={'TB'} newDir={'LR'} />);
     const button = screen.getByText('set direction');
-    await userEvent.click(button);
+    await user.click(button);
     expect(screen.queryByText('LR')).toBeInTheDocument();
   });
   it('exposes a boolean that indicates whether the tree layout is horizontal', async () => {
+    const user = userEvent.setup();
     render(<TestComponent initialDir={'LR'} newDir={'TB'} />);
     expect(screen.queryByText('horizontal')).toBeInTheDocument();
-    await userEvent.click(screen.getByText('set direction'));
+    await user.click(screen.getByText('set direction'));
     expect(screen.queryByText('vertical')).toBeInTheDocument();
   });
 });

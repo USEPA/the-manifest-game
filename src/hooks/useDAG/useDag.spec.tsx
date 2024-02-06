@@ -43,6 +43,7 @@ describe('useTreeNodes', () => {
     expect(screen.getByText(/node id: 1/i)).toBeInTheDocument();
   });
   test('hideNode hides a node in the tree from view', async () => {
+    const user = userEvent.setup();
     const initialTree: DecisionTree = {
       '1': {
         id: '1',
@@ -53,10 +54,11 @@ describe('useTreeNodes', () => {
     };
     render(<TestComponent initialTree={initialTree} />);
     expect(screen.getByText(/node id: 1/i)).toBeInTheDocument();
-    await userEvent.click(screen.getByText(/hide node/i));
+    await user.click(screen.getByText(/hide node/i));
     expect(screen.queryByText(/node id: 1/i)).not.toBeInTheDocument();
   });
   test('showNode sets hidden to false for the node ID called', async () => {
+    const user = userEvent.setup();
     const parentId = '1';
     const childId = '2';
     const initialTree: DecisionTree = {
@@ -75,7 +77,7 @@ describe('useTreeNodes', () => {
     };
     render(<TestComponent initialTree={initialTree} showNodeId={childId} />);
     expect(screen.queryByText(/node id: 2/i)).not.toBeInTheDocument();
-    await userEvent.click(screen.getByText(/show node/i));
+    await user.click(screen.getByText(/show node/i));
     expect(screen.queryByText(/node id: 2/i)).toBeInTheDocument();
   });
 });
