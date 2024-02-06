@@ -1,3 +1,4 @@
+import { LayoutBtn } from 'components/Header/LayoutBtn';
 import { DagDirection } from 'store/DagSlice/dagSlice';
 import styles from './header.module.css';
 
@@ -20,12 +21,7 @@ export const Header = ({ treeTitle, setDirection, direction }: HeaderProps) => {
         <div className={styles.headerBanner}>
           <h1>{treeTitle}</h1>
           <div>
-            <button
-              aria-label={`use ${isHorizontal ? 'vertical' : 'horizontal'} layout`}
-              onClick={toggleDirection}
-            >
-              T
-            </button>
+            <LayoutBtn isHorizontal={isHorizontal} toggleDirection={toggleDirection} />
           </div>
         </div>
       </div>
