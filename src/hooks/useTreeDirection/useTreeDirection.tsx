@@ -18,5 +18,7 @@ export const useTreeDirection = (initialDir: DagDirection) => {
     if (initialDir) setDagDirection(initialDir);
   }, [initialDir, setDagDirection]);
 
-  return [direction, setDirection] as const;
+  const isHorizontal: boolean = direction === 'LR';
+
+  return [direction, setDirection, isHorizontal] as const;
 };

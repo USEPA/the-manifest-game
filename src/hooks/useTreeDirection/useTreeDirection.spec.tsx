@@ -14,10 +14,11 @@ const TestComponent = ({
   initialDir?: DagDirection;
   newDir?: DagDirection;
 }) => {
-  const [direction, setDirection] = useTreeDirection(initialDir || 'TB');
+  const [direction, setDirection, isHorizontal] = useTreeDirection(initialDir || 'TB');
   return (
     <>
       <p>{direction}</p>
+      <p>{isHorizontal ? 'horizontal' : 'vertical'}</p>
       <button onClick={() => setDirection(newDir || 'LR')}>set direction</button>
     </>
   );
@@ -33,5 +34,11 @@ describe('useTreeDirection', () => {
     const button = screen.getByText('set direction');
     await userEvent.click(button);
     expect(screen.queryByText('LR')).toBeInTheDocument();
+  });
+  it('exposes a boolean that indicates whether the tree layout is horizontal', async () => {
+    render(<TestComponent initialDir={'LR'} newDir={'TB'} />);
+    expect(screen.queryByText('horizontal')).toBeInTheDocument();
+    await userEvent.click(screen.getByText('set direction'));
+    expect(screen.queryByText('vertical')).toBeInTheDocument();
   });
 });
