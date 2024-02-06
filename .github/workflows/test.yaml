@@ -5,6 +5,7 @@ on:
   pull_request:
     branches: [ 'main' ]
   push:
+    branches-ignore: [ 'main' ]
   workflow_call:
 
 jobs:
@@ -23,7 +24,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
 
       - name: 'Install Dependencies'
         run: npm ci
