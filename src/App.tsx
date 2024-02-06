@@ -12,7 +12,7 @@ import { useTreeDirection } from 'hooks/useTreeDirection/useTreeDirection';
 export default function App() {
   const title = import.meta.env.VITE_APP_TITLE ?? 'The Manifest Game';
   const { config, isLoading, error } = useFetchConfig('/default.json');
-  const [direction, setDirection] = useTreeDirection('TB');
+  const [direction, setDirection] = useTreeDirection();
   const { nodes, edges, onClick } = useDecisionTree(config);
 
   if (isLoading || !config) return <Spinner />;

@@ -57,10 +57,23 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
   dagNodes: [],
   dagTree: {},
   dagDirection: 'TB',
-  setDagDirection: (direction: 'TB' | 'LR') => {
+  setDagDirection: (direction: DagDirection) => {
+    const dagTree = get().dagTree;
+    const dagNodes = get().dagNodes;
+    const rebuiltDagTree = buildPositionedTree(dagTree, direction);
+    const rebuiltNodes = dagNodes.map((node) => {
+      const newNode = { ...node };
+      newNode.position = {
+        x: rebuiltDagTree[node.id].position.x,
+        y: rebuiltDagTree[node.id].position.y,
+      };
+      return newNode;
+    });
     set(
       {
         dagDirection: direction,
+        dagTree: rebuiltDagTree,
+        dagNodes: rebuiltNodes,
       },
       false,
       'setDagDirection'

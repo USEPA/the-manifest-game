@@ -26,9 +26,10 @@ const shiftOffEdge = 50;
  * https://reactflow.dev/learn/layouting/layouting
  */
 export const buildPositionedTree = (
-  tree: PositionUnawareDecisionTree,
+  tree?: PositionUnawareDecisionTree,
   direction: DagDirection = 'TB'
 ): DecisionTree => {
+  if (!tree) return {};
   dagreGraph.setGraph({ rankdir: direction });
 
   // build edges
