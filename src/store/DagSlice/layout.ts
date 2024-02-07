@@ -64,7 +64,6 @@ export const buildPositionedTree = (
         rank: position.rank,
       },
     };
-    console.log(decisionTree[node.id].position);
   });
 
   return decisionTree;
