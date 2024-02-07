@@ -1,8 +1,14 @@
-.defaultNodeText p {
+.defaultNodeText {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     margin: 5px 10px 5px 10px;
     font-size: 1.2em;
 }
 
+.defaultNodeHeader {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin: 0 5px 0 0;
+}

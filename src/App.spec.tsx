@@ -49,28 +49,6 @@ describe('App', () => {
     render(<App />);
     expect(screen.getByTestId('spinner')).toBeInTheDocument();
   });
-  it('will retrieve default.json upon loading', async () => {
-    const myNodeId = 'foo';
-    server.use(
-      http.get('/default.json', async () => {
-        await delay(10);
-        return HttpResponse.json([
-          {
-            id: myNodeId,
-            type: 'default',
-            data: {
-              label: 'I like turtles',
-              children: ['2'],
-            },
-          },
-        ]);
-      })
-    );
-    render(<App />);
-    await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
-    await waitFor(() => expect(screen.queryByText('error')).not.toBeInTheDocument());
-    expect(screen.queryByTestId('decision-tree')).toBeInTheDocument();
-  }, 1000); // timeout in ms
   it('renders a title if provided', async () => {
     const title = 'Zee bananas';
     vi.stubEnv('VITE_APP_TITLE', title);

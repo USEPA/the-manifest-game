@@ -28,7 +28,8 @@ export const createDagNode = (id: string, config: Partial<TreeNode>): DagNode =>
     type: config.type ?? 'default',
     hidden: false,
     connectable: false,
-    draggable: false,
+    dragHandle: '.node-drag-handle',
+    draggable: true,
     // @ts-expect-error - we are converting TreeNode to position aware once loaded into the store
     position: config.position,
     ...config,
@@ -54,8 +55,7 @@ export const getSiblingIds = (tree: DecisionTree, id: string): string[] => {
   const node = tree[id];
   if (node.position.rank === undefined) throw new Error('Node must have a rank to find siblings');
   const rank = node.position.rank;
-  const siblingIds = Object.values(tree)
+  return Object.values(tree)
     .filter((n) => n.position.rank === rank && n.id !== id)
     .map((n) => n.id);
-  return siblingIds;
 };

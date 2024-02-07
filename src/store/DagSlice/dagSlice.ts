@@ -1,5 +1,14 @@
 import { BooleanNodeData, NodeData } from 'hooks/useFetchConfig/useFetchConfig';
-import { Edge, Node } from 'reactflow';
+import {
+  applyEdgeChanges,
+  applyNodeChanges,
+  Edge,
+  EdgeChange,
+  Node,
+  NodeChange,
+  OnEdgesChange,
+  OnNodesChange,
+} from 'reactflow';
 import {
   createDagEdge,
   createDagNode,
@@ -47,6 +56,8 @@ export type DagSlice = {
   hideDagNode: (nodeId: string) => void;
   hideNiblings: (nodeId: string) => void;
   setDagDirection: (direction: 'TB' | 'LR') => void;
+  onNodesChange: OnNodesChange;
+  onEdgesChange: OnEdgesChange;
 };
 
 export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]], [], DagSlice> = (
@@ -56,6 +67,16 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
   dagEdges: [],
   dagNodes: [],
   dagTree: {},
+  onNodesChange: (changes: NodeChange[]) => {
+    set({
+      dagNodes: applyNodeChanges(changes, get().dagNodes),
+    });
+  },
+  onEdgesChange: (changes: EdgeChange[]) => {
+    set({
+      dagEdges: applyEdgeChanges(changes, get().dagEdges),
+    });
+  },
   dagDirection: 'TB',
   setDagDirection: (direction: DagDirection) => {
     const dagTree = get().dagTree;
