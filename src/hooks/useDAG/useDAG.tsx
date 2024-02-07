@@ -20,6 +20,8 @@ export const useDAG = (initialTree?: PositionUnawareDecisionTree) => {
     dagNodes,
     dagEdges,
     hideNiblings,
+    onNodesChange,
+    onEdgesChange,
   } = useStore((state) => state);
 
   /** show a node's direct children and the edges leading to them */
@@ -61,5 +63,7 @@ export const useDAG = (initialTree?: PositionUnawareDecisionTree) => {
     showChildren,
     edges: dagEdges,
     nodes: dagNodes,
+    onEdgesChange,
+    onNodesChange,
   } as const;
 };
