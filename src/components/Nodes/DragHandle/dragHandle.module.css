@@ -1,21 +1,17 @@
 span.grip {
-    content: '....';
-    width: 10px;
-    height: 20px;
     display: inline-block;
     overflow: hidden;
-    line-height: 5px;
-    padding: 3px 4px;
+    padding: 10px;
     cursor: move;
     vertical-align: middle;
     font-size: 14px;
     font-family: sans-serif;
     letter-spacing: 2px;
-    color: #cccccc;
-    text-shadow: 1px 0 5px #282727;
 }
 
 span.grip::after {
-    content: '... ... ...';
+    content: '⠿';
+    font-size: 1.6rem;
+    color: #cccccc;
 }
 
