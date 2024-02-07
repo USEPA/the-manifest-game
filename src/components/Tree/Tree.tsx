@@ -9,12 +9,13 @@ export interface TreeProps {
   nodes: DagNode[];
   edges: Edge[];
   onClick: NodeMouseHandler;
+  mapVisible?: boolean;
 }
 
 /**
  * Tree - responsible for rendering the decision tree
  */
-export const Tree = ({ nodes, edges, onClick }: TreeProps) => {
+export const Tree = ({ nodes, edges, onClick, mapVisible }: TreeProps) => {
   const nodeTypes = useMemo(() => ({ BoolNode: BoolNode, default: DefaultNode }), []);
   const { onNodesChange, onEdgesChange } = useDAG();
 
@@ -32,7 +33,7 @@ export const Tree = ({ nodes, edges, onClick }: TreeProps) => {
           fitViewOptions={{ padding: 4 }}
           proOptions={{ hideAttribution: true }}
         >
-          <MiniMap nodeStrokeWidth={3} data-testid="tree-mini-map" />
+          {mapVisible && <MiniMap nodeStrokeWidth={3} data-testid="tree-mini-map" />}
           <Controls />
         </ReactFlow>
       </div>

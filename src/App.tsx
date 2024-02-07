@@ -23,8 +23,14 @@ export default function App() {
 
   return (
     <>
-      <Header treeTitle={title} direction={direction} setDirection={setDirection} />
-      <Tree nodes={nodes} edges={edges} onClick={onClick} />
+      <Header
+        treeTitle={title}
+        direction={direction}
+        setDirection={setDirection}
+        mapVisible={mapVisible}
+        setMapVisible={setMapVisible}
+      />
+      <Tree nodes={nodes} edges={edges} onClick={onClick} mapVisible={mapVisible} />
     </>
   );
 }

@@ -7,13 +7,25 @@ interface HeaderProps {
   treeTitle: string;
   direction: DagDirection;
   setDirection: (direction: DagDirection) => void;
+  mapVisible: boolean;
+  setMapVisible: (visible: boolean) => void;
 }
 
-export const Header = ({ treeTitle, setDirection, direction }: HeaderProps) => {
+export const Header = ({
+  treeTitle,
+  setDirection,
+  direction,
+  setMapVisible,
+  mapVisible,
+}: HeaderProps) => {
   const isHorizontal = direction === 'LR';
 
   const toggleDirection = () => {
     setDirection(direction === 'TB' ? 'LR' : 'TB');
+  };
+
+  const toggleMap = () => {
+    setMapVisible(!mapVisible);
   };
 
   return (
@@ -23,7 +35,7 @@ export const Header = ({ treeTitle, setDirection, direction }: HeaderProps) => {
           <h1>{treeTitle}</h1>
           <div className={styles.headerControls}>
             <LayoutBtn isHorizontal={isHorizontal} toggleDirection={toggleDirection} />
-            <MiniMapBtn visible={true} toggleMap={() => undefined} />
+            <MiniMapBtn visible={mapVisible} toggleMap={toggleMap} />
           </div>
         </div>
       </div>
