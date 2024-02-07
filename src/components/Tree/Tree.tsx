@@ -35,6 +35,9 @@ export const Tree = ({ nodes, edges, onClick }: TreeProps) => {
           onNodeClick={onClick}
           onEdgesChange={onEdgesChange}
           onNodesChange={onNodesChange}
+          fitView
+          fitViewOptions={{ padding: 4 }}
+          proOptions={{ hideAttribution: true }}
         >
           <Background variant={BackgroundVariant.Dots} />
           <MiniMap nodeStrokeWidth={3} />
