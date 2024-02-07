@@ -2,14 +2,7 @@ import { BoolNode } from 'components/Nodes/BoolNode/BoolNode';
 import { DefaultNode } from 'components/Nodes/DefaultNode/DefaultNode';
 import { useDAG } from 'hooks';
 import React, { useMemo } from 'react';
-import ReactFlow, {
-  Background,
-  BackgroundVariant,
-  Controls,
-  Edge,
-  MiniMap,
-  NodeMouseHandler,
-} from 'reactflow';
+import ReactFlow, { Controls, Edge, MiniMap, NodeMouseHandler } from 'reactflow';
 import { DagNode } from 'store/DagSlice/dagSlice';
 
 export interface TreeProps {
@@ -39,7 +32,6 @@ export const Tree = ({ nodes, edges, onClick }: TreeProps) => {
           fitViewOptions={{ padding: 4 }}
           proOptions={{ hideAttribution: true }}
         >
-          <Background variant={BackgroundVariant.Dots} />
           <MiniMap nodeStrokeWidth={3} />
           <Controls />
         </ReactFlow>
