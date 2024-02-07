@@ -1,8 +1,8 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { LayoutBtn } from 'components/Header/Controls/LayoutBtn/LayoutBtn';
 import { describe, expect, it, vi } from 'vitest';
-import { LayoutBtn } from './LayoutBtn';
 
 describe('LayoutBtn', () => {
   it('should render with initial layout direction', () => {

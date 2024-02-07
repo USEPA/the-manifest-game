@@ -1,5 +1,5 @@
+import styles from 'components/Header/Controls/LayoutBtn/layoutbtn.module.css';
 import { LuMoveHorizontal, LuMoveVertical } from 'react-icons/lu';
-import styles from './layoutbtn.module.css';
 
 interface LayoutBtnProps {
   isHorizontal: boolean;

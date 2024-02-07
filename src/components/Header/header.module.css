@@ -28,3 +28,9 @@
     font-size: 1.5em;
     margin: 0;
 }
+
+.headerControls {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}

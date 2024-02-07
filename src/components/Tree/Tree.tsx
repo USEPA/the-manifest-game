@@ -32,7 +32,7 @@ export const Tree = ({ nodes, edges, onClick }: TreeProps) => {
           fitViewOptions={{ padding: 4 }}
           proOptions={{ hideAttribution: true }}
         >
-          <MiniMap nodeStrokeWidth={3} />
+          <MiniMap nodeStrokeWidth={3} data-testid="tree-mini-map" />
           <Controls />
         </ReactFlow>
       </div>

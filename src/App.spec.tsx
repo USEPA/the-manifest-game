@@ -65,4 +65,9 @@ describe('App', () => {
     // ToDo - implement this test
     expect(true).toBe(true);
   });
+  it('minimap is visible by default', async () => {
+    render(<App />);
+    await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
+    expect(screen.getByTestId(/minimap/i)).toBeInTheDocument();
+  });
 });

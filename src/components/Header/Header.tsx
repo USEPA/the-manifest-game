@@ -1,4 +1,5 @@
-import { LayoutBtn } from 'components/Header/LayoutBtn';
+import { LayoutBtn } from 'components/Header/Controls/LayoutBtn/LayoutBtn';
+import { MiniMapBtn } from 'components/Header/Controls/MiniMapBtn/MiniMapBtn';
 import { DagDirection } from 'store/DagSlice/dagSlice';
 import styles from './header.module.css';
 
@@ -20,8 +21,9 @@ export const Header = ({ treeTitle, setDirection, direction }: HeaderProps) => {
       <div className={styles.treeHeader}>
         <div className={styles.headerBanner}>
           <h1>{treeTitle}</h1>
-          <div>
+          <div className={styles.headerControls}>
             <LayoutBtn isHorizontal={isHorizontal} toggleDirection={toggleDirection} />
+            <MiniMapBtn visible={true} toggleMap={() => undefined} />
           </div>
         </div>
       </div>
