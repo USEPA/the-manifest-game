@@ -28,7 +28,7 @@ export const createDagNode = (id: string, config: Partial<TreeNode>): DagNode =>
     type: config.type ?? 'default',
     hidden: false,
     connectable: false,
-    dragHandle: '.custom-drag-handle',
+    dragHandle: '.node-drag-handle',
     draggable: true,
     // @ts-expect-error - we are converting TreeNode to position aware once loaded into the store
     position: config.position,

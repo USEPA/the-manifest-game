@@ -1,3 +1,4 @@
+import { DragHandle } from 'components/Nodes/DragHandle/DragHandle';
 import { useTreeDirection } from 'hooks/useTreeDirection/useTreeDirection';
 import { useEffect } from 'react';
 import { Handle, NodeProps, Position, useUpdateNodeInternals } from 'reactflow';
@@ -17,14 +18,15 @@ export const DefaultNode = ({ data, id, isConnectable }: NodeProps<BoolNodeData>
   }, [isHorizontal, updateNodeInternals, id]);
 
   return (
-    <div data-testid={`node-${id}`} className="nodrag">
+    <div data-testid={`node-${id}`}>
       <Handle
         type="target"
         position={isHorizontal ? Position.Left : Position.Top}
         isConnectable={isConnectable}
       />
       <div className={styles.defaultNodeText}>
-        <p>{data.label}</p>
+        <span>{data.label}</span>
+        <DragHandle />
       </div>
       <Handle
         type="source"

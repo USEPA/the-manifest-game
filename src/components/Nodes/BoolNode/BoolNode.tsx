@@ -1,3 +1,4 @@
+import { DragHandle } from 'components/Nodes/DragHandle/DragHandle';
 import { useDAG } from 'hooks/useDAG/useDAG';
 import { useTreeDirection } from 'hooks/useTreeDirection/useTreeDirection';
 import { useEffect } from 'react';
@@ -37,15 +38,6 @@ export const BoolNode = ({
     hideNode(yesId);
   };
 
-  const dragHandleStyle = {
-    display: 'inline-block',
-    width: 25,
-    height: 25,
-    backgroundColor: 'teal',
-    marginLeft: 5,
-    borderRadius: '50%',
-  };
-
   return (
     <div data-testid={`node-${id}`}>
       <Handle
@@ -53,9 +45,9 @@ export const BoolNode = ({
         position={isHorizontal ? Position.Left : Position.Top}
         isConnectable={isConnectable}
       />
-      <span className="custom-drag-handle" style={dragHandleStyle} />
       <div className={styles.boolNodeText}>
-        <p>{label}</p>
+        <span>{label}</span>
+        <DragHandle />
       </div>
       <div className={styles.boolNodeOptions}>
         <button onClick={handleYes}>Yes</button>
