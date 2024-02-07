@@ -12,12 +12,10 @@ const dagreGraph = new dagre.graphlib.Graph<{
 }>();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-const defaultNodeWidth = 200;
+const defaultNodeWidth = 400;
 const defaultNodeHeight = 150;
 const boolNodeWidth = defaultNodeWidth + 50;
 const boolNodeHeight = defaultNodeHeight + 50;
-const shiftYForHeader = 100;
-const shiftOffEdge = 50;
 
 /** Accepts an object of position unaware nodes, builds a temporary tree
  * and returns an object of position aware nodes
@@ -61,11 +59,12 @@ export const buildPositionedTree = (
     decisionTree[node.id] = {
       ...node,
       position: {
-        x: position.x - defaultNodeWidth / 2 + shiftOffEdge,
-        y: position.y - defaultNodeHeight / 2 + shiftYForHeader,
+        x: position.x - defaultNodeWidth / 2,
+        y: position.y - defaultNodeHeight / 2,
         rank: position.rank,
       },
     };
+    console.log(decisionTree[node.id].position);
   });
 
   return decisionTree;
