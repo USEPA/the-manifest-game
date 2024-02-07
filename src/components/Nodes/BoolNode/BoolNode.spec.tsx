@@ -51,6 +51,7 @@ describe('BoolNode', () => {
     expect(screen.getByRole('button', { name: /no/i })).toBeInTheDocument();
   });
   it('clicking yes/no toggles the visibility of the children nodes', async () => {
+    const user = userEvent.setup();
     const primaryId = '1';
     const yesId = '2';
     const noId = '3';
@@ -86,9 +87,9 @@ describe('BoolNode', () => {
         />
       </ReactFlowProvider>
     );
-    await userEvent.click(screen.getByRole('button', { name: /yes/i }));
+    await user.click(screen.getByRole('button', { name: /yes/i }));
     expect(useStore.getState().dagTree[yesId].hidden).toBe(false);
-    await userEvent.click(screen.getByRole('button', { name: /no/i }));
+    await user.click(screen.getByRole('button', { name: /no/i }));
     expect(useStore.getState().dagTree[yesId].hidden).toBe(true);
   });
 });

@@ -1,6 +1,6 @@
 import dagre from '@dagrejs/dagre';
 import { Edge } from 'reactflow';
-import { DecisionTree, PositionUnawareDecisionTree } from 'store/DagSlice/dagSlice';
+import { DagDirection, DecisionTree, PositionUnawareDecisionTree } from 'store/DagSlice/dagSlice';
 import { createDagEdge } from 'store/DagSlice/dagUtils';
 
 const dagreGraph = new dagre.graphlib.Graph<{
@@ -25,8 +25,12 @@ const shiftOffEdge = 50;
  * This was initially pulled from the reactflow documentation
  * https://reactflow.dev/learn/layouting/layouting
  */
-export const buildPositionedTree = (tree: PositionUnawareDecisionTree): DecisionTree => {
-  dagreGraph.setGraph({ rankdir: 'TB' });
+export const buildPositionedTree = (
+  tree?: PositionUnawareDecisionTree,
+  direction: DagDirection = 'TB'
+): DecisionTree => {
+  if (!tree) return {};
+  dagreGraph.setGraph({ rankdir: direction });
 
   // build edges
   const edges: Edge[] = [];

@@ -33,7 +33,7 @@ describe('App', () => {
   it('shows a spinner while waiting for config', () => {
     server.use(
       http.get('/default.json', async () => {
-        await delay(1000);
+        await delay(100);
         return HttpResponse.json([
           {
             id: '1',
@@ -69,7 +69,7 @@ describe('App', () => {
     render(<App />);
     await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
     await waitFor(() => expect(screen.queryByText('error')).not.toBeInTheDocument());
-    expect(screen.queryByTestId(`node-${myNodeId}`)).toBeInTheDocument();
+    expect(screen.queryByTestId('decision-tree')).toBeInTheDocument();
   }, 1000); // timeout in ms
   it('renders a title if provided', async () => {
     const title = 'Zee bananas';

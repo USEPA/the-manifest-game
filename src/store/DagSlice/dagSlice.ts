@@ -33,16 +33,20 @@ export interface ShowDagNodeOptions {
   parentId?: string;
 }
 
+export type DagDirection = 'TB' | 'LR';
+
 export type DagSlice = {
   dagTree: DecisionTree;
   dagNodes: DagNode[];
   dagEdges: Edge[];
+  dagDirection: DagDirection;
   setDagTree: (tree: PositionUnawareDecisionTree) => void;
   showDagChildren: (nodeId: string) => void;
   hideDagDescendants: (nodeId: string) => void;
   showDagNode: (nodeId: string, options?: ShowDagNodeOptions) => void;
   hideDagNode: (nodeId: string) => void;
   hideNiblings: (nodeId: string) => void;
+  setDagDirection: (direction: 'TB' | 'LR') => void;
 };
 
 export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]], [], DagSlice> = (
@@ -52,6 +56,29 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
   dagEdges: [],
   dagNodes: [],
   dagTree: {},
+  dagDirection: 'TB',
+  setDagDirection: (direction: DagDirection) => {
+    const dagTree = get().dagTree;
+    const dagNodes = get().dagNodes;
+    const rebuiltDagTree = buildPositionedTree(dagTree, direction);
+    const rebuiltNodes = dagNodes.map((node) => {
+      const newNode = { ...node };
+      newNode.position = {
+        x: rebuiltDagTree[node.id].position.x,
+        y: rebuiltDagTree[node.id].position.y,
+      };
+      return newNode;
+    });
+    set(
+      {
+        dagDirection: direction,
+        dagTree: rebuiltDagTree,
+        dagNodes: rebuiltNodes,
+      },
+      false,
+      'setDagDirection'
+    );
+  },
   /**
    * Set the decision tree and build positions for the DAG from a configuration
    * The decision tree acts as the source of truth for the DAG - we create nodes and edges from it
