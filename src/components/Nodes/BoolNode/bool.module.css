@@ -1,3 +1,11 @@
+.boolNodeContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+}
+
 .boolNodeText p {
     display: flex;
     justify-content: center;
@@ -22,11 +30,3 @@
     cursor: pointer;
 }
 
-.dragHandle {
-    display: inline-block;
-    width: 25px;
-    height: 25px;
-    background-color: teal;
-    margin-left: 5px;
-    border-radius: 50%;
-}
