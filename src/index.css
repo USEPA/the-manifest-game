@@ -1,12 +1,10 @@
 :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.2;
-    --card-color: linear-gradient(180deg, #3e6d9b 0%, #2b5d8f 100%);
-
+    --card-color: linear-gradient(150deg, #3e6d9b 0%, #2b5d8f 100%);
     color-scheme: light dark;
     color: rgba(255, 255, 255, 0.87);
     background-color: #242424;
-
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -29,13 +27,12 @@ body {
 
 @media (prefers-color-scheme: dark) {
     :root {
-        color: rgba(255, 255, 255, 0.87);
         background-color: #334155;
     }
 }
 
 .react-flow__node {
-    border: none;
+    border: 3px inset transparent;
     padding: 10px;
     font-size: 1.2rem;
     color: #fff;
@@ -52,4 +49,6 @@ body {
 
 .react-flow__node-default.selectable:hover {
     box-shadow: 0 10px 20px 2px rgba(0, 0, 0, 0.25);
+    border: 3px inset #fff;
+    cursor: pointer;
 }
