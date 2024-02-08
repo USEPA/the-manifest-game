@@ -4,6 +4,7 @@ import { Tree } from 'components/Tree/Tree';
 import { useDecisionTree } from 'hooks';
 import { useFetchConfig } from 'hooks/useFetchConfig/useFetchConfig';
 import { useTreeDirection } from 'hooks/useTreeDirection/useTreeDirection';
+import { useState } from 'react';
 
 /**
  * App - responsible for rendering the decision tree
@@ -14,6 +15,7 @@ export default function App() {
   const { config, isLoading, error } = useFetchConfig('/default.json');
   const [direction, setDirection] = useTreeDirection();
   const { nodes, edges, onClick } = useDecisionTree(config);
+  const [mapVisible, setMapVisible] = useState(true);
 
   if (isLoading || !config) return <Spinner />;
 
@@ -21,8 +23,14 @@ export default function App() {
 
   return (
     <>
-      <Header treeTitle={title} direction={direction} setDirection={setDirection} />
-      <Tree nodes={nodes} edges={edges} onClick={onClick} />
+      <Header
+        treeTitle={title}
+        direction={direction}
+        setDirection={setDirection}
+        mapVisible={mapVisible}
+        setMapVisible={setMapVisible}
+      />
+      <Tree nodes={nodes} edges={edges} onClick={onClick} mapVisible={mapVisible} />
     </>
   );
 }

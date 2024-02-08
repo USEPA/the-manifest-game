@@ -1,4 +1,5 @@
-import styles from './layoutbtn.module.css';
+import styles from 'components/Header/Controls/LayoutBtn/layoutbtn.module.css';
+import { LuMoveHorizontal, LuMoveVertical } from 'react-icons/lu';
 
 interface LayoutBtnProps {
   isHorizontal: boolean;
@@ -13,7 +14,7 @@ export const LayoutBtn = ({ isHorizontal, toggleDirection }: LayoutBtnProps) => 
       aria-label={`switch to ${isHorizontal ? 'vertical' : 'horizontal'} layout`}
       onClick={toggleDirection}
     >
-      {isHorizontal ? <span>&#8597;</span> : <span>&harr;</span>}
+      {isHorizontal ? <LuMoveVertical /> : <LuMoveHorizontal />}
     </button>
   );
 };

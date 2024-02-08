@@ -25,6 +25,7 @@ export const BaseNode = ({ id, isConnectable, children }: BaseNodeProps) => {
   return (
     <div data-testid={`node-${id}`}>
       <Handle
+        data-testid={`${isHorizontal ? 'left' : 'top'}-handle`}
         type="target"
         position={isHorizontal ? Position.Left : Position.Top}
         isConnectable={isConnectable}
@@ -34,6 +35,7 @@ export const BaseNode = ({ id, isConnectable, children }: BaseNodeProps) => {
         <DragHandle />
       </div>
       <Handle
+        data-testid={`${isHorizontal ? 'right' : 'bottom'}-handle`}
         type="source"
         position={isHorizontal ? Position.Right : Position.Bottom}
         id={id}
