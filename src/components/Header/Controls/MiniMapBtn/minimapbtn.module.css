@@ -11,7 +11,7 @@
     justify-content: center;
     font-weight: bold;
     border-radius: 10px;
-    color: #3e6d9b;
+    color: #334155;
     background-color: #fafbfc;
     border: 1px solid #1b1f2326;
     box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0 0, rgba(255, 255, 255, 0.25) 0 1px 0 0 inset;
@@ -21,7 +21,7 @@
 
 .miniMapBtn:hover {
     color: #ffffff;
-    background-color: #242424;
+    background-color: #334155;
     border-color: #1b1f2326;
     box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0 0, rgba(255, 255, 255, 0.03) 0 1px 0 0 inset;
     transition-duration: 0.1s;
