@@ -52,3 +52,7 @@ body {
     border: 3px inset #fff;
     cursor: pointer;
 }
+
+.react-flow__minimap-node {
+    fill: rgba(62, 109, 155, 0.67);
+}
