@@ -34,7 +34,7 @@ export const Tree = ({ nodes, edges, onClick, mapVisible }: TreeProps) => {
           proOptions={{ hideAttribution: true }}
         >
           {mapVisible && <MiniMap nodeStrokeWidth={3} data-testid="tree-mini-map" />}
-          <Controls />
+          <Controls showInteractive={false} />
         </ReactFlow>
       </div>
     </>
