@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { DecisionTree } from 'store/DagSlice/dagSlice';
-import { createDagEdge, getSiblingIds } from 'store/DagSlice/dagUtils';
-import { describe, expect, test } from 'vitest';
+import { applyPositionToNodes, createDagEdge, getSiblingIds } from 'store/DagSlice/dagUtils';
+import { describe, expect, it, test } from 'vitest';
 
 describe('Dag Slice internal functions', () => {
   test('takes 2 Id and returns an edge', () => {
@@ -54,5 +54,41 @@ describe('Dag Slice internal functions', () => {
     expect(getSiblingIds(tree, siblingId2)).toEqual([siblingId3, siblingId4]);
     expect(getSiblingIds(tree, siblingId3)).toEqual([siblingId2, siblingId4]);
     expect(getSiblingIds(tree, siblingId4)).toEqual([siblingId2, siblingId3]);
+  });
+  it('Applies tree positions to nodes', () => {
+    const oldX = 0;
+    const oldY = 10;
+    const newX = 100;
+    const newY = 156;
+    const tree: DecisionTree = {
+      ['1']: {
+        id: '1',
+        data: {
+          label: 'this is a question?',
+          yesId: '2',
+          noId: '3',
+          children: [],
+        },
+        position: { x: newX, y: newY, rank: 0 },
+        type: 'BoolNode',
+        hidden: false,
+      },
+    };
+    const existingNodes = [
+      {
+        id: '1',
+        data: {
+          label: 'this is a question?',
+          yesId: '2',
+          noId: '3',
+          children: [],
+        },
+        position: { x: oldX, y: oldY },
+        type: 'BoolNode',
+        hidden: false,
+      },
+    ];
+    const nodesWithPositions = applyPositionToNodes(tree, existingNodes);
+    expect(nodesWithPositions[0].position).toEqual({ x: newX, y: newY });
   });
 });

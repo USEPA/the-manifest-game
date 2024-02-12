@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { PositionUnawareDecisionTree } from 'store/DagSlice/dagSlice';
-import { buildPositionedTree } from 'store/DagSlice/layout';
+import { layoutTree } from 'store/DagSlice/layout';
 import { describe, expect, it } from 'vitest';
 
 describe('DAG layout', () => {
@@ -16,7 +16,7 @@ describe('DAG layout', () => {
       },
     };
     expect(typeof positionUnawareTree).toBe('object');
-    const tree = buildPositionedTree(positionUnawareTree);
+    const tree = layoutTree(positionUnawareTree);
     expect('position' in positionUnawareTree[nodeId]).toBe(false);
     expect(typeof tree).toBe('object');
     expect(tree[nodeId].position).toBeDefined();
@@ -41,8 +41,8 @@ describe('DAG layout', () => {
       },
     };
     const direction = 'LR';
-    const horizontalTree = buildPositionedTree(positionUnawareTree, direction);
-    const verticalTree = buildPositionedTree(positionUnawareTree);
+    const horizontalTree = layoutTree(positionUnawareTree, direction);
+    const verticalTree = layoutTree(positionUnawareTree);
     expect(horizontalTree[parentId].position.x).toBeLessThan(horizontalTree[childId].position.x);
     expect(verticalTree[parentId].position.y).toBeLessThan(verticalTree[childId].position.y);
   });

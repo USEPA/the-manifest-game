@@ -31,12 +31,12 @@ describe('BaseNode', () => {
     expect(screen.getByTestId('node-1')).toBeInTheDocument();
   });
   it('handles changes in tree layout', () => {
-    useStore.setState({ dagDirection: 'LR' });
+    useStore.setState({ treeDirection: 'LR' });
     const { rerender } = render(<TestComponent />);
     expect(screen.getByTestId('left-handle')).toBeInTheDocument();
     expect(screen.getByTestId('right-handle')).toBeInTheDocument();
     act(() => {
-      useStore.setState({ dagDirection: 'TB' });
+      useStore.setState({ treeDirection: 'TB' });
     });
     rerender(<TestComponent />);
     expect(screen.getByTestId('top-handle')).toBeInTheDocument();

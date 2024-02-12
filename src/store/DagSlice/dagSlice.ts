@@ -10,12 +10,13 @@ import {
   OnNodesChange,
 } from 'reactflow';
 import {
+  applyPositionToNodes,
   createDagEdge,
   createDagNode,
   getDescendantIds,
   getSiblingIds,
 } from 'store/DagSlice/dagUtils';
-import { buildPositionedTree } from 'store/DagSlice/layout';
+import { layoutTree } from 'store/DagSlice/layout';
 import { StateCreator } from 'zustand';
 
 /** A vertex in our decision tree.*/
@@ -32,10 +33,7 @@ export type DecisionTree = Record<string, TreeNode>;
 
 export type PositionUnawareDecisionTree = Record<string, Omit<TreeNode, 'position'>>;
 
-/**
- * A wrapper for the ReactFlow Node
- * (to make things easier to read and avoid the IDE trying to use the Node.js runtime)
- */
+/**A wrapper for the ReactFlow Node */
 export interface DagNode extends Node {}
 
 export interface ShowDagNodeOptions {
@@ -44,21 +42,39 @@ export interface ShowDagNodeOptions {
 
 export type DagDirection = 'TB' | 'LR';
 
-export type DagSlice = {
-  dagTree: DecisionTree;
+interface DagState {
+  decisionTree: DecisionTree;
   dagNodes: DagNode[];
   dagEdges: Edge[];
-  dagDirection: DagDirection;
-  setDagTree: (tree: PositionUnawareDecisionTree) => void;
+  treeDirection: DagDirection;
+}
+
+interface DagActions {
+  /**
+   * Set the decision tree and build node positions for the DAG from a configuration
+   * The decision tree acts as the source of truth for the DAG - we create nodes and edges from it
+   * and update the decision tree when changes are made to the DAG
+   */
+  setDecisionTree: (tree: PositionUnawareDecisionTree) => void;
+  /** Show the direct children of a node in the tree */
   showDagChildren: (nodeId: string) => void;
+  /** Hide the descendants of a node in the tree */
   hideDagDescendants: (nodeId: string) => void;
+  /** Show a node in the tree - Currently does not create edges*/
   showDagNode: (nodeId: string, options?: ShowDagNodeOptions) => void;
+  /** Hide a node and all of its descendants*/
   hideDagNode: (nodeId: string) => void;
-  hideNiblings: (nodeId: string) => void;
-  setDagDirection: (direction: 'TB' | 'LR') => void;
+  /** Hide the descendants of a node's siblings in the tree (the nodes nieces/nephews AKA niblings)*/
+  hideDagNiblings: (nodeId: string) => void;
+  /** Set the layout direction */
+  setDagDirection: (direction: DagDirection) => void;
+  /** Used to apply update to existing nodes - used by the react-flow library*/
   onNodesChange: OnNodesChange;
+  /** Used to apply update to existing edges - used by the react-flow library*/
   onEdgesChange: OnEdgesChange;
-};
+}
+
+export interface DagSlice extends DagState, DagActions {}
 
 export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]], [], DagSlice> = (
   set,
@@ -66,96 +82,74 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
 ) => ({
   dagEdges: [],
   dagNodes: [],
-  dagTree: {},
+  decisionTree: {},
   onNodesChange: (changes: NodeChange[]) => {
-    set({
-      dagNodes: applyNodeChanges(changes, get().dagNodes),
-    });
-  },
-  onEdgesChange: (changes: EdgeChange[]) => {
-    set({
-      dagEdges: applyEdgeChanges(changes, get().dagEdges),
-    });
-  },
-  dagDirection: 'TB',
-  setDagDirection: (direction: DagDirection) => {
-    const dagTree = get().dagTree;
-    const dagNodes = get().dagNodes;
-    const rebuiltDagTree = buildPositionedTree(dagTree, direction);
-    const rebuiltNodes = dagNodes.map((node) => {
-      const newNode = { ...node };
-      newNode.position = {
-        x: rebuiltDagTree[node.id].position.x,
-        y: rebuiltDagTree[node.id].position.y,
-      };
-      return newNode;
-    });
     set(
       {
-        dagDirection: direction,
-        dagTree: rebuiltDagTree,
-        dagNodes: rebuiltNodes,
+        dagNodes: applyNodeChanges(changes, get().dagNodes),
+      },
+      false,
+      'onNodesChange'
+    );
+  },
+  onEdgesChange: (changes: EdgeChange[]) => {
+    set(
+      {
+        dagEdges: applyEdgeChanges(changes, get().dagEdges),
+      },
+      false,
+      'onEdgesChange'
+    );
+  },
+  treeDirection: 'TB',
+  setDagDirection: (treeDirection: DagDirection) => {
+    const decisionTree = layoutTree(get().decisionTree, treeDirection);
+    const dagNodes = applyPositionToNodes(decisionTree, get().dagNodes);
+    set(
+      {
+        treeDirection,
+        decisionTree,
+        dagNodes,
       },
       false,
       'setDagDirection'
     );
   },
-  /**
-   * Set the decision tree and build positions for the DAG from a configuration
-   * The decision tree acts as the source of truth for the DAG - we create nodes and edges from it
-   * and then use the DAG nodes to render the graph
-   * @param tree
-   */
-  setDagTree: (tree: PositionUnawareDecisionTree) => {
-    const positionAwareTree = buildPositionedTree(tree);
+  setDecisionTree: (tree: PositionUnawareDecisionTree) => {
+    const positionAwareTree = layoutTree(tree);
     set(
       {
-        dagTree: positionAwareTree,
+        decisionTree: positionAwareTree,
       },
       false,
       'setNewTree'
     );
   },
-  /**
-   * Show a node in the tree - Currently does not create edges
-   * @param nodeId
-   * @param options
-   */
   showDagNode: (nodeId: string, options?: ShowDagNodeOptions) => {
-    // Get the data for the tree
-    const dagTree = { ...get().dagTree };
-    const dagNodes = [...get().dagNodes.filter((node) => node.id !== nodeId)];
-    const dagEdges = [...get().dagEdges];
-    dagTree[nodeId].hidden = false;
-    const newNode = createDagNode(nodeId, dagTree[nodeId]);
+    const decisionTree = setNodeVisible(get().decisionTree, nodeId);
+    const dagEdges = get().dagEdges;
+    const dagNodes = removeNodes(get().dagNodes, [nodeId]);
+    const newNode = createDagNode(nodeId, decisionTree[nodeId]);
     if (options?.parentId) {
       dagEdges.push(createDagEdge(options.parentId, nodeId));
     }
     set(
       {
-        dagTree: dagTree,
+        decisionTree,
         dagNodes: [...dagNodes, newNode],
-        dagEdges: dagEdges,
+        dagEdges,
       },
       false,
       'showDagNode'
     );
   },
-  /**
-   * Hide a node and all of its descendants
-   * @param nodeId
-   */
   hideDagNode: (nodeId: string) => {
-    const dagTree = get().dagTree;
-    const dagNodes = get().dagNodes;
-    const dagEdges = get().dagEdges;
-    dagTree[nodeId].hidden = true;
-    // remove the node and edges
-    const newNodes = dagNodes.filter((node) => node.id !== nodeId);
-    const newEdges = dagEdges.filter((edge) => edge.target !== nodeId);
+    const tree = setNodesHidden(get().decisionTree, [nodeId]);
+    const newNodes = removeNodes(get().dagNodes, [nodeId]);
+    const newEdges = get().dagEdges.filter((edge) => edge.target !== nodeId);
     set(
       {
-        dagTree: dagTree,
+        decisionTree: tree,
         dagNodes: newNodes,
         dagEdges: newEdges,
       },
@@ -163,87 +157,94 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
       'hideDagNode'
     );
   },
-  /**
-   * Show the direct children of a node in the tree
-   * @param nodeId
-   */
   showDagChildren: (nodeId: string) => {
-    // Get the data for the node
-    const dagTree = get().dagTree;
-    const treeNode = dagTree[nodeId];
-    const dagEdges = get().dagEdges;
-    const dagNodes = get().dagNodes;
-    if (!treeNode.data.children) return;
-    // Get the children nodes
-    const childrenNodes = treeNode.data.children.map((childId) => ({
-      ...dagTree[childId],
-      type: dagTree[childId].type ?? 'default',
-    }));
-    const newEdges = childrenNodes.map((childNode) => {
-      return createDagEdge(nodeId, childNode.id);
-    });
-    // create the new nodes
-    const newNodes = childrenNodes.map((childNode) => {
-      return createDagNode(childNode.id, { ...childNode, hidden: false });
-    });
-    // set the children as not hidden in the tree
-    const newTree = { ...dagTree };
-    childrenNodes.forEach((childNode) => (newTree[childNode.id].hidden = false));
-    newTree[nodeId].data.expanded = true;
+    const tree = setExpanded(get().decisionTree, [nodeId]);
+    const childrenData = getTreeChildren(tree, tree[nodeId]);
+    const newEdges = createChildrenEdges(nodeId, childrenData);
+    const newNodes = createChildrenNodes(childrenData);
+    childrenData.forEach((childNode) => (tree[childNode.id].hidden = false));
     set(
       {
-        dagNodes: [...dagNodes, ...newNodes],
-        dagEdges: [...dagEdges, ...newEdges],
-        dagTree: newTree,
+        dagNodes: [...get().dagNodes, ...newNodes],
+        dagEdges: [...get().dagEdges, ...newEdges],
+        decisionTree: tree,
       },
       false,
       'showNewChildren'
     );
   },
-  /**
-   * Hide the descendants of a node in the tree
-   * @param nodeId
-   */
   hideDagDescendants: (nodeId: string) => {
-    const dagTree = get().dagTree;
-    const dagNodes = get().dagNodes;
-    const dagEdges = get().dagEdges;
+    const dagTree = get().decisionTree;
     const childrenIds = getDescendantIds(dagTree, nodeId);
-    childrenIds.forEach((id) => (dagTree[id].hidden = true));
-    // remove the children nodes and edges
-    const newNodes = dagNodes.filter((node) => !childrenIds.includes(node.id));
-    const newEdges = dagEdges.filter((edge) => !childrenIds.includes(edge.target));
-    // set parent as not expanded
-    dagTree[nodeId].data.expanded = false;
+    const tmpTree = setNodesHidden(dagTree, childrenIds);
+    const filterNodes = removeNodes(get().dagNodes, childrenIds);
+    const filteredEdges = get().dagEdges.filter((edge) => !childrenIds.includes(edge.target));
+    const newTree = setCollapsed(tmpTree, [...childrenIds, nodeId]);
     set(
       {
-        dagTree: dagTree,
-        dagNodes: newNodes,
-        dagEdges: newEdges,
+        decisionTree: newTree,
+        dagNodes: filterNodes,
+        dagEdges: filteredEdges,
       },
       false,
       'hideDagDescendants'
     );
   },
-  /** Hide the descendants of a node's siblings in the tree (the nodes nieces/nephews AKA niblings)*/
-  hideNiblings: (nodeId: string) => {
-    const dagTree = get().dagTree;
-    const dagNodes = get().dagNodes;
-    const dagEdges = get().dagEdges;
+  hideDagNiblings: (nodeId: string) => {
+    const dagTree = get().decisionTree;
     const siblingIds = getSiblingIds(dagTree, nodeId);
-    const siblingDescendants = siblingIds.flatMap((id) => getDescendantIds(dagTree, id));
-    siblingIds.forEach((id) => (dagTree[id].data.expanded = false));
-    // remove the nieces/nephews nodes and edges
-    const newNodes = dagNodes.filter((node) => !siblingDescendants.includes(node.id));
-    const newEdges = dagEdges.filter((edge) => !siblingDescendants.includes(edge.target));
+    const siblingDescendantIds = siblingIds.flatMap((id) => getDescendantIds(dagTree, id));
+    const newTree = setCollapsed(dagTree, [...siblingDescendantIds, ...siblingIds]);
+    const dagNodes = removeNodes(get().dagNodes, siblingDescendantIds);
+    const dagEdges = get().dagEdges.filter((edge) => !siblingDescendantIds.includes(edge.target));
     set(
       {
-        dagTree: dagTree,
-        dagNodes: newNodes,
-        dagEdges: newEdges,
+        decisionTree: newTree,
+        dagNodes,
+        dagEdges,
       },
       false,
       'hideNiblings'
     );
   },
 });
+
+const getTreeChildren = (tree: DecisionTree, treeNode: TreeNode): DagNode[] => {
+  return treeNode.data.children.map((childId) => ({
+    ...tree[childId],
+  }));
+};
+
+const createChildrenEdges = (parentId: string, children: TreeNode[]): Edge[] => {
+  return children.map((child) => createDagEdge(parentId, child.id));
+};
+
+const createChildrenNodes = (children: TreeNode[]): DagNode[] => {
+  return children.map((treeNode) => {
+    return createDagNode(treeNode.id, { ...treeNode, hidden: false });
+  });
+};
+
+const removeNodes = (nodes: DagNode[], ids: string[]): DagNode[] => {
+  return nodes.filter((node) => !ids.includes(node.id));
+};
+
+const setExpanded = (tree: DecisionTree, nodeIds: string[]) => {
+  nodeIds.forEach((id) => (tree[id].data.expanded = true));
+  return tree;
+};
+
+const setCollapsed = (tree: DecisionTree, nodeIds: string[]) => {
+  nodeIds.forEach((id) => (tree[id].data.expanded = false));
+  return tree;
+};
+
+const setNodeVisible = (tree: DecisionTree, nodeId: string) => {
+  tree[nodeId].hidden = false;
+  return tree;
+};
+
+const setNodesHidden = (tree: DecisionTree, nodeIds: string[]) => {
+  nodeIds.forEach((id) => (tree[id].hidden = true));
+  return tree;
+};

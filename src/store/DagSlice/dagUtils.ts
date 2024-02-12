@@ -59,3 +59,15 @@ export const getSiblingIds = (tree: DecisionTree, id: string): string[] => {
     .filter((n) => n.position.rank === rank && n.id !== id)
     .map((n) => n.id);
 };
+
+/** Apply the positions from the tree to our existing nodes */
+export const applyPositionToNodes = (tree: DecisionTree, nodes: DagNode[]) => {
+  return nodes.map((node) => {
+    const newNode = { ...node };
+    newNode.position = {
+      x: tree[node.id].position.x,
+      y: tree[node.id].position.y,
+    };
+    return newNode;
+  });
+};

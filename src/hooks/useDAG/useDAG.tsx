@@ -11,15 +11,15 @@ import { PositionUnawareDecisionTree, ShowDagNodeOptions } from 'store/DagSlice/
  */
 export const useDAG = (initialTree?: PositionUnawareDecisionTree) => {
   const {
-    dagTree,
-    setDagTree,
+    decisionTree,
+    setDecisionTree: setTree,
     showDagChildren,
     showDagNode,
     hideDagDescendants,
     hideDagNode,
     dagNodes,
     dagEdges,
-    hideNiblings,
+    hideDagNiblings,
     onNodesChange,
     onEdgesChange,
   } = useStore((state) => state);
@@ -37,6 +37,12 @@ export const useDAG = (initialTree?: PositionUnawareDecisionTree) => {
   /** hide a node and all descendant nodes and edges */
   const hideNode = (nodeId: string) => {
     hideDagNode(nodeId);
+    hideDagDescendants(nodeId);
+  };
+
+  /** hide a node's nieces/nephews (the descendants of its siblings) */
+  const hideNiblings = (nodeId: string) => {
+    hideDagNiblings(nodeId);
   };
 
   /** show a node and the edge leading to it */
@@ -46,16 +52,16 @@ export const useDAG = (initialTree?: PositionUnawareDecisionTree) => {
 
   useEffect(() => {
     if (initialTree) {
-      setDagTree(initialTree);
+      setTree(initialTree);
       showDagNode(Object.keys(initialTree)[0]);
       Object.values(initialTree).forEach((node) => {
         if (!node.hidden) showDagNode(node.id);
       });
     }
-  }, [initialTree, setDagTree, showDagNode]);
+  }, [initialTree, setTree, showDagNode]);
 
   return {
-    tree: dagTree,
+    tree: decisionTree,
     showNode,
     hideNode,
     hideDescendants,
