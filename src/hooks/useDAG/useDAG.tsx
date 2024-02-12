@@ -19,7 +19,7 @@ export const useDAG = (initialTree?: PositionUnawareDecisionTree) => {
     hideDagNode,
     dagNodes,
     dagEdges,
-    hideNiblings,
+    hideDagNiblings,
     onNodesChange,
     onEdgesChange,
   } = useStore((state) => state);
@@ -37,6 +37,12 @@ export const useDAG = (initialTree?: PositionUnawareDecisionTree) => {
   /** hide a node and all descendant nodes and edges */
   const hideNode = (nodeId: string) => {
     hideDagNode(nodeId);
+    hideDagDescendants(nodeId);
+  };
+
+  /** hide a node's nieces/nephews (the descendants of its siblings) */
+  const hideNiblings = (nodeId: string) => {
+    hideDagNiblings(nodeId);
   };
 
   /** show a node and the edge leading to it */

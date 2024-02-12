@@ -65,7 +65,7 @@ interface DagActions {
   /** Hide a node and all of its descendants*/
   hideDagNode: (nodeId: string) => void;
   /** Hide the descendants of a node's siblings in the tree (the nodes nieces/nephews AKA niblings)*/
-  hideNiblings: (nodeId: string) => void;
+  hideDagNiblings: (nodeId: string) => void;
   /** Set the layout direction */
   setDagDirection: (direction: DagDirection) => void;
   /** Used to apply update to existing nodes - used by the react-flow library*/
@@ -149,8 +149,7 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
     const dagNodes = get().dagNodes;
     const dagEdges = get().dagEdges;
     tree[nodeId].hidden = true;
-    const descendantIds = getDescendantIds(tree, nodeId);
-    const newNodes = removeNodes(dagNodes, [...descendantIds, nodeId]);
+    const newNodes = removeNodes(dagNodes, [nodeId]);
     const newEdges = dagEdges.filter((edge) => edge.target !== nodeId);
     set(
       {
@@ -199,7 +198,7 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
       'hideDagDescendants'
     );
   },
-  hideNiblings: (nodeId: string) => {
+  hideDagNiblings: (nodeId: string) => {
     const dagTree = get().decisionTree;
     const siblingIds = getSiblingIds(dagTree, nodeId);
     const siblingDescendants = siblingIds.flatMap((id) => getDescendantIds(dagTree, id));
