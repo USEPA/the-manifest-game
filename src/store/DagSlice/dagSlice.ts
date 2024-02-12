@@ -44,26 +44,31 @@ export interface ShowDagNodeOptions {
 
 export type DagDirection = 'TB' | 'LR';
 
-export type DagSlice = {
+interface DagState {
   dagTree: DecisionTree;
   dagNodes: DagNode[];
   dagEdges: Edge[];
   dagDirection: DagDirection;
+}
+
+interface DagActions {
   setDagTree: (tree: PositionUnawareDecisionTree) => void;
   showDagChildren: (nodeId: string) => void;
   hideDagDescendants: (nodeId: string) => void;
   showDagNode: (nodeId: string, options?: ShowDagNodeOptions) => void;
   hideDagNode: (nodeId: string) => void;
   hideNiblings: (nodeId: string) => void;
-  setDagDirection: (direction: 'TB' | 'LR') => void;
+  setDagDirection: (direction: DagDirection) => void;
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
-};
+}
 
-export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]], [], DagSlice> = (
-  set,
-  get
-) => ({
+export const createDagSlice: StateCreator<
+  DagActions & DagState,
+  [['zustand/devtools', never]],
+  [],
+  DagState & DagActions
+> = (set, get) => ({
   dagEdges: [],
   dagNodes: [],
   dagTree: {},
