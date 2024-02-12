@@ -2,6 +2,7 @@
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.2;
     --card-color: linear-gradient(150deg, #3e6d9b 0%, #2b5d8f 100%);
+    --card-color-hover: linear-gradient(150deg, #346391 0%, #215385 100%);
     color-scheme: light dark;
     color: rgba(255, 255, 255, 0.87);
     background-color: #242424;
@@ -23,27 +24,11 @@ body {
         color: #213547;
         background-color: #e5e5e5;
     }
-
-    .react-flow__controls button:hover {
-        color: #ffffff;
-        background-color: #334155;
-        border-color: #1b1f2326;
-        box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0 0, rgba(255, 255, 255, 0.03) 0 1px 0 0 inset;
-        transition-duration: 0.1s;
-    }
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
         background-color: #334155;
-    }
-
-    .react-flow__controls button:hover {
-        color: #ffffff;
-        background-color: #3e6d9b;
-        border-color: #1b1f2326;
-        box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0 0, rgba(255, 255, 255, 0.03) 0 1px 0 0 inset;
-        transition-duration: 0.1s;
     }
 }
 
@@ -55,18 +40,12 @@ body {
     cursor: auto;
     background: var(--card-color);
     min-width: 300px;
-    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.5);
     border-radius: 20px;
 }
 
-.react-flow__node-default.selectable {
-    -webkit-transition: box-shadow .2s ease-out;
-}
-
 .react-flow__node-default.selectable:hover {
-    box-shadow: 0 10px 20px 2px rgba(0, 0, 0, 0.25);
-    border: 3px inset #fff;
     cursor: pointer;
+    background: var(--card-color-hover);
 }
 
 .react-flow__minimap-node {
@@ -79,6 +58,10 @@ body {
 
 .react-flow__minimap svg {
     border-radius: 20px;
+}
+
+.react-flow__controls {
+    box-shadow: none;
 }
 
 .react-flow__controls button {
