@@ -11,8 +11,8 @@ import { PositionUnawareDecisionTree, ShowDagNodeOptions } from 'store/DagSlice/
  */
 export const useDAG = (initialTree?: PositionUnawareDecisionTree) => {
   const {
-    dagTree,
-    setDagTree,
+    decisionTree,
+    setDecisionTree: setTree,
     showDagChildren,
     showDagNode,
     hideDagDescendants,
@@ -46,16 +46,16 @@ export const useDAG = (initialTree?: PositionUnawareDecisionTree) => {
 
   useEffect(() => {
     if (initialTree) {
-      setDagTree(initialTree);
+      setTree(initialTree);
       showDagNode(Object.keys(initialTree)[0]);
       Object.values(initialTree).forEach((node) => {
         if (!node.hidden) showDagNode(node.id);
       });
     }
-  }, [initialTree, setDagTree, showDagNode]);
+  }, [initialTree, setTree, showDagNode]);
 
   return {
-    tree: dagTree,
+    tree: decisionTree,
     showNode,
     hideNode,
     hideDescendants,

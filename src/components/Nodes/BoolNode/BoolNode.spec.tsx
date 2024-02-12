@@ -56,7 +56,7 @@ describe('BoolNode', () => {
     const yesId = '2';
     const noId = '3';
     useStore.setState({
-      dagTree: {
+      decisionTree: {
         [primaryId]: {
           id: primaryId,
           hidden: false,
@@ -88,8 +88,8 @@ describe('BoolNode', () => {
       </ReactFlowProvider>
     );
     await user.click(screen.getByRole('button', { name: /yes/i }));
-    expect(useStore.getState().dagTree[yesId].hidden).toBe(false);
+    expect(useStore.getState().decisionTree[yesId].hidden).toBe(false);
     await user.click(screen.getByRole('button', { name: /no/i }));
-    expect(useStore.getState().dagTree[yesId].hidden).toBe(true);
+    expect(useStore.getState().decisionTree[yesId].hidden).toBe(true);
   });
 });

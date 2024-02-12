@@ -7,7 +7,7 @@ import { DagDirection } from 'store/DagSlice/dagSlice';
  * the values of a DagDirection.
  */
 export const useTreeDirection = (initialDir?: DagDirection) => {
-  const { dagDirection: direction, setDagDirection } = useStore((state) => state);
+  const { treeDirection: direction, setDagDirection } = useStore((state) => state);
 
   /** set the direction of the tree layout */
   const setDirection = (direction: DagDirection) => {

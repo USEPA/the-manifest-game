@@ -12,8 +12,8 @@ afterEach(() => {
 });
 beforeEach(() => {
   useStore.setState({
-    dagDirection: 'TB',
-    dagTree: {
+    treeDirection: 'TB',
+    decisionTree: {
       '1': {
         id: '1',
         position: { x: 0, y: 0 },
