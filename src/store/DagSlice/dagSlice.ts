@@ -158,33 +158,20 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
     );
   },
   showDagChildren: (nodeId: string) => {
-    // Get the data for the node
-    const dagTree = get().decisionTree;
-    const treeNode = dagTree[nodeId];
+    const tree = get().decisionTree;
+    const treeNode = tree[nodeId];
     const dagEdges = get().dagEdges;
     const dagNodes = get().dagNodes;
-    if (!treeNode.data.children) return;
-    // Get the children nodes
-    const childrenNodes = treeNode.data.children.map((childId) => ({
-      ...dagTree[childId],
-      type: dagTree[childId].type ?? 'default',
-    }));
-    const newEdges = childrenNodes.map((childNode) => {
-      return createDagEdge(nodeId, childNode.id);
-    });
-    // create the new nodes
-    const newNodes = childrenNodes.map((childNode) => {
-      return createDagNode(childNode.id, { ...childNode, hidden: false });
-    });
-    // set the children as not hidden in the tree
-    const newTree = { ...dagTree };
-    childrenNodes.forEach((childNode) => (newTree[childNode.id].hidden = false));
-    newTree[nodeId].data.expanded = true;
+    const childrenData = getTreeChildren(tree, treeNode);
+    const newEdges = createChildrenEdges(nodeId, childrenData);
+    const newNodes = createChildrenNodes(childrenData);
+    childrenData.forEach((childNode) => (tree[childNode.id].hidden = false));
+    tree[nodeId].data.expanded = true;
     set(
       {
         dagNodes: [...dagNodes, ...newNodes],
         dagEdges: [...dagEdges, ...newEdges],
-        decisionTree: newTree,
+        decisionTree: tree,
       },
       false,
       'showNewChildren'
@@ -232,3 +219,19 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
     );
   },
 });
+
+const getTreeChildren = (tree: DecisionTree, treeNode: TreeNode): DagNode[] => {
+  return treeNode.data.children.map((childId) => ({
+    ...tree[childId],
+  }));
+};
+
+const createChildrenEdges = (parentId: string, children: TreeNode[]): Edge[] => {
+  return children.map((child) => createDagEdge(parentId, child.id));
+};
+
+const createChildrenNodes = (children: TreeNode[]): DagNode[] => {
+  return children.map((treeNode) => {
+    return createDagNode(treeNode.id, { ...treeNode, hidden: false });
+  });
+};
