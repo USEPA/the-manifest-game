@@ -30,7 +30,7 @@ export const Tree = ({ nodes, edges, onClick, mapVisible }: TreeProps) => {
           onEdgesChange={onEdgesChange}
           onNodesChange={onNodesChange}
           fitView
-          fitViewOptions={{ padding: 4 }}
+          fitViewOptions={{ padding: 5 }}
           proOptions={{ hideAttribution: true }}
         >
           {mapVisible && <MiniMap nodeStrokeWidth={3} data-testid="tree-mini-map" />}

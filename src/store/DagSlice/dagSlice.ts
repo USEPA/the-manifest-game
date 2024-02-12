@@ -126,19 +126,19 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
     );
   },
   showDagNode: (nodeId: string, options?: ShowDagNodeOptions) => {
-    const dagTree = { ...get().decisionTree };
-    const dagNodes = [...get().dagNodes.filter((node) => node.id !== nodeId)];
-    const dagEdges = [...get().dagEdges];
-    dagTree[nodeId].hidden = false;
-    const newNode = createDagNode(nodeId, dagTree[nodeId]);
+    const decisionTree = get().decisionTree;
+    const dagEdges = get().dagEdges;
+    const dagNodes = removeNodes(get().dagNodes, [nodeId]);
+    decisionTree[nodeId].hidden = false;
+    const newNode = createDagNode(nodeId, decisionTree[nodeId]);
     if (options?.parentId) {
       dagEdges.push(createDagEdge(options.parentId, nodeId));
     }
     set(
       {
-        decisionTree: dagTree,
+        decisionTree,
         dagNodes: [...dagNodes, newNode],
-        dagEdges: dagEdges,
+        dagEdges,
       },
       false,
       'showDagNode'
@@ -146,11 +146,9 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
   },
   hideDagNode: (nodeId: string) => {
     const tree = get().decisionTree;
-    const dagNodes = get().dagNodes;
-    const dagEdges = get().dagEdges;
     tree[nodeId].hidden = true;
-    const newNodes = removeNodes(dagNodes, [nodeId]);
-    const newEdges = dagEdges.filter((edge) => edge.target !== nodeId);
+    const newNodes = removeNodes(get().dagNodes, [nodeId]);
+    const newEdges = get().dagEdges.filter((edge) => edge.target !== nodeId);
     set(
       {
         decisionTree: tree,
