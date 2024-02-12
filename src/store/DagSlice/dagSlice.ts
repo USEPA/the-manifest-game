@@ -10,12 +10,13 @@ import {
   OnNodesChange,
 } from 'reactflow';
 import {
+  applyPositionToNodes,
   createDagEdge,
   createDagNode,
   getDescendantIds,
   getSiblingIds,
 } from 'store/DagSlice/dagUtils';
-import { buildPositionedTree } from 'store/DagSlice/layout';
+import { layoutTree } from 'store/DagSlice/layout';
 import { StateCreator } from 'zustand';
 
 /** A vertex in our decision tree.*/
@@ -93,30 +94,23 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
     });
   },
   treeDirection: 'TB',
-  setDagDirection: (direction: DagDirection) => {
-    const dagTree = get().decisionTree;
-    const dagNodes = get().dagNodes;
-    const rebuiltDagTree = buildPositionedTree(dagTree, direction);
-    const rebuiltNodes = dagNodes.map((node) => {
-      const newNode = { ...node };
-      newNode.position = {
-        x: rebuiltDagTree[node.id].position.x,
-        y: rebuiltDagTree[node.id].position.y,
-      };
-      return newNode;
-    });
+  setDagDirection: (treeDirection: DagDirection) => {
+    const oldTree = get().decisionTree;
+    const oldNodes = get().dagNodes;
+    const decisionTree = layoutTree(oldTree, treeDirection);
+    const dagNodes = applyPositionToNodes(decisionTree, oldNodes);
     set(
       {
-        treeDirection: direction,
-        decisionTree: rebuiltDagTree,
-        dagNodes: rebuiltNodes,
+        treeDirection,
+        decisionTree,
+        dagNodes,
       },
       false,
       'setDagDirection'
     );
   },
   setDecisionTree: (tree: PositionUnawareDecisionTree) => {
-    const positionAwareTree = buildPositionedTree(tree);
+    const positionAwareTree = layoutTree(tree);
     set(
       {
         decisionTree: positionAwareTree,

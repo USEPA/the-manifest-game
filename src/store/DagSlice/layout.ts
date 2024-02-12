@@ -23,7 +23,7 @@ const boolNodeHeight = defaultNodeHeight + 50;
  * This was initially pulled from the reactflow documentation
  * https://reactflow.dev/learn/layouting/layouting
  */
-export const buildPositionedTree = (
+export const layoutTree = (
   tree?: PositionUnawareDecisionTree,
   direction: DagDirection = 'TB'
 ): DecisionTree => {
