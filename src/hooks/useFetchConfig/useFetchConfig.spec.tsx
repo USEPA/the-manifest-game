@@ -7,7 +7,16 @@ import { afterAll, afterEach, beforeAll, describe, expect, test } from 'vitest';
 
 const handlers = [
   http.get('/default.json', () => {
-    return HttpResponse.json({ nodes: [{ id: '1', type: 'default', label: 'foo', children: [] }] });
+    return HttpResponse.json({
+      nodes: [
+        {
+          id: '1',
+          type: 'default',
+          label: 'foo',
+          data: { children: [] },
+        },
+      ],
+    });
   }),
 ];
 
@@ -29,6 +38,15 @@ const TestComponent = () => {
           ? Object.values(config).map((item) => (
               <li key={item.id}>
                 data id: {item.id} - {item.hidden ? 'hidden' : 'visible'}
+                {/*List the children on the node*/}
+                <ul>
+                  {item.data.children &&
+                    item.data.children.map((child, index) => (
+                      <li key={index}>
+                        node {item.id} child {child}
+                      </li>
+                    ))}
+                </ul>
               </li>
             ))
           : null}
@@ -54,9 +72,9 @@ describe('useFetchConfig', async () => {
       http.get('/default.json', () =>
         HttpResponse.json({
           nodes: [
-            { id: '1', type: 'default', label: 'foo', children: [] },
-            { id: '2', type: 'default', label: 'bar', children: [] },
-            { id: '3', type: 'BoolNode', label: 'bool', children: [] },
+            { id: '1', type: 'default', label: 'foo', data: { children: [] } },
+            { id: '2', type: 'default', label: 'bar', data: { children: [] } },
+            { id: '3', type: 'BoolNode', label: 'bool', data: { yesId: '3', noId: '5' } },
           ],
         })
       )
@@ -78,5 +96,24 @@ describe('useFetchConfig', async () => {
     expect(screen.queryByText(/data/i)).not.toBeInTheDocument();
     await waitFor(() => screen.queryByText(/data/i));
     expect(screen.queryByText('error')).toBeInTheDocument();
+  });
+  test('takes boolean node yes and no ID elements and adds them to the children array', async () => {
+    server.use(
+      http.get('/default.json', () =>
+        HttpResponse.json({
+          nodes: [
+            { id: '1', type: 'BoolNode', label: 'bool', data: { yesId: '2', noId: '3' } },
+            { id: '2', label: 'default', data: {} },
+            { id: '3', label: 'default', data: {} },
+          ],
+        })
+      )
+    );
+    render(<TestComponent />);
+    expect(screen.queryByText(/data/i)).not.toBeInTheDocument();
+    await waitFor(() => screen.queryByText(/data/i));
+    screen.debug();
+    expect(screen.queryByText('node 1 child 2')).toBeInTheDocument();
+    expect(screen.queryByText('node 1 child 3')).toBeInTheDocument();
   });
 });

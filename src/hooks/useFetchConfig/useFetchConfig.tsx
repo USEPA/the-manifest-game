@@ -22,8 +22,16 @@ export interface BooleanNodeData extends NodeData {
 /** Configuration for an individual node, part of the larger config*/
 export interface NodeConfig {
   id: string;
-  data: NodeData | BooleanNodeData;
-  type?: string;
+}
+
+interface BooleanNodeConfig extends NodeConfig {
+  type: 'BoolNode';
+  data: BooleanNodeData;
+}
+
+interface DefaultNodeConfig extends NodeConfig {
+  type: 'default';
+  data: NodeData;
 }
 
 /**
@@ -32,7 +40,7 @@ export interface NodeConfig {
  */
 export type ConfigFile = {
   name: string;
-  nodes?: Array<NodeConfig>;
+  nodes?: Array<DefaultNodeConfig | BooleanNodeConfig>;
 };
 
 interface UseFetchConfigError {
@@ -48,10 +56,12 @@ const parseConfig = (config: ConfigFile): PositionUnawareDecisionTree => {
   config.nodes.forEach((node, index) => {
     if (node.type === 'BoolNode') {
       const { id, data } = node;
+      const boolNodeChildren = [data.yesId, data.noId];
       tree[id] = {
         id,
         data: {
           ...data,
+          children: boolNodeChildren,
         } as BoolNodeData,
         type: node.type,
         hidden: index !== 0,
