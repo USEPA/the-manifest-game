@@ -4,7 +4,8 @@ import { TreeNode } from 'store';
 import { PositionUnawareDecisionTree } from 'store/DagSlice/dagSlice';
 
 /**
- * data needed by all TreeNodes that contains the nodes expanded state, the node's children, and the node's text
+ * Data needed by all TreeNodes that contains the nodes expanded state,
+ * the node's children, and the node's text
  */
 export interface NodeData {
   label: string;
@@ -12,46 +13,39 @@ export interface NodeData {
   expanded?: boolean;
 }
 
-/**
- * data needed by the BooleanTreeNode to render decisions
- */
+/** data needed by the BooleanTreeNode to render decisions*/
 export interface BooleanNodeData extends NodeData {
   yesId: string;
   noId: string;
 }
 
-/**
- * An individual object to configure a node, part of the tree config
- */
-export interface TreeNodeConfig {
+/** Configuration for an individual node, part of the larger config*/
+export interface NodeConfig {
   id: string;
   data: NodeData | BooleanNodeData;
   type?: string;
 }
 
 /**
- * A tree config is a JSON serializable array of object that contains all the position unaware
+ * A JSON serializable array of object that contains all the position unaware
  * nodes in the decision tree, before it is loaded into the store
  */
-export type TreeConfig = Array<TreeNodeConfig>;
+export type ConfigFile = {
+  name: string;
+  nodes?: Array<NodeConfig>;
+};
 
 interface UseFetchConfigError {
   message: string;
 }
 
-export interface BaseConfig {
-  id: string;
-  type?: 'default' | 'BoolNode';
-  data: {
-    label: string;
-    children?: string[];
-  };
-}
-
 /** Parses the config file (an array of BoolNodeConfig and DefaultNodeConfig types) and returns a DecisionTree */
-const parseConfig = (config: TreeConfig): PositionUnawareDecisionTree => {
+const parseConfig = (config: ConfigFile): PositionUnawareDecisionTree => {
   const tree: PositionUnawareDecisionTree = {};
-  config.forEach((node, index) => {
+  if (config.nodes === undefined || config.nodes.length === 0) {
+    throw new Error('Error Parsing Config');
+  }
+  config.nodes.forEach((node, index) => {
     if (node.type === 'BoolNode') {
       const { id, data } = node;
       tree[id] = {
@@ -90,9 +84,16 @@ export const useFetchConfig = (configPath: string) => {
     fetch(configPath)
       .then((response) => response.json())
       .then((data) => {
-        setConfig(parseConfig(data));
+        try {
+          const config = parseConfig(data);
+          setConfig(config);
+        } catch {
+          setError({ message: 'Error Parsing Config' });
+        }
       })
-      .catch((error) => setError(error))
+      .catch((error) => {
+        setError({ message: `Network error: ${error}` });
+      })
       .finally(() => setIsLoading(false));
   }, [configPath]);
 

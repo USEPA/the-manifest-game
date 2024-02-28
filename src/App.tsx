@@ -1,3 +1,4 @@
+import { ErrorMsg } from 'components/Error';
 import { Header } from 'components/Header/Header';
 import { Spinner } from 'components/Spinner/Spinner';
 import { Tree } from 'components/Tree/Tree';
@@ -12,14 +13,14 @@ import { useState } from 'react';
  */
 export default function App() {
   const title = import.meta.env.VITE_APP_TITLE ?? 'The Manifest Game';
-  const { config, isLoading, error } = useFetchConfig('/default.json');
+  const {
+    config,
+    isLoading: configIsLoading,
+    error: configError,
+  } = useFetchConfig('/default.json');
   const [direction, setDirection] = useTreeDirection();
   const { nodes, edges, onClick } = useDecisionTree(config);
   const [mapVisible, setMapVisible] = useState(true);
-
-  if (isLoading || !config) return <Spinner />;
-
-  if (error || (!config && !isLoading)) throw new Error('Failed to fetch config');
 
   return (
     <>
@@ -30,7 +31,13 @@ export default function App() {
         mapVisible={mapVisible}
         setMapVisible={setMapVisible}
       />
-      <Tree nodes={nodes} edges={edges} onClick={onClick} mapVisible={mapVisible} />
+      {configIsLoading ? (
+        <Spinner />
+      ) : configError ? (
+        <ErrorMsg message={'Error parsing the Decision Tree'} />
+      ) : (
+        <Tree nodes={nodes} edges={edges} onClick={onClick} mapVisible={mapVisible} />
+      )}
     </>
   );
 }

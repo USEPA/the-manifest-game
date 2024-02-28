@@ -30,9 +30,10 @@
 .center {
     display: flex;
     align-content: center;
+    text-align: center;
     justify-content: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    font-size: 20px;
+    margin-top: 30%;
+    margin-bottom: 30%;
+    font-size: 1.2rem;
     font-weight: bold;
 }

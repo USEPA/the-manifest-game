@@ -1,273 +1,275 @@
-[
-  {
-    "id": "0",
-    "type": "default",
-    "data": {
-      "label": "Create an electronic manifest (click me)",
-      "children": [
-        "1",
-        "2"
-      ]
+{
+  "nodes": [
+    {
+      "id": "0",
+      "type": "default",
+      "data": {
+        "label": "Create an electronic manifest (click me)",
+        "children": [
+          "1",
+          "2"
+        ]
+      }
+    },
+    {
+      "id": "1",
+      "type": "default",
+      "data": {
+        "label": "I am a Generator or Transporter",
+        "children": [
+          "15"
+        ]
+      }
+    },
+    {
+      "id": "2",
+      "type": "default",
+      "data": {
+        "label": "I am a TSDF",
+        "children": [
+          "3"
+        ]
+      }
+    },
+    {
+      "id": "3",
+      "type": "BoolNode",
+      "data": {
+        "label": "Generator can sign electronically?",
+        "yesId": "4",
+        "noId": "5",
+        "children": [
+          "4",
+          "5"
+        ]
+      }
+    },
+    {
+      "id": "4",
+      "type": "default",
+      "data": {
+        "label": "Create a Fully Electronic Manifest and set to Scheduled",
+        "children": [
+          "6"
+        ]
+      }
+    },
+    {
+      "id": "5",
+      "type": "default",
+      "data": {
+        "label": "Create a Hybrid Manifest and set to Scheduled",
+        "children": [
+          "7"
+        ]
+      }
+    },
+    {
+      "id": "7",
+      "type": "default",
+      "data": {
+        "label": "Transporter prints 2 paper copies",
+        "children": [
+          "8"
+        ]
+      }
+    },
+    {
+      "id": "8",
+      "type": "default",
+      "data": {
+        "label": "Generator signs on paper and keeps a copy",
+        "children": [
+          "9"
+        ]
+      }
+    },
+    {
+      "id": "9",
+      "type": "default",
+      "data": {
+        "label": "Initial transporter signs on paper and keeps a copy",
+        "children": [
+          "10"
+        ]
+      }
+    },
+    {
+      "id": "10",
+      "type": "default",
+      "data": {
+        "label": "Initial transporter also signs electronically",
+        "children": [
+          "11"
+        ]
+      }
+    },
+    {
+      "id": "11",
+      "type": "default",
+      "data": {
+        "label": "Subsequent transporters signs electronically",
+        "children": [
+          "12"
+        ]
+      }
+    },
+    {
+      "id": "12",
+      "type": "default",
+      "data": {
+        "label": "TSDF signs electronically",
+        "children": []
+      }
+    },
+    {
+      "id": "6",
+      "type": "default",
+      "data": {
+        "label": "Generator signs electronically",
+        "children": [
+          "13"
+        ]
+      }
+    },
+    {
+      "id": "13",
+      "type": "default",
+      "data": {
+        "label": "Transporters sign electronically",
+        "children": [
+          "14"
+        ]
+      }
+    },
+    {
+      "id": "14",
+      "type": "default",
+      "data": {
+        "label": "TSDF signs electronically",
+        "children": []
+      }
+    },
+    {
+      "id": "15",
+      "type": "BoolNode",
+      "data": {
+        "label": "Generator can sign electronically?",
+        "yesId": "16",
+        "noId": "17",
+        "children": [
+          "16",
+          "17"
+        ]
+      }
+    },
+    {
+      "id": "16",
+      "type": "default",
+      "data": {
+        "label": "TSDF updates status to Scheduled",
+        "children": [
+          "18"
+        ]
+      }
+    },
+    {
+      "id": "18",
+      "type": "default",
+      "data": {
+        "label": "Generator signs electronically",
+        "children": [
+          "19"
+        ]
+      }
+    },
+    {
+      "id": "19",
+      "type": "default",
+      "data": {
+        "label": "Generator signs electronically",
+        "children": [
+          "20"
+        ]
+      }
+    },
+    {
+      "id": "20",
+      "type": "default",
+      "data": {
+        "label": "Transporters sign electronically",
+        "children": [
+          "21"
+        ]
+      }
+    },
+    {
+      "id": "21",
+      "type": "default",
+      "data": {
+        "label": "TSDF sign electronically",
+        "children": [
+        ]
+      }
+    },
+    {
+      "id": "17",
+      "type": "default",
+      "data": {
+        "label": "TSDF selects the Hybrid Manifest option and updates status to Scheduled",
+        "children": [
+          "22"
+        ]
+      }
+    },
+    {
+      "id": "22",
+      "type": "default",
+      "data": {
+        "label": "Transporter prints 2 paper copies",
+        "children": [
+          "23"
+        ]
+      }
+    },
+    {
+      "id": "23",
+      "type": "default",
+      "data": {
+        "label": "Generator signs on paper and keeps a copy",
+        "children": [
+          "24"
+        ]
+      }
+    },
+    {
+      "id": "24",
+      "type": "default",
+      "data": {
+        "label": "Initial transporter signs on paper and keeps a copy",
+        "children": [
+          "25"
+        ]
+      }
+    },
+    {
+      "id": "25",
+      "type": "default",
+      "data": {
+        "label": "Subsequent transporters signs electronically",
+        "children": [
+          "26"
+        ]
+      }
+    },
+    {
+      "id": "26",
+      "type": "default",
+      "data": {
+        "label": "TSDF signs electronically",
+        "children": [
+        ]
+      }
     }
-  },
-  {
-    "id": "1",
-    "type": "default",
-    "data": {
-      "label": "I am a Generator or Transporter",
-      "children": [
-        "15"
-      ]
-    }
-  },
-  {
-    "id": "2",
-    "type": "default",
-    "data": {
-      "label": "I am a TSDF",
-      "children": [
-        "3"
-      ]
-    }
-  },
-  {
-    "id": "3",
-    "type": "BoolNode",
-    "data": {
-      "label": "Generator can sign electronically?",
-      "yesId": "4",
-      "noId": "5",
-      "children": [
-        "4",
-        "5"
-      ]
-    }
-  },
-  {
-    "id": "4",
-    "type": "default",
-    "data": {
-      "label": "Create a Fully Electronic Manifest and set to Scheduled",
-      "children": [
-        "6"
-      ]
-    }
-  },
-  {
-    "id": "5",
-    "type": "default",
-    "data": {
-      "label": "Create a Hybrid Manifest and set to Scheduled",
-      "children": [
-        "7"
-      ]
-    }
-  },
-  {
-    "id": "7",
-    "type": "default",
-    "data": {
-      "label": "Transporter prints 2 paper copies",
-      "children": [
-        "8"
-      ]
-    }
-  },
-  {
-    "id": "8",
-    "type": "default",
-    "data": {
-      "label": "Generator signs on paper and keeps a copy",
-      "children": [
-        "9"
-      ]
-    }
-  },
-  {
-    "id": "9",
-    "type": "default",
-    "data": {
-      "label": "Initial transporter signs on paper and keeps a copy",
-      "children": [
-        "10"
-      ]
-    }
-  },
-  {
-    "id": "10",
-    "type": "default",
-    "data": {
-      "label": "Initial transporter also signs electronically",
-      "children": [
-        "11"
-      ]
-    }
-  },
-  {
-    "id": "11",
-    "type": "default",
-    "data": {
-      "label": "Subsequent transporters signs electronically",
-      "children": [
-        "12"
-      ]
-    }
-  },
-  {
-    "id": "12",
-    "type": "default",
-    "data": {
-      "label": "TSDF signs electronically",
-      "children": []
-    }
-  },
-  {
-    "id": "6",
-    "type": "default",
-    "data": {
-      "label": "Generator signs electronically",
-      "children": [
-        "13"
-      ]
-    }
-  },
-  {
-    "id": "13",
-    "type": "default",
-    "data": {
-      "label": "Transporters sign electronically",
-      "children": [
-        "14"
-      ]
-    }
-  },
-  {
-    "id": "14",
-    "type": "default",
-    "data": {
-      "label": "TSDF signs electronically",
-      "children": []
-    }
-  },
-  {
-    "id": "15",
-    "type": "BoolNode",
-    "data": {
-      "label": "Generator can sign electronically?",
-      "yesId": "16",
-      "noId": "17",
-      "children": [
-        "16",
-        "17"
-      ]
-    }
-  },
-  {
-    "id": "16",
-    "type": "default",
-    "data": {
-      "label": "TSDF updates status to Scheduled",
-      "children": [
-        "18"
-      ]
-    }
-  },
-  {
-    "id": "18",
-    "type": "default",
-    "data": {
-      "label": "Generator signs electronically",
-      "children": [
-        "19"
-      ]
-    }
-  },
-  {
-    "id": "19",
-    "type": "default",
-    "data": {
-      "label": "Generator signs electronically",
-      "children": [
-        "20"
-      ]
-    }
-  },
-  {
-    "id": "20",
-    "type": "default",
-    "data": {
-      "label": "Transporters sign electronically",
-      "children": [
-        "21"
-      ]
-    }
-  },
-  {
-    "id": "21",
-    "type": "default",
-    "data": {
-      "label": "TSDF sign electronically",
-      "children": [
-      ]
-    }
-  },
-  {
-    "id": "17",
-    "type": "default",
-    "data": {
-      "label": "TSDF selects the Hybrid Manifest option and updates status to Scheduled",
-      "children": [
-        "22"
-      ]
-    }
-  },
-  {
-    "id": "22",
-    "type": "default",
-    "data": {
-      "label": "Transporter prints 2 paper copies",
-      "children": [
-        "23"
-      ]
-    }
-  },
-  {
-    "id": "23",
-    "type": "default",
-    "data": {
-      "label": "Generator signs on paper and keeps a copy",
-      "children": [
-        "24"
-      ]
-    }
-  },
-  {
-    "id": "24",
-    "type": "default",
-    "data": {
-      "label": "Initial transporter signs on paper and keeps a copy",
-      "children": [
-        "25"
-      ]
-    }
-  },
-  {
-    "id": "25",
-    "type": "default",
-    "data": {
-      "label": "Subsequent transporters signs electronically",
-      "children": [
-        "26"
-      ]
-    }
-  },
-  {
-    "id": "26",
-    "type": "default",
-    "data": {
-      "label": "TSDF signs electronically",
-      "children": [
-      ]
-    }
-  }
-]
+  ]
+}
