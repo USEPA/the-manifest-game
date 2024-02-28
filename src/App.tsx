@@ -17,9 +17,7 @@ export default function App() {
   const { nodes, edges, onClick } = useDecisionTree(config);
   const [mapVisible, setMapVisible] = useState(true);
 
-  if (isLoading || !config) return <Spinner />;
-
-  if (error || (!config && !isLoading)) throw new Error('Failed to fetch config');
+  if (isLoading) return <Spinner />;
 
   return (
     <>
@@ -30,7 +28,11 @@ export default function App() {
         mapVisible={mapVisible}
         setMapVisible={setMapVisible}
       />
-      <Tree nodes={nodes} edges={edges} onClick={onClick} mapVisible={mapVisible} />
+      {error ? (
+        <div>Error</div>
+      ) : (
+        <Tree nodes={nodes} edges={edges} onClick={onClick} mapVisible={mapVisible} />
+      )}
     </>
   );
 }

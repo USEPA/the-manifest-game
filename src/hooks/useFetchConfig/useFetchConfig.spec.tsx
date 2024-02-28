@@ -7,7 +7,7 @@ import { afterAll, afterEach, beforeAll, describe, expect, test } from 'vitest';
 
 const handlers = [
   http.get('/default.json', () => {
-    return HttpResponse.json([{ id: '1', type: 'default', label: 'foo', children: [] }]);
+    return HttpResponse.json({ nodes: [{ id: '1', type: 'default', label: 'foo', children: [] }] });
   }),
 ];
 
@@ -51,13 +51,15 @@ describe('useFetchConfig', async () => {
   });
   test('sets the first node in the array to visible and the rest to hidden', async () => {
     server.use(
-      http.get('/default.json', () => {
-        return HttpResponse.json([
-          { id: '1', type: 'default', label: 'foo', children: [] },
-          { id: '2', type: 'default', label: 'bar', children: [] },
-          { id: '3', type: 'BoolNode', label: 'bool', children: [] },
-        ]);
-      })
+      http.get('/default.json', () =>
+        HttpResponse.json({
+          nodes: [
+            { id: '1', type: 'default', label: 'foo', children: [] },
+            { id: '2', type: 'default', label: 'bar', children: [] },
+            { id: '3', type: 'BoolNode', label: 'bool', children: [] },
+          ],
+        })
+      )
     );
     render(<TestComponent />);
     expect(screen.queryByText(/data/i)).not.toBeInTheDocument();
@@ -65,5 +67,16 @@ describe('useFetchConfig', async () => {
     expect(screen.queryByText('data id: 1 - visible')).toBeInTheDocument();
     expect(screen.queryByText('data id: 2 - hidden')).toBeInTheDocument();
     expect(screen.queryByText('data id: 3 - hidden')).toBeInTheDocument();
+  });
+  test('sets an error if the config fails to parse', async () => {
+    server.use(
+      http.get('/default.json', () => {
+        return HttpResponse.json({ foo: 'bar' });
+      })
+    );
+    render(<TestComponent />);
+    expect(screen.queryByText(/data/i)).not.toBeInTheDocument();
+    await waitFor(() => screen.queryByText(/data/i));
+    expect(screen.queryByText('error')).toBeInTheDocument();
   });
 });

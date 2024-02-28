@@ -30,26 +30,21 @@ export interface NodeConfig {
  * A JSON serializable array of object that contains all the position unaware
  * nodes in the decision tree, before it is loaded into the store
  */
-export type TreeConfig = {
-  nodes: Array<NodeConfig>;
+export type ConfigFile = {
+  name: string;
+  nodes?: Array<NodeConfig>;
 };
 
 interface UseFetchConfigError {
   message: string;
 }
 
-export interface BaseConfig {
-  id: string;
-  type?: 'default' | 'BoolNode';
-  data: {
-    label: string;
-    children?: string[];
-  };
-}
-
 /** Parses the config file (an array of BoolNodeConfig and DefaultNodeConfig types) and returns a DecisionTree */
-const parseConfig = (config: TreeConfig): PositionUnawareDecisionTree => {
+const parseConfig = (config: ConfigFile): PositionUnawareDecisionTree => {
   const tree: PositionUnawareDecisionTree = {};
+  if (config.nodes === undefined || config.nodes.length === 0) {
+    throw new Error('Error Parsing Config');
+  }
   config.nodes.forEach((node, index) => {
     if (node.type === 'BoolNode') {
       const { id, data } = node;
@@ -89,9 +84,17 @@ export const useFetchConfig = (configPath: string) => {
     fetch(configPath)
       .then((response) => response.json())
       .then((data) => {
-        setConfig(parseConfig(data));
+        try {
+          const config = parseConfig(data);
+          setConfig(config);
+        } catch {
+          setError({ message: 'Error Parsing Config' });
+          setIsLoading(false);
+        }
       })
-      .catch((error) => setError(error))
+      .catch((error) => {
+        setError({ message: `Network error: ${error}` });
+      })
       .finally(() => setIsLoading(false));
   }, [configPath]);
 
