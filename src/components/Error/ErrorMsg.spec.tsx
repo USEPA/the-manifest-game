@@ -9,12 +9,14 @@ beforeAll(() => {
 beforeEach(() => {
   vi.unstubAllEnvs();
 });
-afterEach(() => cleanup());
+afterEach(() => {
+  cleanup();
+});
 
 describe('ErrorMsg', () => {
   it('renders', () => {
     render(<ErrorMsg />);
-    expect(screen.getByText(/Something went wrong/i)).toBeInTheDocument();
+    expect(screen.getByText(/An Error occurred/i)).toBeInTheDocument();
   });
   it('provides a configurable link to file a ticket', () => {
     const issueUrl = 'https://example.com/issues/new';
@@ -26,9 +28,13 @@ describe('ErrorMsg', () => {
     expect(issueLink).toHaveAttribute('href', issueUrl);
   });
   it('Does not render a link if environment variable is not defined', () => {
-    vi.unstubAllEnvs();
     render(<ErrorMsg />);
     const issueLink = screen.queryByRole('link', { name: 'file a ticket' });
     expect(issueLink).not.toBeInTheDocument();
+  });
+  it('renders an error message if one if passed', () => {
+    const message = 'alright meow, license and registration';
+    render(<ErrorMsg message={message} />);
+    expect(screen.getByText(message)).toBeInTheDocument();
   });
 });

@@ -77,6 +77,6 @@ describe('App', () => {
     server.use(http.get('/default.json', async () => HttpResponse.error()));
     render(<App />);
     await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
-    expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
+    expect(screen.getByText(/Error/i)).toBeInTheDocument();
   });
 });

@@ -13,12 +13,14 @@ import { useState } from 'react';
  */
 export default function App() {
   const title = import.meta.env.VITE_APP_TITLE ?? 'The Manifest Game';
-  const { config, isLoading, error } = useFetchConfig('/default.json');
+  const {
+    config,
+    isLoading: configIsLoading,
+    error: configError,
+  } = useFetchConfig('/default.json');
   const [direction, setDirection] = useTreeDirection();
   const { nodes, edges, onClick } = useDecisionTree(config);
   const [mapVisible, setMapVisible] = useState(true);
-
-  if (isLoading) return <Spinner />;
 
   return (
     <>
@@ -29,17 +31,10 @@ export default function App() {
         mapVisible={mapVisible}
         setMapVisible={setMapVisible}
       />
-      {error ? (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignContent: 'center',
-            marginTop: '20%',
-          }}
-        >
-          <ErrorMsg />
-        </div>
+      {configIsLoading ? (
+        <Spinner />
+      ) : configError ? (
+        <ErrorMsg message={'Error parsing the Decision Tree'} />
       ) : (
         <Tree nodes={nodes} edges={edges} onClick={onClick} mapVisible={mapVisible} />
       )}
