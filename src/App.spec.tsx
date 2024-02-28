@@ -7,16 +7,18 @@ import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest
 
 const handlers = [
   http.get('/default.json', async () => {
-    return HttpResponse.json([
-      {
-        id: '1',
-        type: 'default',
-        data: {
-          label: 'I like turtles',
-          children: ['2'],
+    return HttpResponse.json({
+      nodes: [
+        {
+          id: '1',
+          type: 'default',
+          data: {
+            label: 'I like turtles',
+            children: ['2'],
+          },
         },
-      },
-    ]);
+      ],
+    });
   }),
 ];
 
@@ -27,23 +29,28 @@ afterEach(() => {
   vi.unstubAllEnvs();
 });
 beforeAll(() => server.listen());
-afterAll(() => server.close());
+afterAll(() => {
+  server.close();
+  server.resetHandlers();
+});
 
 describe('App', () => {
   it('shows a spinner while waiting for config', () => {
     server.use(
       http.get('/default.json', async () => {
         await delay(100);
-        return HttpResponse.json([
-          {
-            id: '1',
-            type: 'default',
-            data: {
-              label: 'I like turtles',
-              children: ['2'],
+        return HttpResponse.json({
+          nodes: [
+            {
+              id: '1',
+              type: 'default',
+              data: {
+                label: 'I like turtles',
+                children: ['2'],
+              },
             },
-          },
-        ]);
+          ],
+        });
       })
     );
     render(<App />);
@@ -61,13 +68,15 @@ describe('App', () => {
     await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
     expect(screen.getByText('The Manifest Game')).toBeInTheDocument();
   });
-  it('Throws an error if there is an error fetching the config', async () => {
-    // ToDo - implement this test
-    expect(true).toBe(true);
-  });
   it('minimap is visible by default', async () => {
     render(<App />);
     await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
     expect(screen.getByTestId(/minimap/i)).toBeInTheDocument();
+  });
+  it('Throws an error if there is an error fetching the config', async () => {
+    server.use(http.get('/default.json', async () => HttpResponse.error()));
+    render(<App />);
+    await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
+    expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
   });
 });

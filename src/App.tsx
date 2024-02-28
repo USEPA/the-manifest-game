@@ -1,3 +1,4 @@
+import { ErrorMsg } from 'components/Error';
 import { Header } from 'components/Header/Header';
 import { Spinner } from 'components/Spinner/Spinner';
 import { Tree } from 'components/Tree/Tree';
@@ -29,7 +30,16 @@ export default function App() {
         setMapVisible={setMapVisible}
       />
       {error ? (
-        <div>Error</div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignContent: 'center',
+            marginTop: '20%',
+          }}
+        >
+          <ErrorMsg />
+        </div>
       ) : (
         <Tree nodes={nodes} edges={edges} onClick={onClick} mapVisible={mapVisible} />
       )}

@@ -89,7 +89,6 @@ export const useFetchConfig = (configPath: string) => {
           setConfig(config);
         } catch {
           setError({ message: 'Error Parsing Config' });
-          setIsLoading(false);
         }
       })
       .catch((error) => {
