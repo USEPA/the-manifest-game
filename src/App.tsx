@@ -1,3 +1,4 @@
+import defaultTree from '/default.json?url';
 import { ErrorMsg } from 'components/Error';
 import { Header } from 'components/Header/Header';
 import { Spinner } from 'components/Spinner/Spinner';
@@ -13,11 +14,7 @@ import { useState } from 'react';
  */
 export default function App() {
   const title = import.meta.env.VITE_APP_TITLE ?? 'The Manifest Game';
-  const {
-    config,
-    isLoading: configIsLoading,
-    error: configError,
-  } = useFetchConfig('/default.json');
+  const { config, isLoading: configIsLoading, error: configError } = useFetchConfig(defaultTree);
   const [direction, setDirection] = useTreeDirection();
   const { nodes, edges, onClick } = useDecisionTree(config);
   const [mapVisible, setMapVisible] = useState(true);
