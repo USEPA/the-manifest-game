@@ -1,274 +1,186 @@
 {
   "nodes": [
     {
-      "id": "0",
-      "type": "default",
-      "data": {
-        "label": "Create an electronic manifest (click me)",
-        "children": [
-          "1",
-          "2"
-        ]
-      }
-    },
-    {
-      "id": "1",
-      "type": "default",
-      "data": {
-        "label": "I am a Generator or Transporter",
-        "children": [
-          "15"
-        ]
-      }
-    },
-    {
-      "id": "2",
-      "type": "default",
-      "data": {
-        "label": "I am a TSDF",
-        "children": [
-          "3"
-        ]
-      }
-    },
-    {
-      "id": "3",
+      "id": "parent",
       "type": "BoolNode",
       "data": {
-        "label": "Generator can sign electronically?",
-        "yesId": "4",
-        "noId": "5",
-        "children": [
-          "4",
-          "5"
-        ]
+        "label": "Are you registered?",
+        "yesId": "doYouHaveSiteId",
+        "noId": "goRegister"
       }
     },
     {
-      "id": "4",
-      "type": "default",
+      "id": "goRegister",
       "data": {
-        "label": "Create a Fully Electronic Manifest and set to Scheduled",
-        "children": [
-          "6"
-        ]
+        "label": "Time to Register in RCRAInfo!"
       }
     },
     {
-      "id": "5",
-      "type": "default",
-      "data": {
-        "label": "Create a Hybrid Manifest and set to Scheduled",
-        "children": [
-          "7"
-        ]
-      }
-    },
-    {
-      "id": "7",
-      "type": "default",
-      "data": {
-        "label": "Transporter prints 2 paper copies",
-        "children": [
-          "8"
-        ]
-      }
-    },
-    {
-      "id": "8",
-      "type": "default",
-      "data": {
-        "label": "Generator signs on paper and keeps a copy",
-        "children": [
-          "9"
-        ]
-      }
-    },
-    {
-      "id": "9",
-      "type": "default",
-      "data": {
-        "label": "Initial transporter signs on paper and keeps a copy",
-        "children": [
-          "10"
-        ]
-      }
-    },
-    {
-      "id": "10",
-      "type": "default",
-      "data": {
-        "label": "Initial transporter also signs electronically",
-        "children": [
-          "11"
-        ]
-      }
-    },
-    {
-      "id": "11",
-      "type": "default",
-      "data": {
-        "label": "Subsequent transporters signs electronically",
-        "children": [
-          "12"
-        ]
-      }
-    },
-    {
-      "id": "12",
-      "type": "default",
-      "data": {
-        "label": "TSDF signs electronically",
-        "children": []
-      }
-    },
-    {
-      "id": "6",
-      "type": "default",
-      "data": {
-        "label": "Generator signs electronically",
-        "children": [
-          "13"
-        ]
-      }
-    },
-    {
-      "id": "13",
-      "type": "default",
-      "data": {
-        "label": "Transporters sign electronically",
-        "children": [
-          "14"
-        ]
-      }
-    },
-    {
-      "id": "14",
-      "type": "default",
-      "data": {
-        "label": "TSDF signs electronically",
-        "children": []
-      }
-    },
-    {
-      "id": "15",
+      "id": "doYouHaveSiteId",
       "type": "BoolNode",
       "data": {
-        "label": "Generator can sign electronically?",
-        "yesId": "16",
-        "noId": "17",
-        "children": [
-          "16",
-          "17"
-        ]
+        "label": "Do you have your site's EPA ID?",
+        "yesId": "doHavePreparer",
+        "noId": "areYouVSQG"
       }
     },
     {
-      "id": "16",
-      "type": "default",
+      "id": "areYouVSQG",
+      "type": "BoolNode",
       "data": {
-        "label": "TSDF updates status to Scheduled",
-        "children": [
-          "18"
-        ]
+        "label": "Are you a VSQG?",
+        "yesId": "iAmVSQG",
+        "noId": "iAmNotVSQG"
       }
     },
     {
-      "id": "18",
-      "type": "default",
+      "id": "iAmVSQG",
       "data": {
-        "label": "Generator signs electronically",
-        "children": [
-          "19"
-        ]
+        "label": "You may not have an EPA ID. You may still use the Hybrid manifest option."
       }
     },
     {
-      "id": "19",
-      "type": "default",
+      "id": "iAmNotVSQG",
       "data": {
-        "label": "Generator signs electronically",
-        "children": [
-          "20"
-        ]
+        "label": "SQGs and LQGs must have an EPA ID. Find your EPA ID number."
       }
     },
     {
-      "id": "20",
-      "type": "default",
+      "id": "doHavePreparer",
+      "type": "BoolNode",
       "data": {
-        "label": "Transporters sign electronically",
-        "children": [
-          "21"
-        ]
+        "label": "Do you have a preparer level access?",
+        "yesId": "isManifestDrafted",
+        "noId": "requestPreparerAccess"
       }
     },
     {
-      "id": "21",
-      "type": "default",
+      "id": "requestPreparerAccess",
       "data": {
-        "label": "TSDF sign electronically",
-        "children": [
-        ]
+        "label": "Request preparer access."
       }
     },
     {
-      "id": "17",
-      "type": "default",
+      "id": "isManifestDrafted",
+      "type": "BoolNode",
       "data": {
-        "label": "TSDF selects the Hybrid Manifest option and updates status to Scheduled",
-        "children": [
-          "22"
-        ]
+        "label": "Is the manifest drafted?",
+        "yesId": "areYouTSDF",
+        "noId": "draftManifest"
       }
     },
     {
-      "id": "22",
-      "type": "default",
+      "id": "draftManifest",
       "data": {
-        "label": "Transporter prints 2 paper copies",
-        "children": [
-          "23"
-        ]
+        "label": "Draft the manifest."
       }
     },
     {
-      "id": "23",
-      "type": "default",
+      "id": "areYouTSDF",
+      "type": "BoolNode",
       "data": {
-        "label": "Generator signs on paper and keeps a copy",
-        "children": [
-          "24"
-        ]
+        "label": "Are you a TSDF?",
+        "yesId": "isManifestScheduled",
+        "noId": "areYouGenerator"
       }
     },
     {
-      "id": "24",
-      "type": "default",
+      "id": "isManifestScheduled",
+      "type": "BoolNode",
       "data": {
-        "label": "Initial transporter signs on paper and keeps a copy",
-        "children": [
-          "25"
-        ]
+        "label": "Is the manifest scheduled?",
+        "yesId": "isManifestReadyForSign",
+        "noId": "scheduleManifest"
       }
     },
     {
-      "id": "25",
-      "type": "default",
+      "id": "scheduleManifest",
       "data": {
-        "label": "Subsequent transporters signs electronically",
-        "children": [
-          "26"
-        ]
+        "label": "Only the TSDF can set the manifest 'Scheduled'."
       }
     },
     {
-      "id": "26",
-      "type": "default",
+      "id": "isManifestReadyForSign",
+      "type": "BoolNode",
       "data": {
-        "label": "TSDF signs electronically",
-        "children": [
-        ]
+        "label": "Is the manifest ready for signature?",
+        "yesId": "signAndSubmit",
+        "noId": "ensureManifestReady"
+      }
+    },
+    {
+      "id": "ensureManifestReady",
+      "data": {
+        "label": "Ensure all handler have signed and is ready for TSDF signature."
+      }
+    },
+    {
+      "id": "signAndSubmit",
+      "data": {
+        "label": "Sign the manifest and submit for invoicing."
+      }
+    },
+    {
+      "id": "test",
+      "data": {
+        "label": "Test"
+      }
+    },
+    {
+      "id": "areYouGenerator",
+      "type": "BoolNode",
+      "data": {
+        "label": "Are you the listed Generator?",
+        "yesId": "isManifestScheduledNonTsdf",
+        "noId": "areYouInitialTransporter"
+      }
+    },
+    {
+      "id": "isManifestScheduledNonTsdf",
+      "type": "BoolNode",
+      "data": {
+        "label": "Is the manifest scheduled?",
+        "yesId": "readyForGeneratorSign",
+        "noId": "haveTsdfSetToScheduled"
+      }
+    },
+    {
+      "id": "areYouInitialTransporter",
+      "type": "BoolNode",
+      "data": {
+        "label": "Are you the initial transporter?",
+        "yesId": "haveGeneratorSign",
+        "noId": "signaturesAreSubsequent"
+      }
+    },
+    {
+      "id": "scheduleManifestNonTsdf",
+      "data": {
+        "label": "Once a manifest is set to scheduled, it's ready for the Generator's signature, then the initial transporters."
+      }
+    },
+    {
+      "id": "signaturesAreSubsequent",
+      "data": {
+        "label": "Signatures cannot be performed out of order. make sure all handler before you have signed."
+      }
+    },
+    {
+      "id": "readyForGeneratorSign",
+      "data": {
+        "label": "The manifest is ready for the Generator's signature."
+      }
+    },
+    {
+      "id": "haveTsdfSetToScheduled",
+      "data": {
+        "label": "The TSDF needs to set the manifest to 'Scheduled' before the Generator can sign."
+      }
+    },
+    {
+      "id": "haveGeneratorSign",
+      "data": {
+        "label": "The manifest is ready for the initial transporter's signature."
       }
     }
   ]
