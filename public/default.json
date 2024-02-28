@@ -5,24 +5,182 @@
       "type": "BoolNode",
       "data": {
         "label": "Are you registered?",
-        "yesId": "registered",
-        "noId": "unregistered"
+        "yesId": "doYouHaveSiteId",
+        "noId": "goRegister"
       }
     },
     {
-      "id": "registered",
+      "id": "goRegister",
       "data": {
-        "label": "Yes",
-        "children": [
-        ]
+        "label": "Time to Register in RCRAInfo!"
       }
     },
     {
-      "id": "unregistered",
+      "id": "doYouHaveSiteId",
+      "type": "BoolNode",
       "data": {
-        "label": "no",
-        "children": [
-        ]
+        "label": "Do you have your site's EPA ID?",
+        "yesId": "doHavePreparer",
+        "noId": "areYouVSQG"
+      }
+    },
+    {
+      "id": "areYouVSQG",
+      "type": "BoolNode",
+      "data": {
+        "label": "Are you a VSQG?",
+        "yesId": "iAmVSQG",
+        "noId": "iAmNotVSQG"
+      }
+    },
+    {
+      "id": "iAmVSQG",
+      "data": {
+        "label": "You may not have an EPA ID. You may still use the Hybrid manifest option."
+      }
+    },
+    {
+      "id": "iAmNotVSQG",
+      "data": {
+        "label": "SQGs and LQGs must have an EPA ID. Find your EPA ID number."
+      }
+    },
+    {
+      "id": "doHavePreparer",
+      "type": "BoolNode",
+      "data": {
+        "label": "Do you have a preparer level access?",
+        "yesId": "isManifestDrafted",
+        "noId": "requestPreparerAccess"
+      }
+    },
+    {
+      "id": "requestPreparerAccess",
+      "data": {
+        "label": "Request preparer access."
+      }
+    },
+    {
+      "id": "isManifestDrafted",
+      "type": "BoolNode",
+      "data": {
+        "label": "Is the manifest drafted?",
+        "yesId": "areYouTSDF",
+        "noId": "draftManifest"
+      }
+    },
+    {
+      "id": "draftManifest",
+      "data": {
+        "label": "Draft the manifest."
+      }
+    },
+    {
+      "id": "areYouTSDF",
+      "type": "BoolNode",
+      "data": {
+        "label": "Are you a TSDF?",
+        "yesId": "isManifestScheduled",
+        "noId": "areYouGenerator"
+      }
+    },
+    {
+      "id": "isManifestScheduled",
+      "type": "BoolNode",
+      "data": {
+        "label": "Is the manifest scheduled?",
+        "yesId": "isManifestReadyForSign",
+        "noId": "scheduleManifest"
+      }
+    },
+    {
+      "id": "scheduleManifest",
+      "data": {
+        "label": "Only the TSDF can set the manifest 'Scheduled'."
+      }
+    },
+    {
+      "id": "isManifestReadyForSign",
+      "type": "BoolNode",
+      "data": {
+        "label": "Is the manifest ready for signature?",
+        "yesId": "signAndSubmit",
+        "noId": "ensureManifestReady"
+      }
+    },
+    {
+      "id": "ensureManifestReady",
+      "data": {
+        "label": "Ensure all handler have signed and is ready for TSDF signature."
+      }
+    },
+    {
+      "id": "signAndSubmit",
+      "data": {
+        "label": "Sign the manifest and submit for invoicing."
+      }
+    },
+    {
+      "id": "test",
+      "data": {
+        "label": "Test"
+      }
+    },
+    {
+      "id": "areYouGenerator",
+      "type": "BoolNode",
+      "data": {
+        "label": "Are you the listed Generator?",
+        "yesId": "isManifestScheduledNonTsdf",
+        "noId": "areYouInitialTransporter"
+      }
+    },
+    {
+      "id": "isManifestScheduledNonTsdf",
+      "type": "BoolNode",
+      "data": {
+        "label": "Is the manifest scheduled?",
+        "yesId": "readyForGeneratorSign",
+        "noId": "haveTsdfSetToScheduled"
+      }
+    },
+    {
+      "id": "areYouInitialTransporter",
+      "type": "BoolNode",
+      "data": {
+        "label": "Are you the initial transporter?",
+        "yesId": "haveGeneratorSign",
+        "noId": "signaturesAreSubsequent"
+      }
+    },
+    {
+      "id": "scheduleManifestNonTsdf",
+      "data": {
+        "label": "Once a manifest is set to scheduled, it's ready for the Generator's signature, then the initial transporters."
+      }
+    },
+    {
+      "id": "signaturesAreSubsequent",
+      "data": {
+        "label": "Signatures cannot be performed out of order. make sure all handler before you have signed."
+      }
+    },
+    {
+      "id": "readyForGeneratorSign",
+      "data": {
+        "label": "The manifest is ready for the Generator's signature."
+      }
+    },
+    {
+      "id": "haveTsdfSetToScheduled",
+      "data": {
+        "label": "The TSDF needs to set the manifest to 'Scheduled' before the Generator can sign."
+      }
+    },
+    {
+      "id": "haveGeneratorSign",
+      "data": {
+        "label": "The manifest is ready for the initial transporter's signature."
       }
     }
   ]

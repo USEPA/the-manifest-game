@@ -112,7 +112,6 @@ describe('useFetchConfig', async () => {
     render(<TestComponent />);
     expect(screen.queryByText(/data/i)).not.toBeInTheDocument();
     await waitFor(() => screen.queryByText(/data/i));
-    screen.debug();
     expect(screen.queryByText('node 1 child 2')).toBeInTheDocument();
     expect(screen.queryByText('node 1 child 3')).toBeInTheDocument();
   });
