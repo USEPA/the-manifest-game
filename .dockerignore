@@ -1,13 +1,27 @@
+# Configs
 .gitignore
 .dockerignore
-README.md
 .editorconfig
 .eslintrc.cjs
 .prettier*
 .github
-__mocks__
-docs
-node_modules/
 **/.idea
 .run
-coverage
+.git
+Dockerfile
+**/compose.*
+
+
+# Documentation
+**/README.md
+docs
+LICENSE
+
+
+# TS/JS
+**/node_modules/
+**/*.d.ts
+**/*.spec.*
+__mocks__
+**/coverage
+**/build

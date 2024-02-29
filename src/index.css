@@ -47,14 +47,7 @@ body {
     background: var(--card-color-hover);
 }
 
-.react-flow__minimap-node {
-    fill: rgba(62, 109, 155, 0.67);
-}
-
-.react-flow__minimap {
-    border-radius: 20px;
-}
-
+.react-flow__minimap,
 .react-flow__minimap svg {
     border-radius: 20px;
 }

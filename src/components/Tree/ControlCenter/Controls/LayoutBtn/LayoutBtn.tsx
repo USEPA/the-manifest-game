@@ -1,5 +1,5 @@
-import styles from 'components/Header/Controls/LayoutBtn/layoutbtn.module.css';
 import { LuMoveHorizontal, LuMoveVertical } from 'react-icons/lu';
+import { ControlButton } from 'reactflow';
 
 interface LayoutBtnProps {
   isHorizontal: boolean;
@@ -9,12 +9,11 @@ interface LayoutBtnProps {
 /** LayoutBtn toggles the layout direction of the tree.*/
 export const LayoutBtn = ({ isHorizontal, toggleDirection }: LayoutBtnProps) => {
   return (
-    <button
-      className={styles.layoutBtn}
+    <ControlButton
       aria-label={`switch to ${isHorizontal ? 'vertical' : 'horizontal'} layout`}
       onClick={toggleDirection}
     >
-      {isHorizontal ? <LuMoveVertical /> : <LuMoveHorizontal />}
-    </button>
+      {isHorizontal ? <LuMoveVertical color={'000'} /> : <LuMoveHorizontal color={'000'} />}
+    </ControlButton>
   );
 };

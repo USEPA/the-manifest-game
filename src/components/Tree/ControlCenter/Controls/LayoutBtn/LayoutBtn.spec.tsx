@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { LayoutBtn } from 'components/Header/Controls/LayoutBtn/LayoutBtn';
+import { LayoutBtn } from 'components/Tree/ControlCenter/Controls/LayoutBtn/LayoutBtn';
 import { describe, expect, it, vi } from 'vitest';
 
 describe('LayoutBtn', () => {
