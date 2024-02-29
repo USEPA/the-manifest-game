@@ -5,8 +5,8 @@ name: Deploy to Dev
 
 on:
   push:
-    branches:
-      - main
+#    branches:
+#      - main
 
 permissions:
   contents: read
@@ -19,11 +19,11 @@ concurrency:
 
 jobs:
   deploy:
-    if: github.repository == 'usepa/the-manifest-game'
+    #    if: github.repository == 'usepa/the-manifest-game'
     name: Deploy to Development
     runs-on: ubuntu-latest
     environment:
-      name: github-pages
+      name: development
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
