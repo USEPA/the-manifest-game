@@ -5,8 +5,6 @@ import { Spinner } from 'components/Spinner/Spinner';
 import { Tree } from 'components/Tree/Tree';
 import { useDecisionTree } from 'hooks';
 import { useFetchConfig } from 'hooks/useFetchConfig/useFetchConfig';
-import { useTreeDirection } from 'hooks/useTreeDirection/useTreeDirection';
-import { useState } from 'react';
 
 /**
  * App - responsible for rendering the decision tree
@@ -15,25 +13,17 @@ import { useState } from 'react';
 export default function App() {
   const title = import.meta.env.VITE_APP_TITLE ?? 'The Manifest Game';
   const { config, isLoading: configIsLoading, error: configError } = useFetchConfig(defaultTree);
-  const [direction, setDirection] = useTreeDirection();
   const { nodes, edges, onClick } = useDecisionTree(config);
-  const [mapVisible, setMapVisible] = useState(true);
 
   return (
     <>
-      <Header
-        treeTitle={title}
-        direction={direction}
-        setDirection={setDirection}
-        mapVisible={mapVisible}
-        setMapVisible={setMapVisible}
-      />
+      <Header treeTitle={title} />
       {configIsLoading ? (
         <Spinner />
       ) : configError ? (
         <ErrorMsg message={'Error parsing the Decision Tree'} />
       ) : (
-        <Tree nodes={nodes} edges={edges} onClick={onClick} mapVisible={mapVisible} />
+        <Tree nodes={nodes} edges={edges} onClick={onClick} />
       )}
     </>
   );
