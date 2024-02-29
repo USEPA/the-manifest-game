@@ -16,12 +16,3 @@ Dockerfile
 **/README.md
 docs
 LICENSE
-
-
-# TS/JS
-**/node_modules/
-**/*.d.ts
-**/*.spec.*
-__mocks__
-**/coverage
-**/build
