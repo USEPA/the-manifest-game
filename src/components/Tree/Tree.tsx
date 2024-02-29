@@ -36,7 +36,9 @@ export const Tree = ({ nodes, edges, onClick }: TreeProps) => {
           fitViewOptions={{ padding: 5 }}
           proOptions={{ hideAttribution: true }}
         >
-          {mapVisible && <MiniMap nodeStrokeWidth={3} data-testid="tree-mini-map" />}
+          {mapVisible && (
+            <MiniMap nodeStrokeWidth={3} data-testid="tree-mini-map" nodeColor="#3E6D9BAA" />
+          )}
           <ControlCenter
             mapVisible={mapVisible}
             setMapVisible={setMapVisible}
