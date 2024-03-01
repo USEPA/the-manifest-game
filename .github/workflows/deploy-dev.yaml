@@ -1,4 +1,4 @@
-name: 'Deploy to Development'
+name: 'Dev Deployment'
 
 # Builds our artifact and deploy to GitHub Pages which we are using as our
 # development environment.
@@ -8,20 +8,19 @@ on:
     branches:
       - main
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: 'pages'
-  cancel-in-progress: true
 
 jobs:
   deploy:
     if: github.repository == 'usepa/the-manifest-game'
     name: 'Deploy to Development'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: 'pages'
+      cancel-in-progress: true
     environment:
       name: development
       url: ${{ steps.deployment.outputs.page_url }}
@@ -55,5 +54,8 @@ jobs:
         uses: actions/deploy-pages@v4
 
   build_container_image:
-    name: 'Build Latest Image'
+    name: 'Containerize'
     uses: ./.github/workflows/build-image.yaml
+    with:
+      image_tags: |
+        type=sha

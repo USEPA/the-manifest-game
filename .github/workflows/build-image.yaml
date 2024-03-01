@@ -8,6 +8,14 @@ on:
         default: 'the-manifest-game'
         type: string
         description: 'The name of the image to build.'
+      image_tags:
+        default: |
+          type=schedule
+          type=ref,event=branch
+          type=ref,event=tag
+          type=ref,event=pr
+        type: string
+        description: 'The tags to apply to the docker images'
 
 jobs:
   build_image:
@@ -25,6 +33,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ghcr.io/${{ github.repository_owner }}/${{ inputs.image_name }}
+          tags: ${{ inputs.image_tags }}
 
       - name: 'Set up QEMU'
         # docker emulation library for cross-architecture images
