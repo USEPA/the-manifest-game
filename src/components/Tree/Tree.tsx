@@ -3,7 +3,14 @@ import { DefaultNode } from 'components/Nodes/DefaultNode/DefaultNode';
 import { ControlCenter } from 'components/Tree/ControlCenter';
 import { useDAG, useTreeDirection } from 'hooks';
 import React, { useMemo, useState } from 'react';
-import ReactFlow, { Edge, MiniMap, NodeMouseHandler } from 'reactflow';
+import ReactFlow, {
+  Edge,
+  MiniMap,
+  NodeMouseHandler,
+  useReactFlow,
+  useViewport,
+  XYPosition,
+} from 'reactflow';
 import { DagNode } from 'store/DagSlice/dagSlice';
 
 export interface TreeProps {
@@ -21,6 +28,8 @@ export const Tree = ({ nodes, edges, onClick }: TreeProps) => {
   const { onNodesChange, onEdgesChange } = useDAG();
   const [mapVisible, setMapVisible] = useState(true);
   const [direction, setDirection] = useTreeDirection();
+  const { setCenter } = useReactFlow();
+  const { zoom } = useViewport();
 
   return (
     <>
@@ -33,11 +42,19 @@ export const Tree = ({ nodes, edges, onClick }: TreeProps) => {
           onEdgesChange={onEdgesChange}
           onNodesChange={onNodesChange}
           fitView
-          fitViewOptions={{ padding: 5 }}
+          fitViewOptions={{ padding: 5, minZoom: 0.5, maxZoom: 5 }}
           proOptions={{ hideAttribution: true }}
         >
           {mapVisible && (
-            <MiniMap nodeStrokeWidth={3} data-testid="tree-mini-map" nodeColor="#3E6D9BAA" />
+            <MiniMap
+              nodeStrokeWidth={3}
+              data-testid="tree-mini-map"
+              nodeColor="#3E6D9BAA"
+              zoomable={true}
+              onClick={(_event: React.MouseEvent, position: XYPosition) =>
+                setCenter(position.x, position.y, { zoom: zoom, duration: 1.5 })
+              }
+            />
           )}
           <ControlCenter
             mapVisible={mapVisible}
