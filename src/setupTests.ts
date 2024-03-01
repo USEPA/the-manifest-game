@@ -2,7 +2,6 @@ import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/matchers';
 import { vi } from 'vitest';
 
-// @ts-expect-error - ResizeObserver is defined here
 global.ResizeObserver = vi.fn().mockImplementation(() => ({
   observe: vi.fn(),
   unobserve: vi.fn(),
