@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.repository == 'usepa/haztrak'
     steps:
-      - name: 'Checkout Repository'
+      - name: 'Checkout'
         uses: actions/checkout@v3
 
       - name: 'Dependency Review'

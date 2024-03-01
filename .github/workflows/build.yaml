@@ -11,7 +11,7 @@ on:
 
 
 jobs:
-  test_client_build:
+  test_npm_build:
     name: 'Test Build'
     runs-on: ubuntu-latest
     strategy:
@@ -33,3 +33,25 @@ jobs:
 
       - name: 'Build Client'
         run: npm run build
+
+  test_image_builds:
+    name: 'Test Build Container Image'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+
+      - name: 'Docker meta'
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ghcr.io/${{ github.repository_owner }}/the-manifest-game
+
+      - name: 'Build and push'
+        uses: docker/build-push-action@v3
+        with:
+          platforms: linux/amd64
+          context: .
+          push: false
+          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta.outputs.tags }}
