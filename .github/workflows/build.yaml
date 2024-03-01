@@ -1,4 +1,4 @@
-name: 'Build'
+name: 'Test Build'
 # This workflow builds the manifest game web application
 
 on:
@@ -12,7 +12,7 @@ on:
 
 jobs:
   test_npm_build:
-    name: 'Test Build'
+    name: 'NPM'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -35,7 +35,7 @@ jobs:
         run: npm run build
 
   test_image_builds:
-    name: 'Test Build Container Image'
+    name: 'Image'
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout'

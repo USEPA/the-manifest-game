@@ -1,4 +1,4 @@
-name: 'Coverage Report'
+name: 'Coverage'
 
 on:
   release:
@@ -6,7 +6,8 @@ on:
 
 
 jobs:
-  coverage:
+  report:
+    name: 'Generate Report'
     if: github.repository == 'USEPA/the-manifest-game'
     runs-on: ubuntu-latest
 

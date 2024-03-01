@@ -10,7 +10,7 @@ on:
 
 jobs:
   run_unit_tests:
-    name: 'Run unit tests'
+    name: 'Unit Tests'
     runs-on: ubuntu-latest
     strategy:
       matrix:

@@ -1,4 +1,4 @@
-name: Deploy to Dev
+name: 'Deploy to Development'
 
 # Builds our artifact and deploy to GitHub Pages which we are using as our
 # development environment.

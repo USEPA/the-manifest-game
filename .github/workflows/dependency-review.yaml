@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   dependency-review:
-    name: 'Review Dependencies'
+    name: 'Review'
     runs-on: ubuntu-latest
     if: github.repository == 'usepa/haztrak'
     steps:
