@@ -32,8 +32,6 @@ export const BoolNode = ({
     setSelected('no');
   };
 
-  console.log('selected', selected);
-
   return (
     <BaseNode {...props} id={id}>
       <div className={styles.boolNodeContent}>
