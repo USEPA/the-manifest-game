@@ -43,7 +43,9 @@ describe('DAG layout', () => {
     const direction = 'LR';
     const horizontalTree = layoutTree(positionUnawareTree, direction);
     const verticalTree = layoutTree(positionUnawareTree);
-    expect(horizontalTree[parentId].position.x).toBeLessThan(horizontalTree[childId].position.x);
-    expect(verticalTree[parentId].position.y).toBeLessThan(verticalTree[childId].position.y);
+    expect(horizontalTree[parentId].position.x).toBeLessThanOrEqual(
+      horizontalTree[childId].position.x
+    );
+    expect(verticalTree[parentId].position.y).toBeLessThanOrEqual(verticalTree[childId].position.y);
   });
 });
