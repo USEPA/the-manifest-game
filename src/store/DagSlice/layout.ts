@@ -13,7 +13,7 @@ const dagreGraph = new dagre.graphlib.Graph<{
 dagreGraph.setDefaultEdgeLabel(() => ({}));
 
 const defaultNodeWidth = 400;
-const defaultNodeHeight = 150;
+const defaultNodeHeight = 75;
 const boolNodeWidth = defaultNodeWidth + 50;
 const boolNodeHeight = defaultNodeHeight + 50;
 
@@ -25,7 +25,7 @@ const boolNodeHeight = defaultNodeHeight + 50;
  */
 export const layoutTree = (
   tree?: PositionUnawareDecisionTree,
-  direction: DagDirection = 'TB'
+  direction: DagDirection = 'LR'
 ): DecisionTree => {
   if (!tree) return {};
   dagreGraph.setGraph({ rankdir: direction });
@@ -59,8 +59,8 @@ export const layoutTree = (
     decisionTree[node.id] = {
       ...node,
       position: {
-        x: position.x - defaultNodeWidth / 2,
-        y: position.y - defaultNodeHeight / 2,
+        x: position.x - (defaultNodeWidth + direction === 'LR' ? defaultNodeWidth : 0) / 2,
+        y: position.y - (defaultNodeHeight + direction === 'LR' ? -boolNodeHeight : 0) / 2,
         rank: position.rank,
       },
     };

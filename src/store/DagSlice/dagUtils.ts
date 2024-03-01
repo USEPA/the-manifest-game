@@ -13,7 +13,7 @@ export const createDagEdge = (source: string, target: string): Edge => {
     hidden: false,
     source,
     target,
-    type: 'default',
+    type: 'smoothstep',
     markerEnd: { type: MarkerType.ArrowClosed },
   };
 };
