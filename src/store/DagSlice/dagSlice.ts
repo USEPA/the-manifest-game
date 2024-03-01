@@ -101,7 +101,7 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
       'onEdgesChange'
     );
   },
-  treeDirection: 'TB',
+  treeDirection: 'LR',
   setDagDirection: (treeDirection: DagDirection) => {
     const decisionTree = layoutTree(get().decisionTree, treeDirection);
     const dagNodes = applyPositionToNodes(decisionTree, get().dagNodes);
