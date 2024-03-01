@@ -1,4 +1,4 @@
-name: Release Drafter
+name: 'Release Drafter'
 
 on:
   push:
@@ -11,15 +11,15 @@ permissions:
   contents: read
 
 jobs:
-  update_release_draft:
-    name: 'Update Release Draft'
+  update_draft:
+    name: 'Update Change Log'
     if: github.repository == 'usepa/the-manifest-game'
     permissions:
       contents: write
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - name: Update Release Draft
+      - name: 'Update Release Draft'
         uses: release-drafter/release-drafter@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

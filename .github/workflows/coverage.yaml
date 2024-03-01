@@ -1,4 +1,4 @@
-name: 'Coverage Report'
+name: 'Coverage'
 
 on:
   release:
@@ -6,28 +6,29 @@ on:
 
 
 jobs:
-  coverage:
+  report:
+    name: 'Generate Report'
     if: github.repository == 'USEPA/the-manifest-game'
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: 'Checkout'
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      - name: 'Setup Node.js'
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
 
-      - name: Install dependencies
+      - name: 'Install dependencies'
         run: npm ci
 
-      - name: Generate Report
+      - name: 'Generate Report'
         id: coverage
         run: npm run coverage
 
-      - name: Upload coverage report
+      - name: 'Upload coverage report'
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
