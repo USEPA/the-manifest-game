@@ -1,7 +1,8 @@
 import '@testing-library/jest-dom';
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { useDAG } from 'hooks/useDAG/useDAG';
+import { useDagStore } from 'hooks/useDagStore/useDagStore';
+import { ReactFlowProvider } from 'reactflow';
 import { DecisionTree } from 'store';
 import { afterEach, describe, expect, test } from 'vitest';
 
@@ -14,7 +15,7 @@ interface TestComponentProps {
 }
 
 const TestComponent = ({ initialTree, hideNodeId = '1', showNodeId = '1' }: TestComponentProps) => {
-  const { tree, hideNode, showNode } = useDAG(initialTree);
+  const { tree, hideNode, showNode } = useDagStore(initialTree);
 
   return (
     <>
@@ -29,7 +30,7 @@ const TestComponent = ({ initialTree, hideNodeId = '1', showNodeId = '1' }: Test
   );
 };
 
-describe('useTreeNodes', () => {
+describe('useDagStore', () => {
   test('accepts a initial DecisionTree and updates the store', () => {
     const initialTree: DecisionTree = {
       '1': {
@@ -39,7 +40,11 @@ describe('useTreeNodes', () => {
         position: { x: 0, y: 0, rank: 0 },
       },
     };
-    render(<TestComponent initialTree={initialTree} />);
+    render(
+      <ReactFlowProvider>
+        <TestComponent initialTree={initialTree} />
+      </ReactFlowProvider>
+    );
     expect(screen.getByText(/node id: 1/i)).toBeInTheDocument();
   });
   test('hideNode hides a node in the tree from view', async () => {
@@ -52,7 +57,11 @@ describe('useTreeNodes', () => {
         position: { x: 0, y: 0, rank: 0 },
       },
     };
-    render(<TestComponent initialTree={initialTree} />);
+    render(
+      <ReactFlowProvider>
+        <TestComponent initialTree={initialTree} />
+      </ReactFlowProvider>
+    );
     expect(screen.getByText(/node id: 1/i)).toBeInTheDocument();
     await user.click(screen.getByText(/hide node/i));
     expect(screen.queryByText(/node id: 1/i)).not.toBeInTheDocument();
@@ -75,7 +84,11 @@ describe('useTreeNodes', () => {
         position: { x: 0, y: 0, rank: 0 },
       },
     };
-    render(<TestComponent initialTree={initialTree} showNodeId={childId} />);
+    render(
+      <ReactFlowProvider>
+        <TestComponent initialTree={initialTree} showNodeId={childId} />
+      </ReactFlowProvider>
+    );
     expect(screen.queryByText(/node id: 2/i)).not.toBeInTheDocument();
     await user.click(screen.getByText(/show node/i));
     expect(screen.queryByText(/node id: 2/i)).toBeInTheDocument();

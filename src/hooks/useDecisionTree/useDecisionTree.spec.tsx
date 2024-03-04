@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { useDecisionTree } from 'hooks/useDecisionTree/useDecisionTree';
+import { ReactFlowProvider } from 'reactflow';
 import { DecisionTree } from 'store';
 import { afterEach, describe, expect, test } from 'vitest';
 
@@ -39,7 +40,11 @@ describe('useDecisionTree', () => {
         position: { x: 0, y: 0, rank: 0 },
       },
     };
-    render(<TestComponent initialTree={myNodes} />);
+    render(
+      <ReactFlowProvider>
+        <TestComponent initialTree={myNodes} />
+      </ReactFlowProvider>
+    );
     expect(screen.getByText('id: 1')).toBeInTheDocument();
     expect(screen.queryByText('2')).not.toBeInTheDocument();
   });
