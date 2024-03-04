@@ -2,6 +2,7 @@ import '@testing-library/jest-dom';
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useDagStore } from 'hooks/useDagStore/useDagStore';
+import { ReactFlowProvider } from 'reactflow';
 import { DecisionTree } from 'store';
 import { afterEach, describe, expect, test } from 'vitest';
 
@@ -39,7 +40,11 @@ describe('useDagStore', () => {
         position: { x: 0, y: 0, rank: 0 },
       },
     };
-    render(<TestComponent initialTree={initialTree} />);
+    render(
+      <ReactFlowProvider>
+        <TestComponent initialTree={initialTree} />
+      </ReactFlowProvider>
+    );
     expect(screen.getByText(/node id: 1/i)).toBeInTheDocument();
   });
   test('hideNode hides a node in the tree from view', async () => {
@@ -52,7 +57,11 @@ describe('useDagStore', () => {
         position: { x: 0, y: 0, rank: 0 },
       },
     };
-    render(<TestComponent initialTree={initialTree} />);
+    render(
+      <ReactFlowProvider>
+        <TestComponent initialTree={initialTree} />
+      </ReactFlowProvider>
+    );
     expect(screen.getByText(/node id: 1/i)).toBeInTheDocument();
     await user.click(screen.getByText(/hide node/i));
     expect(screen.queryByText(/node id: 1/i)).not.toBeInTheDocument();
@@ -75,7 +84,11 @@ describe('useDagStore', () => {
         position: { x: 0, y: 0, rank: 0 },
       },
     };
-    render(<TestComponent initialTree={initialTree} showNodeId={childId} />);
+    render(
+      <ReactFlowProvider>
+        <TestComponent initialTree={initialTree} showNodeId={childId} />
+      </ReactFlowProvider>
+    );
     expect(screen.queryByText(/node id: 2/i)).not.toBeInTheDocument();
     await user.click(screen.getByText(/show node/i));
     expect(screen.queryByText(/node id: 2/i)).toBeInTheDocument();
