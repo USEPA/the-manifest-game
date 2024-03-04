@@ -1,5 +1,5 @@
+import { useTreeViewport } from 'hooks/useTreeViewport/useTreeViewport';
 import { useEffect } from 'react';
-import { useReactFlow } from 'reactflow';
 import useStore from 'store';
 import { PositionUnawareDecisionTree, ShowDagNodeOptions } from 'store/DagSlice/dagSlice';
 
@@ -11,7 +11,7 @@ import { PositionUnawareDecisionTree, ShowDagNodeOptions } from 'store/DagSlice/
  * @param initialTree
  */
 export const useDagStore = (initialTree?: PositionUnawareDecisionTree) => {
-  const { setCenter, getZoom } = useReactFlow();
+  const { setCenter, getZoom } = useTreeViewport();
   const {
     decisionTree,
     setDecisionTree: setTree,

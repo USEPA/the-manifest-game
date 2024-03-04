@@ -5,7 +5,7 @@ import { useReactFlow, useViewport } from 'reactflow';
  */
 export const useTreeViewport = () => {
   const { x, y, zoom } = useViewport();
-  const { setCenter: setFlowCenter } = useReactFlow();
+  const { setCenter: setFlowCenter, getZoom } = useReactFlow();
 
   const setCenter = (
     xInput: number,
@@ -18,5 +18,5 @@ export const useTreeViewport = () => {
     setFlowCenter(xInput, yInput, options);
   };
 
-  return { x, y, zoom, setCenter } as const;
+  return { x, y, zoom, setCenter, getZoom } as const;
 };
