@@ -1,7 +1,7 @@
 import { BoolNode } from 'components/Nodes/BoolNode/BoolNode';
 import { DefaultNode } from 'components/Nodes/DefaultNode/DefaultNode';
 import { ControlCenter } from 'components/Tree/ControlCenter';
-import { useDAG, useTreeDirection } from 'hooks';
+import { useDagStore, useTreeDirection } from 'hooks';
 import React, { useMemo, useState } from 'react';
 import ReactFlow, {
   Edge,
@@ -25,7 +25,7 @@ export interface TreeProps {
  */
 export const Tree = ({ nodes, edges, onClick }: TreeProps) => {
   const nodeTypes = useMemo(() => ({ BoolNode: BoolNode, default: DefaultNode }), []);
-  const { onNodesChange, onEdgesChange } = useDAG();
+  const { onNodesChange, onEdgesChange } = useDagStore();
   const [mapVisible, setMapVisible] = useState(true);
   const [direction, setDirection] = useTreeDirection();
   const { setCenter } = useReactFlow();

@@ -2,7 +2,12 @@ import { createDagSlice, DagSlice } from 'store/DagSlice/dagSlice';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-export type { DecisionTree, TreeNode, DagNode } from 'store/DagSlice/dagSlice';
+export type {
+  DecisionTree,
+  TreeNode,
+  DagNode,
+  PositionUnawareDecisionTree,
+} from 'store/DagSlice/dagSlice';
 
 export const useStore = create<DagSlice>()(
   devtools(

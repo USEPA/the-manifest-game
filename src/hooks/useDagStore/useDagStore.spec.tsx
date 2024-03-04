@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { useDAG } from 'hooks/useDAG/useDAG';
+import { useDagStore } from 'hooks/useDagStore/useDagStore';
 import { DecisionTree } from 'store';
 import { afterEach, describe, expect, test } from 'vitest';
 
@@ -14,7 +14,7 @@ interface TestComponentProps {
 }
 
 const TestComponent = ({ initialTree, hideNodeId = '1', showNodeId = '1' }: TestComponentProps) => {
-  const { tree, hideNode, showNode } = useDAG(initialTree);
+  const { tree, hideNode, showNode } = useDagStore(initialTree);
 
   return (
     <>
@@ -29,7 +29,7 @@ const TestComponent = ({ initialTree, hideNodeId = '1', showNodeId = '1' }: Test
   );
 };
 
-describe('useTreeNodes', () => {
+describe('useDagStore', () => {
   test('accepts a initial DecisionTree and updates the store', () => {
     const initialTree: DecisionTree = {
       '1': {

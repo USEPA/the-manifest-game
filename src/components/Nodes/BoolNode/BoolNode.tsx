@@ -1,5 +1,5 @@
 import { BaseNode } from 'components/Nodes/BaseNode/BaseNode';
-import { useDAG } from 'hooks/useDAG/useDAG';
+import { useDagStore } from 'hooks';
 import { useState } from 'react';
 import { NodeProps } from 'reactflow';
 
@@ -17,7 +17,7 @@ export const BoolNode = ({
   id,
   ...props
 }: NodeProps<BoolNodeData>) => {
-  const { showNode, hideNode } = useDAG();
+  const { showNode, hideNode } = useDagStore();
   const [selected, setSelected] = useState<'yes' | 'no' | undefined>(undefined);
 
   const handleYes = () => {

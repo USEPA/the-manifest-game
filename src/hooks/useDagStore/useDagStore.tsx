@@ -9,7 +9,7 @@ import { PositionUnawareDecisionTree, ShowDagNodeOptions } from 'store/DagSlice/
  * such as showing and hiding nodes and edges
  * @param initialTree
  */
-export const useDAG = (initialTree?: PositionUnawareDecisionTree) => {
+export const useDagStore = (initialTree?: PositionUnawareDecisionTree) => {
   const {
     decisionTree,
     setDecisionTree: setTree,

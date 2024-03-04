@@ -1,6 +1,6 @@
-import { useDAG } from 'hooks/useDAG/useDAG';
+import { useDagStore } from 'hooks';
 import { NodeMouseHandler } from 'reactflow';
-import { PositionUnawareDecisionTree } from 'store/DagSlice/dagSlice';
+import { PositionUnawareDecisionTree } from 'store';
 
 /**
  * useDecisionTree
@@ -9,7 +9,7 @@ import { PositionUnawareDecisionTree } from 'store/DagSlice/dagSlice';
  * @param initialTree
  */
 export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree) => {
-  const { hideDescendants, showChildren, edges, nodes, hideNiblings } = useDAG(initialTree);
+  const { hideDescendants, showChildren, edges, nodes, hideNiblings } = useDagStore(initialTree);
 
   /** handle node click events */
   const onClick: NodeMouseHandler = (_event, node) => {
