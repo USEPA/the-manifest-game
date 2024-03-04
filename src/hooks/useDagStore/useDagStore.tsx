@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useReactFlow } from 'reactflow';
 import useStore from 'store';
 import { PositionUnawareDecisionTree, ShowDagNodeOptions } from 'store/DagSlice/dagSlice';
 
@@ -10,6 +11,7 @@ import { PositionUnawareDecisionTree, ShowDagNodeOptions } from 'store/DagSlice/
  * @param initialTree
  */
 export const useDagStore = (initialTree?: PositionUnawareDecisionTree) => {
+  const { setCenter, getZoom } = useReactFlow();
   const {
     decisionTree,
     setDecisionTree: setTree,
@@ -27,6 +29,7 @@ export const useDagStore = (initialTree?: PositionUnawareDecisionTree) => {
   /** show a node's direct children and the edges leading to them */
   const showChildren = (nodeId: string) => {
     showDagChildren(nodeId);
+    setCenter(decisionTree[nodeId].position.x, decisionTree[nodeId].position.y);
   };
 
   /** hide a node's descendant nodes and edges, but not the node itself */
@@ -48,6 +51,10 @@ export const useDagStore = (initialTree?: PositionUnawareDecisionTree) => {
   /** show a node and the edge leading to it */
   const showNode = (nodeId: string, options?: ShowDagNodeOptions) => {
     showDagNode(nodeId, options);
+    setCenter(decisionTree[nodeId].position.x + 50, decisionTree[nodeId].position.y + 50, {
+      zoom: getZoom(),
+      duration: 1000,
+    });
   };
 
   useEffect(() => {
