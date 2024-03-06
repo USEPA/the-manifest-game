@@ -1,7 +1,7 @@
 {
   "nodes": [
     {
-      "id": "parent",
+      "id": "root",
       "type": "BoolNode",
       "data": {
         "label": "Are you registered?",
