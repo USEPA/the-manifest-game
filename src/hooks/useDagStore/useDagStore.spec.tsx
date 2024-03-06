@@ -15,7 +15,7 @@ interface TestComponentProps {
 }
 
 const TestComponent = ({ initialTree, hideNodeId = '1', showNodeId = '1' }: TestComponentProps) => {
-  const { tree, hideNode, showNode } = useDagStore(initialTree);
+  const { hideNode, showNode, tree } = useDagStore(initialTree);
 
   return (
     <>
