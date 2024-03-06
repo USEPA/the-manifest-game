@@ -10,6 +10,7 @@ import {
   OnNodesChange,
 } from 'reactflow';
 import {
+  addDagEdge,
   applyPositionToNodes,
   createDagEdge,
   createDagNode,
@@ -127,12 +128,14 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
   },
   showDagNode: (nodeId: string, options?: ShowDagNodeOptions) => {
     const decisionTree = setNodeVisible(get().decisionTree, nodeId);
-    const dagEdges = get().dagEdges;
+    const dagEdges = options?.parentId
+      ? addDagEdge(get().dagEdges, {
+          source: options.parentId,
+          target: nodeId,
+        })
+      : get().dagEdges;
     const dagNodes = removeNodes(get().dagNodes, [nodeId]);
     const newNode = createDagNode(nodeId, decisionTree[nodeId]);
-    if (options?.parentId) {
-      dagEdges.push(createDagEdge(options.parentId, nodeId));
-    }
     set(
       {
         decisionTree,
