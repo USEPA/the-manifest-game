@@ -7,16 +7,16 @@ import { DagDirection } from 'store/DagSlice/dagSlice';
  * the values of a DagDirection.
  */
 export const useTreeDirection = (initialDir?: DagDirection) => {
-  const { treeDirection: direction, setDagDirection } = useStore((state) => state);
+  const { direction, setDirection: setStoreDirection } = useStore((state) => state);
 
   /** set the direction of the tree layout */
   const setDirection = (direction: DagDirection) => {
-    if (direction) setDagDirection(direction);
+    if (direction) setStoreDirection(direction);
   };
 
   useEffect(() => {
-    if (initialDir) setDagDirection(initialDir);
-  }, [initialDir, setDagDirection]);
+    if (initialDir) setStoreDirection(initialDir);
+  }, [initialDir, setStoreDirection]);
 
   const isHorizontal: boolean = direction === 'LR';
 

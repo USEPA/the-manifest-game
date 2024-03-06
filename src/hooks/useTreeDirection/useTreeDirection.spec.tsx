@@ -12,8 +12,8 @@ afterEach(() => {
 });
 beforeEach(() => {
   useStore.setState({
-    treeDirection: 'TB',
-    decisionTree: {
+    direction: 'TB',
+    tree: {
       '1': {
         id: '1',
         position: { x: 0, y: 0 },

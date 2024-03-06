@@ -20,7 +20,7 @@ const TestComponent = ({ overwrites, primaryId, noId, yesId }: TestComponentProp
   const yId = yesId || '2';
   const nId = noId || '3';
   useStore.setState({
-    decisionTree: {
+    tree: {
       [id]: {
         id: id,
         hidden: false,
@@ -112,8 +112,8 @@ describe('BoolNode', () => {
       />
     );
     await user.click(screen.getByRole('button', { name: /yes/i }));
-    expect(useStore.getState().decisionTree[yesId].hidden).toBe(false);
+    expect(useStore.getState().tree[yesId].hidden).toBe(false);
     await user.click(screen.getByRole('button', { name: /no/i }));
-    expect(useStore.getState().decisionTree[yesId].hidden).toBe(true);
+    expect(useStore.getState().tree[yesId].hidden).toBe(true);
   });
 });
