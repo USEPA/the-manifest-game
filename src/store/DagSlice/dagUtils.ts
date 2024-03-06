@@ -6,6 +6,19 @@
 import { Edge, MarkerType } from 'reactflow';
 import { DagNode, DecisionTree, TreeNode } from './dagSlice';
 
+export interface DagEdgeConfig {
+  source: string;
+  target: string;
+}
+
+/** idempotent action to add an edge */
+export const addDagEdge = (currentEdges: Edge[], config: DagEdgeConfig) => {
+  if (currentEdges.find((e) => e.source === config.source && e.target === config.target)) {
+    return currentEdges;
+  }
+  return [...currentEdges, createDagEdge(config.source, config.target)];
+};
+
 /** creates the edges between two nodes with defaults applied */
 export const createDagEdge = (source: string, target: string): Edge => {
   return {
