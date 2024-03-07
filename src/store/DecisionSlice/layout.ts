@@ -1,7 +1,8 @@
 import dagre from '@dagrejs/dagre';
 import { Edge } from 'reactflow';
-import { DagDirection, DecisionTree, PositionUnawareDecisionTree } from 'store/DagSlice/dagSlice';
-import { createDagEdge } from 'store/DagSlice/dagUtils';
+import { DecisionTree, PositionUnawareDecisionTree } from 'store/DagNodeSlice/dagNodeSlice';
+import { createDagEdge } from 'store/DagNodeSlice/dagNodeUtils';
+import { TreeDirection } from 'store/DecisionSlice/decisionSlice';
 
 const dagreGraph = new dagre.graphlib.Graph<{
   x: number;
@@ -25,7 +26,7 @@ const boolNodeHeight = defaultNodeHeight + 50;
  */
 export const layoutTree = (
   tree?: PositionUnawareDecisionTree,
-  direction: DagDirection = 'LR'
+  direction: TreeDirection = 'LR'
 ): DecisionTree => {
   if (!tree) return {};
   dagreGraph.setGraph({ rankdir: direction });

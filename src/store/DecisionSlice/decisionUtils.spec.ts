@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { DecisionTree } from 'store/DagSlice/dagSlice';
+import { DecisionTree } from 'store/DagNodeSlice/dagNodeSlice';
 import { getDescendantIds, getSiblingIds } from 'store/DecisionSlice/decisionUtils';
 import { describe, expect, test } from 'vitest';
 

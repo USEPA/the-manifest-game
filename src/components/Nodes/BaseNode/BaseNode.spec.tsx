@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { act, cleanup, render, screen } from '@testing-library/react';
 import { BaseNode } from 'components/Nodes/BaseNode/BaseNode';
 import { ReactFlowProvider } from 'reactflow';
-import useStore from 'store';
+import useTreeStore from 'store';
 import { afterEach, describe, expect, it } from 'vitest';
 
 const TestComponent = () => {
@@ -31,12 +31,12 @@ describe('BaseNode', () => {
     expect(screen.getByTestId('node-1')).toBeInTheDocument();
   });
   it('handles changes in tree layout', () => {
-    useStore.setState({ direction: 'LR' });
+    useTreeStore.setState({ direction: 'LR' });
     const { rerender } = render(<TestComponent />);
     expect(screen.getByTestId('left-handle')).toBeInTheDocument();
     expect(screen.getByTestId('right-handle')).toBeInTheDocument();
     act(() => {
-      useStore.setState({ direction: 'TB' });
+      useTreeStore.setState({ direction: 'TB' });
     });
     rerender(<TestComponent />);
     expect(screen.getByTestId('top-handle')).toBeInTheDocument();

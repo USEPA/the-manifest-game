@@ -2,16 +2,15 @@ import '@testing-library/jest-dom';
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useTreeDirection } from 'hooks/useTreeDirection/useTreeDirection';
-import useStore from 'store';
-import { DagDirection } from 'store/DagSlice/dagSlice';
+import useTreeStore, { TreeDirection } from 'store';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
 afterEach(() => {
   cleanup();
-  useStore.setState({});
+  useTreeStore.setState({});
 });
 beforeEach(() => {
-  useStore.setState({
+  useTreeStore.setState({
     direction: 'TB',
     tree: {
       '1': {
@@ -30,8 +29,8 @@ const TestComponent = ({
   initialDir,
   newDir,
 }: {
-  initialDir?: DagDirection;
-  newDir?: DagDirection;
+  initialDir?: TreeDirection;
+  newDir?: TreeDirection;
 }) => {
   const [direction, setDirection, isHorizontal] = useTreeDirection(initialDir);
   return (

@@ -1,16 +1,15 @@
 import { useEffect } from 'react';
-import useStore from 'store';
-import { DagDirection } from 'store/DagSlice/dagSlice';
+import useTreeStore, { TreeDirection } from 'store';
 
 /**
  * Returns the current direction of the node layout and a setter. The direction can be set to
- * the values of a DagDirection.
+ * the values of a .
  */
-export const useTreeDirection = (initialDir?: DagDirection) => {
-  const { direction, setDirection: setStoreDirection } = useStore((state) => state);
+export const useTreeDirection = (initialDir?: TreeDirection) => {
+  const { direction, setDirection: setStoreDirection } = useTreeStore((state) => state);
 
   /** set the direction of the tree layout */
-  const setDirection = (direction: DagDirection) => {
+  const setDirection = (direction: TreeDirection) => {
     if (direction) setStoreDirection(direction);
   };
 

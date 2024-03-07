@@ -1,20 +1,20 @@
 import { BoolNode } from 'components/Nodes/BoolNode/BoolNode';
 import { DefaultNode } from 'components/Nodes/DefaultNode/DefaultNode';
 import { ControlCenter } from 'components/Tree/ControlCenter';
-import { useDagStore, useTreeDirection } from 'hooks';
+import { useTreeDirection, useTreeStore } from 'hooks';
 import React, { useMemo, useState } from 'react';
 import ReactFlow, {
   Edge,
   MiniMap,
+  Node,
   NodeMouseHandler,
   useReactFlow,
   useViewport,
   XYPosition,
 } from 'reactflow';
-import { DagNode } from 'store/DagSlice/dagSlice';
 
 export interface TreeProps {
-  nodes: DagNode[];
+  nodes: Node[];
   edges: Edge[];
   onClick: NodeMouseHandler;
   mapVisible?: boolean;
@@ -25,7 +25,7 @@ export interface TreeProps {
  */
 export const Tree = ({ nodes, edges, onClick }: TreeProps) => {
   const nodeTypes = useMemo(() => ({ BoolNode: BoolNode, default: DefaultNode }), []);
-  const { onNodesChange, onEdgesChange } = useDagStore();
+  const { onNodesChange, onEdgesChange } = useTreeStore();
   const [mapVisible, setMapVisible] = useState(true);
   const [direction, setDirection] = useTreeDirection();
   const { setCenter } = useReactFlow();

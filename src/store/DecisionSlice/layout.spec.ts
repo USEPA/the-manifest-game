@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { PositionUnawareDecisionTree } from 'store/DagSlice/dagSlice';
+import { PositionUnawareDecisionTree } from 'store/DagNodeSlice/dagNodeSlice';
 import { layoutTree } from 'store/DecisionSlice/layout';
 import { describe, expect, it } from 'vitest';
 

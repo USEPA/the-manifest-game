@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { Edge } from 'reactflow';
-import { DecisionTree } from 'store/DagSlice/dagSlice';
-import { addDagEdge, applyPositionToNodes, createDagEdge } from 'store/DagSlice/dagUtils';
+import { DecisionTree } from 'store/DagNodeSlice/dagNodeSlice';
+import { addDagEdge, applyPositionToNodes, createDagEdge } from 'store/DagNodeSlice/dagNodeUtils';
 import { describe, expect, it, test } from 'vitest';
 
 describe('Dag Slice internals', () => {
