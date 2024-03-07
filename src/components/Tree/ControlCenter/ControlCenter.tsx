@@ -1,13 +1,13 @@
 import { LayoutBtn } from 'components/Tree/ControlCenter/Controls/LayoutBtn/LayoutBtn';
 import { MiniMapBtn } from 'components/Tree/ControlCenter/Controls/MiniMapBtn/MiniMapBtn';
 import { Controls } from 'reactflow';
-import { DagDirection } from 'store/DagSlice/dagSlice';
+import { TreeDirection } from 'store';
 
 export interface ControlCenterProps {
   mapVisible: boolean;
   setMapVisible: (visible: boolean) => void;
-  direction: DagDirection;
-  setDirection: (direction: DagDirection) => void;
+  direction: TreeDirection;
+  setDirection: (direction: TreeDirection) => void;
 }
 
 /** The Controls for the Decision Tree*/

@@ -1,7 +1,6 @@
 import { BoolNodeData } from 'components/Nodes/BoolNode/BoolNode';
 import { useEffect, useState } from 'react';
-import { TreeNode } from 'store';
-import { PositionUnawareDecisionTree } from 'store/DagSlice/dagSlice';
+import { PositionUnawareDecisionTree, TreeNode } from 'store';
 
 /**
  * Data needed by all TreeNodes that contains the nodes expanded state,

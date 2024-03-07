@@ -1,16 +1,13 @@
 import { useTreeViewport } from 'hooks/useTreeViewport/useTreeViewport';
 import { useEffect } from 'react';
-import useStore from 'store';
-import { PositionUnawareDecisionTree, ShowDagNodeOptions } from 'store/DagSlice/dagSlice';
+import useDecTreeStore, { PositionUnawareDecisionTree, ShowDagNodeOptions } from 'store';
 
 /**
- * useTreeNodes
- *
  * custom hook that wraps around the tree store to provide a simplified interface for common tasks
  * such as showing and hiding nodes and edges
  * @param initialTree
  */
-export const useDagStore = (initialTree?: PositionUnawareDecisionTree) => {
+export const useTreeStore = (initialTree?: PositionUnawareDecisionTree) => {
   const { setCenter, getZoom } = useTreeViewport();
   const {
     tree,
@@ -24,7 +21,7 @@ export const useDagStore = (initialTree?: PositionUnawareDecisionTree) => {
     removeNiblings: removeStoreNiblings,
     onNodesChange,
     onEdgesChange,
-  } = useStore((state) => state);
+  } = useDecTreeStore((state) => state);
 
   /** show a node's direct children and the edges leading to them */
   const showChildren = (nodeId: string) => {

@@ -3,14 +3,14 @@ import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ControlCenter } from 'components/Tree/ControlCenter/index';
 import { ReactFlowProvider } from 'reactflow';
-import { DagDirection } from 'store/DagSlice/dagSlice';
+import { TreeDirection } from 'store';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 interface TestComponentProps {
   mapVisible?: boolean;
   setMapVisible?: (visible: boolean) => void;
-  direction?: DagDirection;
-  setDirection?: (direction: DagDirection) => void;
+  direction?: TreeDirection;
+  setDirection?: (direction: TreeDirection) => void;
 }
 
 const TestComponent = ({ ...props }: TestComponentProps) => {

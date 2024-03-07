@@ -3,8 +3,7 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { Tree } from 'components/Tree/Tree';
 import { useDecisionTree } from 'hooks';
 import { ReactFlowProvider } from 'reactflow';
-import { DecisionTree } from 'store';
-import { PositionUnawareDecisionTree } from 'store/DagSlice/dagSlice';
+import { DecisionTree, PositionUnawareDecisionTree } from 'store';
 import { afterEach, describe, expect, it } from 'vitest';
 
 afterEach(() => cleanup());

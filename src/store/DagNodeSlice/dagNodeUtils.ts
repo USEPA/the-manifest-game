@@ -4,7 +4,7 @@
  *  Do not export outside this module
  * */
 import { Edge, MarkerType } from 'reactflow';
-import { DagNode, DecisionTree, TreeNode } from './dagSlice';
+import { DagNode, DecisionTree, TreeNode } from 'store/DagNodeSlice/dagNodeSlice';
 
 export interface DagEdgeConfig {
   source: string;

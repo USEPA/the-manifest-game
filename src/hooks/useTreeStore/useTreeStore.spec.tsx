@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { useDagStore } from 'hooks/useDagStore/useDagStore';
+import { useTreeStore } from 'hooks/useTreeStore/useTreeStore';
 import { ReactFlowProvider } from 'reactflow';
 import { DecisionTree } from 'store';
 import { afterEach, describe, expect, test } from 'vitest';
@@ -15,7 +15,7 @@ interface TestComponentProps {
 }
 
 const TestComponent = ({ initialTree, hideNodeId = '1', showNodeId = '1' }: TestComponentProps) => {
-  const { hideNode, showNode, tree } = useDagStore(initialTree);
+  const { hideNode, showNode, tree } = useTreeStore(initialTree);
 
   return (
     <>

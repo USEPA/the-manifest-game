@@ -14,7 +14,7 @@ import {
   applyPositionToNodes,
   createDagEdge,
   createDagNode,
-} from 'store/DagSlice/dagUtils';
+} from 'store/DagNodeSlice/dagNodeUtils';
 import { StateCreator } from 'zustand';
 
 /** A vertex in our decision tree.*/
@@ -38,34 +38,34 @@ export interface ShowDagNodeOptions {
   parentId?: string;
 }
 
-export type DagDirection = 'TB' | 'LR';
-
-interface DagState {
+interface DagNodeSliceState {
   dagNodes: DagNode[];
   dagEdges: Edge[];
 }
 
-interface DagActions {
+interface DagNodeSliceActions {
   /** Show the direct children of a node in the tree */
   createChildrenNodes: (nodeId: string, tree: DecisionTree) => void;
   /** Show a node in the tree - Currently does not create edges*/
-  createNode: (nodeId: string, tree: DecisionTree, options?: ShowDagNodeOptions) => void;
+  createDagNode: (nodeId: string, tree: DecisionTree, options?: ShowDagNodeOptions) => void;
   /** Hide a node and all of its descendants*/
-  removeNodes: (nodeId: string[]) => void;
+  removeDagNodes: (nodeId: string[]) => void;
   /** Set the layout direction */
-  setNodePositions: (tree: DecisionTree) => void;
+  setDagNodePositions: (tree: DecisionTree) => void;
   /** Used to apply update to existing nodes - used by the react-flow library*/
   onNodesChange: OnNodesChange;
   /** Used to apply update to existing edges - used by the react-flow library*/
   onEdgesChange: OnEdgesChange;
 }
 
-export interface DagSlice extends DagState, DagActions {}
+export interface DagNodeSlice extends DagNodeSliceState, DagNodeSliceActions {}
 
-export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]], [], DagSlice> = (
-  set,
-  get
-) => ({
+export const createDagNodeSlice: StateCreator<
+  DagNodeSlice,
+  [['zustand/devtools', never]],
+  [],
+  DagNodeSlice
+> = (set, get) => ({
   dagEdges: [],
   dagNodes: [],
   onNodesChange: (changes: NodeChange[]) => {
@@ -86,7 +86,7 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
       'onEdgesChange'
     );
   },
-  setNodePositions: (tree: DecisionTree) => {
+  setDagNodePositions: (tree: DecisionTree) => {
     const dagNodes = applyPositionToNodes(tree, get().dagNodes);
     set(
       {
@@ -97,8 +97,8 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
     );
   },
 
-  /** ToDo: Options temporary, to be removed when we separate the EdgeSlice*/
-  createNode: (nodeId: string, tree: DecisionTree, options?: ShowDagNodeOptions) => {
+  /** ToDo: remove options. can be done after when we create EdgeSlice*/
+  createDagNode: (nodeId: string, tree: DecisionTree, options?: ShowDagNodeOptions) => {
     const dagEdges = options?.parentId
       ? addDagEdge(get().dagEdges, {
           source: options.parentId,
@@ -116,7 +116,7 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
       'createNode'
     );
   },
-  removeNodes: (nodeId: string[]) => {
+  removeDagNodes: (nodeId: string[]) => {
     const newNodes = filterNodes(get().dagNodes, nodeId);
     const newEdges = get().dagEdges.filter((edge) => !nodeId.includes(edge.target));
     set(
@@ -128,6 +128,7 @@ export const createDagSlice: StateCreator<DagSlice, [['zustand/devtools', never]
       'removeDagNode'
     );
   },
+  /** ToDo: move logic into TreeSlice and consolidate with createDagNode */
   createChildrenNodes: (nodeId: string, tree: DecisionTree) => {
     const childrenData = getTreeChildren(tree, tree[nodeId]);
     const newEdges = createChildrenEdges(nodeId, childrenData);
