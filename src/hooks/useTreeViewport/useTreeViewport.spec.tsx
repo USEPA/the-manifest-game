@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { cleanup, render, screen } from '@testing-library/react';
 import { useTreeViewport } from 'hooks/useTreeViewport/useTreeViewport';
 import { ReactFlowProvider } from 'reactflow';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, test } from 'vitest';
 
 afterEach(() => {
   cleanup();
@@ -33,7 +33,7 @@ const TestComponent = ({
 };
 
 describe('useTreeViewport', () => {
-  it('returns the current x, y, and zoom', () => {
+  test('returns the current x, y, and zoom', () => {
     render(
       <ReactFlowProvider>
         <TestComponent />

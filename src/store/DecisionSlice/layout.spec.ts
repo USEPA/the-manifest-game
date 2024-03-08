@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
 import { PositionUnawareDecisionTree } from 'store/DagNodeSlice/dagNodeSlice';
 import { layoutTree } from 'store/DecisionSlice/layout';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, test } from 'vitest';
 
 describe('DAG layout', () => {
-  it('accepts a position unaware tree and returns position aware tree', () => {
+  test('accepts a position unaware tree and returns position aware tree', () => {
     const nodeId = '2';
     const positionUnawareTree: PositionUnawareDecisionTree = {
       [nodeId]: {
@@ -21,7 +21,7 @@ describe('DAG layout', () => {
     expect(typeof tree).toBe('object');
     expect(tree[nodeId].position).toBeDefined();
   });
-  it('changes rank direction based on optional argument', () => {
+  test('changes rank direction based on optional argument', () => {
     const parentId = '2';
     const childId = '3';
     const positionUnawareTree: PositionUnawareDecisionTree = {

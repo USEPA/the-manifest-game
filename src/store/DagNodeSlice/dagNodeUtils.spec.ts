@@ -1,11 +1,11 @@
 import '@testing-library/jest-dom';
 import { DagNode, DecisionTree } from 'store/DagNodeSlice/dagNodeSlice';
 import { applyPositionToNodes, filterNodesById } from 'store/DagNodeSlice/dagNodeUtils';
-import { describe, expect, it, suite, test } from 'vitest';
+import { describe, expect, suite, test } from 'vitest';
 
 suite('Dag Node Slice internals', () => {
   describe('applyPositionToNodes', () => {
-    it('Applies tree positions to nodes', () => {
+    test('Applies tree positions to nodes', () => {
       const oldX = 0;
       const oldY = 10;
       const newX = 100;
