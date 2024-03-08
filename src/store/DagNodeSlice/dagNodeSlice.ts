@@ -38,7 +38,7 @@ interface DagNodeSliceActions {
   /** Hide a node and all of its descendants*/
   removeDagNodes: (nodeId: string[]) => void;
   /** Set the layout direction */
-  setDagNodePositions: (tree: DecisionTree) => void;
+  positionDagNodes: (tree: DecisionTree) => void;
   /** Used to apply update to existing nodes - used by the react-flow library*/
   onNodesChange: OnNodesChange;
 }
@@ -62,14 +62,14 @@ export const createDagNodeSlice: StateCreator<
       'onNodesChange'
     );
   },
-  setDagNodePositions: (tree: DecisionTree) => {
+  positionDagNodes: (tree: DecisionTree) => {
     const dagNodes = applyPositionToNodes(tree, get().dagNodes);
     set(
       {
         dagNodes,
       },
       false,
-      'setNodeLayout'
+      'positionDagNodes'
     );
   },
   createDagNode: (nodeId: string, tree: DecisionTree) => {
@@ -90,7 +90,7 @@ export const createDagNodeSlice: StateCreator<
         dagNodes: newNodes,
       },
       false,
-      'removeDagNode'
+      'removeNode'
     );
   },
 });

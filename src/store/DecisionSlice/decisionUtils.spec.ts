@@ -1,14 +1,9 @@
 import '@testing-library/jest-dom';
 import { DecisionTree } from 'store/DagNodeSlice/dagNodeSlice';
 import { getDescendantIds, getSiblingIds } from 'store/DecisionSlice/decisionUtils';
-import { describe, expect, test } from 'vitest';
+import { describe, expect, suite, test } from 'vitest';
 
-describe('Tree Slice internals', () => {
-  describe('Temporary scaffolding', () => {
-    test('Temporary scaffolding', () => {
-      expect(true).toBeTruthy();
-    });
-  });
+suite('Tree Slice internals', () => {
   describe('Get Descendants ID', () => {
     test('returns an array', () => {
       const ids = getDescendantIds({}, '1');
@@ -59,5 +54,6 @@ describe('Tree Slice internals', () => {
       expect(getSiblingIds(tree, siblingId3)).toEqual([siblingId2, siblingId4]);
       expect(getSiblingIds(tree, siblingId4)).toEqual([siblingId2, siblingId3]);
     });
+    describe('');
   });
 });

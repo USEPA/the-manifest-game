@@ -22,3 +22,23 @@ export const getSiblingIds = (tree: DecisionTree, id: string): string[] => {
     .filter((n) => n.position.rank === rank && n.id !== id)
     .map((n) => n.id);
 };
+/** set hidden to false */
+export const setNodeVisible = (tree: DecisionTree, nodeIds: string[]) => {
+  nodeIds.forEach((id) => (tree[id].hidden = false));
+  return tree;
+};
+
+export const setNodesHidden = (tree: DecisionTree, nodeIds: string[]) => {
+  nodeIds.forEach((id) => (tree[id].hidden = true));
+  return tree;
+};
+
+export const setExpanded = (tree: DecisionTree, nodeIds: string[]) => {
+  nodeIds.forEach((id) => (tree[id].data.expanded = true));
+  return tree;
+};
+
+export const setCollapsed = (tree: DecisionTree, nodeIds: string[]) => {
+  nodeIds.forEach((id) => (tree[id].data.expanded = false));
+  return tree;
+};

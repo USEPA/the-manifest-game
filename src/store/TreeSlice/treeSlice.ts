@@ -30,19 +30,19 @@ export const createTreeSlice: StateCreator<
 > = (_set, get) => ({
   setDirection: (direction: TreeDirection) => {
     get().setTreeDirection(direction);
-    get().setDagNodePositions(get().tree);
+    get().positionDagNodes(get().tree);
   },
   setTree: (tree: PositionUnawareDecisionTree) => {
     get().setDecisionTree(tree);
   },
   showNode: (nodeId: string, options?: ShowDagNodeOptions) => {
-    get().setDecisionVisible(nodeId);
+    get().showDecision(nodeId);
     const tree = get().tree;
     get().createDagNode(nodeId, tree);
     get().createEdge(options?.parentId, nodeId);
   },
   hideNode: (nodeId: string) => {
-    get().setDecisionHidden(nodeId);
+    get().hideDecision(nodeId);
     get().removeEdgesByTarget([nodeId]);
     get().removeDagNodes([nodeId]);
   },
@@ -50,22 +50,22 @@ export const createTreeSlice: StateCreator<
     const childrenIds = get().tree[nodeId].data.children;
     const tree = get().tree;
     childrenIds?.forEach((id) => {
-      get().setDecisionVisible(id);
+      get().showDecision(id);
       get().createDagNode(id, tree);
       get().createEdge(nodeId, id);
     });
-    get().setDecisionExpanded(nodeId);
+    get().expandDecision(nodeId);
   },
   hideDescendants: (nodeId: string) => {
     const childrenIds = getDescendantIds(get().tree, nodeId);
-    get().setDecisionCollapsed(nodeId, childrenIds);
+    get().collapseDecision(nodeId, childrenIds);
     get().removeDagNodes([...childrenIds]);
   },
   removeNiblings: (nodeId: string) => {
     const dagTree = get().tree;
     const siblingIds = getSiblingIds(dagTree, nodeId);
     const siblingDescendantIds = siblingIds.flatMap((id) => getDescendantIds(dagTree, id));
-    get().setDecisionCollapsed(nodeId, siblingDescendantIds);
+    get().collapseDecision(nodeId, siblingDescendantIds);
     get().removeDagNodes([...siblingDescendantIds]);
   },
 });
