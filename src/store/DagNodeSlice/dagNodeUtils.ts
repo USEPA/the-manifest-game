@@ -34,3 +34,8 @@ export const applyPositionToNodes = (tree: DecisionTree, nodes: DagNode[]) => {
     return newNode;
   });
 };
+
+/** Filter nodes by id */
+export const filterNodesById = (nodes: DagNode[], ids: string[]): DagNode[] => {
+  return nodes.filter((node) => !ids.includes(node.id));
+};

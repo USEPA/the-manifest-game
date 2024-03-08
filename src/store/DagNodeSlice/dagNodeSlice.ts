@@ -1,6 +1,10 @@
 import { BooleanNodeData, NodeData } from 'hooks/useFetchConfig/useFetchConfig';
 import { applyNodeChanges, Node, NodeChange, OnNodesChange } from 'reactflow';
-import { applyPositionToNodes, createDagNode } from 'store/DagNodeSlice/dagNodeUtils';
+import {
+  applyPositionToNodes,
+  createDagNode,
+  filterNodesById,
+} from 'store/DagNodeSlice/dagNodeUtils';
 import { StateCreator } from 'zustand';
 
 /** A vertex in our decision tree.*/
@@ -69,7 +73,7 @@ export const createDagNodeSlice: StateCreator<
     );
   },
   createDagNode: (nodeId: string, tree: DecisionTree) => {
-    const dagNodes = filterNodes(get().dagNodes, [nodeId]);
+    const dagNodes = filterNodesById(get().dagNodes, [nodeId]);
     const newNode = createDagNode(nodeId, tree[nodeId]);
     set(
       {
@@ -80,19 +84,13 @@ export const createDagNodeSlice: StateCreator<
     );
   },
   removeDagNodes: (nodeId: string[]) => {
-    const newNodes = filterNodes(get().dagNodes, nodeId);
-    // const newEdges = get().dagEdges.filter((edge) => !nodeId.includes(edge.target));
+    const newNodes = filterNodesById(get().dagNodes, nodeId);
     set(
       {
         dagNodes: newNodes,
-        // dagEdges: newEdges,
       },
       false,
       'removeDagNode'
     );
   },
 });
-
-const filterNodes = (nodes: DagNode[], ids: string[]): DagNode[] => {
-  return nodes.filter((node) => !ids.includes(node.id));
-};
