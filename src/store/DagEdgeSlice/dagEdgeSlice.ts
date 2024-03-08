@@ -24,6 +24,7 @@ export const createDagEdgeSlice: StateCreator<
   DagEdgeSlice
 > = (set, get) => ({
   dagEdges: [],
+  /* v8 ignore next 9  - this is something needed by the React flow library, not tested by us*/
   onEdgesChange: (changes: EdgeChange[]) => {
     set(
       {
