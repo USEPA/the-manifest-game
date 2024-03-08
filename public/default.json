@@ -12,7 +12,23 @@
     {
       "id": "goRegister",
       "data": {
-        "label": "Time to Register in RCRAInfo!"
+        "label": "Time to Register in RCRAInfo!",
+        "children": [
+          "test1",
+          "test2"
+        ]
+      }
+    },
+    {
+      "id": "test1",
+      "data": {
+        "label": "Test 1"
+      }
+    },
+    {
+      "id": "test2",
+      "data": {
+        "label": "Test 2"
       }
     },
     {

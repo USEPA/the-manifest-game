@@ -3,7 +3,7 @@ import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useTreeDirection } from 'hooks/useTreeDirection/useTreeDirection';
 import useTreeStore, { TreeDirection } from 'store';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 
 afterEach(() => {
   cleanup();
@@ -43,18 +43,18 @@ const TestComponent = ({
 };
 
 describe('useTreeDirection', () => {
-  it('returns the current direction', () => {
+  test('returns the current direction', () => {
     render(<TestComponent initialDir={'TB'} />);
     expect(screen.getByText('TB')).toBeInTheDocument();
   });
-  it('sets the tree direction', async () => {
+  test('sets the tree direction', async () => {
     const user = userEvent.setup();
     render(<TestComponent initialDir={'TB'} newDir={'LR'} />);
     const button = screen.getByText('set direction');
     await user.click(button);
     expect(screen.queryByText('LR')).toBeInTheDocument();
   });
-  it('exposes a boolean that indicates whether the tree layout is horizontal', async () => {
+  test('exposes a boolean that indicates whether the tree layout is horizontal', async () => {
     const user = userEvent.setup();
     render(<TestComponent initialDir={'LR'} newDir={'TB'} />);
     expect(screen.queryByText('horizontal')).toBeInTheDocument();

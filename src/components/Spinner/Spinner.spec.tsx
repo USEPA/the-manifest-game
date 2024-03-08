@@ -1,12 +1,12 @@
 import '@testing-library/jest-dom';
 import { cleanup, render, screen } from '@testing-library/react';
 import { Spinner } from 'components/Spinner/Spinner';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, test } from 'vitest';
 
 afterEach(() => cleanup());
 
 describe('Spinner', () => {
-  it('renders a spinner', () => {
+  test('renders a spinner', () => {
     render(<Spinner />);
     expect(screen.getByTestId('spinner')).toBeInTheDocument();
   });

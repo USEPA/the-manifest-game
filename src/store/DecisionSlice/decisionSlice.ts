@@ -1,5 +1,11 @@
 import { BooleanNodeData, NodeData } from 'hooks/useFetchConfig/useFetchConfig';
 import { Node } from 'reactflow';
+import {
+  setCollapsed,
+  setExpanded,
+  setNodesHidden,
+  setNodeVisible,
+} from 'store/DecisionSlice/decisionUtils';
 import { layoutTree } from 'store/DecisionSlice/layout';
 import { StateCreator } from 'zustand';
 
@@ -30,13 +36,13 @@ interface DecisionSliceActions {
   /** Set the layout direction */
   setTreeDirection: (direction: TreeDirection) => void;
   /** Set vertex as visible */
-  setDecisionVisible: (nodeId: string) => void;
+  showDecision: (nodeId: string) => void;
   /** Set decision as hidden */
-  setDecisionHidden: (nodeId: string) => void;
+  hideDecision: (nodeId: string) => void;
   /** set the node as expended */
-  setDecisionExpanded: (nodeId: string) => void;
+  expandDecision: (nodeId: string) => void;
   /** Set decision as collapsed */
-  setDecisionCollapsed: (nodeId: string, children: string[]) => void;
+  collapseDecision: (nodeId: string, children: string[]) => void;
 }
 
 export interface DecisionSlice extends DecisionSliceActions, DecisionSliceState {}
@@ -70,8 +76,8 @@ export const createDecisionSlice: StateCreator<
       'setNewTree'
     );
   },
-  setDecisionVisible: (nodeId: string) => {
-    const tree = setNodeVisible(get().tree, nodeId);
+  showDecision: (nodeId: string) => {
+    const tree = setNodeVisible(get().tree, [nodeId]);
     set(
       {
         tree,
@@ -80,7 +86,7 @@ export const createDecisionSlice: StateCreator<
       'showVertex'
     );
   },
-  setDecisionHidden: (nodeId: string) => {
+  hideDecision: (nodeId: string) => {
     const tree = setNodesHidden(get().tree, [nodeId]);
     set(
       {
@@ -90,7 +96,7 @@ export const createDecisionSlice: StateCreator<
       'hideDecision'
     );
   },
-  setDecisionExpanded: (nodeId: string) => {
+  expandDecision: (nodeId: string) => {
     const tree = setExpanded(get().tree, [nodeId]);
     set(
       {
@@ -100,7 +106,7 @@ export const createDecisionSlice: StateCreator<
       'expandDecision'
     );
   },
-  setDecisionCollapsed: (nodeId: string, children: string[]) => {
+  collapseDecision: (nodeId: string, children: string[]) => {
     const tree = get().tree;
     const hiddenTree = setNodesHidden(tree, children);
     const collapsedTree = setCollapsed(hiddenTree, [...children, nodeId]);
@@ -113,23 +119,3 @@ export const createDecisionSlice: StateCreator<
     );
   },
 });
-
-const setNodeVisible = (tree: DecisionTree, nodeId: string) => {
-  tree[nodeId].hidden = false;
-  return tree;
-};
-
-const setNodesHidden = (tree: DecisionTree, nodeIds: string[]) => {
-  nodeIds.forEach((id) => (tree[id].hidden = true));
-  return tree;
-};
-
-const setExpanded = (tree: DecisionTree, nodeIds: string[]) => {
-  nodeIds.forEach((id) => (tree[id].data.expanded = true));
-  return tree;
-};
-
-const setCollapsed = (tree: DecisionTree, nodeIds: string[]) => {
-  nodeIds.forEach((id) => (tree[id].data.expanded = false));
-  return tree;
-};

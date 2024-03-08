@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { ControlCenter } from 'components/Tree/ControlCenter/index';
 import { ReactFlowProvider } from 'reactflow';
 import { TreeDirection } from 'store';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, test, vi } from 'vitest';
 
 interface TestComponentProps {
   mapVisible?: boolean;
@@ -35,15 +35,15 @@ const TestComponent = ({ ...props }: TestComponentProps) => {
 afterEach(() => cleanup());
 
 describe('ControlCenter', () => {
-  it('renders', () => {
+  test('renders', () => {
     render(<TestComponent />);
     expect(screen.getByTestId('controlCenter')).toBeInTheDocument();
   });
-  it('renders a map toggle button', () => {
+  test('renders a map toggle button', () => {
     render(<TestComponent />);
     expect(screen.getByRole('button', { name: /minimap/i })).toBeInTheDocument();
   });
-  it('toggles the minimap visibility', async () => {
+  test('toggles the minimap visibility', async () => {
     const user = userEvent.setup();
     const setMapVisible = vi.fn();
     const { rerender } = render(<TestComponent mapVisible={true} setMapVisible={setMapVisible} />);
@@ -53,11 +53,11 @@ describe('ControlCenter', () => {
     await user.click(screen.getByRole('button', { name: /minimap/i }));
     expect(setMapVisible).toHaveBeenCalled();
   });
-  it('renders a layout toggle button', () => {
+  test('renders a layout toggle button', () => {
     render(<TestComponent />);
     expect(screen.getByRole('button', { name: /layout/i })).toBeInTheDocument();
   });
-  it('toggles the layout direction', async () => {
+  test('toggles the layout direction', async () => {
     const user = userEvent.setup();
     const setDirection = vi.fn();
     const { rerender } = render(<TestComponent setDirection={setDirection} direction={'LR'} />);

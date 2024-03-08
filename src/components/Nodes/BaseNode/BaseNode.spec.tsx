@@ -3,7 +3,7 @@ import { act, cleanup, render, screen } from '@testing-library/react';
 import { BaseNode } from 'components/Nodes/BaseNode/BaseNode';
 import { ReactFlowProvider } from 'reactflow';
 import useTreeStore from 'store';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, test } from 'vitest';
 
 const TestComponent = () => {
   return (
@@ -26,11 +26,11 @@ const TestComponent = () => {
 
 describe('BaseNode', () => {
   afterEach(() => cleanup());
-  it('renders', () => {
+  test('renders', () => {
     render(<TestComponent />);
     expect(screen.getByTestId('node-1')).toBeInTheDocument();
   });
-  it('handles changes in tree layout', () => {
+  test('handles changes in tree layout', () => {
     useTreeStore.setState({ direction: 'LR' });
     const { rerender } = render(<TestComponent />);
     expect(screen.getByTestId('left-handle')).toBeInTheDocument();

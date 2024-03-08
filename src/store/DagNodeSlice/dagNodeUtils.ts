@@ -3,33 +3,7 @@
  * this will help maintain testability and make it easier to refactor later
  *  Do not export outside this module
  * */
-import { Edge, MarkerType } from 'reactflow';
 import { DagNode, DecisionTree, TreeNode } from 'store/DagNodeSlice/dagNodeSlice';
-
-export interface DagEdgeConfig {
-  source: string;
-  target: string;
-}
-
-/** idempotent action to add an edge */
-export const addDagEdge = (currentEdges: Edge[], config: DagEdgeConfig) => {
-  if (currentEdges.find((e) => e.source === config.source && e.target === config.target)) {
-    return currentEdges;
-  }
-  return [...currentEdges, createDagEdge(config.source, config.target)];
-};
-
-/** creates the edges between two nodes with defaults applied */
-export const createDagEdge = (source: string, target: string): Edge => {
-  return {
-    id: `${source}-${target}`,
-    hidden: false,
-    source,
-    target,
-    type: 'smoothstep',
-    markerEnd: { type: MarkerType.ArrowClosed },
-  };
-};
 
 /** create a new position unaware node with defaults applied */
 export const createDagNode = (id: string, config: Partial<TreeNode>): DagNode => {
@@ -59,4 +33,9 @@ export const applyPositionToNodes = (tree: DecisionTree, nodes: DagNode[]) => {
     };
     return newNode;
   });
+};
+
+/** Filter nodes by id */
+export const filterNodesById = (nodes: DagNode[], ids: string[]): DagNode[] => {
+  return nodes.filter((node) => !ids.includes(node.id));
 };

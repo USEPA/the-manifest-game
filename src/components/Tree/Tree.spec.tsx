@@ -4,7 +4,7 @@ import { Tree } from 'components/Tree/Tree';
 import { useDecisionTree } from 'hooks';
 import { ReactFlowProvider } from 'reactflow';
 import { DecisionTree, PositionUnawareDecisionTree } from 'store';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, test } from 'vitest';
 
 afterEach(() => cleanup());
 
@@ -42,7 +42,7 @@ const TestComponent = ({ tree }: { tree?: PositionUnawareDecisionTree }) => {
 };
 
 describe('Tree Component', () => {
-  it('renders', () => {
+  test('renders', () => {
     render(
       <ReactFlowProvider>
         <Tree nodes={[]} edges={[]} onClick={() => undefined} />
@@ -50,7 +50,7 @@ describe('Tree Component', () => {
     );
     expect(screen.getByTestId('decision-tree')).toBeInTheDocument();
   });
-  it('onClick shows children nodes of unexpanded node', () => {
+  test('onClick shows children nodes of unexpanded node', () => {
     const parentId = '1';
     const childId2 = '2';
     const childId3 = '3';
@@ -93,7 +93,7 @@ describe('Tree Component', () => {
     expect(screen.queryByTestId(`node-${childId2}`)).toBeInTheDocument();
     expect(screen.queryByTestId(`node-${childId3}`)).toBeInTheDocument();
   });
-  it('hides niblings (the descendants of children) on click', () => {
+  test('hides niblings (the descendants of children) on click', () => {
     const parentId = '1';
     const siblingWithChild2 = '2';
     const sibling3 = '3';
@@ -147,7 +147,7 @@ describe('Tree Component', () => {
     fireEvent.click(screen.queryByTestId(`node-${siblingWithChild2}`)!);
     expect(screen.queryByTestId(`node-${grandchildId}`)).not.toBeInTheDocument();
   });
-  it('hides all descendants of expanded nodes on click', () => {
+  test('hides all descendants of expanded nodes on click', () => {
     const parentId = '1';
     const childId = '2';
     const grandchildId = '3';
@@ -206,7 +206,7 @@ describe('Tree Component', () => {
       expect(screen.queryByTestId(`node-${nodeId}`)).not.toBeInTheDocument();
     });
   });
-  it('ignores yes/no clicks', () => {
+  test('ignores yes/no clicks', () => {
     const parentId = '1';
     const childId = '2';
     const tree: DecisionTree = {
