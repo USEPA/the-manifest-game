@@ -1,11 +1,6 @@
 import { BooleanNodeData, NodeData } from 'hooks/useFetchConfig/useFetchConfig';
-import { applyNodeChanges, Edge, Node, NodeChange, OnNodesChange } from 'reactflow';
-import {
-  addDagEdge,
-  applyPositionToNodes,
-  createDagEdge,
-  createDagNode,
-} from 'store/DagNodeSlice/dagNodeUtils';
+import { applyNodeChanges, Node, NodeChange, OnNodesChange } from 'reactflow';
+import { applyPositionToNodes, createDagNode } from 'store/DagNodeSlice/dagNodeUtils';
 import { StateCreator } from 'zustand';
 
 /** A vertex in our decision tree.*/
@@ -78,19 +73,12 @@ export const createDagNodeSlice: StateCreator<
   },
 
   /** ToDo: remove options. can be done after when we create EdgeSlice*/
-  createDagNode: (nodeId: string, tree: DecisionTree, options?: ShowDagNodeOptions) => {
-    const dagEdges = options?.parentId
-      ? addDagEdge(get().dagEdges, {
-          source: options.parentId,
-          target: nodeId,
-        })
-      : get().dagEdges;
+  createDagNode: (nodeId: string, tree: DecisionTree) => {
     const dagNodes = filterNodes(get().dagNodes, [nodeId]);
     const newNode = createDagNode(nodeId, tree[nodeId]);
     set(
       {
         dagNodes: [...dagNodes, newNode],
-        dagEdges,
       },
       false,
       'createNode'
@@ -111,13 +99,13 @@ export const createDagNodeSlice: StateCreator<
   /** ToDo: move logic into TreeSlice and consolidate with createDagNode */
   createChildrenNodes: (nodeId: string, tree: DecisionTree) => {
     const childrenData = getTreeChildren(tree, tree[nodeId]);
-    const newEdges = createChildrenEdges(nodeId, childrenData);
+    // const newEdges = createChildrenEdges(nodeId, childrenData);
     const newNodes = createChildrenNodes(childrenData);
     childrenData.forEach((childNode) => (tree[childNode.id].hidden = false));
     set(
       {
         dagNodes: [...get().dagNodes, ...newNodes],
-        dagEdges: [...get().dagEdges, ...newEdges],
+        // dagEdges: [...get().dagEdges, ...newEdges],
       },
       false,
       'showNewChildren'
@@ -129,10 +117,6 @@ const getTreeChildren = (tree: DecisionTree, treeNode: TreeNode): DagNode[] => {
   return treeNode.data.children.map((childId) => ({
     ...tree[childId],
   }));
-};
-
-const createChildrenEdges = (parentId: string, children: TreeNode[]): Edge[] => {
-  return children.map((child) => createDagEdge(parentId, child.id));
 };
 
 const createChildrenNodes = (children: TreeNode[]): DagNode[] => {

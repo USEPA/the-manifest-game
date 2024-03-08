@@ -1,4 +1,5 @@
 import { applyEdgeChanges, Edge, EdgeChange, OnEdgesChange } from 'reactflow';
+import { addDagEdge } from 'store/DagEdgeSlice/dagEdgeUtils';
 import { StateCreator } from 'zustand';
 
 interface DagEdgeSliceState {
@@ -10,6 +11,8 @@ interface DagEdgeSliceActions {
   onEdgesChange: OnEdgesChange;
   /** Removes edges from our store*/
   removeEdgesByTarget: (nodeIds: string[]) => void;
+  /** Create an edge */
+  createEdge: (sourceId?: string, targetId?: string) => void;
 }
 
 export interface DagEdgeSlice extends DagEdgeSliceState, DagEdgeSliceActions {}
@@ -37,6 +40,17 @@ export const createDagEdgeSlice: StateCreator<
       },
       false,
       'removeEdgesByTarget'
+    );
+  },
+  createEdge: (sourceId?: string, targetId?: string) => {
+    if (!sourceId || !targetId) return undefined;
+    const newEdges = addDagEdge(get().dagEdges, { source: sourceId, target: targetId });
+    set(
+      {
+        dagEdges: newEdges,
+      },
+      false,
+      'createEdge'
     );
   },
 });

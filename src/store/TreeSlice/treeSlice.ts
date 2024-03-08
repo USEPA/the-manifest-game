@@ -38,7 +38,8 @@ export const createTreeSlice: StateCreator<
   showNode: (nodeId: string, options?: ShowDagNodeOptions) => {
     get().setDecisionVisible(nodeId);
     const tree = get().tree;
-    get().createDagNode(nodeId, tree, options);
+    get().createDagNode(nodeId, tree);
+    get().createEdge(options?.parentId, nodeId);
   },
   hideNode: (nodeId: string) => {
     get().setDecisionHidden(nodeId);
