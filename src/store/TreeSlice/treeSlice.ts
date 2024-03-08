@@ -5,7 +5,7 @@ import {
   ShowDagNodeOptions,
 } from 'store/DagNodeSlice/dagNodeSlice';
 import { DecisionSlice, TreeDirection } from 'store/DecisionSlice/decisionSlice';
-import { getDescendantIds, getSiblingIds } from 'store/DecisionSlice/decisionUtils';
+import { getDescendantIds, getSiblingIds } from 'store/TreeSlice/treeSliceUtils';
 import { StateCreator } from 'zustand';
 
 /** The state and actions of the Combined slice*/
