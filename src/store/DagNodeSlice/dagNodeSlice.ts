@@ -1,14 +1,5 @@
 import { BooleanNodeData, NodeData } from 'hooks/useFetchConfig/useFetchConfig';
-import {
-  applyEdgeChanges,
-  applyNodeChanges,
-  Edge,
-  EdgeChange,
-  Node,
-  NodeChange,
-  OnEdgesChange,
-  OnNodesChange,
-} from 'reactflow';
+import { applyNodeChanges, Edge, Node, NodeChange, OnNodesChange } from 'reactflow';
 import {
   addDagEdge,
   applyPositionToNodes,
@@ -40,7 +31,7 @@ export interface ShowDagNodeOptions {
 
 interface DagNodeSliceState {
   dagNodes: DagNode[];
-  dagEdges: Edge[];
+  // dagEdges: Edge[];
 }
 
 interface DagNodeSliceActions {
@@ -54,8 +45,6 @@ interface DagNodeSliceActions {
   setDagNodePositions: (tree: DecisionTree) => void;
   /** Used to apply update to existing nodes - used by the react-flow library*/
   onNodesChange: OnNodesChange;
-  /** Used to apply update to existing edges - used by the react-flow library*/
-  onEdgesChange: OnEdgesChange;
 }
 
 export interface DagNodeSlice extends DagNodeSliceState, DagNodeSliceActions {}
@@ -75,15 +64,6 @@ export const createDagNodeSlice: StateCreator<
       },
       false,
       'onNodesChange'
-    );
-  },
-  onEdgesChange: (changes: EdgeChange[]) => {
-    set(
-      {
-        dagEdges: applyEdgeChanges(changes, get().dagEdges),
-      },
-      false,
-      'onEdgesChange'
     );
   },
   setDagNodePositions: (tree: DecisionTree) => {
@@ -118,11 +98,11 @@ export const createDagNodeSlice: StateCreator<
   },
   removeDagNodes: (nodeId: string[]) => {
     const newNodes = filterNodes(get().dagNodes, nodeId);
-    const newEdges = get().dagEdges.filter((edge) => !nodeId.includes(edge.target));
+    // const newEdges = get().dagEdges.filter((edge) => !nodeId.includes(edge.target));
     set(
       {
         dagNodes: newNodes,
-        dagEdges: newEdges,
+        // dagEdges: newEdges,
       },
       false,
       'removeDagNode'

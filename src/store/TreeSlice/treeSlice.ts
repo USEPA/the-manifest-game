@@ -1,3 +1,4 @@
+import { DagEdgeSlice } from 'store/DagEdgeSlice/dagEdgeSlice';
 import {
   DagNodeSlice,
   PositionUnawareDecisionTree,
@@ -21,10 +22,12 @@ export interface TreeSlice {
 /** The state of the tree, implemented as a shared slice that builds on concrete slices
  * and exposes an interface of actions that can take on the decision tree
  * */
-export const createTreeSlice: StateCreator<DecisionSlice & DagNodeSlice, [], [], TreeSlice> = (
-  _set,
-  get
-) => ({
+export const createTreeSlice: StateCreator<
+  DecisionSlice & DagNodeSlice & DagEdgeSlice,
+  [],
+  [],
+  TreeSlice
+> = (_set, get) => ({
   setDirection: (direction: TreeDirection) => {
     get().setTreeDirection(direction);
     get().setDagNodePositions(get().tree);
@@ -39,6 +42,7 @@ export const createTreeSlice: StateCreator<DecisionSlice & DagNodeSlice, [], [],
   },
   hideNode: (nodeId: string) => {
     get().setDecisionHidden(nodeId);
+    get().removeEdgesByTarget([nodeId]);
     get().removeDagNodes([nodeId]);
   },
   showChildren: (nodeId: string) => {

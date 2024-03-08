@@ -8,6 +8,8 @@ interface DagEdgeSliceState {
 interface DagEdgeSliceActions {
   /** Used to apply update to existing edges - used by the react-flow library*/
   onEdgesChange: OnEdgesChange;
+  /** Removes edges from our store*/
+  removeEdgesByTarget: (nodeIds: string[]) => void;
 }
 
 export interface DagEdgeSlice extends DagEdgeSliceState, DagEdgeSliceActions {}
@@ -26,6 +28,15 @@ export const createDagEdgeSlice: StateCreator<
       },
       false,
       'onEdgesChange'
+    );
+  },
+  removeEdgesByTarget: (nodeIds: string[]) => {
+    set(
+      {
+        dagEdges: get().dagEdges.filter((edge) => !nodeIds.includes(edge.target)),
+      },
+      false,
+      'removeEdgesByTarget'
     );
   },
 });
