@@ -26,14 +26,11 @@ export interface ShowDagNodeOptions {
 
 interface DagNodeSliceState {
   dagNodes: DagNode[];
-  // dagEdges: Edge[];
 }
 
 interface DagNodeSliceActions {
-  /** Show the direct children of a node in the tree */
-  createChildrenNodes: (nodeId: string, tree: DecisionTree) => void;
   /** Show a node in the tree - Currently does not create edges*/
-  createDagNode: (nodeId: string, tree: DecisionTree, options?: ShowDagNodeOptions) => void;
+  createDagNode: (nodeId: string, tree: DecisionTree) => void;
   /** Hide a node and all of its descendants*/
   removeDagNodes: (nodeId: string[]) => void;
   /** Set the layout direction */
@@ -71,8 +68,6 @@ export const createDagNodeSlice: StateCreator<
       'setNodeLayout'
     );
   },
-
-  /** ToDo: remove options. can be done after when we create EdgeSlice*/
   createDagNode: (nodeId: string, tree: DecisionTree) => {
     const dagNodes = filterNodes(get().dagNodes, [nodeId]);
     const newNode = createDagNode(nodeId, tree[nodeId]);
@@ -96,34 +91,7 @@ export const createDagNodeSlice: StateCreator<
       'removeDagNode'
     );
   },
-  /** ToDo: move logic into TreeSlice and consolidate with createDagNode */
-  createChildrenNodes: (nodeId: string, tree: DecisionTree) => {
-    const childrenData = getTreeChildren(tree, tree[nodeId]);
-    // const newEdges = createChildrenEdges(nodeId, childrenData);
-    const newNodes = createChildrenNodes(childrenData);
-    childrenData.forEach((childNode) => (tree[childNode.id].hidden = false));
-    set(
-      {
-        dagNodes: [...get().dagNodes, ...newNodes],
-        // dagEdges: [...get().dagEdges, ...newEdges],
-      },
-      false,
-      'showNewChildren'
-    );
-  },
 });
-
-const getTreeChildren = (tree: DecisionTree, treeNode: TreeNode): DagNode[] => {
-  return treeNode.data.children.map((childId) => ({
-    ...tree[childId],
-  }));
-};
-
-const createChildrenNodes = (children: TreeNode[]): DagNode[] => {
-  return children.map((treeNode) => {
-    return createDagNode(treeNode.id, { ...treeNode, hidden: false });
-  });
-};
 
 const filterNodes = (nodes: DagNode[], ids: string[]): DagNode[] => {
   return nodes.filter((node) => !ids.includes(node.id));

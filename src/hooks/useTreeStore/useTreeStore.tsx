@@ -26,7 +26,6 @@ export const useTreeStore = (initialTree?: PositionUnawareDecisionTree) => {
   /** show a node's direct children and the edges leading to them */
   const showChildren = (nodeId: string) => {
     showStoreChildren(nodeId);
-    setCenter(tree[nodeId].position.x, tree[nodeId].position.y);
   };
 
   /** hide a node's descendant nodes and edges, but not the node itself */

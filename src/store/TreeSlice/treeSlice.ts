@@ -47,8 +47,14 @@ export const createTreeSlice: StateCreator<
     get().removeDagNodes([nodeId]);
   },
   showChildren: (nodeId: string) => {
+    const childrenIds = get().tree[nodeId].data.children;
+    const tree = get().tree;
+    childrenIds?.forEach((id) => {
+      get().setDecisionVisible(id);
+      get().createDagNode(id, tree);
+      get().createEdge(nodeId, id);
+    });
     get().setDecisionExpanded(nodeId);
-    get().createChildrenNodes(nodeId, get().tree);
   },
   hideDescendants: (nodeId: string) => {
     const childrenIds = getDescendantIds(get().tree, nodeId);
