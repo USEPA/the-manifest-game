@@ -2,10 +2,11 @@ import { BaseNode } from 'components/Nodes/BaseNode/BaseNode';
 import { useTreeStore } from 'hooks';
 import { useState } from 'react';
 import { NodeProps } from 'reactflow';
+import { NodeData } from 'store/DecisionSlice/decisionSlice';
 
 import styles from './bool.module.css';
 
-export interface BoolNodeData {
+export interface BoolNodeData extends NodeData {
   label: string;
   yesId: string;
   noId: string;
@@ -13,11 +14,11 @@ export interface BoolNodeData {
 }
 
 export const BoolNode = ({
-  data: { yesId, noId, label },
+  data: { yesId, noId, label, chosen },
   id,
   ...props
 }: NodeProps<BoolNodeData>) => {
-  const { showNode, showChildren, hideNiblings, hideDescendants } = useTreeStore();
+  const { showNode, showChildren, hideNiblings, hideDescendants, chooseDecision } = useTreeStore();
   const [selected, setSelected] = useState<'yes' | 'no' | undefined>(undefined);
 
   const handleYes = () => {
@@ -25,6 +26,8 @@ export const BoolNode = ({
     showChildren(yesId);
     hideNiblings(id);
     hideDescendants(noId);
+    chooseDecision(yesId);
+    chooseDecision(id);
     setSelected('yes');
   };
 
@@ -33,11 +36,13 @@ export const BoolNode = ({
     showChildren(noId);
     hideNiblings(id);
     hideDescendants(yesId);
+    chooseDecision(noId);
+    chooseDecision(id);
     setSelected('no');
   };
 
   return (
-    <BaseNode {...props} id={id}>
+    <BaseNode {...props} id={id} chosen={chosen}>
       <div className={styles.boolNodeContent}>
         <div className={styles.boolNodeText}>
           <span>{label}</span>

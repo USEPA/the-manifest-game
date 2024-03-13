@@ -7,6 +7,7 @@ import { DragHandle } from './DragHandle/DragHandle';
 
 interface BaseNodeProps extends Omit<NodeProps, 'data'> {
   children: ReactNode;
+  chosen?: boolean;
 }
 
 /**
@@ -14,7 +15,7 @@ interface BaseNodeProps extends Omit<NodeProps, 'data'> {
  * @param props
  * @constructor
  */
-export const BaseNode = ({ id, isConnectable, children }: BaseNodeProps) => {
+export const BaseNode = ({ id, isConnectable, children, chosen }: BaseNodeProps) => {
   const updateNodeInternals = useUpdateNodeInternals();
   const [, , isHorizontal] = useTreeDirection();
 
@@ -23,7 +24,7 @@ export const BaseNode = ({ id, isConnectable, children }: BaseNodeProps) => {
   }, [isHorizontal, updateNodeInternals, id]);
 
   return (
-    <div data-testid={`node-${id}`} className="chosen">
+    <div data-testid={`node-${id}`} className={chosen ? 'chosen' : ''}>
       <Handle
         data-testid={`${isHorizontal ? 'left' : 'top'}-handle`}
         type="target"

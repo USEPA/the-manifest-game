@@ -1,4 +1,3 @@
-import { BooleanNodeData, NodeData } from 'hooks/useFetchConfig/useFetchConfig';
 import { Node } from 'reactflow';
 import {
   setCollapsed,
@@ -8,6 +7,23 @@ import {
 } from 'store/DecisionSlice/decisionUtils';
 import { layoutTree } from 'store/DecisionSlice/layout';
 import { StateCreator } from 'zustand';
+
+/**
+ * Data needed by all TreeNodes that contains the nodes expanded state,
+ * the node's children, and the node's text
+ */
+export interface NodeData {
+  label: string;
+  children: string[];
+  expanded?: boolean;
+  chosen?: boolean;
+}
+
+/** data needed by the BooleanTreeNode to render decisions*/
+export interface BooleanNodeData extends NodeData {
+  yesId: string;
+  noId: string;
+}
 
 /** A vertex in our decision tree.*/
 export interface TreeNode extends Omit<Node, 'position'> {
@@ -43,6 +59,8 @@ interface DecisionSliceActions {
   expandDecision: (nodeId: string) => void;
   /** Set decision as collapsed */
   collapseDecision: (nodeId: string, children: string[]) => void;
+  /** set node as chosen */
+  setChosen: (nodeId: string[], chosen: boolean) => void;
 }
 
 export interface DecisionSlice extends DecisionSliceActions, DecisionSliceState {}
@@ -116,6 +134,19 @@ export const createDecisionSlice: StateCreator<
       },
       false,
       'collapseDecision'
+    );
+  },
+  setChosen: (nodeIds: string[], chosen: boolean) => {
+    const tree = get().tree;
+    nodeIds.forEach((nodeId) => {
+      tree[nodeId].data.chosen = chosen;
+    });
+    set(
+      {
+        tree,
+      },
+      false,
+      'chooseDecision'
     );
   },
 });

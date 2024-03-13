@@ -1,22 +1,7 @@
 import { BoolNodeData } from 'components/Nodes/BoolNode/BoolNode';
 import { useEffect, useState } from 'react';
 import { PositionUnawareDecisionTree, TreeNode } from 'store';
-
-/**
- * Data needed by all TreeNodes that contains the nodes expanded state,
- * the node's children, and the node's text
- */
-export interface NodeData {
-  label: string;
-  children: string[];
-  expanded?: boolean;
-}
-
-/** data needed by the BooleanTreeNode to render decisions*/
-export interface BooleanNodeData extends NodeData {
-  yesId: string;
-  noId: string;
-}
+import { BooleanNodeData, NodeData } from 'store/DecisionSlice/decisionSlice';
 
 /** Configuration for an individual node, part of the larger config*/
 export interface NodeConfig {
