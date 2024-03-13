@@ -17,18 +17,22 @@ export const BoolNode = ({
   id,
   ...props
 }: NodeProps<BoolNodeData>) => {
-  const { showNode, hideNode } = useTreeStore();
+  const { showNode, showChildren, hideNiblings, hideDescendants } = useTreeStore();
   const [selected, setSelected] = useState<'yes' | 'no' | undefined>(undefined);
 
   const handleYes = () => {
     showNode(yesId, { parentId: id });
-    hideNode(noId);
+    showChildren(yesId);
+    hideNiblings(id);
+    hideDescendants(noId);
     setSelected('yes');
   };
 
   const handleNo = () => {
     showNode(noId, { parentId: id });
-    hideNode(yesId);
+    showChildren(noId);
+    hideNiblings(id);
+    hideDescendants(yesId);
     setSelected('no');
   };
 
@@ -39,10 +43,18 @@ export const BoolNode = ({
           <span>{label}</span>
         </div>
         <div className={styles.boolNodeOptions}>
-          <button onClick={handleYes} className={selected === 'yes' ? styles.selected : ''}>
+          <button
+            onClick={handleYes}
+            className={selected === 'yes' ? styles.selected : ''}
+            data-testid={`${id}-yes-button`}
+          >
             Yes
           </button>
-          <button onClick={handleNo} className={selected === 'no' ? styles.selected : ''}>
+          <button
+            onClick={handleNo}
+            className={selected === 'no' ? styles.selected : ''}
+            data-testid={`${id}-no-button`}
+          >
             No
           </button>
         </div>
