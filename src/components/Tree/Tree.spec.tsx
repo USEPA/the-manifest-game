@@ -6,52 +6,67 @@ import { ReactFlowProvider } from 'reactflow';
 import { DecisionTree, PositionUnawareDecisionTree } from 'store';
 import { afterEach, describe, expect, test } from 'vitest';
 
+//                     parent
+//                   /        \
+//            yesChild         noChild
+//           /         \      /        \
+// yesYesChild   yesNoChild  noYesChild  noNoChild
+
+const PARENT_ID = '1';
+const YES_CHILD_ID = '2';
+const NO_CHILD_ID = '5';
+const YES_YES_ID = '3';
+const YES_NO_ID = '4';
+
+const createTestPositionUnawareDecisionTree = (): PositionUnawareDecisionTree => {
+  return {
+    [PARENT_ID]: {
+      id: PARENT_ID,
+      data: {
+        label: 'parent',
+        yesId: YES_CHILD_ID,
+        noId: NO_CHILD_ID,
+        children: [],
+      },
+      type: 'BoolNode',
+      hidden: false,
+    },
+    [YES_CHILD_ID]: {
+      id: YES_CHILD_ID,
+      data: {
+        label: 'yes child',
+        children: [YES_YES_ID, YES_NO_ID],
+        yesId: YES_YES_ID,
+        noId: YES_NO_ID,
+      },
+      type: 'BoolNode',
+      hidden: true,
+    },
+    [NO_CHILD_ID]: {
+      id: NO_CHILD_ID,
+      data: { label: 'no child', children: [] },
+      type: 'default',
+      hidden: true,
+    },
+    [YES_YES_ID]: {
+      id: YES_YES_ID,
+      data: { label: 'yes grandchild', children: [] },
+      type: 'default',
+      hidden: true,
+    },
+    [YES_NO_ID]: {
+      id: YES_NO_ID,
+      data: { label: 'no grandchild', children: [] },
+      type: 'default',
+      hidden: true,
+    },
+  };
+};
+
 afterEach(() => cleanup());
 
 const TestComponent = ({ tree }: { tree?: PositionUnawareDecisionTree }) => {
-  const myTree = tree || {
-    ['1']: {
-      id: '1',
-      data: {
-        label: 'this is a question?',
-        yesId: '2',
-        noId: '3',
-        children: [],
-      },
-      position: { x: 0, y: 0 },
-      type: 'BoolNode',
-      hidden: false,
-    },
-    ['2']: {
-      id: '2',
-      data: { label: 'this is an answer?', children: [], yesId: '4', noId: '5' },
-      position: { x: 0, y: 0 },
-      type: 'BoolNode',
-      hidden: false,
-    },
-    ['3']: {
-      id: '3',
-      data: { label: 'this is an answer?', children: [] },
-      position: { x: 0, y: 0 },
-      type: 'default',
-      hidden: false,
-    },
-    ['4']: {
-      id: '4',
-      data: { label: 'grandchild 1', children: [] },
-      position: { x: 0, y: 0 },
-      type: 'default',
-      hidden: false,
-    },
-    ['5']: {
-      id: '5',
-      data: { label: 'grandchild 2', children: [] },
-      position: { x: 0, y: 0 },
-      type: 'default',
-      hidden: false,
-    },
-  };
-  const { nodes, edges, onClick } = useDecisionTree(myTree);
+  const { nodes, edges, onClick } = useDecisionTree(tree);
   return <Tree nodes={nodes} edges={edges} onClick={onClick} />;
 };
 
@@ -260,75 +275,21 @@ describe('Tree Component', () => {
       expect(screen.queryByTestId(`node-${nodeId}`)).toBeInTheDocument();
     });
   });
-  describe('Making node selection', () => {
+  describe('Bool node selection', () => {
     test('opens the options children', () => {
-      const parentId = '1';
-      const childId = '2';
-      const grandchildId = '4';
-      const otherGrandChild = '5';
-      const myTree = {
-        [parentId]: {
-          id: parentId,
-          data: {
-            label: 'this is a question?',
-            yesId: childId,
-            noId: '3',
-            children: [],
-          },
-          position: { x: 0, y: 0 },
-          type: 'BoolNode',
-          hidden: false,
-        },
-        [childId]: {
-          id: childId,
-          data: {
-            label: 'this is an answer?',
-            children: [grandchildId, otherGrandChild],
-            yesId: grandchildId,
-            noId: otherGrandChild,
-          },
-          position: { x: 0, y: 0 },
-          type: 'BoolNode',
-          hidden: true,
-        },
-        ['3']: {
-          id: '3',
-          data: { label: 'this is an answer?', children: [] },
-          position: { x: 0, y: 0 },
-          type: 'default',
-          hidden: true,
-        },
-        [grandchildId]: {
-          id: grandchildId,
-          data: { label: 'grandchild 1', children: [] },
-          position: { x: 0, y: 0 },
-          type: 'default',
-          hidden: true,
-        },
-        [otherGrandChild]: {
-          id: otherGrandChild,
-          data: { label: 'grandchild 2', children: [] },
-          position: { x: 0, y: 0 },
-          type: 'default',
-          hidden: true,
-        },
-      };
+      const myTree = createTestPositionUnawareDecisionTree();
       render(
         <ReactFlowProvider>
           <TestComponent tree={myTree} />
         </ReactFlowProvider>
       );
-      [childId, grandchildId, otherGrandChild].forEach((nodeId: string) => {
+      [YES_CHILD_ID, YES_YES_ID, YES_NO_ID].forEach((nodeId: string) => {
         expect(screen.queryByTestId(`node-${nodeId}`)).not.toBeInTheDocument();
       });
-      fireEvent.click(screen.queryByTestId(`${parentId}-yes-button`)!);
-      // screen.debug();
-      expect(screen.queryByTestId(`node-${childId}`)).toBeInTheDocument();
-      expect(screen.queryByTestId(`node-${grandchildId}`)).toBeInTheDocument();
-      expect(screen.queryByTestId(`node-${otherGrandChild}`)).toBeInTheDocument();
-      // [childId, grandchildId, otherGrandChild].forEach((nodeId: string) => {
-      //   expect(screen.queryByTestId(`node-${nodeId}`)).toBeInTheDocument();
-      // });
+      fireEvent.click(screen.queryByTestId(`${PARENT_ID}-yes-button`)!);
+      [YES_CHILD_ID, YES_YES_ID, YES_NO_ID].forEach((nodeId: string) => {
+        expect(screen.queryByTestId(`node-${nodeId}`)).toBeInTheDocument();
+      });
     });
   });
 });
