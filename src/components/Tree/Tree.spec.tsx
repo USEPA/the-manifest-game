@@ -24,14 +24,28 @@ const TestComponent = ({ tree }: { tree?: PositionUnawareDecisionTree }) => {
     },
     ['2']: {
       id: '2',
-      data: { label: 'this is an answer?', children: [] },
+      data: { label: 'this is an answer?', children: [], yesId: '4', noId: '5' },
       position: { x: 0, y: 0 },
-      type: 'default',
+      type: 'BoolNode',
       hidden: false,
     },
     ['3']: {
       id: '3',
       data: { label: 'this is an answer?', children: [] },
+      position: { x: 0, y: 0 },
+      type: 'default',
+      hidden: false,
+    },
+    ['4']: {
+      id: '4',
+      data: { label: 'grandchild 1', children: [] },
+      position: { x: 0, y: 0 },
+      type: 'default',
+      hidden: false,
+    },
+    ['5']: {
+      id: '5',
+      data: { label: 'grandchild 2', children: [] },
       position: { x: 0, y: 0 },
       type: 'default',
       hidden: false,
@@ -244,6 +258,77 @@ describe('Tree Component', () => {
     fireEvent.click(screen.queryByTestId(`node-${parentId}`)!);
     [parentId, childId].forEach((nodeId) => {
       expect(screen.queryByTestId(`node-${nodeId}`)).toBeInTheDocument();
+    });
+  });
+  describe('Making node selection', () => {
+    test('opens the options children', () => {
+      const parentId = '1';
+      const childId = '2';
+      const grandchildId = '4';
+      const otherGrandChild = '5';
+      const myTree = {
+        [parentId]: {
+          id: parentId,
+          data: {
+            label: 'this is a question?',
+            yesId: childId,
+            noId: '3',
+            children: [],
+          },
+          position: { x: 0, y: 0 },
+          type: 'BoolNode',
+          hidden: false,
+        },
+        [childId]: {
+          id: childId,
+          data: {
+            label: 'this is an answer?',
+            children: [grandchildId, otherGrandChild],
+            yesId: grandchildId,
+            noId: otherGrandChild,
+          },
+          position: { x: 0, y: 0 },
+          type: 'BoolNode',
+          hidden: true,
+        },
+        ['3']: {
+          id: '3',
+          data: { label: 'this is an answer?', children: [] },
+          position: { x: 0, y: 0 },
+          type: 'default',
+          hidden: true,
+        },
+        [grandchildId]: {
+          id: grandchildId,
+          data: { label: 'grandchild 1', children: [] },
+          position: { x: 0, y: 0 },
+          type: 'default',
+          hidden: true,
+        },
+        [otherGrandChild]: {
+          id: otherGrandChild,
+          data: { label: 'grandchild 2', children: [] },
+          position: { x: 0, y: 0 },
+          type: 'default',
+          hidden: true,
+        },
+      };
+      render(
+        <ReactFlowProvider>
+          <TestComponent tree={myTree} />
+        </ReactFlowProvider>
+      );
+      [childId, grandchildId, otherGrandChild].forEach((nodeId: string) => {
+        expect(screen.queryByTestId(`node-${nodeId}`)).not.toBeInTheDocument();
+      });
+      fireEvent.click(screen.queryByTestId(`${parentId}-yes-button`)!);
+      // screen.debug();
+      expect(screen.queryByTestId(`node-${childId}`)).toBeInTheDocument();
+      expect(screen.queryByTestId(`node-${grandchildId}`)).toBeInTheDocument();
+      expect(screen.queryByTestId(`node-${otherGrandChild}`)).toBeInTheDocument();
+      // [childId, grandchildId, otherGrandChild].forEach((nodeId: string) => {
+      //   expect(screen.queryByTestId(`node-${nodeId}`)).toBeInTheDocument();
+      // });
     });
   });
 });
