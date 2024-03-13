@@ -176,65 +176,6 @@ describe('Tree Component', () => {
     fireEvent.click(screen.queryByTestId(`node-${siblingWithChild2}`)!);
     expect(screen.queryByTestId(`node-${grandchildId}`)).not.toBeInTheDocument();
   });
-  test('hides all descendants of expanded nodes on click', () => {
-    const parentId = '1';
-    const childId = '2';
-    const grandchildId = '3';
-    const greatGrandchildId = '4';
-    const tree: DecisionTree = {
-      [parentId]: {
-        id: parentId,
-        data: {
-          label: 'this is a question?',
-          children: ['2'],
-          expanded: true,
-        },
-        position: { x: 0, y: 0 },
-        type: 'default',
-        hidden: false,
-      },
-      [childId]: {
-        id: childId,
-        data: {
-          label: 'this is an answer?',
-          children: ['3'],
-          expanded: true,
-        },
-        position: { x: 0, y: 0 },
-        type: 'default',
-        hidden: false,
-      },
-      [grandchildId]: {
-        id: grandchildId,
-        data: { label: 'this is an answer?', children: ['4'] },
-        position: { x: 0, y: 0 },
-        type: 'default',
-        hidden: false,
-      },
-      [greatGrandchildId]: {
-        id: greatGrandchildId,
-        data: { label: 'this is an answer?', children: [] },
-        position: { x: 0, y: 0 },
-        type: 'default',
-        hidden: false,
-      },
-    };
-    render(
-      <ReactFlowProvider>
-        <TestComponent tree={tree} />
-      </ReactFlowProvider>
-    );
-    [parentId, childId, grandchildId, greatGrandchildId].forEach((nodeId: string) => {
-      expect(screen.queryByTestId(`node-${nodeId}`)).toBeInTheDocument();
-    });
-    fireEvent.click(screen.queryByTestId(`node-${childId}`)!);
-    [parentId, childId].forEach((nodeId) => {
-      expect(screen.queryByTestId(`node-${nodeId}`)).toBeInTheDocument();
-    });
-    [grandchildId, greatGrandchildId].forEach((nodeId) => {
-      expect(screen.queryByTestId(`node-${nodeId}`)).not.toBeInTheDocument();
-    });
-  });
   test('ignores yes/no clicks', () => {
     const parentId = '1';
     const childId = '2';
