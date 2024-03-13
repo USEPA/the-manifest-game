@@ -17,6 +17,7 @@ export interface TreeSlice {
   showChildren: (nodeId: string) => void;
   hideDescendants: (nodeId: string) => void;
   removeNiblings: (nodeId: string) => void;
+  chooseDecision: (nodeId: string) => void;
 }
 
 /** The state of the tree, implemented as a shared slice that builds on concrete slices
@@ -67,5 +68,11 @@ export const createTreeSlice: StateCreator<
     const siblingDescendantIds = siblingIds.flatMap((id) => getDescendantIds(dagTree, id));
     get().collapseDecision(nodeId, siblingDescendantIds);
     get().removeDagNodes([...siblingDescendantIds]);
+  },
+  chooseDecision: (nodeId: string) => {
+    const siblings = getSiblingIds(get().tree, nodeId);
+    const siblingDescendantIds = siblings.flatMap((id) => getDescendantIds(get().tree, id));
+    get().setChosen([nodeId], true);
+    get().setChosen([...siblingDescendantIds, ...siblings], false);
   },
 });

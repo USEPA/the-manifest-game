@@ -1,10 +1,10 @@
-import { BooleanNodeData, NodeData } from 'hooks/useFetchConfig/useFetchConfig';
 import { applyNodeChanges, Node, NodeChange, OnNodesChange } from 'reactflow';
 import {
   applyPositionToNodes,
   createDagNode,
   filterNodesById,
 } from 'store/DagNodeSlice/dagNodeUtils';
+import { BooleanNodeData, NodeData } from 'store/DecisionSlice/decisionSlice';
 import { StateCreator } from 'zustand';
 
 /** A vertex in our decision tree.*/

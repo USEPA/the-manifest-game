@@ -21,6 +21,7 @@ export const useTreeStore = (initialTree?: PositionUnawareDecisionTree) => {
     removeNiblings: removeStoreNiblings,
     onNodesChange,
     onEdgesChange,
+    chooseDecision,
   } = useDecTreeStore((state) => state);
 
   /** show a node's direct children and the edges leading to them */
@@ -74,5 +75,6 @@ export const useTreeStore = (initialTree?: PositionUnawareDecisionTree) => {
     nodes: dagNodes,
     onEdgesChange,
     onNodesChange,
+    chooseDecision,
   } as const;
 };
