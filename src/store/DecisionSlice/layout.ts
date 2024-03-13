@@ -14,7 +14,7 @@ const dagreGraph = new dagre.graphlib.Graph<{
 dagreGraph.setDefaultEdgeLabel(() => ({}));
 
 const defaultNodeWidth = 400;
-const defaultNodeHeight = 75;
+const defaultNodeHeight = 125;
 const boolNodeWidth = defaultNodeWidth + 50;
 const boolNodeHeight = defaultNodeHeight + 50;
 
