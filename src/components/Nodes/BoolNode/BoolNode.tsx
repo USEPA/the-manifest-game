@@ -17,20 +17,22 @@ export const BoolNode = ({
   id,
   ...props
 }: NodeProps<BoolNodeData>) => {
-  const { showNode, hideNode, showChildren } = useTreeStore();
+  const { showNode, showChildren, hideNiblings, hideDescendants } = useTreeStore();
   const [selected, setSelected] = useState<'yes' | 'no' | undefined>(undefined);
 
   const handleYes = () => {
     showNode(yesId, { parentId: id });
     showChildren(yesId);
-    hideNode(noId);
+    hideNiblings(id);
+    hideDescendants(noId);
     setSelected('yes');
   };
 
   const handleNo = () => {
     showNode(noId, { parentId: id });
     showChildren(noId);
-    hideNode(yesId);
+    hideNiblings(id);
+    hideDescendants(yesId);
     setSelected('no');
   };
 

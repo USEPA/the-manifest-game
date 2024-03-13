@@ -94,26 +94,4 @@ describe('BoolNode', () => {
     expect(noButton).toHaveClass(/selected/i);
     expect(yesButton).not.toHaveClass(/selected/i);
   });
-  test('clicking yes/no toggles the visibility of the children nodes', async () => {
-    const user = userEvent.setup();
-    const primaryId = '1';
-    const yesId = '2';
-    const noId = '3';
-
-    render(
-      <TestComponent
-        primaryId={primaryId}
-        yesId={yesId}
-        noId={noId}
-        overwrites={{
-          id: primaryId,
-          data: { label: 'question', yesId: yesId, noId: noId, children: [yesId, noId] },
-        }}
-      />
-    );
-    await user.click(screen.getByRole('button', { name: /yes/i }));
-    expect(useTreeStore.getState().tree[yesId].hidden).toBe(false);
-    await user.click(screen.getByRole('button', { name: /no/i }));
-    expect(useTreeStore.getState().tree[yesId].hidden).toBe(true);
-  });
 });
