@@ -15,6 +15,7 @@ describe('DefaultNode', () => {
           id={''}
           data={{
             label: myLabel,
+            children: [],
           }}
           selected={false}
           type={''}
