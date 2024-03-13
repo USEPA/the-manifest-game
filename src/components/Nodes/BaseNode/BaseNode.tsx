@@ -1,9 +1,9 @@
-import { DragHandle } from 'components/Nodes/DragHandle/DragHandle';
 import { useTreeDirection } from 'hooks';
 import { ReactNode, useEffect } from 'react';
 import { Handle, NodeProps, Position, useUpdateNodeInternals } from 'reactflow';
 
 import styles from './baseNode.module.css';
+import { DragHandle } from './DragHandle/DragHandle';
 
 interface BaseNodeProps extends Omit<NodeProps, 'data'> {
   children: ReactNode;

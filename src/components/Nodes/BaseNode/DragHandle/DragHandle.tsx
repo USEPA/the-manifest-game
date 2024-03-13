@@ -1,4 +1,4 @@
-import styles from './dragHandle.module.css';
+import styles from 'components/Nodes/BaseNode/DragHandle/dragHandle.module.css';
 
 export const DragHandle = () => {
   return (
