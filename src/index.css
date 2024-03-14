@@ -46,6 +46,11 @@ body {
     border-radius: 20px;
 }
 
+.focused {
+    border: 5px solid #ec1f1f;
+    border-radius: 20px;
+}
+
 .react-flow__node-default.selectable:hover {
     cursor: pointer;
     background: var(--card-color-hover);

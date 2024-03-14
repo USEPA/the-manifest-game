@@ -18,6 +18,7 @@ export interface TreeSlice {
   hideDescendants: (nodeId: string) => void;
   removeNiblings: (nodeId: string) => void;
   markDecisionMade: (nodeId: string) => void;
+  markDecisionFocused: (nodeId: string) => void;
 }
 
 /** The state of the tree, implemented as a shared slice that builds on concrete slices
@@ -73,6 +74,13 @@ export const createTreeSlice: StateCreator<
     const siblings = getSiblingIds(get().tree, nodeId);
     const siblingDescendantIds = siblings.flatMap((id) => getDescendantIds(get().tree, id));
     get().setStatus([nodeId], 'chosen');
+    get().setStatus([...siblingDescendantIds, ...siblings], undefined);
+    get().updateDagNodes(get().tree);
+  },
+  markDecisionFocused: (nodeId: string) => {
+    const siblings = getSiblingIds(get().tree, nodeId);
+    const siblingDescendantIds = siblings.flatMap((id) => getDescendantIds(get().tree, id));
+    get().setStatus([nodeId], 'focused');
     get().setStatus([...siblingDescendantIds, ...siblings], undefined);
     get().updateDagNodes(get().tree);
   },
