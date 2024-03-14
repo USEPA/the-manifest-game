@@ -74,5 +74,6 @@ export const createTreeSlice: StateCreator<
     const siblingDescendantIds = siblings.flatMap((id) => getDescendantIds(get().tree, id));
     get().setChosen([nodeId], true);
     get().setChosen([...siblingDescendantIds, ...siblings], false);
+    get().updateDagNodes(get().tree);
   },
 });

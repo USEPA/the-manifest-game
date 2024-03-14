@@ -41,6 +41,8 @@ interface DagNodeSliceActions {
   positionDagNodes: (tree: DecisionTree) => void;
   /** Used to apply update to existing nodes - used by the react-flow library*/
   onNodesChange: OnNodesChange;
+  /** update the nodes in the dag - sets a new array of nodes that will rerender */
+  updateDagNodes: (tree: DecisionTree) => void;
 }
 
 export interface DagNodeSlice extends DagNodeSliceState, DagNodeSliceActions {}
@@ -92,6 +94,19 @@ export const createDagNodeSlice: StateCreator<
       },
       false,
       'removeNode'
+    );
+  },
+  updateDagNodes: (tree: DecisionTree) => {
+    const nodes = get().dagNodes;
+    const newNodes = nodes.map((node) => {
+      return { ...tree[node.id] };
+    });
+    set(
+      {
+        dagNodes: newNodes,
+      },
+      false,
+      'updateNode'
     );
   },
 });
