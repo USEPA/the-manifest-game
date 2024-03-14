@@ -1,51 +1,96 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { useDecisionTree } from 'hooks/useDecisionTree/useDecisionTree';
 import { ReactFlowProvider } from 'reactflow';
 import { DecisionTree } from 'store';
 import { afterEach, describe, expect, test } from 'vitest';
 
-afterEach(() => {});
+afterEach(() => cleanup());
 
-const TestComponent = ({ initialTree }: { initialTree?: DecisionTree }) => {
-  const initialValue = initialTree || {};
-  const { nodes, edges } = useDecisionTree(initialValue);
+interface TestComponentProps {
+  initialTree?: DecisionTree;
+  showNodeId?: string;
+  hideNodeId?: string;
+}
+
+const TestComponent = ({ initialTree, hideNodeId = '1', showNodeId = '1' }: TestComponentProps) => {
+  const { hideNode, showNode, tree } = useDecisionTree(initialTree);
+
   return (
     <>
-      <p>nodes</p>
-      {nodes.map((node) => (
-        <ul key={node.id}>
-          <li>id: {node.id}</li>
-          <li>hidden: {node.hidden ? 'yes' : 'no'} </li>
-        </ul>
-      ))}
-      <p>edges</p>
-      {edges.map((edge) => (
-        <ul key={edge.id}>
-          <li>id: {edge.id}</li>
-          <li>source: {edge.source}</li>
-          <li>target: {edge.target}</li>
-        </ul>
-      ))}
+      <div>
+        {Object.values(tree).map((myNode) => (
+          <p key={myNode.id}>{myNode.hidden ? null : `node id: ${myNode.id}`}</p>
+        ))}
+      </div>
+      <button onClick={() => hideNode(hideNodeId)}>hide node</button>
+      <button onClick={() => showNode(showNodeId)}>show node</button>
     </>
   );
 };
 
-describe('useDecisionTree', () => {
-  test('returns an object containing the nodes', () => {
-    const myNodes: DecisionTree = {
+describe('useDagStore', () => {
+  test('accepts a initial DecisionTree and updates the store', () => {
+    const initialTree: DecisionTree = {
       '1': {
         id: '1',
-        data: { label: 'foo', children: ['2'] },
+        data: { label: 'foo', children: [] },
+        hidden: false,
         position: { x: 0, y: 0, rank: 0 },
       },
     };
     render(
       <ReactFlowProvider>
-        <TestComponent initialTree={myNodes} />
+        <TestComponent initialTree={initialTree} />
       </ReactFlowProvider>
     );
-    expect(screen.getByText('id: 1')).toBeInTheDocument();
-    expect(screen.queryByText('2')).not.toBeInTheDocument();
+    expect(screen.getByText(/node id: 1/i)).toBeInTheDocument();
+  });
+  test('hideNode hides a node in the tree from view', async () => {
+    const user = userEvent.setup();
+    const initialTree: DecisionTree = {
+      '1': {
+        id: '1',
+        hidden: false,
+        data: { label: 'foo', children: [] },
+        position: { x: 0, y: 0, rank: 0 },
+      },
+    };
+    render(
+      <ReactFlowProvider>
+        <TestComponent initialTree={initialTree} />
+      </ReactFlowProvider>
+    );
+    expect(screen.getByText(/node id: 1/i)).toBeInTheDocument();
+    await user.click(screen.getByText(/hide node/i));
+    expect(screen.queryByText(/node id: 1/i)).not.toBeInTheDocument();
+  });
+  test('showNode sets hidden to false for the node ID called', async () => {
+    const user = userEvent.setup();
+    const parentId = '1';
+    const childId = '2';
+    const initialTree: DecisionTree = {
+      [parentId]: {
+        id: parentId,
+        hidden: false,
+        data: { label: 'foo', children: [childId] },
+        position: { x: 0, y: 0, rank: 0 },
+      },
+      [childId]: {
+        id: childId,
+        hidden: true,
+        data: { label: 'foo', children: [] },
+        position: { x: 0, y: 0, rank: 0 },
+      },
+    };
+    render(
+      <ReactFlowProvider>
+        <TestComponent initialTree={initialTree} showNodeId={childId} />
+      </ReactFlowProvider>
+    );
+    expect(screen.queryByText(/node id: 2/i)).not.toBeInTheDocument();
+    await user.click(screen.getByText(/show node/i));
+    expect(screen.queryByText(/node id: 2/i)).toBeInTheDocument();
   });
 });

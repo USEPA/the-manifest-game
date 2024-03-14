@@ -1,5 +1,5 @@
 import { BaseNode } from 'components/Nodes/BaseNode/BaseNode';
-import { useTreeStore } from 'hooks';
+import { useDecisionTree } from 'hooks';
 import { useState } from 'react';
 import { NodeProps } from 'reactflow';
 import { NodeData } from 'store/DecisionSlice/decisionSlice';
@@ -18,7 +18,8 @@ export const BoolNode = ({
   id,
   ...props
 }: NodeProps<BoolNodeData>) => {
-  const { showNode, showChildren, hideNiblings, hideDescendants, chooseDecision } = useTreeStore();
+  const { showNode, showChildren, hideNiblings, hideDescendants, chooseDecision } =
+    useDecisionTree();
   const [selected, setSelected] = useState<'yes' | 'no' | undefined>(undefined);
 
   const handleYes = () => {

@@ -13,7 +13,7 @@ import { useFetchConfig } from 'hooks/useFetchConfig/useFetchConfig';
 export default function App() {
   const title = import.meta.env.VITE_APP_TITLE ?? 'The Manifest Game';
   const { config, isLoading: configIsLoading, error: configError } = useFetchConfig(defaultTree);
-  const { nodes, edges, onClick } = useDecisionTree(config);
+  const { nodes, edges } = useDecisionTree(config);
 
   return (
     <>
@@ -23,7 +23,7 @@ export default function App() {
       ) : configError ? (
         <ErrorMsg message={'Error parsing the Decision Tree'} />
       ) : (
-        <Tree nodes={nodes} edges={edges} onClick={onClick} />
+        <Tree nodes={nodes} edges={edges} />
       )}
     </>
   );

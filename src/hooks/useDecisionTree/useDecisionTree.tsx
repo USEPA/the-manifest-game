@@ -1,33 +1,80 @@
-import { useTreeStore } from 'hooks';
-import { NodeMouseHandler } from 'reactflow';
-import { PositionUnawareDecisionTree } from 'store';
+import { useTreeViewport } from 'hooks/useTreeViewport/useTreeViewport';
+import { useEffect } from 'react';
+import useDecTreeStore, { PositionUnawareDecisionTree, ShowDagNodeOptions } from 'store';
 
 /**
- * Returns an array of nodes & edges to be used with the ReactFlow library
- * ToDo: consolidate useTreeStore and useDecisionTree
+ * custom hook that wraps around the tree store to provide a simplified interface for common tasks
+ * such as showing and hiding nodes and edges
  * @param initialTree
  */
 export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree) => {
-  const { hideDescendants, showChildren, edges, nodes, hideNiblings } = useTreeStore(initialTree);
+  const { setCenter, getZoom } = useTreeViewport();
+  const {
+    tree,
+    setDecisionTree: setStoreTree,
+    showChildren: showStoreChildren,
+    showNode: showStoreNode,
+    hideDescendants: hideStoreDescendants,
+    hideNode: hideStoreNode,
+    dagNodes,
+    dagEdges,
+    removeNiblings: removeStoreNiblings,
+    onNodesChange,
+    onEdgesChange,
+    chooseDecision,
+  } = useDecTreeStore((state) => state);
 
-  /** handle node click events ToDo: remove this and locate onClick logic in the default node*/
-  const onClick: NodeMouseHandler = (_event, node) => {
-    switch (node.type) {
-      case 'BoolNode':
-        return null; // offload click handling to the BoolNode component
-      default:
-        if (!node.data.expanded) {
-          showChildren(node.id);
-          hideNiblings(node.id);
-        } else {
-          hideDescendants(node.id);
-        }
-    }
+  /** show a node's direct children and the edges leading to them */
+  const showChildren = (nodeId: string) => {
+    showStoreChildren(nodeId);
   };
 
+  /** hide a node's descendant nodes and edges, but not the node itself */
+  const hideDescendants = (nodeId: string) => {
+    hideStoreDescendants(nodeId);
+  };
+
+  /** hide a node and all descendant nodes and edges */
+  const hideNode = (nodeId: string) => {
+    hideStoreNode(nodeId);
+    hideDescendants(nodeId);
+  };
+
+  /** hide a node's nieces/nephews (the descendants of its siblings) */
+  const hideNiblings = (nodeId: string) => {
+    removeStoreNiblings(nodeId);
+  };
+
+  /** show a node and the edge leading to it */
+  const showNode = (nodeId: string, options?: ShowDagNodeOptions) => {
+    showStoreNode(nodeId, options);
+    setCenter(tree[nodeId].position.x + 50, tree[nodeId].position.y + 50, {
+      zoom: getZoom(),
+      duration: 1000,
+    });
+  };
+
+  useEffect(() => {
+    if (initialTree) {
+      setStoreTree(initialTree);
+      showStoreNode(Object.keys(initialTree)[0]);
+      Object.values(initialTree).forEach((node) => {
+        if (!node.hidden) showStoreNode(node.id);
+      });
+    }
+  }, [initialTree, setStoreTree, showStoreNode]);
+
   return {
-    nodes,
-    edges,
-    onClick,
+    tree,
+    showNode,
+    hideNode,
+    hideDescendants,
+    hideNiblings,
+    showChildren,
+    edges: dagEdges,
+    nodes: dagNodes,
+    onEdgesChange,
+    onNodesChange,
+    chooseDecision,
   } as const;
 };
