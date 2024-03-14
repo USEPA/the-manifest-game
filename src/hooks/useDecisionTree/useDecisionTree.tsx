@@ -4,7 +4,6 @@ import useDecTreeStore, { PositionUnawareDecisionTree, ShowDagNodeOptions } from
 
 /**
  * custom hook that wraps around the tree store to provide a simplified interface for common tasks
- * such as showing and hiding nodes and edges
  * @param initialTree
  */
 export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree) => {
@@ -21,7 +20,7 @@ export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree) => {
     removeNiblings: removeStoreNiblings,
     onNodesChange,
     onEdgesChange,
-    chooseDecision,
+    markDecisionMade,
   } = useDecTreeStore((state) => state);
 
   /** show a node's direct children and the edges leading to them */
@@ -75,6 +74,6 @@ export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree) => {
     nodes: dagNodes,
     onEdgesChange,
     onNodesChange,
-    chooseDecision,
+    markDecisionMade,
   } as const;
 };

@@ -18,7 +18,7 @@ export const BoolNode = ({
   id,
   ...props
 }: NodeProps<BoolNodeData>) => {
-  const { showNode, showChildren, hideNiblings, hideDescendants, chooseDecision } =
+  const { showNode, showChildren, hideNiblings, hideDescendants, markDecisionMade } =
     useDecisionTree();
   const [selected, setSelected] = useState<'yes' | 'no' | undefined>(undefined);
 
@@ -27,8 +27,8 @@ export const BoolNode = ({
     showChildren(yesId);
     hideNiblings(id);
     hideDescendants(noId);
-    chooseDecision(yesId);
-    chooseDecision(id);
+    markDecisionMade(yesId);
+    markDecisionMade(id);
     setSelected('yes');
   };
 
@@ -37,8 +37,8 @@ export const BoolNode = ({
     showChildren(noId);
     hideNiblings(id);
     hideDescendants(yesId);
-    chooseDecision(noId);
-    chooseDecision(id);
+    markDecisionMade(noId);
+    markDecisionMade(id);
     setSelected('no');
   };
 
