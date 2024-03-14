@@ -14,7 +14,7 @@ export interface BoolNodeData extends NodeData {
 }
 
 export const BoolNode = ({
-  data: { yesId, noId, label, chosen, status },
+  data: { yesId, noId, label, status },
   id,
   ...props
 }: NodeProps<BoolNodeData>) => {
@@ -43,7 +43,7 @@ export const BoolNode = ({
   };
 
   return (
-    <BaseNode {...props} id={id} chosen={chosen} status={status}>
+    <BaseNode {...props} id={id} status={status}>
       <div className={styles.boolNodeContent}>
         <div className={styles.boolNodeText}>
           <span>{label}</span>

@@ -8,7 +8,6 @@ import { DragHandle } from './DragHandle/DragHandle';
 
 interface BaseNodeProps extends Omit<NodeProps, 'data'> {
   children: ReactNode;
-  chosen?: boolean;
   status?: DecisionStatus;
 }
 

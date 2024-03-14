@@ -18,7 +18,6 @@ export interface NodeData {
   label: string;
   children: string[];
   expanded?: boolean;
-  chosen?: boolean;
   status?: DecisionStatus;
 }
 
@@ -63,7 +62,7 @@ interface DecisionSliceActions {
   /** Set decision as collapsed */
   collapseDecision: (nodeId: string, children: string[]) => void;
   /** set node as chosen */
-  setChosen: (nodeId: string[], chosen: boolean) => void;
+  setStatus: (nodeId: string[], status: DecisionStatus) => void;
 }
 
 export interface DecisionSlice extends DecisionSliceActions, DecisionSliceState {}
@@ -139,10 +138,10 @@ export const createDecisionSlice: StateCreator<
       'collapseDecision'
     );
   },
-  setChosen: (nodeIds: string[], chosen: boolean) => {
+  setStatus: (nodeIds: string[], status: DecisionStatus) => {
     const tree = get().tree;
     nodeIds.forEach((nodeId) => {
-      tree[nodeId].data.status = chosen ? 'chosen' : undefined;
+      tree[nodeId].data.status = status ?? undefined;
     });
     set(
       {

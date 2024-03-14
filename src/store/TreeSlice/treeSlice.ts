@@ -72,8 +72,8 @@ export const createTreeSlice: StateCreator<
   markDecisionMade: (nodeId: string) => {
     const siblings = getSiblingIds(get().tree, nodeId);
     const siblingDescendantIds = siblings.flatMap((id) => getDescendantIds(get().tree, id));
-    get().setChosen([nodeId], true);
-    get().setChosen([...siblingDescendantIds, ...siblings], false);
+    get().setStatus([nodeId], 'chosen');
+    get().setStatus([...siblingDescendantIds, ...siblings], undefined);
     get().updateDagNodes(get().tree);
   },
 });
