@@ -1,5 +1,5 @@
 import { BaseNode } from 'components/Nodes/BaseNode/BaseNode';
-import { useTreeStore } from 'hooks';
+import { useDecisionTree } from 'hooks';
 import { useState } from 'react';
 import { NodeProps } from 'reactflow';
 import { NodeData } from 'store/DecisionSlice/decisionSlice';
@@ -14,11 +14,18 @@ export interface BoolNodeData extends NodeData {
 }
 
 export const BoolNode = ({
-  data: { yesId, noId, label, chosen },
+  data: { yesId, noId, label, status },
   id,
   ...props
 }: NodeProps<BoolNodeData>) => {
-  const { showNode, showChildren, hideNiblings, hideDescendants, chooseDecision } = useTreeStore();
+  const {
+    showNode,
+    showChildren,
+    hideNiblings,
+    hideDescendants,
+    markDecisionMade,
+    markDecisionFocused,
+  } = useDecisionTree();
   const [selected, setSelected] = useState<'yes' | 'no' | undefined>(undefined);
 
   const handleYes = () => {
@@ -26,8 +33,8 @@ export const BoolNode = ({
     showChildren(yesId);
     hideNiblings(id);
     hideDescendants(noId);
-    chooseDecision(yesId);
-    chooseDecision(id);
+    markDecisionMade(id);
+    markDecisionFocused(yesId);
     setSelected('yes');
   };
 
@@ -36,13 +43,13 @@ export const BoolNode = ({
     showChildren(noId);
     hideNiblings(id);
     hideDescendants(yesId);
-    chooseDecision(noId);
-    chooseDecision(id);
+    markDecisionMade(id);
+    markDecisionFocused(noId);
     setSelected('no');
   };
 
   return (
-    <BaseNode {...props} id={id} chosen={chosen}>
+    <BaseNode {...props} id={id} status={status}>
       <div className={styles.boolNodeContent}>
         <div className={styles.boolNodeText}>
           <span>{label}</span>

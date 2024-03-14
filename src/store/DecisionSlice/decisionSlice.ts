@@ -8,6 +8,8 @@ import {
 import { layoutTree } from 'store/DecisionSlice/layout';
 import { StateCreator } from 'zustand';
 
+export type DecisionStatus = 'unselect' | 'chosen' | 'focused' | undefined;
+
 /**
  * Data needed by all TreeNodes that contains the nodes expanded state,
  * the node's children, and the node's text
@@ -16,7 +18,7 @@ export interface NodeData {
   label: string;
   children: string[];
   expanded?: boolean;
-  chosen?: boolean;
+  status?: DecisionStatus;
 }
 
 /** data needed by the BooleanTreeNode to render decisions*/
@@ -60,7 +62,7 @@ interface DecisionSliceActions {
   /** Set decision as collapsed */
   collapseDecision: (nodeId: string, children: string[]) => void;
   /** set node as chosen */
-  setChosen: (nodeId: string[], chosen: boolean) => void;
+  setStatus: (nodeId: string[], status: DecisionStatus) => void;
 }
 
 export interface DecisionSlice extends DecisionSliceActions, DecisionSliceState {}
@@ -136,10 +138,10 @@ export const createDecisionSlice: StateCreator<
       'collapseDecision'
     );
   },
-  setChosen: (nodeIds: string[], chosen: boolean) => {
+  setStatus: (nodeIds: string[], status: DecisionStatus) => {
     const tree = get().tree;
     nodeIds.forEach((nodeId) => {
-      tree[nodeId].data.chosen = chosen;
+      tree[nodeId].data.status = status ?? undefined;
     });
     set(
       {

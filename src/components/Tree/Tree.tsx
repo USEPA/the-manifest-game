@@ -1,31 +1,22 @@
 import { BoolNode } from 'components/Nodes/BoolNode/BoolNode';
 import { DefaultNode } from 'components/Nodes/DefaultNode/DefaultNode';
 import { ControlCenter } from 'components/Tree/ControlCenter';
-import { useTreeDirection, useTreeStore } from 'hooks';
+import { useDecisionTree, useTreeDirection } from 'hooks';
 import React, { useMemo, useState } from 'react';
-import ReactFlow, {
-  Edge,
-  MiniMap,
-  Node,
-  NodeMouseHandler,
-  useReactFlow,
-  useViewport,
-  XYPosition,
-} from 'reactflow';
+import ReactFlow, { Edge, MiniMap, Node, useReactFlow, useViewport, XYPosition } from 'reactflow';
 
 export interface TreeProps {
   nodes: Node[];
   edges: Edge[];
-  onClick: NodeMouseHandler;
   mapVisible?: boolean;
 }
 
 /**
  * Tree - responsible for rendering the decision tree
  */
-export const Tree = ({ nodes, edges, onClick }: TreeProps) => {
+export const Tree = ({ nodes, edges }: TreeProps) => {
   const nodeTypes = useMemo(() => ({ BoolNode: BoolNode, default: DefaultNode }), []);
-  const { onNodesChange, onEdgesChange } = useTreeStore();
+  const { onNodesChange, onEdgesChange } = useDecisionTree();
   const [mapVisible, setMapVisible] = useState(true);
   const [direction, setDirection] = useTreeDirection();
   const { setCenter } = useReactFlow();
@@ -38,7 +29,6 @@ export const Tree = ({ nodes, edges, onClick }: TreeProps) => {
           nodeTypes={nodeTypes}
           nodes={nodes}
           edges={edges}
-          onNodeClick={onClick}
           onEdgesChange={onEdgesChange}
           onNodesChange={onNodesChange}
           fitView
