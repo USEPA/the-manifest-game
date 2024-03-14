@@ -6,7 +6,7 @@ import styles from './default.module.css';
 
 export const DefaultNode = ({ data, ...props }: NodeProps<NodeData>) => {
   return (
-    <BaseNode {...props} chosen={data.chosen}>
+    <BaseNode {...props} chosen={data.chosen} status={data.status}>
       <div className={styles.defaultNodeText}>
         <span>{data.label}</span>
       </div>

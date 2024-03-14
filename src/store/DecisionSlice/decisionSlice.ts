@@ -8,6 +8,8 @@ import {
 import { layoutTree } from 'store/DecisionSlice/layout';
 import { StateCreator } from 'zustand';
 
+export type DecisionStatus = 'unselect' | 'chosen' | 'focused' | undefined;
+
 /**
  * Data needed by all TreeNodes that contains the nodes expanded state,
  * the node's children, and the node's text
@@ -17,6 +19,7 @@ export interface NodeData {
   children: string[];
   expanded?: boolean;
   chosen?: boolean;
+  status?: DecisionStatus;
 }
 
 /** data needed by the BooleanTreeNode to render decisions*/
@@ -139,7 +142,7 @@ export const createDecisionSlice: StateCreator<
   setChosen: (nodeIds: string[], chosen: boolean) => {
     const tree = get().tree;
     nodeIds.forEach((nodeId) => {
-      tree[nodeId].data.chosen = chosen;
+      tree[nodeId].data.status = chosen ? 'chosen' : undefined;
     });
     set(
       {

@@ -1,6 +1,7 @@
 import { useTreeDirection } from 'hooks';
 import { ReactNode, useEffect } from 'react';
 import { Handle, NodeProps, Position, useUpdateNodeInternals } from 'reactflow';
+import { DecisionStatus } from 'store/DecisionSlice/decisionSlice';
 
 import styles from './baseNode.module.css';
 import { DragHandle } from './DragHandle/DragHandle';
@@ -8,6 +9,7 @@ import { DragHandle } from './DragHandle/DragHandle';
 interface BaseNodeProps extends Omit<NodeProps, 'data'> {
   children: ReactNode;
   chosen?: boolean;
+  status?: DecisionStatus;
 }
 
 /**
@@ -15,7 +17,7 @@ interface BaseNodeProps extends Omit<NodeProps, 'data'> {
  * @param props
  * @constructor
  */
-export const BaseNode = ({ id, isConnectable, children, chosen }: BaseNodeProps) => {
+export const BaseNode = ({ id, isConnectable, children, status }: BaseNodeProps) => {
   const updateNodeInternals = useUpdateNodeInternals();
   const [, , isHorizontal] = useTreeDirection();
 
@@ -24,7 +26,7 @@ export const BaseNode = ({ id, isConnectable, children, chosen }: BaseNodeProps)
   }, [isHorizontal, updateNodeInternals, id]);
 
   return (
-    <div data-testid={`node-${id}`} className={chosen ? 'chosen' : ''}>
+    <div data-testid={`node-${id}`} className={status ? status : ''}>
       <Handle
         data-testid={`${isHorizontal ? 'left' : 'top'}-handle`}
         type="target"
