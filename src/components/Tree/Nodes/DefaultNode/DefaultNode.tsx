@@ -1,8 +1,8 @@
-import { BaseNode } from 'components/Nodes/BaseNode/BaseNode';
+import { BaseNode } from 'components/Tree/Nodes/BaseNode/BaseNode';
+
+import styles from 'components/Tree/Nodes/DefaultNode/default.module.css';
 import { NodeProps } from 'reactflow';
 import { NodeData } from 'store/DecisionSlice/decisionSlice';
-
-import styles from './default.module.css';
 
 export const DefaultNode = ({ data, ...props }: NodeProps<NodeData>) => {
   return (

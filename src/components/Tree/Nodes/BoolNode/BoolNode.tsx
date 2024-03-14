@@ -1,10 +1,10 @@
-import { BaseNode } from 'components/Nodes/BaseNode/BaseNode';
+import { BaseNode } from 'components/Tree/Nodes/BaseNode/BaseNode';
+
+import styles from 'components/Tree/Nodes/BoolNode/bool.module.css';
 import { useDecisionTree } from 'hooks';
 import { useState } from 'react';
 import { NodeProps } from 'reactflow';
 import { NodeData } from 'store/DecisionSlice/decisionSlice';
-
-import styles from './bool.module.css';
 
 export interface BoolNodeData extends NodeData {
   label: string;

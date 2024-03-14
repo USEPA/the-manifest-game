@@ -1,6 +1,6 @@
-import { BoolNode } from 'components/Nodes/BoolNode/BoolNode';
-import { DefaultNode } from 'components/Nodes/DefaultNode/DefaultNode';
 import { ControlCenter } from 'components/Tree/ControlCenter';
+import { BoolNode } from 'components/Tree/Nodes/BoolNode/BoolNode';
+import { DefaultNode } from 'components/Tree/Nodes/DefaultNode/DefaultNode';
 import { useDecisionTree, useTreeDirection } from 'hooks';
 import React, { useMemo, useState } from 'react';
 import ReactFlow, { Edge, MiniMap, Node, useReactFlow, useViewport, XYPosition } from 'reactflow';
