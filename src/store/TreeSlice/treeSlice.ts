@@ -19,6 +19,7 @@ export interface TreeSlice {
   removeNiblings: (nodeId: string) => void;
   markDecisionMade: (nodeId: string) => void;
   markDecisionFocused: (nodeId: string) => void;
+  updatePath: (source: string, target: string) => void;
 }
 
 /** The state of the tree, implemented as a shared slice that builds on concrete slices
@@ -84,6 +85,7 @@ export const createTreeSlice: StateCreator<
     get().updateDagNodes(get().tree);
   },
   updatePath: (source: string, target: string) => {
+    get().removeEdgeFromPathBySource(source);
     get().addEdgeToPath(source, target);
   },
 });

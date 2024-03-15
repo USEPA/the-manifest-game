@@ -22,7 +22,7 @@ export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree) => {
     onEdgesChange,
     markDecisionMade,
     markDecisionFocused,
-    addEdgeToPath,
+    updatePath,
   } = useDecTreeStore((state) => state);
 
   /** show a node's direct children and the edges leading to them */
@@ -66,7 +66,7 @@ export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree) => {
   }, [initialTree, setStoreTree, showStoreNode]);
 
   const addToPath = (source: string, target: string) => {
-    addEdgeToPath(source, target);
+    updatePath(source, target);
   };
 
   return {

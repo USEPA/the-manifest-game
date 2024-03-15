@@ -17,8 +17,6 @@ export const DecisionEdge = (props: DecisionEdgeProps) => {
     targetPosition,
   });
 
-  console.log('decision made', props.data?.decisionMade, 'source ', props.source);
-
   return (
     <>
       <BaseEdge
