@@ -20,7 +20,14 @@ export const DecisionEdge = (props: DecisionEdgeProps) => {
 
   return (
     <>
-      <BaseEdge id={id} path={edgePath} />
+      <BaseEdge
+        id={id}
+        path={edgePath}
+        style={{
+          stroke: props.data?.sourceDecisionMade ? '#05b485' : '',
+          strokeWidth: '3px',
+        }}
+      />
     </>
   );
 };
