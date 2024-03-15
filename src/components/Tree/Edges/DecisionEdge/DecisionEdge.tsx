@@ -1,11 +1,10 @@
 import { BaseEdge, EdgeProps, getSmoothStepPath } from 'reactflow';
 
-interface DecisionEdgeData {
-  sourceDecisionMade?: boolean;
-  targetDecisionMade?: boolean;
+export interface DecisionEdgeData {
+  decisionMade?: boolean;
 }
 
-interface DecisionEdgeProps extends EdgeProps<DecisionEdgeData> {}
+export interface DecisionEdgeProps extends EdgeProps<DecisionEdgeData> {}
 
 export const DecisionEdge = (props: DecisionEdgeProps) => {
   const { id, sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition } = props;
@@ -18,13 +17,15 @@ export const DecisionEdge = (props: DecisionEdgeProps) => {
     targetPosition,
   });
 
+  console.log('decision made', props.data?.decisionMade, 'source ', props.source);
+
   return (
     <>
       <BaseEdge
         id={id}
         path={edgePath}
         style={{
-          stroke: props.data?.sourceDecisionMade ? '#05b485' : '',
+          stroke: props.data?.decisionMade ? '#05b485' : '',
           strokeWidth: '3px',
         }}
       />

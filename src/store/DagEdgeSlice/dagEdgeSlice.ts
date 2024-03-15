@@ -1,9 +1,10 @@
+import { DecisionEdgeData } from 'components/Tree/Edges/DecisionEdge/DecisionEdge';
 import { applyEdgeChanges, Edge, EdgeChange, OnEdgesChange } from 'reactflow';
 import { addDagEdge } from 'store/DagEdgeSlice/dagEdgeUtils';
 import { StateCreator } from 'zustand';
 
 interface DagEdgeSliceState {
-  dagEdges: Edge[];
+  dagEdges: Edge<DecisionEdgeData>[];
 }
 
 interface DagEdgeSliceActions {
@@ -13,6 +14,8 @@ interface DagEdgeSliceActions {
   removeEdgesByTarget: (nodeIds: string[]) => void;
   /** Create an edge */
   createEdge: (sourceId?: string, targetId?: string) => void;
+  /** Mark an edge as decision made by source */
+  addEdgeToPath: (source: string, target: string) => void;
 }
 
 export interface DagEdgeSlice extends DagEdgeSliceState, DagEdgeSliceActions {}
@@ -52,6 +55,22 @@ export const createDagEdgeSlice: StateCreator<
       },
       false,
       'createEdge'
+    );
+  },
+  addEdgeToPath: (source: string, target: string) => {
+    const newEdges = get().dagEdges.map((edge) => {
+      if (edge.source === source && edge.target === target) {
+        edge.style = { stroke: '#05b485', strokeWidth: '3px' };
+        edge.data = { decisionMade: true };
+      }
+      return edge;
+    });
+    set(
+      {
+        dagEdges: newEdges,
+      },
+      false,
+      'markEdgeAsDecisionMade'
     );
   },
 });

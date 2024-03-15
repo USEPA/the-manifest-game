@@ -75,7 +75,6 @@ export const createTreeSlice: StateCreator<
     const siblingDescendantIds = siblings.flatMap((id) => getDescendantIds(get().tree, id));
     get().setStatus([nodeId], 'chosen');
     get().setStatus([...siblingDescendantIds, ...siblings], undefined);
-    get().updateDagNodes(get().tree);
   },
   markDecisionFocused: (nodeId: string) => {
     const siblings = getSiblingIds(get().tree, nodeId);
@@ -83,5 +82,8 @@ export const createTreeSlice: StateCreator<
     get().setStatus([nodeId], 'focused');
     get().setStatus([...siblingDescendantIds, ...siblings], undefined);
     get().updateDagNodes(get().tree);
+  },
+  updatePath: (source: string, target: string) => {
+    get().addEdgeToPath(source, target);
   },
 });
