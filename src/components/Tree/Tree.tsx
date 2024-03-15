@@ -1,6 +1,7 @@
-import { BoolNode } from 'components/Nodes/BoolNode/BoolNode';
-import { DefaultNode } from 'components/Nodes/DefaultNode/DefaultNode';
 import { ControlCenter } from 'components/Tree/ControlCenter';
+import { DecisionEdge } from 'components/Tree/Edges/DecisionEdge/DecisionEdge';
+import { BoolNode } from 'components/Tree/Nodes/BoolNode/BoolNode';
+import { DefaultNode } from 'components/Tree/Nodes/DefaultNode/DefaultNode';
 import { useDecisionTree, useTreeDirection } from 'hooks';
 import React, { useMemo, useState } from 'react';
 import ReactFlow, { Edge, MiniMap, Node, useReactFlow, useViewport, XYPosition } from 'reactflow';
@@ -10,6 +11,10 @@ export interface TreeProps {
   edges: Edge[];
   mapVisible?: boolean;
 }
+
+const edgeTypes = {
+  decision: DecisionEdge,
+};
 
 /**
  * Tree - responsible for rendering the decision tree
@@ -27,6 +32,7 @@ export const Tree = ({ nodes, edges }: TreeProps) => {
       <div style={{ width: '100vw', height: '100vh' }} data-testid="decision-tree">
         <ReactFlow
           nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
           nodes={nodes}
           edges={edges}
           onEdgesChange={onEdgesChange}

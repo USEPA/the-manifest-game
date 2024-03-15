@@ -1,10 +1,10 @@
-import { BaseNode } from 'components/Nodes/BaseNode/BaseNode';
+import { BaseNode } from 'components/Tree/Nodes/BaseNode/BaseNode';
+
+import styles from 'components/Tree/Nodes/BoolNode/bool.module.css';
 import { useDecisionTree } from 'hooks';
 import { useState } from 'react';
 import { NodeProps } from 'reactflow';
 import { NodeData } from 'store/DecisionSlice/decisionSlice';
-
-import styles from './bool.module.css';
 
 export interface BoolNodeData extends NodeData {
   label: string;
@@ -25,6 +25,7 @@ export const BoolNode = ({
     hideDescendants,
     markDecisionMade,
     markDecisionFocused,
+    addToPath,
   } = useDecisionTree();
   const [selected, setSelected] = useState<'yes' | 'no' | undefined>(undefined);
 
@@ -35,6 +36,7 @@ export const BoolNode = ({
     hideDescendants(noId);
     markDecisionMade(id);
     markDecisionFocused(yesId);
+    addToPath(id, yesId);
     setSelected('yes');
   };
 
@@ -45,6 +47,7 @@ export const BoolNode = ({
     hideDescendants(yesId);
     markDecisionMade(id);
     markDecisionFocused(noId);
+    addToPath(id, noId);
     setSelected('no');
   };
 

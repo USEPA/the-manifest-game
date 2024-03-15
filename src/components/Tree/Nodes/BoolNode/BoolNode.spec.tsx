@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { BoolNode, BoolNodeData } from 'components/Nodes/BoolNode/BoolNode';
+import { BoolNode, BoolNodeData } from 'components/Tree/Nodes/BoolNode/BoolNode';
 import { NodeProps, ReactFlowProvider } from 'reactflow';
 import useTreeStore from 'store';
 import { afterEach, describe, expect, test } from 'vitest';
