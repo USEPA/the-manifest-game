@@ -5,7 +5,11 @@ import { ReactFlowProvider } from 'reactflow';
 import useTreeStore from 'store';
 import { afterEach, describe, expect, test } from 'vitest';
 
-const TestComponent = () => {
+interface TestComponentProps {
+  helpIcon?: boolean;
+}
+
+const TestComponent = ({ helpIcon }: TestComponentProps) => {
   return (
     <ReactFlowProvider>
       <BaseNode
@@ -17,6 +21,7 @@ const TestComponent = () => {
         isConnectable={false}
         xPos={0}
         yPos={0}
+        helpIcon={helpIcon}
       >
         <div>Test</div>
       </BaseNode>
@@ -41,5 +46,13 @@ describe('BaseNode', () => {
     rerender(<TestComponent />);
     expect(screen.getByTestId('top-handle')).toBeInTheDocument();
     expect(screen.getByTestId('bottom-handle')).toBeInTheDocument();
+  });
+  test('displays a HelpIcon when truthy', () => {
+    render(<TestComponent helpIcon={true} />);
+    expect(screen.queryByLabelText(/help/i)).toBeInTheDocument();
+  });
+  test('no HelpIcon when falsy', () => {
+    render(<TestComponent helpIcon={false} />);
+    expect(screen.queryByLabelText(/help/i)).not.toBeInTheDocument();
   });
 });
