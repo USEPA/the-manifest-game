@@ -34,7 +34,7 @@ export const BaseNode = ({ id, isConnectable, children, status, helpOnClick }: B
       />
       <div className={styles.nodeContent}>
         {children}
-        {helpOnClick && (
+        {true && (
           <div>
             <HelpIcon onClick={helpOnClick} />
           </div>
