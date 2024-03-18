@@ -1,11 +1,19 @@
+import React from 'react';
+
+interface HelpIconProps {
+  onClick?: React.MouseEventHandler;
+}
+
 /**
  * icon to help users make decisions or direct them to more information
  * @constructor
  */
-export const HelpIcon = () => {
+export const HelpIcon = ({ onClick }: HelpIconProps) => {
   return (
     <div>
-      <p aria-label="help">Help</p>
+      <button aria-label="help" onClick={onClick}>
+        Help
+      </button>
     </div>
   );
 };
