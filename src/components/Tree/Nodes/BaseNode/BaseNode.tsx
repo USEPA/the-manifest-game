@@ -8,7 +8,6 @@ import { DecisionStatus } from 'store/DecisionSlice/decisionSlice';
 export interface BaseNodeProps extends Omit<NodeProps, 'data'> {
   children: ReactNode;
   status?: DecisionStatus;
-  helpIcon?: boolean;
   helpOnClick?: () => void;
 }
 
@@ -17,14 +16,7 @@ export interface BaseNodeProps extends Omit<NodeProps, 'data'> {
  * @param props
  * @constructor
  */
-export const BaseNode = ({
-  id,
-  isConnectable,
-  children,
-  status,
-  helpIcon,
-  helpOnClick,
-}: BaseNodeProps) => {
+export const BaseNode = ({ id, isConnectable, children, status, helpOnClick }: BaseNodeProps) => {
   const updateNodeInternals = useUpdateNodeInternals();
   const [, , isHorizontal] = useTreeDirection();
 
@@ -42,7 +34,7 @@ export const BaseNode = ({
       />
       <div className={styles.nodeContent}>
         {children}
-        {helpIcon && (
+        {helpOnClick && (
           <div>
             <HelpIcon onClick={helpOnClick} />
           </div>
