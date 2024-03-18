@@ -1,0 +1,14 @@
+
+.helpIcon button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0 10px 0 0;
+    margin: 0;
+    transition: color 0.2s ease;
+}
+
+.helpIcon button:hover {
+    color: grey;
+
+}

@@ -1,13 +1,14 @@
+import { HelpIcon } from 'components/HelpIcon/HelpIcon';
 import styles from 'components/Tree/Nodes/BaseNode/baseNode.module.css';
-import { DragHandle } from 'components/Tree/Nodes/BaseNode/DragHandle/DragHandle';
 import { useTreeDirection } from 'hooks';
 import { ReactNode, useEffect } from 'react';
 import { Handle, NodeProps, Position, useUpdateNodeInternals } from 'reactflow';
 import { DecisionStatus } from 'store/DecisionSlice/decisionSlice';
 
-interface BaseNodeProps extends Omit<NodeProps, 'data'> {
+export interface BaseNodeProps extends Omit<NodeProps, 'data'> {
   children: ReactNode;
   status?: DecisionStatus;
+  helpOnClick?: () => void;
 }
 
 /**
@@ -15,7 +16,7 @@ interface BaseNodeProps extends Omit<NodeProps, 'data'> {
  * @param props
  * @constructor
  */
-export const BaseNode = ({ id, isConnectable, children, status }: BaseNodeProps) => {
+export const BaseNode = ({ id, isConnectable, children, status, helpOnClick }: BaseNodeProps) => {
   const updateNodeInternals = useUpdateNodeInternals();
   const [, , isHorizontal] = useTreeDirection();
 
@@ -33,7 +34,11 @@ export const BaseNode = ({ id, isConnectable, children, status }: BaseNodeProps)
       />
       <div className={styles.nodeContent}>
         {children}
-        <DragHandle />
+        {helpOnClick && (
+          <div>
+            <HelpIcon onClick={helpOnClick} />
+          </div>
+        )}
       </div>
       <Handle
         data-testid={`${isHorizontal ? 'right' : 'bottom'}-handle`}

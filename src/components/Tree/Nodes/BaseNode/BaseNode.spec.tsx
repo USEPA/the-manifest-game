@@ -3,9 +3,13 @@ import { act, cleanup, render, screen } from '@testing-library/react';
 import { BaseNode } from 'components/Tree/Nodes/BaseNode/BaseNode';
 import { ReactFlowProvider } from 'reactflow';
 import useTreeStore from 'store';
-import { afterEach, describe, expect, test } from 'vitest';
+import { afterEach, describe, expect, test, vi } from 'vitest';
 
-const TestComponent = () => {
+interface TestComponentProps {
+  helpOnClick?: () => void;
+}
+
+const TestComponent = ({ helpOnClick }: TestComponentProps) => {
   return (
     <ReactFlowProvider>
       <BaseNode
@@ -17,6 +21,7 @@ const TestComponent = () => {
         isConnectable={false}
         xPos={0}
         yPos={0}
+        helpOnClick={helpOnClick}
       >
         <div>Test</div>
       </BaseNode>
@@ -41,5 +46,14 @@ describe('BaseNode', () => {
     rerender(<TestComponent />);
     expect(screen.getByTestId('top-handle')).toBeInTheDocument();
     expect(screen.getByTestId('bottom-handle')).toBeInTheDocument();
+  });
+  test('displays a HelpIcon when truthy', () => {
+    const onClick = vi.fn();
+    render(<TestComponent helpOnClick={onClick} />);
+    expect(screen.queryByLabelText(/help/i)).toBeInTheDocument();
+  });
+  test('no HelpIcon when falsy', () => {
+    render(<TestComponent />);
+    expect(screen.queryByLabelText(/help/i)).not.toBeInTheDocument();
   });
 });
