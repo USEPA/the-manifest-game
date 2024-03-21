@@ -94,4 +94,8 @@ describe('BoolNode', () => {
     expect(noButton).toHaveClass(/selected/i);
     expect(yesButton).not.toHaveClass(/selected/i);
   });
+  test('renders an id we can use during testing', () => {
+    render(<TestComponent />);
+    expect(screen.getByTestId('bool-node-1-content')).toBeInTheDocument();
+  });
 });

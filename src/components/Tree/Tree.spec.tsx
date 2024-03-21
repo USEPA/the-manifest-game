@@ -101,24 +101,6 @@ beforeEach(() => {
 
 describe('Tree Component', () => {
   describe('Bool node selection', () => {
-    // test('opens the options children', async () => {
-    //   const user = userEvent.setup();
-    //   const myTree = createTestPositionUnawareDecisionTree();
-    //   render(
-    //     <ReactFlowProvider>
-    //       <TestComponent tree={myTree} />
-    //     </ReactFlowProvider>
-    //   );
-    //   [YES_CHILD_ID, YES_YES_ID, YES_NO_ID].forEach((nodeId: string) => {
-    //     expect(screen.queryByTestId(`node-${nodeId}`)).not.toBeInTheDocument();
-    //   });
-    //   await user.click(screen.queryByTestId(`${PARENT_ID}-yes-button`)!);
-    //   expect(screen.queryByTestId(`node-${YES_NO_ID}`)).toBeInTheDocument();
-    //   expect(screen.queryByTestId(`node-${YES_YES_ID}`)).toBeInTheDocument();
-    //   // [YES_YES_ID, YES_NO_ID].forEach((nodeId: string) => {
-    //   //   expect(screen.queryByTestId(`node-${nodeId}`)).toBeInTheDocument();
-    //   // });
-    // });
     test('closes the descendants the selected options siblings', async () => {
       const user = userEvent.setup();
       const myTree = createTestPositionUnawareDecisionTree({
