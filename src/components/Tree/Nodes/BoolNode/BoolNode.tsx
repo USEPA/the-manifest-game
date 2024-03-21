@@ -51,10 +51,8 @@ export const BoolNode = ({
     setSelected('no');
   };
 
-  console.log('status', status);
-
   return (
-    <BaseNode {...props} id={id} status={status}>
+    <BaseNode {...props} id={id}>
       <div className={`${styles.boolNodeContent} ${status ?? status}`}>
         <div className={styles.boolNodeText}>
           <span>{label}</span>

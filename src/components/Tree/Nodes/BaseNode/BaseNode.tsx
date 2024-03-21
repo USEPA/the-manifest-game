@@ -3,20 +3,19 @@ import styles from 'components/Tree/Nodes/BaseNode/baseNode.module.css';
 import { useTreeDirection } from 'hooks';
 import { ReactNode, useEffect } from 'react';
 import { Handle, NodeProps, Position, useUpdateNodeInternals } from 'reactflow';
-import { DecisionStatus } from 'store/DecisionSlice/decisionSlice';
 
 export interface BaseNodeProps extends Omit<NodeProps, 'data'> {
   children: ReactNode;
-  status?: DecisionStatus;
   helpOnClick?: () => void;
 }
 
 /**
- * A base node that all nodes should extend from.
+ * A base node that all nodes should extend from. It provides the base functionality needed for nodes
+ * to work within the decision tree.
  * @param props
  * @constructor
  */
-export const BaseNode = ({ id, isConnectable, children, status, helpOnClick }: BaseNodeProps) => {
+export const BaseNode = ({ id, isConnectable, children, helpOnClick }: BaseNodeProps) => {
   const updateNodeInternals = useUpdateNodeInternals();
   const [, , isHorizontal] = useTreeDirection();
 
