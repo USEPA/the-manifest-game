@@ -6,8 +6,11 @@ import { NodeData } from 'store/DecisionSlice/decisionSlice';
 
 export const DefaultNode = ({ data, ...props }: NodeProps<NodeData>) => {
   return (
-    <BaseNode {...props} status={data.status}>
-      <div className={styles.defaultNodeText}>
+    <BaseNode {...props}>
+      <div
+        data-testid={`default-node-${props.id}-content`}
+        className={`${styles.defaultNodeContent} ${data.status ? data.status : ''}`}
+      >
         <span>{data.label}</span>
       </div>
     </BaseNode>
