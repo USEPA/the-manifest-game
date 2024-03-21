@@ -98,4 +98,9 @@ describe('BoolNode', () => {
     render(<TestComponent />);
     expect(screen.getByTestId('bool-node-1-content')).toBeInTheDocument();
   });
+  test('By default the class contains no status styling', () => {
+    render(<TestComponent />);
+    expect(screen.getByTestId('bool-node-1-content')).toHaveClass(/BoolNodeContent/i);
+    expect(screen.getByTestId('bool-node-1-content').classList).toHaveLength(1);
+  });
 });

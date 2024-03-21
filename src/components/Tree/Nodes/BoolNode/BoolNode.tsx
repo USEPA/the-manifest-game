@@ -55,7 +55,7 @@ export const BoolNode = ({
     <BaseNode {...props} id={id}>
       <div
         data-testid={`bool-node-${id}-content`}
-        className={`${styles.boolNodeContent} ${status ?? status}`}
+        className={`${styles.boolNodeContent} ${status ? status : ''}`}
       >
         <div className={styles.boolNodeText}>
           <span>{label}</span>
