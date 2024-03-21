@@ -25,7 +25,8 @@ export const BaseNode = ({ id, isConnectable, children, status, helpOnClick }: B
   }, [isHorizontal, updateNodeInternals, id]);
 
   return (
-    <div data-testid={`node-${id}`} className={status ? status : ''}>
+    // <div data-testid={`node-${id}`} className={status ? status : ''}>
+    <div data-testid={`node-${id}`}>
       <Handle
         data-testid={`${isHorizontal ? 'left' : 'top'}-handle`}
         type="target"
