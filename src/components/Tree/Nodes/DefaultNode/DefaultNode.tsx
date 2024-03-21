@@ -9,7 +9,7 @@ export const DefaultNode = ({ data, ...props }: NodeProps<NodeData>) => {
     <BaseNode {...props}>
       <div
         data-testid={`default-node-${props.id}-content`}
-        className={`${styles.defaultNodeText} ${data.status ? data.status : ''}`}
+        className={`${styles.defaultNodeContent} ${data.status ? data.status : ''}`}
       >
         <span>{data.label}</span>
       </div>
