@@ -19,6 +19,7 @@ export interface NodeData {
   children: string[];
   expanded?: boolean;
   status?: DecisionStatus;
+  help?: boolean;
 }
 
 /** data needed by the BooleanTreeNode to render decisions*/

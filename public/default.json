@@ -6,7 +6,8 @@
       "data": {
         "label": "Are you registered?",
         "yesId": "doYouHaveSiteId",
-        "noId": "goRegister"
+        "noId": "goRegister",
+        "help": true
       }
     },
     {
