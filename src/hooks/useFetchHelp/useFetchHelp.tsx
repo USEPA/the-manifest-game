@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { PositionUnawareDecisionTree } from 'store';
 
 /** Configuration for an individual node, part of the larger config*/
 export interface HelpConfig {
@@ -9,7 +8,7 @@ export interface HelpConfig {
 
 /** Hook to fetch the help text for a given node from the server. */
 export const useFetchHelp = (nodeId: string) => {
-  const [help, setHelp] = useState<PositionUnawareDecisionTree>();
+  const [help, setHelp] = useState<HelpConfig | undefined>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown | undefined>();
 
@@ -30,7 +29,7 @@ export const useFetchHelp = (nodeId: string) => {
         setError(e);
         setIsLoading(false);
       });
-  }, []);
+  }, [nodeId]);
 
   return {
     help,

@@ -6,12 +6,14 @@ import { setupServer } from 'msw/node';
 import { afterAll, afterEach, beforeAll, describe, expect, test } from 'vitest';
 
 const handlers = [
-  http.get('/help/:nodeId.json', () => {
+  http.get('/help/:nodeId.json', (info) => {
+    const nodeId = info.params.nodeId;
+
     return HttpResponse.json({
       nodes: [
         {
           type: 'text',
-          content: 'Help Text',
+          content: `Help Text ${nodeId}`,
         },
       ],
     });
@@ -20,7 +22,10 @@ const handlers = [
 
 const server = setupServer(...handlers);
 
-afterEach(() => cleanup());
+afterEach(() => {
+  cleanup();
+  server.resetHandlers(...handlers);
+});
 beforeAll(() => server.listen());
 afterAll(() => server.close());
 
@@ -55,5 +60,11 @@ describe('useFetchHelp', async () => {
     render(<TestComponent nodeId={nodeId} />);
     await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
     expect(screen.queryByText(/error/i)).toBeInTheDocument();
+  });
+  test('returns help object on success', async () => {
+    render(<TestComponent />);
+    await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
+    screen.debug();
+    expect(screen.queryByText(/help/i)).toBeInTheDocument();
   });
 });
