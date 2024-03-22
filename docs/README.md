@@ -6,8 +6,9 @@
 2. [specification](#specification)
 3. [Nomenclature](#nomenclature)
 4. [Implementation Notes](#implementation-notes)
-5. [Deployment](#deployment)
-6. [Future Work](#future-work)
+5. [Configuration](#configuration)
+6. [Deployment](#deployment)
+7. [Future Work](#future-work)
 
 ## Introduction
 
@@ -69,14 +70,107 @@ library) and
 one as a map (really it's a typescript Record at the moment) which we call the tree. We operate on the tree and then
 convert it to an array when we need to display it. Currently, this works, but we may need to rethink this approach.
 
+## Configuration
+
+The decision tree is read from a configuration file. A configuration file is a JSON file that contains all nodes in the
+tree, and any accompanying metadata. The configuration file is fetched from the server, read, and parsed at runtime to
+build the decision tree. These are stored in the `public/` directory, in particular the `public/default.json` file will
+be
+loaded by default (see future work).
+
+The configuration should reflect the following example:
+
+```json
+
+{
+  "nodes": [
+    {
+      "id": "root",
+      "type": "BoolNode",
+      "data": {
+        "label": "Are you registered?",
+        "yesId": "doYouHaveSiteId",
+        "noId": "goRegister",
+        "help": true
+      }
+    },
+    {
+      "id": "goRegister",
+      "data": {
+        "label": "Time to Register in RCRAInfo!",
+        "children": [
+          "test1",
+          "test2"
+        ]
+      }
+    }
+  ]
+}
+```
+
+The nodes array contains all the nodes, the edges are built at runtime. There are different types of nodes, each type
+requires a different configuration.
+
+### Shared Node Properties
+
+- **id**: A unique **_identifier_** for the node. It must be unique across all nodes in the tree. We recommend using a
+  short descriptive name (e.g., `goRegister`).
+- **type**: The optional type of the node. If no value specified, a default node will be created. The type determines
+  the behavior of the node. The type is a string that corresponds to the name of the node class (e.g., `BoolNode`).
+- **data**: An object that contains the node's metadata. The metadata is different for each node type.
+- **data.label**: The text that will be displayed on the node. This is the question or statement that the node
+  represents.
+- **data.help**: A boolean value that determines if the node has help content. If true, the node will display a help
+  icon
+  that will display help content when clicked.
+
+### DefaultNode
+
+- **data.children**: An array of children node ids. On click, the default node will display/hide these nodes.
+
+```json
+  {
+  "id": "goRegister",
+  "data": {
+    "label": "You have options",
+    "children": [
+      "option1",
+      "option2"
+    ]
+  }
+}
+```
+
+### BoolNode
+
+- **data.yesId**: The id of the node that will be displayed if the user selects "yes".
+- **data.noId**: The id of the node that will be displayed if the user selects "no".
+
+```json
+{
+  "id": "likeToPlatAGame",
+  "type": "BoolNode",
+  "data": {
+    "label": "Would you like to play a game?",
+    "yesId": "sureWhyNot",
+    "noId": "noThankYou",
+    "help": true
+  }
+}
+```
+
 ## Deployment
 
 The development server can be started using the npm run dev command. This will start a server on port 3000 (by default).
 The project currently uses [vite](https://vitejs.dev/) as the development server, bundler, and build tool.
 
+The project is a static site, any method of deploying static files will work (e.g., AWS S3, raspberry pi in the
+basement, etc.).
+
 This project config files also include a Dockerfile and a docker-compose file, both of which are fairly straightforward.
-Both will deploy the project on port 3000 behind an [Nginx](https://www.nginx.com/) reverse proxy. The docker-compose
-just makes to easier to build, run, and expose the project on port 3000.
+Both will deploy the project on port 3000 behind [Nginx](https://www.nginx.com/). The docker-compose
+just makes to easier to build, run, and expose the project on port 3000 locally if you don't have a supported version of
+node installed.
 
 ```shell
 docker compose up
@@ -86,8 +180,6 @@ docker compose up
 
 1. It should be possible to link to a specific node in the decision tree so that the tree starts at that node open upon
    visiting the page.
-2. Currently, we rely on `useEffects` to keep the tree and array in sync. This is a 'bad smell' and we should (I
-   believe) move that logic into the global state management store.
-3. A new custom node type for multiple choice questions (e.g., what type of site are you? A generator, a TSDF, or a
+2. A new custom node type for multiple choice questions (e.g., what type of site are you? A generator, a TSDF, or a
    transporter).
-4. Add a dropdown menu that will allow users to load multiple decision trees for different use cases.
+3. Allow EPA to create multiple tree for users.
