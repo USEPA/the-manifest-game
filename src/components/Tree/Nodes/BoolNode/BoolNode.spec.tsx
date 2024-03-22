@@ -129,4 +129,54 @@ describe('BoolNode', () => {
     expect(screen.getByTestId('bool-node-1-content')).toHaveClass(/chosen/i);
     expect(screen.getByTestId('bool-node-1-content').classList).toHaveLength(2);
   });
+  test('no HelpIcon when falsy', () => {
+    render(
+      <ReactFlowProvider>
+        <BoolNode
+          id={'1'}
+          dragging={false}
+          selected={false}
+          type={''}
+          zIndex={0}
+          isConnectable={false}
+          xPos={0}
+          yPos={0}
+          data={{
+            label: 'this is a question?',
+            yesId: '2',
+            noId: '3',
+            children: [],
+            status: 'chosen',
+            help: false,
+          }}
+        />
+      </ReactFlowProvider>
+    );
+    expect(screen.queryByLabelText(/help/i)).not.toBeInTheDocument();
+  });
+  test('HelpIcon displayed help is true', () => {
+    render(
+      <ReactFlowProvider>
+        <BoolNode
+          id={'1'}
+          dragging={false}
+          selected={false}
+          type={''}
+          zIndex={0}
+          isConnectable={false}
+          xPos={0}
+          yPos={0}
+          data={{
+            label: 'this is a question?',
+            yesId: '2',
+            noId: '3',
+            children: [],
+            status: 'chosen',
+            help: true,
+          }}
+        />
+      </ReactFlowProvider>
+    );
+    expect(screen.queryByLabelText(/help/i)).toBeInTheDocument();
+  });
 });

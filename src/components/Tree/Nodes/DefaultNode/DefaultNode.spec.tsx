@@ -7,6 +7,7 @@ import { afterEach, describe, expect, test } from 'vitest';
 
 interface TestComponentProps {
   status?: DecisionStatus;
+  help?: boolean;
 }
 
 const TestComponent = (props: TestComponentProps) => {
@@ -18,6 +19,7 @@ const TestComponent = (props: TestComponentProps) => {
           label: 'foo',
           children: [],
           status: props.status,
+          help: props.help,
         }}
         selected={false}
         type={''}
@@ -67,5 +69,13 @@ describe('DefaultNode', () => {
   test('By default only uses default classes', () => {
     render(<TestComponent status="chosen" />);
     expect(screen.getByTestId('default-node-1-content').classList).toHaveLength(2);
+  });
+  test('no HelpIcon when falsy', () => {
+    render(<TestComponent help={false} />);
+    expect(screen.queryByLabelText(/help/i)).not.toBeInTheDocument();
+  });
+  test('HelpIcon displayed help is true', () => {
+    render(<TestComponent help={true} />);
+    expect(screen.queryByLabelText(/help/i)).toBeInTheDocument();
   });
 });

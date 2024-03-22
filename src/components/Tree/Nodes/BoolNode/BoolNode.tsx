@@ -1,3 +1,4 @@
+import { HelpIcon } from 'components/Help/HelpIcon/HelpIcon';
 import { BaseNode } from 'components/Tree/Nodes/BaseNode/BaseNode';
 
 import styles from 'components/Tree/Nodes/BoolNode/bool.module.css';
@@ -14,7 +15,7 @@ export interface BoolNodeData extends NodeData {
 }
 
 export const BoolNode = ({
-  data: { yesId, noId, label, status },
+  data: { yesId, noId, label, status, help },
   id,
   ...props
 }: NodeProps<BoolNodeData>) => {
@@ -57,6 +58,11 @@ export const BoolNode = ({
         data-testid={`bool-node-${id}-content`}
         className={`${styles.boolNodeContent} ${status ? status : ''}`}
       >
+        {help && (
+          <div className={styles.helpIcon}>
+            <HelpIcon onClick={() => console.log(`node help clicked ${id}`)} />
+          </div>
+        )}
         <div className={styles.boolNodeText}>
           <span>{label}</span>
         </div>

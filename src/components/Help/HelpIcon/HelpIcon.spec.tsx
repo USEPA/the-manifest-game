@@ -1,8 +1,8 @@
 import '@testing-library/jest-dom';
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { HelpIcon } from 'components/Help/HelpIcon/HelpIcon';
 import { afterEach, describe, expect, test, vi } from 'vitest';
-import { HelpIcon } from './HelpIcon';
 
 afterEach(() => cleanup());
 
