@@ -1,12 +1,12 @@
 import '@testing-library/jest-dom';
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import { useFetchHelp } from 'hooks/useFetchHelp/useFetchHelp';
 import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 import { afterAll, afterEach, beforeAll, describe, expect, test } from 'vitest';
 
 const handlers = [
-  http.get('/help/$nodeId.json', () => {
+  http.get('/help/:nodeId.json', () => {
     return HttpResponse.json({
       nodes: [
         {
@@ -40,10 +40,20 @@ const TestComponent = (props: TestComponentProps) => {
 };
 
 describe('useFetchHelp', async () => {
-  test('initially isLoading, error, and data are undefined', () => {
+  test('error, help are initially falsy', () => {
     render(<TestComponent />);
     expect(screen.queryByText(/error/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/help/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
+  });
+  test('returns an error upon network errors', async () => {
+    const nodeId = 'bad-error';
+    server.use(
+      http.get('/help/*', () => {
+        return HttpResponse.error();
+      })
+    );
+    render(<TestComponent nodeId={nodeId} />);
+    await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
+    expect(screen.queryByText(/error/i)).toBeInTheDocument();
   });
 });
