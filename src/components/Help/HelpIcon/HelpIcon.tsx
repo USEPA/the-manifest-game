@@ -1,6 +1,6 @@
+import styles from 'components/Help/HelpIcon/helpIcon.module.css';
 import React from 'react';
 import { FaQuestionCircle } from 'react-icons/fa';
-import styles from './helpIcon.module.css';
 
 interface HelpIconProps {
   onClick?: React.MouseEventHandler;

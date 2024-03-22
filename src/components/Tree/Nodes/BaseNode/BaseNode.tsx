@@ -1,4 +1,4 @@
-import { HelpIcon } from 'components/HelpIcon/HelpIcon';
+import { HelpIcon } from 'components/Help/HelpIcon/HelpIcon';
 import styles from 'components/Tree/Nodes/BaseNode/baseNode.module.css';
 import { useTreeDirection } from 'hooks';
 import { ReactNode, useEffect } from 'react';
