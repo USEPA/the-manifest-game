@@ -40,7 +40,7 @@ export const OffCanvas = ({ title = 'Help', isOpen, handleClose }: OffCanvasProp
           text, images, lists, etc.
         </div>
       </div>
-      {/* Apply backdrop while open*/}
+      {/* backdrop while open*/}
       <div className={`${styles.backdrop} ${isOpen ? styles.show : ''}`} />
     </>
   );

@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { cleanup, render, screen } from '@testing-library/react';
 import { OffCanvas } from 'components/SideBar/OffCanvas';
-import { afterEach, describe, expect, test } from 'vitest';
+import { afterEach, describe, expect, test, vi } from 'vitest';
 
 afterEach(() => cleanup());
 
@@ -18,5 +18,11 @@ describe('OffCanvas', () => {
     const myTitle = 'My Title';
     render(<OffCanvas isOpen={true} handleClose={() => undefined} title={myTitle} />);
     expect(screen.getByRole('heading', { name: myTitle })).toBeInTheDocument();
+  });
+  test('handles close event', () => {
+    const handleClose = vi.fn();
+    render(<OffCanvas isOpen={true} handleClose={handleClose} />);
+    screen.getByRole('button', { name: /close/i }).click();
+    expect(handleClose).toHaveBeenCalled();
   });
 });
