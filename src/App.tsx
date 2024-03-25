@@ -6,6 +6,7 @@ import { Spinner } from 'components/Spinner/Spinner';
 import { Tree } from 'components/Tree/Tree';
 import { useDecisionTree } from 'hooks';
 import { useFetchConfig } from 'hooks/useFetchConfig/useFetchConfig';
+import { useState } from 'react';
 
 /**
  * App - responsible for rendering the decision tree
@@ -15,6 +16,7 @@ export default function App() {
   const title = import.meta.env.VITE_APP_TITLE ?? 'The Manifest Game';
   const { config, isLoading: configIsLoading, error: configError } = useFetchConfig(defaultTree);
   const { nodes, edges } = useDecisionTree(config);
+  const [isOffCanvasOpen, setIsOffCanvasOpen] = useState(true);
 
   return (
     <>
@@ -28,7 +30,7 @@ export default function App() {
           <Tree nodes={nodes} edges={edges} />
         </>
       )}
-      <OffCanvas />
+      <OffCanvas isOpen={isOffCanvasOpen} />
     </>
   );
 }

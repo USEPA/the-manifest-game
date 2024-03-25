@@ -5,9 +5,13 @@ import { afterEach, describe, expect, test } from 'vitest';
 
 afterEach(() => cleanup());
 
-describe('Sidebar', () => {
+describe('OffCanvas', () => {
   test('renders', () => {
-    render(<OffCanvas />);
+    render(<OffCanvas isOpen={true} handleClose={() => undefined} />);
     expect(screen.getByTestId(/offcanvas/i)).toBeInTheDocument();
+  });
+  test('title is "help" by default', () => {
+    render(<OffCanvas isOpen={true} handleClose={() => undefined} />);
+    expect(screen.getByRole('heading', { level: 3 })).toBeInTheDocument();
   });
 });

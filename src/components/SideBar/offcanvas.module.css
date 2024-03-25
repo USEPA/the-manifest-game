@@ -13,8 +13,7 @@ body {
     z-index: 1050;
     display: flex;
     flex-direction: column;
-    max-width: 100%;
-    background-color: #fff;
+    background-color: #e5e5e5;
     background-clip: padding-box;
     outline: 0;
     transition: transform 0.3s ease-in-out;
@@ -28,6 +27,7 @@ body {
 
 .offcanvas.show {
     transform: none;
+    margin: 0 1rem 1rem 0;
 }
 
 
@@ -36,7 +36,6 @@ body {
     right: 0;
     transform: translateX(100%);
     border-radius: 20px;
-    margin: 0 1rem 1rem 0;
 }
 
 @media (max-width: 600px) {

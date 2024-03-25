@@ -1,13 +1,17 @@
 import styles from 'components/SideBar/offcanvas.module.css';
 import React from 'react';
 
+interface OffCanvasProps {
+  title?: string;
+  isOpen: boolean;
+  handleClose: () => void;
+}
+
 /**
  * Sidebar for displaying content and help
  * @constructor
  */
-export const OffCanvas = () => {
-  const title = 'Help';
-  const isOpen = true;
+export const OffCanvas = ({ title = 'Help', isOpen, handleClose }: OffCanvasProps) => {
   return (
     <>
       <div
@@ -18,14 +22,14 @@ export const OffCanvas = () => {
         role="dialog"
         aria-labelledby={styles.title}
         aria-modal="true"
-        onClick={(event) => event.stopPropagation()}
-        aria-hidden="true"
+        // onClick={(event) => event.stopPropagation()}
+        aria-hidden={!isOpen}
       >
         <div className={styles.header}>
           <h3 className={styles.title}>{title}</h3>
           <button
             className={styles.close}
-            // onClick={handleClose}
+            onClick={handleClose}
             type="button"
             tabIndex={0}
             aria-label="Close"
