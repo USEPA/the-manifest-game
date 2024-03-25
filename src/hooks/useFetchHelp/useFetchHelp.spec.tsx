@@ -64,7 +64,6 @@ describe('useFetchHelp', async () => {
   test('returns help object on success', async () => {
     render(<TestComponent />);
     await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
-    screen.debug();
     expect(screen.queryByText(/help/i)).toBeInTheDocument();
   });
 });
