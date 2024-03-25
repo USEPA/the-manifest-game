@@ -3,7 +3,8 @@ import { BaseNode } from 'components/Tree/Nodes/BaseNode/BaseNode';
 
 import styles from 'components/Tree/Nodes/BoolNode/bool.module.css';
 import { useDecisionTree } from 'hooks';
-import { useState } from 'react';
+import { useHelp } from 'hooks/useHelp/useHelp';
+import { MouseEventHandler, useState } from 'react';
 import { NodeProps } from 'reactflow';
 import { NodeData } from 'store/DecisionSlice/decisionSlice';
 
@@ -19,6 +20,13 @@ export const BoolNode = ({
   id,
   ...props
 }: NodeProps<BoolNodeData>) => {
+  const { showHelp } = useHelp();
+
+  const handleHelpClick: MouseEventHandler = (event) => {
+    showHelp(id);
+    event.stopPropagation();
+  };
+
   const {
     showNode,
     showChildren,
@@ -60,7 +68,7 @@ export const BoolNode = ({
       >
         {help && (
           <div className={styles.helpIcon}>
-            <HelpIcon onClick={() => console.log(`node help clicked ${id}`)} />
+            <HelpIcon onClick={handleHelpClick} />
           </div>
         )}
         <div className={styles.boolNodeText}>
