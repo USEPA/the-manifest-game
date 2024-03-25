@@ -17,8 +17,6 @@ export const DecisionEdge = (props: DecisionEdgeProps) => {
     targetPosition,
   });
 
-  const edgeZIndex = props.data?.decisionMade ? '100 !important' : '-1 !important';
-
   return (
     <>
       <BaseEdge
@@ -27,7 +25,6 @@ export const DecisionEdge = (props: DecisionEdgeProps) => {
         style={{
           stroke: props.data?.decisionMade ? '#00754e' : '',
           strokeWidth: '3px',
-          zIndex: edgeZIndex,
         }}
       />
     </>

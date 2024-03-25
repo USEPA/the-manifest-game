@@ -29,7 +29,7 @@ export const Tree = ({ nodes, edges }: TreeProps) => {
 
   return (
     <>
-      <div style={{ width: '100vw', height: '100vh' }} data-testid="decision-tree">
+      <div style={{ width: '100%', height: '100%' }} data-testid="decision-tree">
         <ReactFlow
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}
