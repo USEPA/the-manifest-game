@@ -25,4 +25,11 @@ describe('OffCanvas', () => {
     screen.getByRole('button', { name: /close/i }).click();
     expect(handleClose).toHaveBeenCalled();
   });
+  test('closes modal when user clicks close', () => {
+    const handleClose = vi.fn();
+    const { rerender } = render(<OffCanvas isOpen={true} handleClose={handleClose} />);
+    expect(screen.getByTestId(/offcanvas/i)).toBeVisible();
+    rerender(<OffCanvas isOpen={false} handleClose={handleClose} />);
+    expect(screen.getByTestId(/offcanvas/i)).not.toBeVisible();
+  });
 });

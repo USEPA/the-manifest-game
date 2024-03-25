@@ -1,5 +1,5 @@
 import styles from 'components/SideBar/offcanvas.module.css';
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 interface OffCanvasProps {
   title?: string;
@@ -12,6 +12,35 @@ interface OffCanvasProps {
  * @constructor
  */
 export const OffCanvas = ({ title = 'Help', isOpen, handleClose }: OffCanvasProps) => {
+  /** handle when user clicks outside the off canvas component*/
+  const onClickOutside = useCallback(() => {
+    if (isOpen) {
+      if (handleClose) handleClose();
+    }
+  }, [isOpen, handleClose]);
+
+  /** handle when user presses the escape key */
+  const onEscKey = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isOpen) {
+        if (handleClose) handleClose();
+      }
+    },
+    [isOpen, handleClose]
+  );
+
+  /** add event listeners for escape key keydown*/
+  useEffect(() => {
+    document.addEventListener('keydown', onEscKey, false);
+    return () => document.removeEventListener('keydown', onEscKey);
+  }, [onEscKey]);
+
+  /** add event listeners for click outside */
+  useEffect(() => {
+    document.addEventListener('click', onClickOutside, false);
+    return () => document.removeEventListener('click', onClickOutside);
+  }, [onClickOutside]);
+
   return (
     <>
       <div
@@ -22,8 +51,8 @@ export const OffCanvas = ({ title = 'Help', isOpen, handleClose }: OffCanvasProp
         role="dialog"
         aria-labelledby={styles.title}
         aria-modal="true"
-        // onClick={(event) => event.stopPropagation()}
         aria-hidden={!isOpen}
+        hidden={!isOpen}
       >
         <div className={styles.header}>
           <h3 className={styles.title}>{title}</h3>

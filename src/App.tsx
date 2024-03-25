@@ -30,7 +30,10 @@ export default function App() {
           <Tree nodes={nodes} edges={edges} />
         </>
       )}
-      <OffCanvas isOpen={isOffCanvasOpen} />
+      <OffCanvas
+        isOpen={isOffCanvasOpen}
+        handleClose={() => setIsOffCanvasOpen(!isOffCanvasOpen)}
+      />
     </>
   );
 }
