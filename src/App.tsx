@@ -1,6 +1,7 @@
 import defaultTree from '/default.json?url';
 import { ErrorMsg } from 'components/Error';
 import { Header } from 'components/Header/Header';
+import { OffCanvas } from 'components/SideBar/OffCanvas';
 import { Spinner } from 'components/Spinner/Spinner';
 import { Tree } from 'components/Tree/Tree';
 import { useDecisionTree } from 'hooks';
@@ -23,8 +24,11 @@ export default function App() {
       ) : configError ? (
         <ErrorMsg message={'Error parsing the Decision Tree'} />
       ) : (
-        <Tree nodes={nodes} edges={edges} />
+        <>
+          <Tree nodes={nodes} edges={edges} />
+        </>
       )}
+      <OffCanvas />
     </>
   );
 }
