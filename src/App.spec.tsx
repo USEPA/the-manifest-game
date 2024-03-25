@@ -1,10 +1,12 @@
 import '@testing-library/jest-dom';
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import App from 'App';
 import { delay, http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 import React from 'react';
 import { ReactFlowProvider } from 'reactflow';
+import useTreeStore from 'store';
 import { afterAll, afterEach, beforeAll, describe, expect, test, vi } from 'vitest';
 
 const TestComponent = () => {
@@ -88,5 +90,15 @@ describe('App', () => {
     render(<TestComponent />);
     await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
     expect(screen.getByText(/Error/i)).toBeInTheDocument();
+  });
+  test('the help content is closed onClicking the close button', async () => {
+    const user = userEvent.setup();
+    useTreeStore.setState({ isOpen: true });
+    render(<TestComponent />);
+    await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
+    expect(screen.getByTestId('offcanvas')).toBeInTheDocument();
+    const closeButton = screen.getByRole('button', { name: /close/i });
+    await user.click(closeButton);
+    expect(screen.getByTestId('offcanvas')).not.toBeVisible();
   });
 });

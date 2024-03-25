@@ -1,4 +1,4 @@
-import styles from 'components/SideBar/offcanvas.module.css';
+import styles from 'components/OffCanvas/offcanvas.module.css';
 import React, { useCallback, useEffect } from 'react';
 
 interface OffCanvasProps {
