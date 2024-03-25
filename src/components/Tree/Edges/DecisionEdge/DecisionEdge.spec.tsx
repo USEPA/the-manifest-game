@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
-import { cleanup, render } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import { Position, ReactFlowProvider } from 'reactflow';
-import { afterEach, describe, test } from 'vitest';
+import { afterEach, describe, expect, test } from 'vitest';
 import { DecisionEdge } from './DecisionEdge';
 
 afterEach(() => cleanup());
@@ -35,5 +35,49 @@ const TestComponent = (props: TestComponentProps) => (
 describe('Decision Edge', () => {
   test('renders', () => {
     render(<TestComponent />);
+  });
+  test('stroke color is altered when decision made', () => {
+    render(
+      <ReactFlowProvider>
+        <svg data-testid={'1'}>
+          <DecisionEdge
+            data={{ decisionMade: true }}
+            id={'1'}
+            source={'foo'}
+            target={'bar'}
+            sourceX={0}
+            sourceY={0}
+            targetX={0}
+            targetY={0}
+            sourcePosition={Position.Left}
+            targetPosition={Position.Right}
+          />
+        </svg>
+      </ReactFlowProvider>
+    );
+    const edge = screen.getByTestId('1').querySelector('path');
+    expect(edge).toHaveStyle('stroke: #00754e');
+  });
+  test('no style when decision not made', () => {
+    render(
+      <ReactFlowProvider>
+        <svg data-testid={'1'}>
+          <DecisionEdge
+            data={{ decisionMade: false }}
+            id={'1'}
+            source={'foo'}
+            target={'bar'}
+            sourceX={0}
+            sourceY={0}
+            targetX={0}
+            targetY={0}
+            sourcePosition={Position.Left}
+            targetPosition={Position.Right}
+          />
+        </svg>
+      </ReactFlowProvider>
+    );
+    const edge = screen.getByTestId('1').querySelector('path');
+    expect(edge).not.toHaveStyle('stroke: #00754e');
   });
 });
