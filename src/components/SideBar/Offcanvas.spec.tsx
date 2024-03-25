@@ -14,4 +14,9 @@ describe('OffCanvas', () => {
     render(<OffCanvas isOpen={true} handleClose={() => undefined} />);
     expect(screen.getByRole('heading', { level: 3 })).toBeInTheDocument();
   });
+  test('renders an optionally provided title', () => {
+    const myTitle = 'My Title';
+    render(<OffCanvas isOpen={true} handleClose={() => undefined} title={myTitle} />);
+    expect(screen.getByRole('heading', { name: myTitle })).toBeInTheDocument();
+  });
 });
