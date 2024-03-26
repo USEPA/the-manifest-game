@@ -7,6 +7,12 @@
 3. [Nomenclature](#nomenclature)
 4. [Implementation Notes](#implementation-notes)
 5. [Configuration](#configuration)
+
+- [Node Properties](#shared-node-properties)
+- [DefaultNode](#defaultnode)
+- [BoolNode](#boolnode)
+- [Help Content](#help-content)
+
 6. [Deployment](#deployment)
 7. [Future Work](#future-work)
 
@@ -123,6 +129,9 @@ requires a different configuration.
 - **data.help**: A boolean value that determines if the node has help content. If true, the node will display a help
   icon
   that will display help content when clicked.
+- **data.help**: A boolean value that determines if the node has help content. If true, the decision tree expects to be
+  able to find a JSON file in `public/help/` with the same name as the node id. A question mark icon will be displayed
+  on node if true. See [Help Content](#help-content) for more information.
 
 ### DefaultNode
 
@@ -159,6 +168,21 @@ requires a different configuration.
 }
 ```
 
+### Help Content
+
+Nodes can optionally have help content, which can be useful for providing additional information to the user when the
+node merits further explanation.
+
+Currently, we only support text based help content, stored in a JSON encoded file following the below schema.
+See [future work](#future-work).
+
+  ```json
+{
+  "type": "text",
+  "content": "Welcome to the Manifest Game!\n\n This decision tree will help you..."
+}
+  ```
+
 ## Deployment
 
 The development server can be started using the npm run dev command. This will start a server on port 3000 (by default).
@@ -183,3 +207,5 @@ docker compose up
 2. A new custom node type for multiple choice questions (e.g., what type of site are you? A generator, a TSDF, or a
    transporter).
 3. Allow EPA to create multiple tree for users.
+4. Markup help text. Currently, we only support text based help content, stored in a JSON encoded file. Being able to
+   provide more complex help content could make the tool more useful as it would allow linking to other resources.
