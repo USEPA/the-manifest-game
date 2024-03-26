@@ -1,3 +1,4 @@
+import { Help } from 'components/Help/Help';
 import styles from 'components/OffCanvas/offcanvas.module.css';
 import React, { useCallback, useEffect } from 'react';
 
@@ -67,6 +68,7 @@ export const OffCanvas = ({ title = 'Help', isOpen, handleClose }: OffCanvasProp
         <div className={styles.content}>
           Some text as placeholder. In real life you can have the elements you have chosen. Like,
           text, images, lists, etc.
+          <Help />
         </div>
       </div>
       {/* backdrop while open*/}
