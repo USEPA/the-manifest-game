@@ -12,7 +12,7 @@ interface OffCanvasProps {
  * Sidebar for displaying content and help
  * @constructor
  */
-export const OffCanvas = ({ title = 'Help', isOpen, handleClose }: OffCanvasProps) => {
+export const OffCanvas = ({ title = 'More Information', isOpen, handleClose }: OffCanvasProps) => {
   /** handle when user clicks outside the off canvas component*/
   const onClickOutside = useCallback(() => {
     if (isOpen) {
@@ -66,8 +66,6 @@ export const OffCanvas = ({ title = 'Help', isOpen, handleClose }: OffCanvasProp
           />
         </div>
         <div className={styles.content}>
-          Some text as placeholder. In real life you can have the elements you have chosen. Like,
-          text, images, lists, etc.
           <Help />
         </div>
       </div>

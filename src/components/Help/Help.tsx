@@ -1,3 +1,6 @@
+import { Spinner } from 'components/Spinner/Spinner';
+import { useFetchHelp } from 'hooks';
+import { useHelp } from 'hooks/useHelp/useHelp';
 import React from 'react';
 
 /**
@@ -5,5 +8,20 @@ import React from 'react';
  * @constructor
  */
 export const Help = () => {
-  return <p>Help</p>;
+  const { helpContentId } = useHelp();
+  const { help, error, isLoading } = useFetchHelp(helpContentId);
+
+  if (helpContentId === undefined || error) {
+    return <p>There was a problem fetching help.</p>;
+  }
+
+  if (isLoading) {
+    return <Spinner testId={'helpSpinner'} />;
+  }
+
+  return (
+    <>
+      <p>{help?.content}</p>
+    </>
+  );
 };
