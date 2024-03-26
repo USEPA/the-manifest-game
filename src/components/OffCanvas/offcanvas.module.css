@@ -5,6 +5,9 @@ body {
 .content {
     font-family: sans-serif;
     padding: 0 2rem;
+    overflow: hidden scroll;
+    height: 100%;
+    scrollbar-color: #333333 transparent;
 }
 
 .offcanvas {
