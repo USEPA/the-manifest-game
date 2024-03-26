@@ -13,7 +13,7 @@ export const useFetchHelp = (nodeId?: string) => {
   useEffect(() => {
     setIsLoading(true);
     if (nodeId) {
-      fetch(`/help/${nodeId}.json`)
+      fetch(`${import.meta.env.BASE_URL}help/${nodeId}.json`)
         .then((response) => {
           if (!response.ok) {
             throw new Error('There was a problem fetching help.');
