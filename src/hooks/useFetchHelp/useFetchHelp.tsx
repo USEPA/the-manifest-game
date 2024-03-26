@@ -1,10 +1,8 @@
+import { TextHelp } from 'components/Help/HelpContent/TextualHelp';
 import { useEffect, useState } from 'react';
 
 /** Configuration for an individual node, part of the larger config*/
-export interface HelpConfig {
-  type: string;
-  content: string;
-}
+export type HelpConfig = TextHelp;
 
 /** Hook to fetch the help text for a given node from the server. */
 export const useFetchHelp = (nodeId?: string) => {

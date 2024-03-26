@@ -1,3 +1,4 @@
+import { TextualHelp } from 'components/Help/HelpContent/TextualHelp';
 import { Spinner } from 'components/Spinner/Spinner';
 import { useFetchHelp } from 'hooks';
 import { useHelp } from 'hooks/useHelp/useHelp';
@@ -21,7 +22,7 @@ export const Help = () => {
 
   return (
     <>
-      <p>{help?.content}</p>
+      <TextualHelp help={help} />
     </>
   );
 };
