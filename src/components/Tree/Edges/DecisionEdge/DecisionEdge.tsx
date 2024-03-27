@@ -23,7 +23,7 @@ export const DecisionEdge = (props: DecisionEdgeProps) => {
         id={id}
         path={edgePath}
         style={{
-          stroke: props.data?.decisionMade ? '#00754e' : '',
+          stroke: props.data?.decisionMade ? '#0D766E' : '',
           strokeWidth: '3px',
         }}
       />

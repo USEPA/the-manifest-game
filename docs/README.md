@@ -87,7 +87,6 @@ loaded by default (see future work).
 The configuration should reflect the following example:
 
 ```json
-
 {
   "nodes": [
     {
@@ -104,10 +103,7 @@ The configuration should reflect the following example:
       "id": "goRegister",
       "data": {
         "label": "Time to Register in RCRAInfo!",
-        "children": [
-          "test1",
-          "test2"
-        ]
+        "children": ["test1", "test2"]
       }
     }
   ]
@@ -138,14 +134,11 @@ requires a different configuration.
 - **data.children**: An array of children node ids. On click, the default node will display/hide these nodes.
 
 ```json
-  {
+{
   "id": "goRegister",
   "data": {
     "label": "You have options",
-    "children": [
-      "option1",
-      "option2"
-    ]
+    "children": ["option1", "option2"]
   }
 }
 ```
@@ -176,12 +169,12 @@ node merits further explanation.
 Currently, we only support text based help content, stored in a JSON encoded file following the below schema.
 See [future work](#future-work).
 
-  ```json
+```json
 {
   "type": "text",
   "content": "Welcome to the Manifest Game!\n\n This decision tree will help you..."
 }
-  ```
+```
 
 ## Deployment
 
