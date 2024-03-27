@@ -15,15 +15,8 @@ interface HelpContentProps {
  */
 export const TextualHelp = ({ help }: HelpContentProps) => {
   return (
-    <div
-      data-testid={'help-content'}
-      style={{
-        whiteSpace: 'pre-line',
-        fontSize: '1.2rem',
-        maxHeight: '100%',
-      }}
-    >
-      {help ? <p>{help.content}</p> : <p> Help is unavailable for this node.</p>}
+    <div data-testid={'help-content'} className="max-h-full whitespace-pre-line text-lg">
+      <p className="text-black">{help ? help.content : 'Help is unavailable for this node.'}</p>
     </div>
   );
 };
