@@ -1,10 +1,15 @@
 import '@testing-library/jest-dom';
 import { cleanup, render, screen } from '@testing-library/react';
+import { ReactFlowProvider } from 'reactflow';
 import { afterEach, describe, expect, test } from 'vitest';
 import { Header } from './Header';
 
 const TestComponent = ({ title }: { title?: string }) => {
-  return <Header treeTitle={title ?? 'foo'} />;
+  return (
+    <ReactFlowProvider>
+      <Header treeTitle={title ?? 'foo'} />
+    </ReactFlowProvider>
+  );
 };
 
 describe('Header', () => {

@@ -27,12 +27,12 @@ describe('ErrorMsg', () => {
     expect(issueLink).toHaveAccessibleName('file a ticket');
     expect(issueLink).toHaveAttribute('href', issueUrl);
   });
-  test('Does not render a link if environment variable is not defined', () => {
+  test('renders generic feedback link if no issue URL present', () => {
     render(<ErrorMsg />);
-    const issueLink = screen.queryByRole('link', { name: 'file a ticket' });
-    expect(issueLink).not.toBeInTheDocument();
+    const issueLink = screen.queryByRole('link', { name: /e-Manifest team/i });
+    expect(issueLink).toBeInTheDocument();
   });
-  test('renders an error message if one if passed', () => {
+  test('renders an issue URL if present', () => {
     const message = 'alright meow, license and registration';
     render(<ErrorMsg message={message} />);
     expect(screen.getByText(message)).toBeInTheDocument();
