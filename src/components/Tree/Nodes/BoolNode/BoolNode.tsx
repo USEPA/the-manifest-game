@@ -1,5 +1,6 @@
 import { HelpIcon } from 'components/Help/HelpIcon/HelpIcon';
 import { BaseNode } from 'components/Tree/Nodes/BaseNode/BaseNode';
+import { BoolButton } from 'components/Tree/Nodes/BoolNode/BoolButton/BoolButton';
 import { useDecisionTree } from 'hooks';
 import { useHelp } from 'hooks/useHelp/useHelp';
 import { MouseEventHandler } from 'react';
@@ -73,24 +74,8 @@ export const BoolNode = ({
           <p className="pb-4 pt-2 text-2xl">{label}</p>
         </div>
         <div className="mt-1 flex items-center justify-center space-x-3">
-          <button
-            onClick={handleYes}
-            data-testid={`${id}-yes-button`}
-            className="mb-1 rounded-xl bg-slate-600 px-2 py-1 text-2xl font-semibold
-            text-white transition-colors duration-200 ease-in-out hover:bg-slate-700
-            focus:outline-none focus:ring-2 focus:ring-slate-50 active:bg-slate-800"
-          >
-            Yes
-          </button>
-          <button
-            onClick={handleNo}
-            data-testid={`${id}-no-button`}
-            className="mb-1 rounded-xl bg-slate-600 px-2 py-1 text-2xl font-semibold
-            text-white transition-colors duration-200 ease-in-out hover:bg-slate-700
-            focus:outline-none focus:ring-2 focus:ring-slate-50 active:bg-slate-800"
-          >
-            No
-          </button>
+          <BoolButton id={id} response={true} onClick={handleYes} />
+          <BoolButton id={id} response={false} onClick={handleNo} />
         </div>
       </div>
     </BaseNode>
