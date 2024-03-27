@@ -1,9 +1,8 @@
 import { Help } from 'components/Help/Help';
-import styles from 'components/OffCanvas/offcanvas.module.css';
 import React, { useCallback, useEffect } from 'react';
+import { FaX } from 'react-icons/fa6';
 
 interface OffCanvasProps {
-  title?: string;
   isOpen: boolean;
   handleClose: () => void;
 }
@@ -12,7 +11,7 @@ interface OffCanvasProps {
  * Sidebar for displaying content and help
  * @constructor
  */
-export const OffCanvas = ({ title = 'More Information', isOpen, handleClose }: OffCanvasProps) => {
+export const OffCanvas = ({ isOpen, handleClose }: OffCanvasProps) => {
   /** handle when user clicks outside the off canvas component*/
   const onClickOutside = useCallback(() => {
     if (isOpen) {
@@ -47,30 +46,38 @@ export const OffCanvas = ({ title = 'More Information', isOpen, handleClose }: O
       <div
         data-testid="offcanvas"
         id={'offcanvas'}
-        className={`${styles.offcanvas} ${styles.right} ${isOpen ? styles.show : ''}`}
+        className={`z-top fixed bottom-0 right-0 top-20 z-50 flex w-3/4 translate-x-full
+        flex-col rounded-2xl bg-gray-200 outline-none transition-all
+        ease-in-out sm:w-10/12 md:w-6/12 lg:w-5/12
+        ${isOpen ? 'mb-2 mr-2 ms-0 mt-0 transform-none' : ''} pb-10`}
         tabIndex={-1}
         role="dialog"
-        aria-labelledby={styles.title}
+        aria-label="Off Canvas"
         aria-modal="true"
         aria-hidden={!isOpen}
         hidden={!isOpen}
       >
-        <div className={styles.header}>
-          <h3 className={styles.title}>{title}</h3>
+        <div className="flex justify-end p-3">
           <button
-            className={styles.close}
+            className="text-gray800 rounded-full p-1 transition-colors duration-200 ease-in-out
+            hover:text-gray-900 focus:outline-none focus:ring
+            focus:ring-gray-800 active:text-gray-900"
             onClick={handleClose}
             type="button"
             tabIndex={0}
             aria-label="Close"
-          />
+          >
+            <FaX size={20} />
+          </button>
         </div>
-        <div className={styles.content}>
+        <div className="offcanvas-scrollbar max-h-full overflow-x-hidden px-6 hover:overflow-y-scroll">
           <Help />
         </div>
       </div>
       {/* backdrop while open*/}
-      <div className={`${styles.backdrop} ${isOpen ? styles.show : ''}`} />
+      <div
+        className={`fixed bottom-0 left-0 right-0 top-0 bg-black  transition-opacity duration-200 ease-in-out ${isOpen ? 'visible opacity-60' : 'invisible opacity-0'}`}
+      />
     </>
   );
 };

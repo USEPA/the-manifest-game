@@ -22,6 +22,7 @@ export const Help = () => {
 
   return (
     <>
+      <h2>More Information</h2>
       <TextualHelp help={help} />
     </>
   );
