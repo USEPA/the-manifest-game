@@ -24,7 +24,6 @@ export default defineConfig({
       reporter: ['text', 'json', 'html'],
       exclude: [
         '**/src/setupTests.ts',
-        '**/src/index.tsx',
         '**/__mocks__/*',
         '**/node_modules/**/*',
         '**/build/**',
@@ -35,8 +34,8 @@ export default defineConfig({
         '**/index.tsx',
         '**/index.ts',
         '**/index.html',
-        '**/jsonDummyTree.ts',
         '**/.eslintrc.cjs',
+        '**/*.config.{js, ts}',
       ],
     },
   },

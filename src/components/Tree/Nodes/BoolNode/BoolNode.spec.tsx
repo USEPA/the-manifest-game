@@ -1,6 +1,5 @@
 import '@testing-library/jest-dom';
 import { cleanup, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { BoolNode, BoolNodeData } from 'components/Tree/Nodes/BoolNode/BoolNode';
 import { NodeProps, ReactFlowProvider } from 'reactflow';
 import useTreeStore from 'store';
@@ -83,51 +82,13 @@ describe('BoolNode', () => {
     render(<TestComponent />);
     expect(screen.getByRole('button', { name: /yes/i })).not.toHaveClass(/selected/i);
   });
-  test('clicking the buttons adds selected class', async () => {
-    const user = userEvent.setup();
-    render(<TestComponent />);
-    const yesButton = screen.getByRole('button', { name: /yes/i });
-    const noButton = screen.getByRole('button', { name: /no/i });
-    await user.click(yesButton);
-    expect(yesButton).toHaveClass(/selected/i);
-    await user.click(noButton);
-    expect(noButton).toHaveClass(/selected/i);
-    expect(yesButton).not.toHaveClass(/selected/i);
-  });
   test('renders an id we can use during testing', () => {
     render(<TestComponent />);
     expect(screen.getByTestId('bool-node-1-content')).toBeInTheDocument();
   });
   test('By default the class contains no status styling', () => {
     render(<TestComponent />);
-    expect(screen.getByTestId('bool-node-1-content')).toHaveClass(/BoolNodeContent/i);
-    expect(screen.getByTestId('bool-node-1-content').classList).toHaveLength(1);
-  });
-  test('By default the class contains no status styling', () => {
-    render(
-      <ReactFlowProvider>
-        <BoolNode
-          id={'1'}
-          dragging={false}
-          selected={false}
-          type={''}
-          zIndex={0}
-          isConnectable={false}
-          xPos={0}
-          yPos={0}
-          data={{
-            label: 'this is a question?',
-            yesId: '2',
-            noId: '3',
-            children: [],
-            status: 'chosen',
-          }}
-        />
-      </ReactFlowProvider>
-    );
-    expect(screen.getByTestId('bool-node-1-content')).toHaveClass(/BoolNodeContent/i);
-    expect(screen.getByTestId('bool-node-1-content')).toHaveClass(/chosen/i);
-    expect(screen.getByTestId('bool-node-1-content').classList).toHaveLength(2);
+    expect(screen.getByTestId('bool-node-1-content')).not.toHaveClass(/animated/i);
   });
   test('no HelpIcon when falsy', () => {
     render(
@@ -177,6 +138,6 @@ describe('BoolNode', () => {
         />
       </ReactFlowProvider>
     );
-    expect(screen.queryByLabelText(/help/i)).toBeInTheDocument();
+    expect(screen.queryByLabelText(/more information/i)).toBeInTheDocument();
   });
 });

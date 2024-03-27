@@ -1,5 +1,3 @@
-import styles from './errorMsg.module.css';
-
 interface ErrorMsgProps {
   message?: string;
 }
@@ -9,17 +7,35 @@ interface ErrorMsgProps {
  */
 export const ErrorMsg = ({ message }: ErrorMsgProps) => {
   const issueURL = import.meta.env.VITE_ISSUE_URL;
+
   return (
-    <div className={styles.center}>
-      <div className={styles.errorBox}>
-        <h2>{message ?? 'An error occurred'}</h2>
-        {issueURL && (
-          <p>
-            <a href={issueURL} className={styles.errorLink}>
-              file a ticket
-            </a>
-          </p>
-        )}
+    <div className="flex h-full w-full justify-center align-middle">
+      <div className="my-5 flex h-1/4 w-1/2 justify-center rounded-2xl bg-red-900">
+        <div className="p-2">
+          <h1 className="my-2 text-center text-3xl font-bold text-white">
+            {message ?? 'An error occurred'}
+          </h1>
+          <h2 className="text-center text-xl font-semibold text-white">
+            We would appreciate your feedback.
+          </h2>
+          {issueURL ? (
+            <p className="text-center">
+              <a href={issueURL} className="underline decoration-blue-100 decoration-1">
+                file a ticket
+              </a>
+            </p>
+          ) : (
+            <p className="text-center">
+              Please direct all comments to the{' '}
+              <a
+                href="https://epa.gov/e-manifest"
+                className="underline decoration-blue-100 decoration-1"
+              >
+                EPA e-Manifest team
+              </a>
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

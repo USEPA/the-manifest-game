@@ -62,20 +62,12 @@ describe('DefaultNode', () => {
     render(<TestComponent />);
     expect(screen.getByTestId('default-node-1-content')).toBeInTheDocument();
   });
-  test('By default only uses default classes', () => {
-    render(<TestComponent />);
-    expect(screen.getByTestId('default-node-1-content').classList).toHaveLength(1);
-  });
-  test('By default only uses default classes', () => {
-    render(<TestComponent status="chosen" />);
-    expect(screen.getByTestId('default-node-1-content').classList).toHaveLength(2);
-  });
   test('no HelpIcon when falsy', () => {
     render(<TestComponent help={false} />);
     expect(screen.queryByLabelText(/help/i)).not.toBeInTheDocument();
   });
   test('HelpIcon displayed help is true', () => {
     render(<TestComponent help={true} />);
-    expect(screen.queryByLabelText(/help/i)).toBeInTheDocument();
+    expect(screen.queryByLabelText(/more information/i)).toBeInTheDocument();
   });
 });

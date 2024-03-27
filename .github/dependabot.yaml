@@ -12,7 +12,7 @@ updates:
     open-pull-requests-limit: 4
     reviewers:
       - 'dpgraham4401'
-  - package-ecosystem: "docker"
-    directory: "/"
+  - package-ecosystem: 'docker'
+    directory: '/'
     schedule:
-      interval: "monthly"
+      interval: 'monthly'

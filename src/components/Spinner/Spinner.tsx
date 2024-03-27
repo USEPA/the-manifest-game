@@ -1,4 +1,4 @@
-import styles from 'components/Spinner/spinner.module.css';
+import { ImSpinner8 } from 'react-icons/im';
 
 interface SpinnerProps {
   testId?: string;
@@ -6,18 +6,12 @@ interface SpinnerProps {
 
 /**
  * Spinner - a loading spinner
- * https://loading.io/css/
  * @constructor
  */
 export const Spinner = ({ testId }: SpinnerProps) => {
   return (
-    <div className={styles.center} data-testid={testId ?? 'spinner'}>
-      <div className={styles.spinnerRing}>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
+    <div className="flex h-screen items-center justify-center" data-testid={testId ?? 'spinner'}>
+      <ImSpinner8 className="animate-spin font-bold" size={60} />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 # This workflow was generated using the CodeQL workflow template.
-name: "CodeQL"
+name: 'CodeQL'
 
 on:
   push:
@@ -28,7 +28,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'javascript-typescript' ]
+        language: ['javascript-typescript']
         # CodeQL supports [ 'c-cpp', 'csharp', 'go', 'java-kotlin', 'javascript-typescript', 'python', 'ruby', 'swift' ]
         # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
 
@@ -48,7 +48,6 @@ jobs:
           # For more details on CodeQL's query packs, refer to: https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
           # queries: security-extended,security-and-quality
 
-
       # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift).
       - name: Autobuild
         uses: github/codeql-action/autobuild@v3
@@ -66,4 +65,4 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
-          category: "/language:${{matrix.language}}"
+          category: '/language:${{matrix.language}}'
