@@ -22,7 +22,7 @@ export const Help = () => {
 
   return (
     <>
-      <h2>More Information</h2>
+      <h2 className="text-xl font-semibold text-black">More Information</h2>
       <TextualHelp help={help} />
     </>
   );
