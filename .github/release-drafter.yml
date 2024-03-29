@@ -22,7 +22,7 @@ exclude-labels:
 version-resolver:
   major:
     labels:
-      - 'major'
+      - 'breaking change'
   minor:
     labels:
       - 'enhancement'
@@ -39,9 +39,10 @@ autolabeler:
     files:
       - 'docs/**/*'
       - '**/README.md'
+      - '.github/**/*.md'
   - label: 'CI/CD'
     files:
-      - '.github/**/*'
+      - '.github/workflows/*'
       - '**/*Dockerfile'
       - '**/*.dockerignore'
       - '**/compose.yaml'
@@ -50,6 +51,14 @@ autolabeler:
   - label: 'dependencies'
     files:
       - 'package*.json'
+  - label: 'chore'
+    files:
+      - '.prettier*'
+      - '.gitignore'
+      - '.editorconfig'
+      - '*config.js'
+      - '*config.ts'
+      - '*config.json'
 
   # template for the release notes (changelog)
 template: |
