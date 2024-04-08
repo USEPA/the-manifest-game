@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { cleanup, render, screen } from '@testing-library/react';
 import { ErrorMsg } from 'components/Error/ErrorMsg';
-import { afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 
 beforeAll(() => {
   vi.stubEnv('VITE_ISSUE_URL', 'https://example.com/issues/new');
@@ -11,6 +11,9 @@ beforeEach(() => {
 });
 afterEach(() => {
   cleanup();
+});
+afterAll(() => {
+  vi.unstubAllEnvs();
 });
 
 describe('ErrorMsg', () => {
@@ -27,10 +30,10 @@ describe('ErrorMsg', () => {
     expect(issueLink).toHaveAccessibleName('file a ticket');
     expect(issueLink).toHaveAttribute('href', issueUrl);
   });
-  test('renders generic feedback link if no issue URL present', () => {
+  test('no feedback link rendered if no config', () => {
+    vi.stubEnv('VITE_ISSUE_URL', 'mailto:foo@epa.gov');
     render(<ErrorMsg />);
-    const issueLink = screen.queryByRole('link', { name: /e-Manifest team/i });
-    expect(issueLink).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /e-Manifest team/i })).not.toBeInTheDocument();
   });
   test('renders an issue URL if present', () => {
     const message = 'alright meow, license and registration';
