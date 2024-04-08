@@ -18,20 +18,10 @@ export const ErrorMsg = ({ message }: ErrorMsgProps) => {
           <h2 className="text-center text-xl font-semibold text-white">
             We would appreciate your feedback.
           </h2>
-          {issueURL ? (
+          {issueURL && (
             <p className="text-center">
               <a href={issueURL} className="underline decoration-blue-100 decoration-1">
                 file a ticket
-              </a>
-            </p>
-          ) : (
-            <p className="text-center">
-              Please direct all comments to the{' '}
-              <a
-                href="https://epa.gov/e-manifest"
-                className="underline decoration-blue-100 decoration-1"
-              >
-                EPA e-Manifest team
               </a>
             </p>
           )}

@@ -1,8 +1,18 @@
 import '@testing-library/jest-dom';
 import { cleanup, render, screen } from '@testing-library/react';
 import { ReactFlowProvider } from 'reactflow';
-import { afterEach, describe, expect, test, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { Header } from './Header';
+
+beforeEach(() => {
+  vi.unstubAllEnvs();
+});
+afterEach(() => {
+  cleanup();
+});
+afterEach(() => {
+  vi.unstubAllEnvs();
+});
 
 const TestComponent = ({ title }: { title?: string }) => {
   return (
@@ -13,7 +23,6 @@ const TestComponent = ({ title }: { title?: string }) => {
 };
 
 describe('Header', () => {
-  afterEach(() => cleanup());
   test('renders a title', () => {
     const title = 'hello';
     render(<TestComponent title={title} />);
