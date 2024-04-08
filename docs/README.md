@@ -12,6 +12,7 @@
 - [DefaultNode](#defaultnode)
 - [BoolNode](#boolnode)
 - [Help Content](#help-content)
+- [Environment Variables](#environment-variables)
 
 6. [Deployment](#deployment)
 7. [Future Work](#future-work)
@@ -103,7 +104,10 @@ The configuration should reflect the following example:
       "id": "goRegister",
       "data": {
         "label": "Time to Register in RCRAInfo!",
-        "children": ["test1", "test2"]
+        "children": [
+          "test1",
+          "test2"
+        ]
       }
     }
   ]
@@ -138,7 +142,10 @@ requires a different configuration.
   "id": "goRegister",
   "data": {
     "label": "You have options",
-    "children": ["option1", "option2"]
+    "children": [
+      "option1",
+      "option2"
+    ]
   }
 }
 ```
@@ -175,6 +182,15 @@ See [future work](#future-work).
   "content": "Welcome to the Manifest Game!\n\n This decision tree will help you..."
 }
 ```
+
+### Environment Variables
+
+A list of environment variables that can be used to configure the application can be found in the `/src/.env.d.ts` file.
+These variables are passed at build time, see the [Vite documentation](https://vitejs.dev/guide/env-and-mode.html) for
+further details.
+
+A couple of things that can be configured are the app title (default: 'The Manifest Game') and the issue
+tracker URL (default: 'mailto:eManifest@epa.gov').
 
 ## Deployment
 
