@@ -44,12 +44,12 @@ export type PositionUnawareDecisionTree = Record<string, Omit<TreeNode, 'positio
 
 export type TreeDirection = 'TB' | 'LR';
 
-interface Decision {
+export interface Decision {
   nodeId: string;
   selected: string | boolean;
 }
 
-type DecisionPath = Array<Decision>;
+export type DecisionPath = Array<Decision>;
 
 interface DecisionSliceState {
   tree: DecisionTree;
@@ -72,6 +72,10 @@ interface DecisionSliceActions {
   collapseDecision: (nodeId: string, children: string[]) => void;
   /** set node as chosen */
   setStatus: (nodeId: string[], status: DecisionStatus) => void;
+  /** set the path of the decision */
+  setPath: (path: DecisionPath) => void;
+  /** get the decision path */
+  getPath: () => DecisionPath;
 }
 
 export interface DecisionSlice extends DecisionSliceActions, DecisionSliceState {}
@@ -161,4 +165,14 @@ export const createDecisionSlice: StateCreator<
       'chooseDecision'
     );
   },
+  setPath: (path: DecisionPath) => {
+    set(
+      {
+        path,
+      },
+      false,
+      'setPath'
+    );
+  },
+  getPath: () => get().path,
 });
