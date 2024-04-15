@@ -76,6 +76,8 @@ interface DecisionSliceActions {
   setPath: (path: DecisionPath) => void;
   /** get the decision path */
   getPath: () => DecisionPath;
+  /** remove a decision by node ID and all its children */
+  removeDecisionAndChildren: (nodeId: string) => void;
 }
 
 export interface DecisionSlice extends DecisionSliceActions, DecisionSliceState {}
@@ -175,4 +177,17 @@ export const createDecisionSlice: StateCreator<
     );
   },
   getPath: () => get().path,
+  removeDecisionAndChildren: (nodeId: string) => {
+    const path = get().path;
+    const decisionIndex = path.findIndex((decision) => decision.nodeId == nodeId);
+    if (decisionIndex === -1) return;
+    const newPath = path.slice(0, decisionIndex);
+    set(
+      {
+        path: newPath,
+      },
+      false,
+      'removeDecisionAndChildren'
+    );
+  },
 });
