@@ -15,9 +15,9 @@ interface DagEdgeSliceActions {
   /** Create an edge */
   createEdge: (sourceId?: string, targetId?: string) => void;
   /** Mark an edge as decision made by source */
-  addEdgeToPath: (source: string, target: string) => void;
+  markEdgeDecided: (source: string, target: string) => void;
   /** Remove an edge from the path by source */
-  removeEdgeFromPathBySource: (source: string) => void;
+  markChildrenEdgesUndecided: (source: string) => void;
 }
 
 export interface DagEdgeSlice extends DagEdgeSliceState, DagEdgeSliceActions {}
@@ -59,7 +59,7 @@ export const createDagEdgeSlice: StateCreator<
       'createEdge'
     );
   },
-  removeEdgeFromPathBySource: (source: string) => {
+  markChildrenEdgesUndecided: (source: string) => {
     const newEdges = get().dagEdges.map((edge) => {
       if (edge.source === source) {
         edge.data = { decisionMade: false };
@@ -74,7 +74,7 @@ export const createDagEdgeSlice: StateCreator<
       'removeEdgeFromPathBySource'
     );
   },
-  addEdgeToPath: (source: string, target: string) => {
+  markEdgeDecided: (source: string, target: string) => {
     const newEdges = get().dagEdges.map((edge) => {
       if (edge.source === source && edge.target === target) {
         edge.style = { stroke: '#05b485', strokeWidth: '3px' };

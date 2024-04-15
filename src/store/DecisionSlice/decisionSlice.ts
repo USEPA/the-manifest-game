@@ -44,9 +44,17 @@ export type PositionUnawareDecisionTree = Record<string, Omit<TreeNode, 'positio
 
 export type TreeDirection = 'TB' | 'LR';
 
+export interface Decision {
+  nodeId: string;
+  selected: string | boolean;
+}
+
+export type DecisionPath = Array<Decision>;
+
 interface DecisionSliceState {
   tree: DecisionTree;
   direction: TreeDirection;
+  path: DecisionPath;
 }
 
 interface DecisionSliceActions {
@@ -64,6 +72,12 @@ interface DecisionSliceActions {
   collapseDecision: (nodeId: string, children: string[]) => void;
   /** set node as chosen */
   setStatus: (nodeId: string[], status: DecisionStatus) => void;
+  /** set the path of the decision */
+  setPath: (path: DecisionPath) => void;
+  /** get the decision path */
+  getPath: () => DecisionPath;
+  /** remove a decision by node ID and all its children */
+  removeDecisionAndChildren: (nodeId: string) => void;
 }
 
 export interface DecisionSlice extends DecisionSliceActions, DecisionSliceState {}
@@ -76,6 +90,7 @@ export const createDecisionSlice: StateCreator<
 > = (set, get) => ({
   direction: 'LR',
   tree: {},
+  path: [],
   setTreeDirection: (direction: TreeDirection) => {
     const tree = layoutTree(get().tree, direction);
     set(
@@ -150,6 +165,29 @@ export const createDecisionSlice: StateCreator<
       },
       false,
       'chooseDecision'
+    );
+  },
+  setPath: (path: DecisionPath) => {
+    set(
+      {
+        path,
+      },
+      false,
+      'setPath'
+    );
+  },
+  getPath: () => get().path,
+  removeDecisionAndChildren: (nodeId: string) => {
+    const path = get().path;
+    const decisionIndex = path.findIndex((decision) => decision.nodeId == nodeId);
+    if (decisionIndex === -1) return;
+    const newPath = path.slice(0, decisionIndex);
+    set(
+      {
+        path: newPath,
+      },
+      false,
+      'removeDecisionAndChildren'
     );
   },
 });

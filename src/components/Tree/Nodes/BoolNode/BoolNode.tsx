@@ -37,6 +37,9 @@ export const BoolNode = ({
   } = useDecisionTree();
 
   const handleYes = () => {
+    // ToDo: This function contains our logic for when a user makes a decision.
+    //  It should be refactored into our useDecisionTree hook and a lot of this logic should be
+    //  abstracted behind the hook's facade.
     showNode(yesId, { parentId: id });
     showChildren(yesId);
     hideNiblings(id);

@@ -19,7 +19,7 @@ export interface TreeSlice {
   removeNiblings: (nodeId: string) => void;
   markDecisionMade: (nodeId: string) => void;
   markDecisionFocused: (nodeId: string) => void;
-  updatePath: (source: string, target: string) => void;
+  addDecisionToPath: (source: string, target: string) => void;
 }
 
 /** The state of the tree, implemented as a shared slice that builds on concrete slices
@@ -84,8 +84,12 @@ export const createTreeSlice: StateCreator<
     get().setStatus([...siblingDescendantIds, ...siblings], undefined);
     get().updateDagNodes(get().tree);
   },
-  updatePath: (source: string, target: string) => {
-    get().removeEdgeFromPathBySource(source);
-    get().addEdgeToPath(source, target);
+  addDecisionToPath: (source: string, target: string) => {
+    // Mark all edges from source as undecided
+    get().markChildrenEdgesUndecided(source);
+    // Mark edge from source to target as decided
+    get().markEdgeDecided(source, target);
+    get().removeDecisionAndChildren(source);
+    get().setPath([...get().getPath(), { nodeId: source, selected: target }]);
   },
 });
