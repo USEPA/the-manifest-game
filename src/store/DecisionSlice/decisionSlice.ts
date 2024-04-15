@@ -44,9 +44,17 @@ export type PositionUnawareDecisionTree = Record<string, Omit<TreeNode, 'positio
 
 export type TreeDirection = 'TB' | 'LR';
 
+interface Decision {
+  nodeId: string;
+  selected: string | boolean;
+}
+
+type DecisionPath = Array<Decision>;
+
 interface DecisionSliceState {
   tree: DecisionTree;
   direction: TreeDirection;
+  path: DecisionPath;
 }
 
 interface DecisionSliceActions {
@@ -76,6 +84,7 @@ export const createDecisionSlice: StateCreator<
 > = (set, get) => ({
   direction: 'LR',
   tree: {},
+  path: [],
   setTreeDirection: (direction: TreeDirection) => {
     const tree = layoutTree(get().tree, direction);
     set(
