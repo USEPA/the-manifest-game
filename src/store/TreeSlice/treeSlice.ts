@@ -19,6 +19,7 @@ export interface TreeSlice {
   setDecisionMade: (nodeId: string) => void;
   setDecisionFocused: (nodeId: string) => void;
   addDecisionToPath: (source: string, target: string) => void;
+  removeDecisionFromPath: (nodeId: string) => void;
 }
 
 /** The state of the tree, implemented as a shared slice that builds on concrete slices
@@ -83,5 +84,14 @@ export const createTreeSlice: StateCreator<
     get().setEdgeDecided(source, target);
     get().removeDecisionAndChildren(source);
     get().setPath([...get().getPath(), { nodeId: source, selected: target }]);
+  },
+  removeDecisionFromPath: (nodeId: string) => {
+    const descendantIds = getDescendantIds(get().tree, nodeId);
+    const path = get().getPath();
+    const pathWithoutNode = path.filter((decision) => decision.nodeId !== nodeId);
+    const pathWithoutDescendants = pathWithoutNode.filter(
+      (decision) => !descendantIds.includes(decision.nodeId)
+    );
+    get().setPath(pathWithoutDescendants);
   },
 });
