@@ -21,7 +21,9 @@ export const BoolNode = ({
 }: NodeProps<BoolNodeData>) => {
   const { showHelp } = useHelp();
   const { retractDecision, makeDecision } = useDecisionTree();
-  const { decisionIsInPath } = usePath();
+  const { decisionIsInPath, getDecision } = usePath();
+
+  const decision = getDecision(id);
 
   const handleHelpClick: MouseEventHandler = (event) => {
     showHelp(id);
@@ -52,8 +54,18 @@ export const BoolNode = ({
           <p className="pb-4 pt-2 text-2xl">{label}</p>
         </div>
         <div className="mt-1 flex items-center justify-center space-x-3">
-          <BoolButton id={id} response={true} onClick={handleAnswer(true)} />
-          <BoolButton id={id} response={false} onClick={handleAnswer(false)} />
+          <BoolButton
+            id={id}
+            selected={decision?.selected === yesId}
+            response={true}
+            onClick={handleAnswer(true)}
+          />
+          <BoolButton
+            id={id}
+            selected={decision?.selected === noId}
+            response={false}
+            onClick={handleAnswer(false)}
+          />
         </div>
       </div>
     </BaseNode>

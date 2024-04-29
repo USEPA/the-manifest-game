@@ -22,6 +22,7 @@ export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree) => {
     setDecisionMade,
     setDecisionFocused,
     addDecisionToPath,
+    removeDecisionFromPath,
   } = useDecTreeStore((state) => state);
 
   const focusNode = (nodeId: string) => {
@@ -54,6 +55,7 @@ export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree) => {
 
   const retractDecision = (target: string) => {
     hideDescendants(target);
+    removeDecisionFromPath(target);
   };
 
   return {
