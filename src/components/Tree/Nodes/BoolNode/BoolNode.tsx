@@ -2,6 +2,7 @@ import { HelpIcon } from 'components/Help/HelpIcon/HelpIcon';
 import { BaseNode } from 'components/Tree/Nodes/BaseNode/BaseNode';
 import { BoolButton } from 'components/Tree/Nodes/BoolNode/BoolButton/BoolButton';
 import { useDecisionTree, useHelp } from 'hooks';
+import { usePath } from 'hooks/usePath/usePath';
 import React, { MouseEventHandler } from 'react';
 import { NodeProps } from 'reactflow';
 import { NodeData } from 'store/DecisionSlice/decisionSlice';
@@ -20,6 +21,7 @@ export const BoolNode = ({
 }: NodeProps<BoolNodeData>) => {
   const { showHelp } = useHelp();
   const { retractDecision, makeDecision } = useDecisionTree();
+  const { decisionIsInPath } = usePath();
 
   const handleHelpClick: MouseEventHandler = (event) => {
     showHelp(id);
@@ -38,7 +40,7 @@ export const BoolNode = ({
         data-testid={`bool-node-${id}-content`}
         className={`flex min-w-80 flex-col items-center justify-center rounded-xl
           p-6 text-xl text-white
-          ${status ? 'bg-gradient-to-b from-teal-700 to-teal-800' : 'bg-gradient-to-b from-sky-700 to-sky-900'}
+          ${decisionIsInPath(id) ? 'bg-gradient-to-b from-teal-700 to-teal-800' : 'bg-gradient-to-b from-sky-700 to-sky-900'}
           ${status === 'focused' ? 'animate-pulse' : ''}`}
       >
         {help && (
