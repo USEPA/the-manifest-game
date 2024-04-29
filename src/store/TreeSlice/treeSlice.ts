@@ -13,12 +13,11 @@ export interface TreeSlice {
   setDirection: (direction: TreeDirection) => void;
   setTree: (tree: PositionUnawareDecisionTree) => void;
   showNode: (nodeId: string, options?: ShowDagNodeOptions) => void;
-  hideNode: (nodeId: string) => void;
   showChildren: (nodeId: string) => void;
   hideDescendants: (nodeId: string) => void;
-  removeNiblings: (nodeId: string) => void;
-  markDecisionMade: (nodeId: string) => void;
-  markDecisionFocused: (nodeId: string) => void;
+  hideNiblings: (nodeId: string) => void;
+  setDecisionMade: (nodeId: string) => void;
+  setDecisionFocused: (nodeId: string) => void;
   addDecisionToPath: (source: string, target: string) => void;
 }
 
@@ -44,11 +43,6 @@ export const createTreeSlice: StateCreator<
     get().createDagNode(nodeId, tree);
     get().createEdge(options?.parentId, nodeId);
   },
-  hideNode: (nodeId: string) => {
-    get().hideDecision(nodeId);
-    get().removeEdgesByTarget([nodeId]);
-    get().removeDagNodes([nodeId]);
-  },
   showChildren: (nodeId: string) => {
     const childrenIds = get().tree[nodeId].data.children;
     const tree = get().tree;
@@ -64,20 +58,20 @@ export const createTreeSlice: StateCreator<
     get().collapseDecision(nodeId, childrenIds);
     get().removeDagNodes([...childrenIds]);
   },
-  removeNiblings: (nodeId: string) => {
+  hideNiblings: (nodeId: string) => {
     const dagTree = get().tree;
     const siblingIds = getSiblingIds(dagTree, nodeId);
     const siblingDescendantIds = siblingIds.flatMap((id) => getDescendantIds(dagTree, id));
     get().collapseDecision(nodeId, siblingDescendantIds);
     get().removeDagNodes([...siblingDescendantIds]);
   },
-  markDecisionMade: (nodeId: string) => {
+  setDecisionMade: (nodeId: string) => {
     const siblings = getSiblingIds(get().tree, nodeId);
     const siblingDescendantIds = siblings.flatMap((id) => getDescendantIds(get().tree, id));
     get().setStatus([nodeId], 'chosen');
     get().setStatus([...siblingDescendantIds, ...siblings], undefined);
   },
-  markDecisionFocused: (nodeId: string) => {
+  setDecisionFocused: (nodeId: string) => {
     const siblings = getSiblingIds(get().tree, nodeId);
     const siblingDescendantIds = siblings.flatMap((id) => getDescendantIds(get().tree, id));
     get().setStatus([nodeId], 'focused');
@@ -85,10 +79,8 @@ export const createTreeSlice: StateCreator<
     get().updateDagNodes(get().tree);
   },
   addDecisionToPath: (source: string, target: string) => {
-    // Mark all edges from source as undecided
-    get().markChildrenEdgesUndecided(source);
-    // Mark edge from source to target as decided
-    get().markEdgeDecided(source, target);
+    get().setChildrenEdgesUndecided(source);
+    get().setEdgeDecided(source, target);
     get().removeDecisionAndChildren(source);
     get().setPath([...get().getPath(), { nodeId: source, selected: target }]);
   },

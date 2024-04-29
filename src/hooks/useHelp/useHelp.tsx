@@ -11,10 +11,10 @@ export interface UseHelpReturn {
  * custom hook that exposes logic for interacting with the Help content
  */
 export const useHelp = () => {
-  const { isOpen, helpContentId, hideHelp, showHelp } = useTreeStore((state) => state);
+  const { helpIsOpen, helpContentId, hideHelp, showHelp } = useTreeStore((state) => state);
 
   return {
-    helpIsOpen: isOpen,
+    helpIsOpen: helpIsOpen,
     helpContentId,
     showHelp,
     hideHelp,

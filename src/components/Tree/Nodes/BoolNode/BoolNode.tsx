@@ -1,9 +1,8 @@
 import { HelpIcon } from 'components/Help/HelpIcon/HelpIcon';
 import { BaseNode } from 'components/Tree/Nodes/BaseNode/BaseNode';
 import { BoolButton } from 'components/Tree/Nodes/BoolNode/BoolButton/BoolButton';
-import { useDecisionTree } from 'hooks';
-import { useHelp } from 'hooks/useHelp/useHelp';
-import { MouseEventHandler } from 'react';
+import { useDecisionTree, useHelp } from 'hooks';
+import React, { MouseEventHandler } from 'react';
 import { NodeProps } from 'reactflow';
 import { NodeData } from 'store/DecisionSlice/decisionSlice';
 
@@ -20,43 +19,17 @@ export const BoolNode = ({
   ...props
 }: NodeProps<BoolNodeData>) => {
   const { showHelp } = useHelp();
+  const { retractDecision, makeDecision } = useDecisionTree();
 
   const handleHelpClick: MouseEventHandler = (event) => {
     showHelp(id);
     event.stopPropagation();
   };
 
-  const {
-    showNode,
-    showChildren,
-    hideNiblings,
-    hideDescendants,
-    markDecisionMade,
-    markDecisionFocused,
-    addToPath,
-  } = useDecisionTree();
-
-  const handleYes = () => {
-    // ToDo: This function contains our logic for when a user makes a decision.
-    //  It should be refactored into our useDecisionTree hook and a lot of this logic should be
-    //  abstracted behind the hook's facade.
-    showNode(yesId, { parentId: id });
-    showChildren(yesId);
-    hideNiblings(id);
-    hideDescendants(noId);
-    markDecisionMade(id);
-    markDecisionFocused(yesId);
-    addToPath(id, yesId);
-  };
-
-  const handleNo = () => {
-    showNode(noId, { parentId: id });
-    showChildren(noId);
-    hideNiblings(id);
-    hideDescendants(yesId);
-    markDecisionMade(id);
-    markDecisionFocused(noId);
-    addToPath(id, noId);
+  const handleAnswer = (answer: boolean) => (event: React.MouseEvent<HTMLButtonElement>) => {
+    retractDecision(answer ? noId : yesId);
+    makeDecision(id, answer ? yesId : noId);
+    event.stopPropagation();
   };
 
   return (
@@ -77,8 +50,8 @@ export const BoolNode = ({
           <p className="pb-4 pt-2 text-2xl">{label}</p>
         </div>
         <div className="mt-1 flex items-center justify-center space-x-3">
-          <BoolButton id={id} response={true} onClick={handleYes} />
-          <BoolButton id={id} response={false} onClick={handleNo} />
+          <BoolButton id={id} response={true} onClick={handleAnswer(true)} />
+          <BoolButton id={id} response={false} onClick={handleAnswer(false)} />
         </div>
       </div>
     </BaseNode>
