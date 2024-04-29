@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
 import { cleanup, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { BoolNode, BoolNodeData } from 'components/Tree/Nodes/BoolNode/BoolNode';
 import { NodeProps, ReactFlowProvider } from 'reactflow';
 import useTreeStore from 'store';
@@ -90,54 +91,84 @@ describe('BoolNode', () => {
     render(<TestComponent />);
     expect(screen.getByTestId('bool-node-1-content')).not.toHaveClass(/animated/i);
   });
-  test('no HelpIcon when falsy', () => {
-    render(
-      <ReactFlowProvider>
-        <BoolNode
-          id={'1'}
-          dragging={false}
-          selected={false}
-          type={''}
-          zIndex={0}
-          isConnectable={false}
-          xPos={0}
-          yPos={0}
-          data={{
-            label: 'this is a question?',
-            yesId: '2',
-            noId: '3',
-            children: [],
-            status: 'chosen',
-            help: false,
-          }}
-        />
-      </ReactFlowProvider>
-    );
-    expect(screen.queryByLabelText(/help/i)).not.toBeInTheDocument();
-  });
-  test('HelpIcon displayed help is true', () => {
-    render(
-      <ReactFlowProvider>
-        <BoolNode
-          id={'1'}
-          dragging={false}
-          selected={false}
-          type={''}
-          zIndex={0}
-          isConnectable={false}
-          xPos={0}
-          yPos={0}
-          data={{
-            label: 'this is a question?',
-            yesId: '2',
-            noId: '3',
-            children: [],
-            status: 'chosen',
-            help: true,
-          }}
-        />
-      </ReactFlowProvider>
-    );
-    expect(screen.queryByLabelText(/more information/i)).toBeInTheDocument();
+  describe('Help Icon', () => {
+    test('not displayed when falsy', () => {
+      render(
+        <ReactFlowProvider>
+          <BoolNode
+            id={'1'}
+            dragging={false}
+            selected={false}
+            type={''}
+            zIndex={0}
+            isConnectable={false}
+            xPos={0}
+            yPos={0}
+            data={{
+              label: 'this is a question?',
+              yesId: '2',
+              noId: '3',
+              children: [],
+              status: 'chosen',
+              help: false,
+            }}
+          />
+        </ReactFlowProvider>
+      );
+      expect(screen.queryByLabelText(/help/i)).not.toBeInTheDocument();
+    });
+    test('displayed icon when truthy', () => {
+      render(
+        <ReactFlowProvider>
+          <BoolNode
+            id={'1'}
+            dragging={false}
+            selected={false}
+            type={''}
+            zIndex={0}
+            isConnectable={false}
+            xPos={0}
+            yPos={0}
+            data={{
+              label: 'this is a question?',
+              yesId: '2',
+              noId: '3',
+              children: [],
+              status: 'chosen',
+              help: true,
+            }}
+          />
+        </ReactFlowProvider>
+      );
+      expect(screen.queryByLabelText(/more information/i)).toBeInTheDocument();
+    });
+    test('ToDo: handles onClick events', async () => {
+      // ToDo: This test does not assert anything
+      const user = userEvent.setup();
+      render(
+        <ReactFlowProvider>
+          <BoolNode
+            id={'1'}
+            dragging={false}
+            selected={false}
+            type={''}
+            zIndex={0}
+            isConnectable={false}
+            xPos={0}
+            yPos={0}
+            data={{
+              label: 'this is a question?',
+              yesId: '2',
+              noId: '3',
+              children: [],
+              status: 'chosen',
+              help: true,
+            }}
+          />
+        </ReactFlowProvider>
+      );
+      const helpIcon = screen.getByLabelText(/more information/i);
+      await user.click(helpIcon);
+    });
   });
 });

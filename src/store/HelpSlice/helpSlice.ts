@@ -1,7 +1,7 @@
 import { StateCreator } from 'zustand';
 
 interface HelpSliceState {
-  isOpen: boolean;
+  helpIsOpen: boolean;
   helpContentId?: string;
 }
 
@@ -20,12 +20,12 @@ export const createHelpSlice: StateCreator<
   [],
   HelpSlice
 > = (set) => ({
-  isOpen: false,
+  helpIsOpen: false,
   helpContentId: undefined,
   showHelp: (nodeId: string) => {
     set(
       {
-        isOpen: true,
+        helpIsOpen: true,
         helpContentId: nodeId,
       },
       false,
@@ -35,7 +35,7 @@ export const createHelpSlice: StateCreator<
   hideHelp: () => {
     set(
       {
-        isOpen: false,
+        helpIsOpen: false,
         helpContentId: undefined,
       },
       false,

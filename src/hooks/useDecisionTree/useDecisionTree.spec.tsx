@@ -15,7 +15,7 @@ interface TestComponentProps {
 }
 
 const TestComponent = ({ initialTree, hideNodeId = '1', showNodeId = '1' }: TestComponentProps) => {
-  const { hideNode, showNode, tree } = useDecisionTree(initialTree);
+  const { retractDecision, makeDecision, tree } = useDecisionTree(initialTree);
 
   return (
     <>
@@ -24,13 +24,13 @@ const TestComponent = ({ initialTree, hideNodeId = '1', showNodeId = '1' }: Test
           <p key={myNode.id}>{myNode.hidden ? null : `node id: ${myNode.id}`}</p>
         ))}
       </div>
-      <button onClick={() => hideNode(hideNodeId)}>hide node</button>
-      <button onClick={() => showNode(showNodeId)}>show node</button>
+      <button onClick={() => retractDecision(hideNodeId)}>hide node</button>
+      <button onClick={() => makeDecision('1', showNodeId)}>show node</button>
     </>
   );
 };
 
-describe('useDagStore', () => {
+describe('useDecisionTree', () => {
   test('accepts a initial DecisionTree and updates the store', () => {
     const initialTree: DecisionTree = {
       '1': {
@@ -47,26 +47,7 @@ describe('useDagStore', () => {
     );
     expect(screen.getByText(/node id: 1/i)).toBeInTheDocument();
   });
-  test('hideNode hides a node in the tree from view', async () => {
-    const user = userEvent.setup();
-    const initialTree: DecisionTree = {
-      '1': {
-        id: '1',
-        hidden: false,
-        data: { label: 'foo', children: [] },
-        position: { x: 0, y: 0, rank: 0 },
-      },
-    };
-    render(
-      <ReactFlowProvider>
-        <TestComponent initialTree={initialTree} />
-      </ReactFlowProvider>
-    );
-    expect(screen.getByText(/node id: 1/i)).toBeInTheDocument();
-    await user.click(screen.getByText(/hide node/i));
-    expect(screen.queryByText(/node id: 1/i)).not.toBeInTheDocument();
-  });
-  test('showNode sets hidden to false for the node ID called', async () => {
+  test('un-hides nodes based on the user input', async () => {
     const user = userEvent.setup();
     const parentId = '1';
     const childId = '2';

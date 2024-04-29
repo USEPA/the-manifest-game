@@ -93,7 +93,7 @@ describe('App', () => {
   });
   test('the help content is closed onClicking the close button', async () => {
     const user = userEvent.setup();
-    useTreeStore.setState({ isOpen: true });
+    useTreeStore.setState({ helpIsOpen: true });
     render(<TestComponent />);
     await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
     expect(screen.getByTestId('offcanvas')).toBeInTheDocument();
