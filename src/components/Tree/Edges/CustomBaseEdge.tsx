@@ -1,9 +1,6 @@
 import cc from 'classcat';
 import { BaseEdgeProps } from 'reactflow';
 
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-export const isNumeric = (n: any): n is number => !isNaN(n) && isFinite(n);
-
 interface MyBaseEdgeProps extends BaseEdgeProps {
   className?: string;
 }
