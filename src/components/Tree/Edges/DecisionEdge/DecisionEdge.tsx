@@ -9,7 +9,7 @@ export interface DecisionEdgeData {
 export interface DecisionEdgeProps extends EdgeProps<DecisionEdgeData> {}
 
 export const DecisionEdge = (props: DecisionEdgeProps) => {
-  const { id, sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition } = props;
+  const { id, sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition, data } = props;
   const [edgePath, labelX, labelY] = getSmoothStepPath({
     sourceX,
     sourceY,
@@ -24,23 +24,23 @@ export const DecisionEdge = (props: DecisionEdgeProps) => {
       <CustomBaseEdge
         id={id}
         path={edgePath}
-        className={`${props.data?.decisionMade ? 'stroke-green-600' : ''} stroke-2`}
-        // style={{
-        //   stroke: props.data?.decisionMade ? '#0D766E' : '',
-        //   strokeWidth: '3px',
-        // }}
+        className={`${data?.decisionMade ? 'stroke-green-600' : ''} stroke-2`}
       />
-      <EdgeLabelRenderer>
-        <div
-          className="rounded-full bg-green-600 p-2"
-          style={{
-            position: 'absolute',
-            transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
-          }}
-        >
-          <FaCheck className="text-white" size={20} />
-        </div>
-      </EdgeLabelRenderer>
+      {data?.decisionMade && (
+        <EdgeLabelRenderer>
+          <div
+            className="rounded-full bg-green-600 p-2"
+            style={{
+              // see ReactFlow's documentation on labels for custom edges
+              // https://reactflow.dev/learn/customization/custom-edges#adding-an-edge-label
+              position: 'absolute',
+              transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
+            }}
+          >
+            <FaCheck className="text-white" size={20} />
+          </div>
+        </EdgeLabelRenderer>
+      )}
     </>
   );
 };
