@@ -58,10 +58,12 @@ export const createTreeSlice: StateCreator<
     const childrenIds = getDescendantIds(get().tree, nodeId);
     get().collapseDecision(nodeId, childrenIds);
     get().removeDagNodes([...childrenIds]);
+    get().setChildrenEdgesUndecided(nodeId);
   },
   hideNiblings: (nodeId: string) => {
     const dagTree = get().tree;
     const siblingIds = getSiblingIds(dagTree, nodeId);
+    siblingIds.map((id) => get().setChildrenEdgesUndecided(id));
     const siblingDescendantIds = siblingIds.flatMap((id) => getDescendantIds(dagTree, id));
     get().collapseDecision(nodeId, siblingDescendantIds);
     get().removeDagNodes([...siblingDescendantIds]);

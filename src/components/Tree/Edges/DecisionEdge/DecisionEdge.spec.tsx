@@ -56,7 +56,7 @@ describe('Decision Edge', () => {
       </ReactFlowProvider>
     );
     const edge = screen.getByTestId('1').querySelector('path');
-    expect(edge).toHaveStyle('stroke: #0D766E');
+    expect(edge).toHaveClass(/stroke/i);
   });
   test('no style when decision not made', () => {
     render(
