@@ -50,7 +50,6 @@ export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree) => {
     hideNiblings(source);
     setDecisionMade(source);
     addDecisionToPath(source, target);
-    hideDescendants(target);
   };
 
   const retractDecision = (target: string) => {
