@@ -37,7 +37,7 @@ export const DecisionEdge = (props: DecisionEdgeProps) => {
               transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
             }}
           >
-            <FaCheck className="text-white" size={20} />
+            <FaCheck className="text-white" size={20} aria-label="selected decision" />
           </div>
         </EdgeLabelRenderer>
       )}
