@@ -38,6 +38,7 @@ export const Tree = ({ nodes, edges }: TreeProps) => {
           onEdgesChange={onEdgesChange}
           onNodesChange={onNodesChange}
           fitView
+          edgesFocusable={false}
           fitViewOptions={{ padding: 5, minZoom: 0, maxZoom: 5 }}
           proOptions={{ hideAttribution: true }}
         >
