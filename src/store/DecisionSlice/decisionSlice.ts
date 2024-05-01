@@ -1,23 +1,14 @@
 import { Node } from 'reactflow';
-import {
-  setCollapsed,
-  setExpanded,
-  setNodesHidden,
-  setNodeVisible,
-} from 'store/DecisionSlice/decisionUtils';
+import { setNodesHidden, setNodeVisible } from 'store/DecisionSlice/decisionUtils';
 import { layoutTree } from 'store/DecisionSlice/layout';
 import { StateCreator } from 'zustand';
 
 export type DecisionStatus = 'unselect' | 'chosen' | 'focused' | undefined;
 
-/**
- * Data needed by all TreeNodes that contains the nodes expanded state,
- * the node's children, and the node's text
- */
+/** Data needed by all nodes in our tree*/
 export interface NodeData {
   label: string;
   children: string[];
-  expanded?: boolean;
   status?: DecisionStatus;
   help?: boolean;
 }
@@ -66,10 +57,6 @@ interface DecisionSliceActions {
   showDecision: (nodeId: string) => void;
   /** Set decision as hidden */
   hideDecision: (nodeId: string) => void;
-  /** set the node as expended */
-  expandDecision: (nodeId: string) => void;
-  /** Set decision as collapsed */
-  collapseDecision: (nodeId: string, children: string[]) => void;
   /** set node as chosen */
   setStatus: (nodeId: string[], status: DecisionStatus) => void;
   /** set the path of the decision */
@@ -126,27 +113,6 @@ export const createDecisionSlice: StateCreator<
       },
       false,
       'hideDecision'
-    );
-  },
-  expandDecision: (nodeId: string) => {
-    set(
-      {
-        tree: setExpanded(get().tree, [nodeId]),
-      },
-      false,
-      'expandDecision'
-    );
-  },
-  collapseDecision: (nodeId: string, children: string[]) => {
-    const tree = get().tree;
-    const hiddenTree = setNodesHidden(tree, children);
-    const collapsedTree = setCollapsed(hiddenTree, [...children, nodeId]);
-    set(
-      {
-        tree: collapsedTree,
-      },
-      false,
-      'collapseDecision'
     );
   },
   setStatus: (nodeIds: string[], status: DecisionStatus) => {

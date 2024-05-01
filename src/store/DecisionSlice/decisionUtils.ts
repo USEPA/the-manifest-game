@@ -11,15 +11,3 @@ export const setNodesHidden = (tree: DecisionTree, nodeIds: string[]) => {
   nodeIds.forEach((id) => (tree[id].hidden = true));
   return tree;
 };
-
-/** set expanded to true */
-export const setExpanded = (tree: DecisionTree, nodeIds: string[]) => {
-  nodeIds.forEach((id) => (tree[id].data.expanded = true));
-  return tree;
-};
-
-/** set expanded to false */
-export const setCollapsed = (tree: DecisionTree, nodeIds: string[]) => {
-  nodeIds.forEach((id) => (tree[id].data.expanded = false));
-  return tree;
-};

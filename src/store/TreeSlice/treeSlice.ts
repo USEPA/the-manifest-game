@@ -52,11 +52,9 @@ export const createTreeSlice: StateCreator<
       get().createDagNode(id, tree);
       get().createEdge(nodeId, id);
     });
-    get().expandDecision(nodeId);
   },
   hideDescendants: (nodeId: string) => {
     const childrenIds = getDescendantIds(get().tree, nodeId);
-    get().collapseDecision(nodeId, childrenIds);
     get().removeDagNodes([...childrenIds]);
     get().setChildrenEdgesUndecided(nodeId);
   },
@@ -65,7 +63,6 @@ export const createTreeSlice: StateCreator<
     const siblingIds = getSiblingIds(dagTree, nodeId);
     siblingIds.map((id) => get().setChildrenEdgesUndecided(id));
     const siblingDescendantIds = siblingIds.flatMap((id) => getDescendantIds(dagTree, id));
-    get().collapseDecision(nodeId, siblingDescendantIds);
     get().removeDagNodes([...siblingDescendantIds]);
   },
   setDecisionMade: (nodeId: string) => {
