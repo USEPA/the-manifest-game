@@ -41,7 +41,7 @@ suite('Decision Slice', () => {
       const bar: Decision = { nodeId: 'bar', selected: 'foobar' };
       const path: DecisionPath = [foo, bar];
       result.current.setState({ path });
-      result.current.getState().removeDecisionAndChildren(bar.nodeId);
+      result.current.getState().removePathDecision(bar.nodeId);
       expect(result.current.getState().path).not.toContain(bar);
     });
     test('no changes if node ID not in path', () => {
@@ -50,7 +50,7 @@ suite('Decision Slice', () => {
       const bar: Decision = { nodeId: 'bar', selected: 'foobar' };
       const path: DecisionPath = [foo, bar];
       result.current.setState({ path });
-      result.current.getState().removeDecisionAndChildren('undefinedId');
+      result.current.getState().removePathDecision('undefinedId');
       expect(result.current.getState().path).toEqual(path);
     });
   });

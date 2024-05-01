@@ -81,16 +81,15 @@ export const createTreeSlice: StateCreator<
   addDecisionToPath: (source: string, target: string) => {
     get().setChildrenEdgesUndecided(source);
     get().setEdgeDecided(source, target);
-    get().removeDecisionAndChildren(source);
+    get().removePathDecision(source);
     get().setPath([...get().getPath(), { nodeId: source, selected: target }]);
   },
   removeDecisionFromPath: (nodeId: string) => {
-    const descendantIds = getDescendantIds(get().tree, nodeId);
-    const path = get().getPath();
-    const pathWithoutNode = path.filter((decision) => decision.nodeId !== nodeId);
-    const pathWithoutDescendants = pathWithoutNode.filter(
-      (decision) => !descendantIds.includes(decision.nodeId)
-    );
+    const decisionIdsToRemove = getDescendantIds(get().tree, nodeId);
+    decisionIdsToRemove.push(nodeId);
+    const pathWithoutDescendants = get()
+      .getPath()
+      .filter((decision) => !decisionIdsToRemove.includes(decision.nodeId));
     get().setPath(pathWithoutDescendants);
   },
 });
