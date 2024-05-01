@@ -82,7 +82,7 @@ suite('Tree Slice', () => {
         },
       };
       result.current.setState({ tree });
-      const ancestors = result.current.getState().getAncestorIds('baz');
+      const ancestors = result.current.getState().getAncestorDecisions('baz');
       expect(ancestors).toEqual(['bar', 'foo']);
     });
   });

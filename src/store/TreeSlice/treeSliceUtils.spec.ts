@@ -1,6 +1,11 @@
 import '@testing-library/jest-dom';
 import { DecisionTree } from 'store/DagNodeSlice/dagNodeSlice';
-import { getAncestorIds, setNodesHidden, setNodeVisible } from 'store/TreeSlice/treeSliceUtils';
+import {
+  buildAncestorDecisions,
+  getAncestorIds,
+  setNodesHidden,
+  setNodeVisible,
+} from 'store/TreeSlice/treeSliceUtils';
 import { describe, expect, suite, test } from 'vitest';
 
 suite('Tree Slice internals', () => {
@@ -69,6 +74,60 @@ suite('Tree Slice internals', () => {
     });
     test('Returns the parent and grandparent node IDs', () => {
       expect(getAncestorIds(data, child)).toEqual([parent, grandparent]);
+    });
+  });
+  describe('build ancestor decisions', () => {
+    const parent = 'foo';
+    const child = 'bar';
+    const grandparent = 'baz';
+    const uncle = 'uncle';
+    const data: DecisionTree = {
+      [grandparent]: {
+        id: grandparent,
+        hidden: false,
+        data: { label: grandparent, children: [parent, uncle] },
+        position: {
+          x: 0,
+          y: 0,
+        },
+      },
+      [parent]: {
+        id: parent,
+        hidden: false,
+        data: { label: parent, children: [child] },
+        position: {
+          x: 0,
+          y: 0,
+        },
+      },
+      [uncle]: {
+        id: uncle,
+        hidden: false,
+        data: { label: uncle, children: [] },
+        position: {
+          x: 0,
+          y: 0,
+        },
+      },
+      child: {
+        id: child,
+        hidden: false,
+        data: { label: child, children: [] },
+        position: {
+          x: 0,
+          y: 0,
+        },
+      },
+    };
+    test('Returns an array', () => {
+      expect(buildAncestorDecisions(data, [parent, grandparent])).toBeInstanceOf(Array);
+    });
+    test('returns an array of objects with the decisions', () => {
+      const decisions = buildAncestorDecisions(data, [parent, grandparent]);
+      decisions.map((decision) => {
+        expect(decision.nodeId).toBeDefined();
+        expect(decision.selected).toBeDefined();
+      });
     });
   });
 });

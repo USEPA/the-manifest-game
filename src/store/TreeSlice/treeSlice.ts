@@ -66,7 +66,7 @@ interface TreeSliceActions {
   /** remove a decision by node ID and all its children */
   removePathDecision: (nodeId: string) => void;
   /** get ancestor IDs */
-  getAncestorIds: (nodeId: string) => string[];
+  getAncestorDecisions: (nodeId: string) => string[];
 }
 
 export interface TreeSlice extends TreeSliceActions, TreeSliceState {}
@@ -155,8 +155,9 @@ export const createTreeSlice: StateCreator<
       'removeDecisionFromPath'
     );
   },
-  getAncestorIds: (nodeId: string) => {
+  getAncestorDecisions: (nodeId: string) => {
     const tree = get().tree;
-    return getAncestorIds(tree, nodeId);
+    const ancestorIds = getAncestorIds(tree, nodeId);
+    return ancestorIds;
   },
 });
