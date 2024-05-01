@@ -3,9 +3,9 @@ import { BaseNode } from 'components/Tree/Nodes/BaseNode/BaseNode';
 import { useHelp } from 'hooks/useHelp/useHelp';
 import { MouseEventHandler } from 'react';
 import { NodeProps } from 'reactflow';
-import { NodeData } from 'store/TreeSlice/treeSlice';
+import { VertexData } from 'store/TreeSlice/treeSlice';
 
-export const DefaultNode = ({ data, ...props }: NodeProps<NodeData>) => {
+export const DefaultNode = ({ data, ...props }: NodeProps<VertexData>) => {
   const { showHelp } = useHelp();
 
   const handleHelpClick: MouseEventHandler = (event) => {

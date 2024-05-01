@@ -3,25 +3,25 @@ import { layoutTree } from 'store/TreeSlice/layout';
 import { setNodesHidden, setNodeVisible } from 'store/TreeSlice/treeSliceUtils';
 import { StateCreator } from 'zustand';
 
-export type DecisionStatus = 'unselect' | 'chosen' | 'focused' | undefined;
+export type VertexStatus = 'unselect' | 'chosen' | 'focused' | undefined;
 
 /** Data needed by all nodes in our tree*/
-export interface NodeData {
+export interface VertexData {
   label: string;
   children: string[];
-  status?: DecisionStatus;
+  status?: VertexStatus;
   help?: boolean;
 }
 
 /** data needed by the BooleanTreeNode to render decisions*/
-export interface BooleanNodeData extends NodeData {
+export interface BooleanVertexData extends VertexData {
   yesId: string;
   noId: string;
 }
 
 /** A vertex in our decision tree.*/
-export interface TreeNode extends Omit<Node, 'position'> {
-  data: NodeData | BooleanNodeData;
+export interface Vertex extends Omit<Node, 'position'> {
+  data: VertexData | BooleanVertexData;
   position: { x: number; y: number; rank?: number };
 }
 
@@ -29,9 +29,9 @@ export interface TreeNode extends Omit<Node, 'position'> {
  * A decision tree is a map of all node IDs to TreeNodes
  * There may be some performance optimizations to be made here by using a Map instead of a Object
  */
-export type DecisionTree = Record<string, TreeNode>;
+export type DecisionTree = Record<string, Vertex>;
 
-export type PositionUnawareDecisionTree = Record<string, Omit<TreeNode, 'position'>>;
+export type PositionUnawareDecisionTree = Record<string, Omit<Vertex, 'position'>>;
 
 export type TreeDirection = 'TB' | 'LR';
 
@@ -54,11 +54,11 @@ interface TreeSliceActions {
   /** Set the layout direction */
   setTreeDirection: (direction: TreeDirection) => void;
   /** Set vertex as visible */
-  showDecision: (nodeId: string) => void;
+  setVertexVisible: (nodeId: string) => void;
   /** Set decision as hidden */
-  hideDecision: (nodeId: string) => void;
+  setVertexHidden: (nodeId: string) => void;
   /** set node as chosen */
-  setStatus: (nodeId: string[], status: DecisionStatus) => void;
+  setVertexStatus: (nodeId: string[], status: VertexStatus) => void;
   /** set the path of the decision */
   setPath: (path: DecisionPath) => void;
   /** get the decision path */
@@ -98,26 +98,26 @@ export const createTreeSlice: StateCreator<
     );
   },
   // ToDO: Remove this and corresponding state
-  showDecision: (nodeId: string) => {
+  setVertexVisible: (nodeId: string) => {
     set(
       {
         tree: setNodeVisible(get().tree, [nodeId]),
       },
       false,
-      'showVertex'
+      'setVertexVisible'
     );
   },
   // ToDO: Remove this and corresponding state
-  hideDecision: (nodeId: string) => {
+  setVertexHidden: (nodeId: string) => {
     set(
       {
         tree: setNodesHidden(get().tree, [nodeId]),
       },
       false,
-      'hideDecision'
+      'setVertexHidden'
     );
   },
-  setStatus: (nodeIds: string[], status: DecisionStatus) => {
+  setVertexStatus: (nodeIds: string[], status: VertexStatus) => {
     const tree = get().tree;
     nodeIds.forEach((nodeId) => {
       tree[nodeId].data.status = status ?? undefined;
@@ -127,7 +127,7 @@ export const createTreeSlice: StateCreator<
         tree,
       },
       false,
-      'chooseDecision'
+      'setVertexStatus'
     );
   },
   setPath: (path: DecisionPath) => {

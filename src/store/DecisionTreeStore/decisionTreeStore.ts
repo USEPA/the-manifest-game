@@ -39,7 +39,7 @@ export const createDecisionTreeStore: StateCreator<
     get().setDecisionTree(tree);
   },
   showNode: (nodeId: string, options?: ShowDagNodeOptions) => {
-    get().showDecision(nodeId);
+    get().setVertexVisible(nodeId);
     const tree = get().tree;
     get().createDagNode(nodeId, tree);
     get().createEdge(options?.parentId, nodeId);
@@ -48,7 +48,7 @@ export const createDecisionTreeStore: StateCreator<
     const childrenIds = get().tree[nodeId].data.children;
     const tree = get().tree;
     childrenIds?.forEach((id) => {
-      get().showDecision(id);
+      get().setVertexVisible(id);
       get().createDagNode(id, tree);
       get().createEdge(nodeId, id);
     });
@@ -68,14 +68,14 @@ export const createDecisionTreeStore: StateCreator<
   setDecisionMade: (nodeId: string) => {
     const siblings = getSiblingIds(get().tree, nodeId);
     const siblingDescendantIds = siblings.flatMap((id) => getDescendantIds(get().tree, id));
-    get().setStatus([nodeId], 'chosen');
-    get().setStatus([...siblingDescendantIds, ...siblings], undefined);
+    get().setVertexStatus([nodeId], 'chosen');
+    get().setVertexStatus([...siblingDescendantIds, ...siblings], undefined);
   },
   setDecisionFocused: (nodeId: string) => {
     const siblings = getSiblingIds(get().tree, nodeId);
     const siblingDescendantIds = siblings.flatMap((id) => getDescendantIds(get().tree, id));
-    get().setStatus([nodeId], 'focused');
-    get().setStatus([...siblingDescendantIds, ...siblings], undefined);
+    get().setVertexStatus([nodeId], 'focused');
+    get().setVertexStatus([...siblingDescendantIds, ...siblings], undefined);
     get().updateDagNodes(get().tree);
   },
   addDecisionToPath: (source: string, target: string) => {

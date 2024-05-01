@@ -1,7 +1,7 @@
 import { BoolNodeData } from 'components/Tree';
 import { useEffect, useState } from 'react';
 import { PositionUnawareDecisionTree, TreeNode } from 'store';
-import { BooleanNodeData, NodeData } from 'store/TreeSlice/treeSlice';
+import { BooleanVertexData, VertexData } from 'store/TreeSlice/treeSlice';
 
 /** Configuration for an individual node, part of the larger config*/
 export interface NodeConfig {
@@ -10,12 +10,12 @@ export interface NodeConfig {
 
 interface BooleanNodeConfig extends NodeConfig {
   type: 'BoolNode';
-  data: BooleanNodeData;
+  data: BooleanVertexData;
 }
 
 interface DefaultNodeConfig extends NodeConfig {
   type: 'default';
-  data: NodeData;
+  data: VertexData;
 }
 
 /**
