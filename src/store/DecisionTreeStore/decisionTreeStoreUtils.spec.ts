@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { DecisionTree } from 'store/DagNodeSlice/dagNodeSlice';
-import { getDescendantIds, getSiblingIds } from 'store/TreeSlice/treeSliceUtils';
+import { getDescendantIds, getSiblingIds } from 'store/DecisionTreeStore/decisionTreeStoreUtils';
 import { describe, expect, suite, test } from 'vitest';
 
 suite('Tree Slice internals', () => {

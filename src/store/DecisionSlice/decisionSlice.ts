@@ -97,6 +97,7 @@ export const createDecisionSlice: StateCreator<
       'setNewTree'
     );
   },
+  // ToDO: Remove this and corresponding state
   showDecision: (nodeId: string) => {
     set(
       {
@@ -106,6 +107,7 @@ export const createDecisionSlice: StateCreator<
       'showVertex'
     );
   },
+  // ToDO: Remove this and corresponding state
   hideDecision: (nodeId: string) => {
     set(
       {

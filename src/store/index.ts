@@ -1,8 +1,11 @@
 import { createDagEdgeSlice, DagEdgeSlice } from 'store/DagEdgeSlice/dagEdgeSlice';
 import { createDagNodeSlice, DagNodeSlice } from 'store/DagNodeSlice/dagNodeSlice';
 import { createDecisionSlice, DecisionSlice } from 'store/DecisionSlice/decisionSlice';
+import {
+  createDecisionTreeStore,
+  DecisionTreeStore,
+} from 'store/DecisionTreeStore/decisionTreeStore';
 import { createHelpSlice, HelpSlice } from 'store/HelpSlice/helpSlice';
-import { createTreeSlice, TreeSlice } from 'store/TreeSlice/treeSlice';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
@@ -15,13 +18,15 @@ export type {
 
 export type { TreeDirection, DecisionTree } from 'store/DecisionSlice/decisionSlice';
 
-const useTreeStore = create<DagNodeSlice & DecisionSlice & DagEdgeSlice & TreeSlice & HelpSlice>()(
+const useTreeStore = create<
+  DagNodeSlice & DecisionSlice & DagEdgeSlice & DecisionTreeStore & HelpSlice
+>()(
   devtools(
     (...args) => ({
       ...createDagNodeSlice(...args),
       ...createDagEdgeSlice(...args),
       ...createDecisionSlice(...args),
-      ...createTreeSlice(...args),
+      ...createDecisionTreeStore(...args),
       ...createHelpSlice(...args),
     }),
     { name: 'The Manifest Game' }

@@ -5,11 +5,11 @@ import {
   ShowDagNodeOptions,
 } from 'store/DagNodeSlice/dagNodeSlice';
 import { DecisionSlice, TreeDirection } from 'store/DecisionSlice/decisionSlice';
-import { getDescendantIds, getSiblingIds } from 'store/TreeSlice/treeSliceUtils';
+import { getDescendantIds, getSiblingIds } from 'store/DecisionTreeStore/decisionTreeStoreUtils';
 import { StateCreator } from 'zustand';
 
 /** The state and actions of the Combined slice*/
-export interface TreeSlice {
+export interface DecisionTreeStore {
   setDirection: (direction: TreeDirection) => void;
   setTree: (tree: PositionUnawareDecisionTree) => void;
   showNode: (nodeId: string, options?: ShowDagNodeOptions) => void;
@@ -22,14 +22,14 @@ export interface TreeSlice {
   removeDecisionFromPath: (nodeId: string) => void;
 }
 
-/** The state of the tree, implemented as a shared slice that builds on concrete slices
- * and exposes an interface of actions that can take on the decision tree
+/** The state of the decision tree, implemented as a shared slice that builds on concrete slices
+ * and exposes an interface of actions that users can take on the decision tree
  * */
-export const createTreeSlice: StateCreator<
+export const createDecisionTreeStore: StateCreator<
   DecisionSlice & DagNodeSlice & DagEdgeSlice,
   [],
   [],
-  TreeSlice
+  DecisionTreeStore
 > = (_set, get) => ({
   setDirection: (direction: TreeDirection) => {
     get().setTreeDirection(direction);
