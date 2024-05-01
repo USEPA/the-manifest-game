@@ -3,9 +3,9 @@ import { BaseNode } from 'components/Tree/Nodes/BaseNode/BaseNode';
 import { useHelp } from 'hooks/useHelp/useHelp';
 import { MouseEventHandler } from 'react';
 import { NodeProps } from 'reactflow';
-import { NodeData } from 'store/DecisionSlice/decisionSlice';
+import { VertexData } from 'store/TreeSlice/treeSlice';
 
-export const DefaultNode = ({ data, ...props }: NodeProps<NodeData>) => {
+export const DefaultNode = ({ data, ...props }: NodeProps<VertexData>) => {
   const { showHelp } = useHelp();
 
   const handleHelpClick: MouseEventHandler = (event) => {
@@ -13,11 +13,17 @@ export const DefaultNode = ({ data, ...props }: NodeProps<NodeData>) => {
     event.stopPropagation();
   };
 
+  const nodeBackgroundColor = data.status
+    ? 'bg-teal-700'
+    : 'bg-gradient-to-b from-sky-700 to-sky-900';
+
+  const nodeFocusedClasses = data.status === 'focused' ? 'animate-pulse' : '';
+
   return (
     <BaseNode {...props}>
       <div
         data-testid={`default-node-${props.id}-content`}
-        className={`flex min-w-80 flex-col items-center justify-center rounded-xl p-6 text-xl text-white ${data.status ? 'bg-teal-700' : 'bg-gradient-to-b from-sky-700 to-sky-900'} ${data.status === 'focused' ? 'animate-pulse' : ''}`}
+        className={`flex min-w-full justify-center rounded-xl p-6 text-xl text-white ${nodeBackgroundColor} ${nodeFocusedClasses}`}
       >
         {data.help && (
           <div className="absolute right-3 top-3">

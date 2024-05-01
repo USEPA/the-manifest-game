@@ -2,11 +2,11 @@ import '@testing-library/jest-dom';
 import { cleanup, render, screen } from '@testing-library/react';
 import { DefaultNode } from 'components/Tree/Nodes/DefaultNode/DefaultNode';
 import { ReactFlowProvider } from 'reactflow';
-import { DecisionStatus } from 'store/DecisionSlice/decisionSlice';
+import { VertexStatus } from 'store/TreeSlice/treeSlice';
 import { afterEach, describe, expect, test } from 'vitest';
 
 interface TestComponentProps {
-  status?: DecisionStatus;
+  status?: VertexStatus;
   help?: boolean;
 }
 

@@ -1,99 +1,156 @@
-import { DagEdgeSlice } from 'store/DagEdgeSlice/dagEdgeSlice';
-import {
-  DagNodeSlice,
-  PositionUnawareDecisionTree,
-  ShowDagNodeOptions,
-} from 'store/DagNodeSlice/dagNodeSlice';
-import { DecisionSlice, TreeDirection } from 'store/DecisionSlice/decisionSlice';
-import { getDescendantIds, getSiblingIds } from 'store/TreeSlice/treeSliceUtils';
+import { Node } from 'reactflow';
+import { layoutTree } from 'store/TreeSlice/layout';
+import { setNodesHidden, setNodeVisible } from 'store/TreeSlice/treeSliceUtils';
 import { StateCreator } from 'zustand';
 
-/** The state and actions of the Combined slice*/
-export interface TreeSlice {
-  setDirection: (direction: TreeDirection) => void;
-  setTree: (tree: PositionUnawareDecisionTree) => void;
-  showNode: (nodeId: string, options?: ShowDagNodeOptions) => void;
-  showChildren: (nodeId: string) => void;
-  hideDescendants: (nodeId: string) => void;
-  hideNiblings: (nodeId: string) => void;
-  setDecisionMade: (nodeId: string) => void;
-  setDecisionFocused: (nodeId: string) => void;
-  addDecisionToPath: (source: string, target: string) => void;
-  removeDecisionFromPath: (nodeId: string) => void;
+export type VertexStatus = 'unselect' | 'chosen' | 'focused' | undefined;
+
+/** Data needed by all nodes in our tree*/
+export interface VertexData {
+  label: string;
+  children: string[];
+  status?: VertexStatus;
+  help?: boolean;
 }
 
-/** The state of the tree, implemented as a shared slice that builds on concrete slices
- * and exposes an interface of actions that can take on the decision tree
- * */
+/** data needed by the BooleanTreeNode to render decisions*/
+export interface BooleanVertexData extends VertexData {
+  yesId: string;
+  noId: string;
+}
+
+/** A vertex in our decision tree.*/
+export interface Vertex extends Omit<Node, 'position'> {
+  data: VertexData | BooleanVertexData;
+  position: { x: number; y: number; rank?: number };
+}
+
+/**
+ * A decision tree is a map of all node IDs to TreeNodes
+ * There may be some performance optimizations to be made here by using a Map instead of a Object
+ */
+export type DecisionTree = Record<string, Vertex>;
+
+export type PositionUnawareDecisionTree = Record<string, Omit<Vertex, 'position'>>;
+
+export type TreeDirection = 'TB' | 'LR';
+
+export interface Decision {
+  nodeId: string;
+  selected: string | boolean;
+}
+
+export type DecisionPath = Array<Decision>;
+
+interface TreeSliceState {
+  tree: DecisionTree;
+  direction: TreeDirection;
+  path: DecisionPath;
+}
+
+interface TreeSliceActions {
+  /** build and Set the decision tree from a config. It acts as the database we build nodes from*/
+  setDecisionTree: (tree: PositionUnawareDecisionTree) => void;
+  /** Set the layout direction */
+  setTreeDirection: (direction: TreeDirection) => void;
+  /** Set vertex as visible */
+  setVertexVisible: (nodeId: string) => void;
+  /** Set decision as hidden */
+  setVertexHidden: (nodeId: string) => void;
+  /** set node as chosen */
+  setVertexStatus: (nodeId: string[], status: VertexStatus) => void;
+  /** set the path of the decision */
+  setPath: (path: DecisionPath) => void;
+  /** get the decision path */
+  getPath: () => DecisionPath;
+  /** remove a decision by node ID and all its children */
+  removePathDecision: (nodeId: string) => void;
+}
+
+export interface TreeSlice extends TreeSliceActions, TreeSliceState {}
+
 export const createTreeSlice: StateCreator<
-  DecisionSlice & DagNodeSlice & DagEdgeSlice,
-  [],
+  TreeSlice,
+  [['zustand/devtools', never]],
   [],
   TreeSlice
-> = (_set, get) => ({
-  setDirection: (direction: TreeDirection) => {
-    get().setTreeDirection(direction);
-    get().positionDagNodes(get().tree);
-  },
-  setTree: (tree: PositionUnawareDecisionTree) => {
-    get().setDecisionTree(tree);
-  },
-  showNode: (nodeId: string, options?: ShowDagNodeOptions) => {
-    get().showDecision(nodeId);
-    const tree = get().tree;
-    get().createDagNode(nodeId, tree);
-    get().createEdge(options?.parentId, nodeId);
-  },
-  showChildren: (nodeId: string) => {
-    const childrenIds = get().tree[nodeId].data.children;
-    const tree = get().tree;
-    childrenIds?.forEach((id) => {
-      get().showDecision(id);
-      get().createDagNode(id, tree);
-      get().createEdge(nodeId, id);
-    });
-    get().expandDecision(nodeId);
-  },
-  hideDescendants: (nodeId: string) => {
-    const childrenIds = getDescendantIds(get().tree, nodeId);
-    get().collapseDecision(nodeId, childrenIds);
-    get().removeDagNodes([...childrenIds]);
-    get().setChildrenEdgesUndecided(nodeId);
-  },
-  hideNiblings: (nodeId: string) => {
-    const dagTree = get().tree;
-    const siblingIds = getSiblingIds(dagTree, nodeId);
-    siblingIds.map((id) => get().setChildrenEdgesUndecided(id));
-    const siblingDescendantIds = siblingIds.flatMap((id) => getDescendantIds(dagTree, id));
-    get().collapseDecision(nodeId, siblingDescendantIds);
-    get().removeDagNodes([...siblingDescendantIds]);
-  },
-  setDecisionMade: (nodeId: string) => {
-    const siblings = getSiblingIds(get().tree, nodeId);
-    const siblingDescendantIds = siblings.flatMap((id) => getDescendantIds(get().tree, id));
-    get().setStatus([nodeId], 'chosen');
-    get().setStatus([...siblingDescendantIds, ...siblings], undefined);
-  },
-  setDecisionFocused: (nodeId: string) => {
-    const siblings = getSiblingIds(get().tree, nodeId);
-    const siblingDescendantIds = siblings.flatMap((id) => getDescendantIds(get().tree, id));
-    get().setStatus([nodeId], 'focused');
-    get().setStatus([...siblingDescendantIds, ...siblings], undefined);
-    get().updateDagNodes(get().tree);
-  },
-  addDecisionToPath: (source: string, target: string) => {
-    get().setChildrenEdgesUndecided(source);
-    get().setEdgeDecided(source, target);
-    get().removeDecisionAndChildren(source);
-    get().setPath([...get().getPath(), { nodeId: source, selected: target }]);
-  },
-  removeDecisionFromPath: (nodeId: string) => {
-    const descendantIds = getDescendantIds(get().tree, nodeId);
-    const path = get().getPath();
-    const pathWithoutNode = path.filter((decision) => decision.nodeId !== nodeId);
-    const pathWithoutDescendants = pathWithoutNode.filter(
-      (decision) => !descendantIds.includes(decision.nodeId)
+> = (set, get) => ({
+  direction: 'LR',
+  tree: {},
+  path: [],
+  setTreeDirection: (direction: TreeDirection) => {
+    set(
+      {
+        tree: layoutTree(get().tree, direction),
+        direction,
+      },
+      false,
+      'setTreeDirection'
     );
-    get().setPath(pathWithoutDescendants);
+  },
+  setDecisionTree: (tree: PositionUnawareDecisionTree) => {
+    set(
+      {
+        tree: layoutTree(tree),
+      },
+      false,
+      'setNewTree'
+    );
+  },
+  // ToDO: Remove this and corresponding state
+  setVertexVisible: (nodeId: string) => {
+    set(
+      {
+        tree: setNodeVisible(get().tree, [nodeId]),
+      },
+      false,
+      'setVertexVisible'
+    );
+  },
+  // ToDO: Remove this and corresponding state
+  setVertexHidden: (nodeId: string) => {
+    set(
+      {
+        tree: setNodesHidden(get().tree, [nodeId]),
+      },
+      false,
+      'setVertexHidden'
+    );
+  },
+  setVertexStatus: (nodeIds: string[], status: VertexStatus) => {
+    const tree = get().tree;
+    nodeIds.forEach((nodeId) => {
+      tree[nodeId].data.status = status ?? undefined;
+    });
+    set(
+      {
+        tree,
+      },
+      false,
+      'setVertexStatus'
+    );
+  },
+  setPath: (path: DecisionPath) => {
+    set(
+      {
+        path,
+      },
+      false,
+      'setPath'
+    );
+  },
+  getPath: () => get().path,
+  removePathDecision: (nodeId: string) => {
+    const path = get().path;
+    const decisionIndex = path.findIndex((decision) => decision.nodeId == nodeId);
+    if (decisionIndex === -1) return;
+    const newPath = path.slice(0, decisionIndex);
+    set(
+      {
+        path: newPath,
+      },
+      false,
+      'removeDecisionFromPath'
+    );
   },
 });

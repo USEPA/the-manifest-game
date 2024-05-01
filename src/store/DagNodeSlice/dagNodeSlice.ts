@@ -4,12 +4,12 @@ import {
   createDagNode,
   filterNodesById,
 } from 'store/DagNodeSlice/dagNodeUtils';
-import { BooleanNodeData, NodeData } from 'store/DecisionSlice/decisionSlice';
+import { BooleanVertexData, VertexData } from 'store/TreeSlice/treeSlice';
 import { StateCreator } from 'zustand';
 
 /** A vertex in our decision tree.*/
 export interface TreeNode extends Omit<Node, 'position'> {
-  data: NodeData | BooleanNodeData;
+  data: VertexData | BooleanVertexData;
   position: { x: number; y: number; rank?: number };
 }
 
