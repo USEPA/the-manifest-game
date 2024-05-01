@@ -16,6 +16,7 @@ export const setNodesHidden = (tree: DecisionTree, nodeIds: string[]) => {
 export const getAncestorIds = (tree: DecisionTree, nodeId: string): string[] => {
   const ancestors: string[] = [];
   Object.values(tree).forEach((node) => {
+    if (!node.data.children) return;
     if (node.data.children.includes(nodeId)) {
       ancestors.push(node.id);
       ancestors.push(...getAncestorIds(tree, node.id));
@@ -26,15 +27,13 @@ export const getAncestorIds = (tree: DecisionTree, nodeId: string): string[] => 
 
 /** convert ancestor ids to ancestor decisions */
 export const buildAncestorDecisions = (tree: DecisionTree, ancestorIds: string[]): DecisionPath => {
-  // @ts-expect-error - ToDo fix this typescript error to check for situations where the selected answer is not found
-  return ancestorIds.map((id) => {
+  const decisions: DecisionPath = [];
+  ancestorIds.map((id) => {
     const node = tree[id];
-    // ToDo break this into smaller function
-    const selectedAnswer = node.data.children.find((childId) =>
-      ancestorIds.filter((choice) => {
-        if (childId === choice) return choice;
-      })
-    );
-    return { nodeId: node.id, selected: selectedAnswer };
+    const selectedAnswer = node.data.children.find((childId) => ancestorIds.includes(childId));
+    if (selectedAnswer) {
+      decisions.push({ nodeId: node.id, selected: selectedAnswer });
+    }
   });
+  return decisions;
 };

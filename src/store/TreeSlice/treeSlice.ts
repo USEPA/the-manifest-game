@@ -157,7 +157,6 @@ export const createTreeSlice: StateCreator<
   },
   getAncestorDecisions: (nodeId: string) => {
     const tree = get().tree;
-    const ancestorIds = getAncestorIds(tree, nodeId);
-    return ancestorIds;
+    return getAncestorIds(tree, nodeId);
   },
 });
