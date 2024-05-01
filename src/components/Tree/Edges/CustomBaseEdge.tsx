@@ -1,7 +1,7 @@
 import cc from 'classcat';
 import { BaseEdgeProps } from 'reactflow';
 
-interface MyBaseEdgeProps extends BaseEdgeProps {
+interface CustomBaseEdgeProps extends BaseEdgeProps {
   className?: string;
 }
 
@@ -20,7 +20,7 @@ export function CustomBaseEdge({
   markerEnd,
   markerStart,
   className,
-}: MyBaseEdgeProps) {
+}: CustomBaseEdgeProps) {
   return (
     <>
       <path

@@ -92,10 +92,9 @@ export const createDecisionSlice: StateCreator<
   tree: {},
   path: [],
   setTreeDirection: (direction: TreeDirection) => {
-    const tree = layoutTree(get().tree, direction);
     set(
       {
-        tree,
+        tree: layoutTree(get().tree, direction),
         direction,
       },
       false,
@@ -103,40 +102,36 @@ export const createDecisionSlice: StateCreator<
     );
   },
   setDecisionTree: (tree: PositionUnawareDecisionTree) => {
-    const positionAwareTree = layoutTree(tree);
     set(
       {
-        tree: positionAwareTree,
+        tree: layoutTree(tree),
       },
       false,
       'setNewTree'
     );
   },
   showDecision: (nodeId: string) => {
-    const tree = setNodeVisible(get().tree, [nodeId]);
     set(
       {
-        tree,
+        tree: setNodeVisible(get().tree, [nodeId]),
       },
       false,
       'showVertex'
     );
   },
   hideDecision: (nodeId: string) => {
-    const tree = setNodesHidden(get().tree, [nodeId]);
     set(
       {
-        tree,
+        tree: setNodesHidden(get().tree, [nodeId]),
       },
       false,
       'hideDecision'
     );
   },
   expandDecision: (nodeId: string) => {
-    const tree = setExpanded(get().tree, [nodeId]);
     set(
       {
-        tree,
+        tree: setExpanded(get().tree, [nodeId]),
       },
       false,
       'expandDecision'
