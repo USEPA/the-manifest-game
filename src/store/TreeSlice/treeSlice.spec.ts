@@ -4,7 +4,7 @@ import { createTreeSlice, Decision, DecisionPath, TreeSlice } from 'store/TreeSl
 import { describe, expect, suite, test } from 'vitest';
 import { create } from 'zustand';
 
-suite('Decision Slice', () => {
+suite('Tree Slice', () => {
   describe('Initial State', () => {
     test('Path is initially empty ', () => {
       const { result } = renderHook(() => create<TreeSlice>(createTreeSlice));
@@ -47,6 +47,43 @@ suite('Decision Slice', () => {
       result.current.setState({ path });
       result.current.getState().removePathDecision('undefinedId');
       expect(result.current.getState().path).toEqual(path);
+    });
+  });
+  describe('Get Ancestor IDs', () => {
+    test('returns ancestor IDs', () => {
+      const { result } = renderHook(() => create<TreeSlice>(createTreeSlice));
+      const tree = {
+        foo: {
+          id: 'foo',
+          hidden: false,
+          data: { label: 'foo', children: ['bar'] },
+          position: {
+            x: 0,
+            y: 0,
+          },
+        },
+        bar: {
+          id: 'bar',
+          hidden: false,
+          data: { label: 'bar', children: ['baz'] },
+          position: {
+            x: 0,
+            y: 0,
+          },
+        },
+        baz: {
+          id: 'baz',
+          hidden: false,
+          data: { label: 'baz', children: [] },
+          position: {
+            x: 0,
+            y: 0,
+          },
+        },
+      };
+      result.current.setState({ tree });
+      const ancestors = result.current.getState().getAncestorIds('baz');
+      expect(ancestors).toEqual(['bar', 'foo']);
     });
   });
 });
