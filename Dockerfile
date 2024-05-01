@@ -1,6 +1,6 @@
 # Mutlistage docker file for building and serving the Single Page App
 # Build stage
-FROM node:20-alpine as builder
+FROM node:22-alpine as builder
 LABEL maintainer="graham.david@epa.gov"
 WORKDIR /app
 COPY . .
