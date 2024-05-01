@@ -2,7 +2,7 @@ import dagre from '@dagrejs/dagre';
 import { Edge } from 'reactflow';
 import { createDagEdge } from 'store/DagEdgeSlice/dagEdgeUtils';
 import { DecisionTree, PositionUnawareDecisionTree } from 'store/DagNodeSlice/dagNodeSlice';
-import { TreeDirection } from 'store/DecisionSlice/decisionSlice';
+import { TreeDirection } from 'store/TreeSlice/treeSlice';
 
 const dagreGraph = new dagre.graphlib.Graph<{
   x: number;

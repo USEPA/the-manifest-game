@@ -4,8 +4,8 @@ import {
   PositionUnawareDecisionTree,
   ShowDagNodeOptions,
 } from 'store/DagNodeSlice/dagNodeSlice';
-import { DecisionSlice, TreeDirection } from 'store/DecisionSlice/decisionSlice';
 import { getDescendantIds, getSiblingIds } from 'store/DecisionTreeStore/decisionTreeStoreUtils';
+import { TreeDirection, TreeSlice } from 'store/TreeSlice/treeSlice';
 import { StateCreator } from 'zustand';
 
 /** The state and actions of the Combined slice*/
@@ -26,7 +26,7 @@ export interface DecisionTreeStore {
  * and exposes an interface of actions that users can take on the decision tree
  * */
 export const createDecisionTreeStore: StateCreator<
-  DecisionSlice & DagNodeSlice & DagEdgeSlice,
+  TreeSlice & DagNodeSlice & DagEdgeSlice,
   [],
   [],
   DecisionTreeStore

@@ -1,7 +1,7 @@
 import { BoolNodeData } from 'components/Tree';
 import { useEffect, useState } from 'react';
 import { PositionUnawareDecisionTree, TreeNode } from 'store';
-import { BooleanNodeData, NodeData } from 'store/DecisionSlice/decisionSlice';
+import { BooleanNodeData, NodeData } from 'store/TreeSlice/treeSlice';
 
 /** Configuration for an individual node, part of the larger config*/
 export interface NodeConfig {

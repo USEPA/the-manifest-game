@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { renderHook } from '@testing-library/react';
 import { usePath } from 'hooks/usePath/usePath';
-import { DecisionPath } from 'store/DecisionSlice/decisionSlice';
+import { DecisionPath } from 'store/TreeSlice/treeSlice';
 import { expect, suite, test } from 'vitest';
 
 suite('usePath hook', () => {

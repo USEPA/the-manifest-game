@@ -3,7 +3,7 @@ import { BaseNode } from 'components/Tree/Nodes/BaseNode/BaseNode';
 import { useHelp } from 'hooks/useHelp/useHelp';
 import { MouseEventHandler } from 'react';
 import { NodeProps } from 'reactflow';
-import { NodeData } from 'store/DecisionSlice/decisionSlice';
+import { NodeData } from 'store/TreeSlice/treeSlice';
 
 export const DefaultNode = ({ data, ...props }: NodeProps<NodeData>) => {
   const { showHelp } = useHelp();

@@ -5,7 +5,7 @@ import { useDecisionTree, useHelp } from 'hooks';
 import { usePath } from 'hooks/usePath/usePath';
 import React, { MouseEventHandler } from 'react';
 import { NodeProps } from 'reactflow';
-import { NodeData } from 'store/DecisionSlice/decisionSlice';
+import { NodeData } from 'store/TreeSlice/treeSlice';
 
 export interface BoolNodeData extends NodeData {
   label: string;

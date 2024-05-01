@@ -4,7 +4,7 @@ import {
   createDagNode,
   filterNodesById,
 } from 'store/DagNodeSlice/dagNodeUtils';
-import { BooleanNodeData, NodeData } from 'store/DecisionSlice/decisionSlice';
+import { BooleanNodeData, NodeData } from 'store/TreeSlice/treeSlice';
 import { StateCreator } from 'zustand';
 
 /** A vertex in our decision tree.*/

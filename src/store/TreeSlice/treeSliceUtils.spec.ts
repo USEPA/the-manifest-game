@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { DecisionTree } from 'store/DagNodeSlice/dagNodeSlice';
-import { setNodesHidden, setNodeVisible } from 'store/DecisionSlice/decisionUtils';
+import { setNodesHidden, setNodeVisible } from 'store/TreeSlice/treeSliceUtils';
 import { describe, expect, suite, test } from 'vitest';
 
 suite('Tree Slice internals', () => {

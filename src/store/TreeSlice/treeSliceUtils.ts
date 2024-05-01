@@ -1,4 +1,4 @@
-import { DecisionTree } from 'store/DecisionSlice/decisionSlice';
+import { DecisionTree } from 'store/TreeSlice/treeSlice';
 
 /** set hidden to false */
 export const setNodeVisible = (tree: DecisionTree, nodeIds: string[]) => {

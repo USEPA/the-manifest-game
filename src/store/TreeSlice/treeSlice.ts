@@ -1,6 +1,6 @@
 import { Node } from 'reactflow';
-import { setNodesHidden, setNodeVisible } from 'store/DecisionSlice/decisionUtils';
-import { layoutTree } from 'store/DecisionSlice/layout';
+import { layoutTree } from 'store/TreeSlice/layout';
+import { setNodesHidden, setNodeVisible } from 'store/TreeSlice/treeSliceUtils';
 import { StateCreator } from 'zustand';
 
 export type DecisionStatus = 'unselect' | 'chosen' | 'focused' | undefined;
@@ -42,13 +42,13 @@ export interface Decision {
 
 export type DecisionPath = Array<Decision>;
 
-interface DecisionSliceState {
+interface TreeSliceState {
   tree: DecisionTree;
   direction: TreeDirection;
   path: DecisionPath;
 }
 
-interface DecisionSliceActions {
+interface TreeSliceActions {
   /** build and Set the decision tree from a config. It acts as the database we build nodes from*/
   setDecisionTree: (tree: PositionUnawareDecisionTree) => void;
   /** Set the layout direction */
@@ -67,13 +67,13 @@ interface DecisionSliceActions {
   removePathDecision: (nodeId: string) => void;
 }
 
-export interface DecisionSlice extends DecisionSliceActions, DecisionSliceState {}
+export interface TreeSlice extends TreeSliceActions, TreeSliceState {}
 
-export const createDecisionSlice: StateCreator<
-  DecisionSlice,
+export const createTreeSlice: StateCreator<
+  TreeSlice,
   [['zustand/devtools', never]],
   [],
-  DecisionSlice
+  TreeSlice
 > = (set, get) => ({
   direction: 'LR',
   tree: {},
