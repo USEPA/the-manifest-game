@@ -6,6 +6,7 @@ import {
 } from 'store/DagNodeSlice/dagNodeSlice';
 import { getDescendantIds, getSiblingIds } from 'store/DecisionTreeStore/decisionTreeStoreUtils';
 import { TreeDirection, TreeSlice } from 'store/TreeSlice/treeSlice';
+import { buildAncestorDecisions } from 'store/TreeSlice/treeSliceUtils';
 import { StateCreator } from 'zustand';
 
 /** The state and actions of the Combined slice*/
@@ -82,7 +83,9 @@ export const createDecisionTreeStore: StateCreator<
     get().setChildrenEdgesUndecided(source);
     get().setEdgeDecided(source, target);
     get().removePathDecision(source);
-    get().setPath([...get().getPath(), { nodeId: source, selected: target }]);
+    const ancestorIds = get().getAncestorDecisions(target);
+    const newDecisions = buildAncestorDecisions(get().tree, ancestorIds);
+    get().setPath([...newDecisions, { nodeId: source, selected: target }]);
   },
   removeDecisionFromPath: (nodeId: string) => {
     const decisionIdsToRemove = getDescendantIds(get().tree, nodeId);

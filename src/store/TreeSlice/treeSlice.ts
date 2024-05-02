@@ -1,6 +1,6 @@
 import { Node } from 'reactflow';
 import { layoutTree } from 'store/TreeSlice/layout';
-import { setNodesHidden, setNodeVisible } from 'store/TreeSlice/treeSliceUtils';
+import { getAncestorIds, setNodesHidden, setNodeVisible } from 'store/TreeSlice/treeSliceUtils';
 import { StateCreator } from 'zustand';
 
 export type VertexStatus = 'unselect' | 'chosen' | 'focused' | undefined;
@@ -65,6 +65,8 @@ interface TreeSliceActions {
   getPath: () => DecisionPath;
   /** remove a decision by node ID and all its children */
   removePathDecision: (nodeId: string) => void;
+  /** get ancestor IDs */
+  getAncestorDecisions: (nodeId: string) => string[];
 }
 
 export interface TreeSlice extends TreeSliceActions, TreeSliceState {}
@@ -152,5 +154,9 @@ export const createTreeSlice: StateCreator<
       false,
       'removeDecisionFromPath'
     );
+  },
+  getAncestorDecisions: (nodeId: string) => {
+    const tree = get().tree;
+    return getAncestorIds(tree, nodeId);
   },
 });
