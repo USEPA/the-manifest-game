@@ -4,6 +4,11 @@ import { useFetchHelp } from 'hooks';
 import { useHelp } from 'hooks/useHelp/useHelp';
 import React from 'react';
 
+export interface HelpContent {
+  type: 'text' | 'html';
+  content: string;
+}
+
 /**
  * Responsible for retrieving, and displaying information to help users made decisions
  * @constructor
@@ -23,7 +28,8 @@ export const Help = () => {
   return (
     <>
       <h2 className="text-xl font-semibold text-black">More Information</h2>
-      <TextualHelp help={help} />
+      {help?.type === 'text' && <TextualHelp content={help.content} />}
+      {help?.type === 'html' && <div dangerouslySetInnerHTML={{ __html: help.content }}></div>}
     </>
   );
 };
