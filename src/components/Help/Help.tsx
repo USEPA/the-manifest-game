@@ -12,7 +12,7 @@ export interface TextContent {
 
 export interface HtmlContent {
   type: 'html';
-  content: HTMLElement;
+  content: Node | string;
 }
 
 export type HelpContent = TextContent | HtmlContent;

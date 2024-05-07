@@ -7,7 +7,7 @@ import { afterEach, describe, expect, test } from 'vitest';
 
 interface TestComponentProps {
   status?: VertexStatus;
-  help?: boolean;
+  help?: string;
 }
 
 const TestComponent = (props: TestComponentProps) => {
@@ -63,11 +63,11 @@ describe('DefaultNode', () => {
     expect(screen.getByTestId('default-node-1-content')).toBeInTheDocument();
   });
   test('no HelpIcon when falsy', () => {
-    render(<TestComponent help={false} />);
+    render(<TestComponent />);
     expect(screen.queryByLabelText(/help/i)).not.toBeInTheDocument();
   });
   test('HelpIcon displayed help is true', () => {
-    render(<TestComponent help={true} />);
+    render(<TestComponent help={'root.json'} />);
     expect(screen.queryByLabelText(/more information/i)).toBeInTheDocument();
   });
 });

@@ -12,12 +12,12 @@ describe('HtmlHelp', () => {
   });
   test('renders content', () => {
     const content = '<p>content</p>';
-    render(<HtmlHelp content={content} />);
+    render(<HtmlHelp html={content} />);
     expect(screen.getByText(/content/i)).toBeInTheDocument();
   });
   test('sanitizes script tags from html', () => {
     const content = '<p>content</p><script data-testid="scriptElement">alert("xss")</script>';
-    render(<HtmlHelp content={content} />);
+    render(<HtmlHelp html={content} />);
     expect(screen.queryByTestId(/scriptElement/i)).not.toBeInTheDocument();
   });
 });

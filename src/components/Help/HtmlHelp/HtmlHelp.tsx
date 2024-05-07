@@ -1,7 +1,7 @@
 import DOMPurify from 'dompurify';
 
 interface HelpContentProps {
-  html?: HTMLElement;
+  html?: Node | string;
 }
 
 /**
