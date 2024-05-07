@@ -5,15 +5,15 @@ import { useEffect, useState } from 'react';
 export type HelpConfig = TextHelp;
 
 /** Hook to fetch the help text for a given node from the server. */
-export const useFetchHelp = (nodeId?: string) => {
+export const useFetchHelp = (fileName?: string) => {
   const [help, setHelp] = useState<HelpConfig | undefined>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown | undefined>();
 
   useEffect(() => {
     setIsLoading(true);
-    if (nodeId) {
-      fetch(`${import.meta.env.BASE_URL}help/${nodeId}.json`)
+    if (fileName) {
+      fetch(`${import.meta.env.BASE_URL}help/${fileName}`)
         .then((response) => {
           if (!response.ok) {
             throw new Error('There was a problem fetching help.');
@@ -29,7 +29,7 @@ export const useFetchHelp = (nodeId?: string) => {
           setIsLoading(false);
         });
     }
-  }, [nodeId]);
+  }, [fileName]);
 
   return {
     help,

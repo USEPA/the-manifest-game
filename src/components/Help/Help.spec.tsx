@@ -33,14 +33,14 @@ describe('Help', () => {
     expect(screen.getByText(/problem/i)).toBeInTheDocument();
   });
   test('renders loader while fetching content', () => {
-    const helpContentId = 'root';
-    useTreeStore.setState({ helpIsOpen: true, helpContentId });
+    const helpContent = 'root';
+    useTreeStore.setState({ helpIsOpen: true, contentFilename: helpContent });
     render(<Help />);
     expect(screen.getByTestId(/helpSpinner/i)).toBeInTheDocument();
   });
   test('renders help content after fetch', async () => {
     const helpContentId = 'root';
-    useTreeStore.setState({ helpIsOpen: true, helpContentId });
+    useTreeStore.setState({ helpIsOpen: true, contentFilename: helpContentId });
     render(<Help />);
     await waitFor(() => expect(screen.queryByTestId(/helpSpinner/i)).not.toBeInTheDocument());
     expect(screen.getByText(/Help Text root/i)).toBeInTheDocument();

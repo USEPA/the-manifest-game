@@ -7,7 +7,7 @@
         "label": "Are you registered?",
         "yesId": "doYouHaveSiteId",
         "noId": "goRegister",
-        "help": true
+        "help": "root.json"
       }
     },
     {

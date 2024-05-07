@@ -8,7 +8,7 @@ suite('Help Slice', () => {
   describe('Initial State', () => {
     test('help content ID is initially undefined', () => {
       const { result } = renderHook(() => create<HelpSlice>(createHelpSlice));
-      expect(result.current.getState().helpContentId).toBeFalsy();
+      expect(result.current.getState().contentFilename).toBeFalsy();
     });
     test('initially help is not open', () => {
       const { result } = renderHook(() => create<HelpSlice>(createHelpSlice));
@@ -25,7 +25,7 @@ suite('Help Slice', () => {
       const helpContentId = 'foo';
       const { result } = renderHook(() => create<HelpSlice>(createHelpSlice));
       result.current.getState().showHelp(helpContentId);
-      expect(result.current.getState().helpContentId).toBe(helpContentId);
+      expect(result.current.getState().contentFilename).toBe(helpContentId);
     });
   });
   describe('hideHelp', () => {
@@ -37,7 +37,7 @@ suite('Help Slice', () => {
     test('hiding help sets content ID to undefined', () => {
       const { result } = renderHook(() => create<HelpSlice>(createHelpSlice));
       result.current.getState().hideHelp();
-      expect(result.current.getState().helpContentId).toBeFalsy();
+      expect(result.current.getState().contentFilename).toBeFalsy();
     });
   });
 });

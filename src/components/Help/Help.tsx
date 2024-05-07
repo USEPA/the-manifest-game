@@ -9,10 +9,10 @@ import React from 'react';
  * @constructor
  */
 export const Help = () => {
-  const { helpContentId } = useHelp();
-  const { help, error, isLoading } = useFetchHelp(helpContentId);
+  const { contentFilename } = useHelp();
+  const { help, error, isLoading } = useFetchHelp(contentFilename);
 
-  if (helpContentId === undefined || error) {
+  if (contentFilename === undefined || error) {
     return <p>There was a problem fetching help.</p>;
   }
 

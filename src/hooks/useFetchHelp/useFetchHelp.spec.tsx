@@ -8,7 +8,6 @@ import { afterAll, afterEach, beforeAll, describe, expect, test } from 'vitest';
 const handlers = [
   http.get('/help/:nodeId.json', (info) => {
     const nodeId = info.params.nodeId;
-
     return HttpResponse.json({
       nodes: [
         {
@@ -17,6 +16,10 @@ const handlers = [
         },
       ],
     });
+  }),
+  http.get('/help/:nodeId.html', (info) => {
+    const nodeId = info.params.nodeId;
+    return HttpResponse.text(`<p>Help Text ${nodeId}</p>`);
   }),
 ];
 
@@ -34,12 +37,12 @@ interface TestComponentProps {
 }
 
 const TestComponent = (props: TestComponentProps) => {
-  const { help, error, isLoading } = useFetchHelp(props.nodeId ?? 'root');
+  const { help, error, isLoading } = useFetchHelp(props.nodeId ?? 'root.json');
   return (
     <>
       {isLoading && <p>loading...</p>}
       {error && <p>error</p>}
-      {help && <p>help</p>}
+      {help && <p>success</p>}
     </>
   );
 };
@@ -48,7 +51,7 @@ describe('useFetchHelp', async () => {
   test('error, help are initially falsy', () => {
     render(<TestComponent />);
     expect(screen.queryByText(/error/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/help/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/success/i)).not.toBeInTheDocument();
   });
   test('returns an error upon network errors', async () => {
     const nodeId = 'bad-error';
@@ -64,6 +67,6 @@ describe('useFetchHelp', async () => {
   test('returns help object on success', async () => {
     render(<TestComponent />);
     await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
-    expect(screen.queryByText(/help/i)).toBeInTheDocument();
+    expect(screen.queryByText(/success/i)).toBeInTheDocument();
   });
 });
