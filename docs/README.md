@@ -97,7 +97,7 @@ The configuration should reflect the following example:
         "label": "Are you registered?",
         "yesId": "doYouHaveSiteId",
         "noId": "goRegister",
-        "help": true
+        "help": "welcome.html"
       }
     },
     {
@@ -107,7 +107,8 @@ The configuration should reflect the following example:
         "children": [
           "test1",
           "test2"
-        ]
+        ],
+        "help": "register.json"
       }
     }
   ]
@@ -171,10 +172,12 @@ requires a different configuration.
 ### Help Content
 
 Nodes can optionally have help content, which can be useful for providing additional information to the user when the
-node merits further explanation.
+node merits further explanation. The help content is stored in the `public/help/` directory. The JSON representation of
+the decision tree should include the file name (e.g., `help.html`) in the `"help"` field of the node's data object.
 
-Currently, we only support text based help content, stored in a JSON encoded file following the below schema.
-See [future work](#future-work).
+Currently, we support text and HTML based content.
+
+JSON encoded content should follow the below schema. See [future work](#future-work).
 
 ```json
 {

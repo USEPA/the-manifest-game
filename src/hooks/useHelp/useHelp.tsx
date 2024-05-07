@@ -2,8 +2,8 @@ import useTreeStore from 'store';
 
 export interface UseHelpReturn {
   helpIsOpen: boolean;
-  helpContentId: string | undefined;
-  showHelp: (contentId: string) => void;
+  contentFilename: string | undefined;
+  showHelp: (contentId: string | undefined) => void;
   hideHelp: () => void;
 }
 
@@ -11,11 +11,21 @@ export interface UseHelpReturn {
  * custom hook that exposes logic for interacting with the Help content
  */
 export const useHelp = () => {
-  const { helpIsOpen, helpContentId, hideHelp, showHelp } = useTreeStore((state) => state);
+  const {
+    helpIsOpen,
+    contentFilename,
+    hideHelp,
+    showHelp: storeShowHelp,
+  } = useTreeStore((state) => state);
+
+  const showHelp = (contentId: string | undefined) => {
+    if (!contentId) return;
+    storeShowHelp(contentId);
+  };
 
   return {
     helpIsOpen: helpIsOpen,
-    helpContentId,
+    contentFilename,
     showHelp,
     hideHelp,
   } as UseHelpReturn;

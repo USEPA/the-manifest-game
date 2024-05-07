@@ -2,7 +2,7 @@ import { StateCreator } from 'zustand';
 
 interface HelpSliceState {
   helpIsOpen: boolean;
-  helpContentId?: string;
+  contentFilename?: string;
 }
 
 interface HelpSliceActions {
@@ -21,12 +21,12 @@ export const createHelpSlice: StateCreator<
   HelpSlice
 > = (set) => ({
   helpIsOpen: false,
-  helpContentId: undefined,
+  contentFilename: undefined,
   showHelp: (nodeId: string) => {
     set(
       {
         helpIsOpen: true,
-        helpContentId: nodeId,
+        contentFilename: nodeId,
       },
       false,
       'showHelpDialog'
@@ -36,7 +36,7 @@ export const createHelpSlice: StateCreator<
     set(
       {
         helpIsOpen: false,
-        helpContentId: undefined,
+        contentFilename: undefined,
       },
       false,
       'hideHelpDialog'

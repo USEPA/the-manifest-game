@@ -26,7 +26,7 @@ export const BoolNode = ({
   const decision = getDecision(id);
 
   const handleHelpClick: MouseEventHandler = (event) => {
-    showHelp(id);
+    showHelp(help);
     event.stopPropagation();
   };
 
@@ -51,7 +51,7 @@ export const BoolNode = ({
           </div>
         )}
         <div>
-          <p className="pb-4 pt-2 text-2xl">{label}</p>
+          <h2 className="pb-4 pt-2 text-2xl">{label}</h2>
         </div>
         <div className="mt-1 flex items-center justify-center space-x-3">
           <BoolButton

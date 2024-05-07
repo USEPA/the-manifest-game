@@ -110,7 +110,6 @@ describe('BoolNode', () => {
               noId: '3',
               children: [],
               status: 'chosen',
-              help: false,
             }}
           />
         </ReactFlowProvider>
@@ -135,7 +134,7 @@ describe('BoolNode', () => {
               noId: '3',
               children: [],
               status: 'chosen',
-              help: true,
+              help: 'root.json',
             }}
           />
         </ReactFlowProvider>
@@ -162,7 +161,7 @@ describe('BoolNode', () => {
               noId: '3',
               children: [],
               status: 'chosen',
-              help: true,
+              help: 'foo.json',
             }}
           />
         </ReactFlowProvider>

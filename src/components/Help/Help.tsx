@@ -1,18 +1,31 @@
-import { TextualHelp } from 'components/Help/HelpContent/TextualHelp';
+import { HtmlHelp } from 'components/Help/HtmlHelp/HtmlHelp';
+import { TextualHelp } from 'components/Help/TextHelp/TextualHelp';
 import { Spinner } from 'components/Spinner/Spinner';
 import { useFetchHelp } from 'hooks';
 import { useHelp } from 'hooks/useHelp/useHelp';
 import React from 'react';
+
+export interface TextContent {
+  type: 'text';
+  content: string;
+}
+
+export interface HtmlContent {
+  type: 'html';
+  content: Node | string;
+}
+
+export type HelpContent = TextContent | HtmlContent;
 
 /**
  * Responsible for retrieving, and displaying information to help users made decisions
  * @constructor
  */
 export const Help = () => {
-  const { helpContentId } = useHelp();
-  const { help, error, isLoading } = useFetchHelp(helpContentId);
+  const { contentFilename } = useHelp();
+  const { help, error, isLoading } = useFetchHelp(contentFilename);
 
-  if (helpContentId === undefined || error) {
+  if (contentFilename === undefined || error) {
     return <p>There was a problem fetching help.</p>;
   }
 
@@ -23,7 +36,8 @@ export const Help = () => {
   return (
     <>
       <h2 className="text-xl font-semibold text-black">More Information</h2>
-      <TextualHelp help={help} />
+      {help?.type === 'text' && <TextualHelp content={help.content} />}
+      {help?.type === 'html' && <HtmlHelp html={help.content} />}
     </>
   );
 };

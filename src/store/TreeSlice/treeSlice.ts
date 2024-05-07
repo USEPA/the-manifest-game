@@ -10,7 +10,7 @@ export interface VertexData {
   label: string;
   children: string[];
   status?: VertexStatus;
-  help?: boolean;
+  help?: string;
 }
 
 /** data needed by the BooleanTreeNode to render decisions*/
