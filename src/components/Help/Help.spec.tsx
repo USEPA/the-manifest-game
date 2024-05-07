@@ -7,16 +7,25 @@ import useTreeStore from 'store';
 import { afterAll, afterEach, beforeAll, describe, expect, test } from 'vitest';
 
 const handlers = [
-  http.get('/help/:nodeId.json', async (info) => {
-    const nodeId = info.params.nodeId;
+  http.get('/help/:helpId.json', async (info) => {
+    const helpId = info.params.helpId;
     await delay(500);
 
     return HttpResponse.json({
       type: 'text',
-      content: `Help Text ${nodeId}`,
+      content: `Help Text ${helpId}`,
     });
   }),
+  http.get('/help/:helpId.html', (info) => {
+    const helpId = info.params.helpId;
+    return HttpResponse.text(`<p>Help html ${helpId}</p>`);
+  }),
 ];
+
+const TestComponent = ({ helpContent = 'root.json' }: { helpContent?: string }) => {
+  useTreeStore.setState({ helpIsOpen: true, contentFilename: helpContent });
+  return <Help />;
+};
 
 const server = setupServer(...handlers);
 
@@ -33,16 +42,18 @@ describe('Help', () => {
     expect(screen.getByText(/problem/i)).toBeInTheDocument();
   });
   test('renders loader while fetching content', () => {
-    const helpContent = 'root.json';
-    useTreeStore.setState({ helpIsOpen: true, contentFilename: helpContent });
-    render(<Help />);
+    render(<TestComponent />);
     expect(screen.getByTestId(/helpSpinner/i)).toBeInTheDocument();
   });
   test('renders help content after fetch', async () => {
-    const helpContentId = 'root.json';
-    useTreeStore.setState({ helpIsOpen: true, contentFilename: helpContentId });
-    render(<Help />);
+    render(<TestComponent />);
     await waitFor(() => expect(screen.queryByTestId(/helpSpinner/i)).not.toBeInTheDocument());
     expect(screen.getByText(/Help Text root/i)).toBeInTheDocument();
+  });
+  test('renders html', async () => {
+    const helpContentId = 'root.html';
+    render(<TestComponent helpContent={helpContentId} />);
+    await waitFor(() => expect(screen.queryByTestId(/helpSpinner/i)).not.toBeInTheDocument());
+    expect(screen.getByText(/help html root/i)).toBeInTheDocument();
   });
 });

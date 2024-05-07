@@ -1,4 +1,4 @@
-import { TextualHelp } from 'components/Help/HelpContent/TextualHelp';
+import { TextualHelp } from 'components/Help/TextHelp/TextualHelp';
 import { Spinner } from 'components/Spinner/Spinner';
 import { useFetchHelp } from 'hooks';
 import { useHelp } from 'hooks/useHelp/useHelp';
