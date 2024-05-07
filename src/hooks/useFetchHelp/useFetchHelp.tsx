@@ -16,7 +16,7 @@ export const useFetchHelp = (fileName?: string) => {
       fetch(`${import.meta.env.BASE_URL}help/${fileName}`)
         .then((response) => {
           if (!response.ok) {
-            throw new Error('There was a problem fetching help.');
+            throw new Error('There was a problem fetching this content.');
           }
           return response.json();
         })
