@@ -1,13 +1,21 @@
+import { HtmlHelp } from 'components/Help/HtmlHelp/HtmlHelp';
 import { TextualHelp } from 'components/Help/TextHelp/TextualHelp';
 import { Spinner } from 'components/Spinner/Spinner';
 import { useFetchHelp } from 'hooks';
 import { useHelp } from 'hooks/useHelp/useHelp';
 import React from 'react';
 
-export interface HelpContent {
-  type: 'text' | 'html';
+export interface TextContent {
+  type: 'text';
   content: string;
 }
+
+export interface HtmlContent {
+  type: 'html';
+  content: HTMLElement;
+}
+
+export type HelpContent = TextContent | HtmlContent;
 
 /**
  * Responsible for retrieving, and displaying information to help users made decisions
@@ -29,7 +37,7 @@ export const Help = () => {
     <>
       <h2 className="text-xl font-semibold text-black">More Information</h2>
       {help?.type === 'text' && <TextualHelp content={help.content} />}
-      {help?.type === 'html' && <div dangerouslySetInnerHTML={{ __html: help.content }}></div>}
+      {help?.type === 'html' && <HtmlHelp html={help.content} />}
     </>
   );
 };
