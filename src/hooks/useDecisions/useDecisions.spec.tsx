@@ -19,6 +19,21 @@ suite('useDecisions hook', () => {
     const { result } = renderHook(() => useDecisions(currentPath));
     expect(result.current.decisionIsInPath('1')).toBe(true);
   });
+  test('exposes a function to query if an ID is the current decision', () => {
+    const currentPath: DecisionPath = [
+      { nodeId: '1', selected: '2' },
+      { nodeId: '2', selected: '3' },
+    ];
+    const { result } = renderHook(() => useDecisions(currentPath));
+    expect(result.current.isCurrentDecision('1')).toBeFalsy();
+    expect(result.current.isCurrentDecision('2')).toBeFalsy();
+    expect(result.current.isCurrentDecision('3')).toBeTruthy();
+  });
+  test('current decision query returns false if path is empty', () => {
+    const currentPath: DecisionPath = [];
+    const { result } = renderHook(() => useDecisions(currentPath));
+    expect(result.current.isCurrentDecision('1')).toBeFalsy();
+  });
   test('exposes a function to query for a decision in path by ID', () => {
     const firstDecision = { nodeId: '1', selected: 'yes' };
     const currentPath: DecisionPath = [
