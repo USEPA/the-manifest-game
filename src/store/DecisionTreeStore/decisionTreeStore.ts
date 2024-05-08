@@ -17,8 +17,6 @@ export interface DecisionTreeStore {
   showChildren: (nodeId: string) => void;
   hideDescendants: (nodeId: string) => void;
   hideNiblings: (nodeId: string) => void;
-  setDecisionMade: (nodeId: string) => void;
-  setDecisionFocused: (nodeId: string) => void;
   addDecisionToPath: (source: string, target: string) => void;
   removeDecisionFromPath: (nodeId: string) => void;
 }
@@ -65,19 +63,6 @@ export const createDecisionTreeStore: StateCreator<
     siblingIds.map((id) => get().setChildrenEdgesUndecided(id));
     const siblingDescendantIds = siblingIds.flatMap((id) => getDescendantIds(dagTree, id));
     get().removeDagNodes([...siblingDescendantIds]);
-  },
-  setDecisionMade: (nodeId: string) => {
-    const siblings = getSiblingIds(get().tree, nodeId);
-    const siblingDescendantIds = siblings.flatMap((id) => getDescendantIds(get().tree, id));
-    get().setVertexStatus([nodeId], 'chosen');
-    get().setVertexStatus([...siblingDescendantIds, ...siblings], undefined);
-  },
-  setDecisionFocused: (nodeId: string) => {
-    const siblings = getSiblingIds(get().tree, nodeId);
-    const siblingDescendantIds = siblings.flatMap((id) => getDescendantIds(get().tree, id));
-    get().setVertexStatus([nodeId], 'focused');
-    get().setVertexStatus([...siblingDescendantIds, ...siblings], undefined);
-    get().updateDagNodes(get().tree);
   },
   addDecisionToPath: (source: string, target: string) => {
     get().setChildrenEdgesUndecided(source);

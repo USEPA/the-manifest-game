@@ -15,7 +15,7 @@ export const DefaultNode = ({ data, ...props }: NodeProps<VertexData>) => {
     event.stopPropagation();
   };
 
-  const nodeBackgroundColor = data.status
+  const nodeBackgroundColor = isCurrentDecision
     ? 'bg-teal-700'
     : 'bg-gradient-to-b from-sky-700 to-sky-900';
 

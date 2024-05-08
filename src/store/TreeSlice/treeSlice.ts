@@ -3,13 +3,10 @@ import { layoutTree } from 'store/TreeSlice/layout';
 import { getAncestorIds, setNodesHidden, setNodeVisible } from 'store/TreeSlice/treeSliceUtils';
 import { StateCreator } from 'zustand';
 
-export type VertexStatus = 'unselect' | 'chosen' | 'focused' | undefined;
-
 /** Data needed by all nodes in our tree*/
 export interface VertexData {
   label: string;
   children: string[];
-  status?: VertexStatus;
   help?: string;
 }
 
@@ -57,8 +54,6 @@ interface TreeSliceActions {
   setVertexVisible: (nodeId: string) => void;
   /** Set decision as hidden */
   setVertexHidden: (nodeId: string) => void;
-  /** set node as chosen */
-  setVertexStatus: (nodeId: string[], status: VertexStatus) => void;
   /** set the path of the decision */
   setPath: (path: DecisionPath) => void;
   /** get the decision path */
@@ -117,19 +112,6 @@ export const createTreeSlice: StateCreator<
       },
       false,
       'setVertexHidden'
-    );
-  },
-  setVertexStatus: (nodeIds: string[], status: VertexStatus) => {
-    const tree = get().tree;
-    nodeIds.forEach((nodeId) => {
-      tree[nodeId].data.status = status ?? undefined;
-    });
-    set(
-      {
-        tree,
-      },
-      false,
-      'setVertexStatus'
     );
   },
   setPath: (path: DecisionPath) => {
