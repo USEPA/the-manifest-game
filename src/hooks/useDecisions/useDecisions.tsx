@@ -5,7 +5,7 @@ import { Decision, DecisionPath } from 'store/TreeSlice/treeSlice';
 export interface UsesPathReturn {
   path: DecisionPath;
   decisionIsInPath: (id: string) => boolean;
-  getDecision: (id: string) => Decision | undefined;
+  decision: Decision | undefined;
   isCurrentDecision: boolean;
 }
 
@@ -20,10 +20,7 @@ export const useDecisions = (id?: string) => {
     [path]
   );
 
-  const getDecision = useCallback(
-    (id: string) => path.find((decision) => decision.nodeId === id),
-    [path]
-  );
+  const decision = useMemo(() => path.find((decision) => decision.nodeId === id), [path, id]);
 
   const isCurrentDecision = useMemo(() => {
     if (!path || path.length === 0) return false;
@@ -33,7 +30,7 @@ export const useDecisions = (id?: string) => {
   return {
     path,
     decisionIsInPath,
-    getDecision,
+    decision,
     isCurrentDecision,
   } as UsesPathReturn;
 };

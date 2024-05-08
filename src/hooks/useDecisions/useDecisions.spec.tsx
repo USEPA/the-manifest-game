@@ -39,7 +39,7 @@ suite('useDecisions hook', () => {
     const { result } = renderHook(() => useDecisions('1'));
     expect(result.current.isCurrentDecision).toBeFalsy();
   });
-  test('exposes a function to query for a decision in path by ID', () => {
+  test('returns the decision for the current ID', () => {
     const firstDecision = { nodeId: '1', selected: 'yes' };
     const currentPath: DecisionPath = [
       firstDecision,
@@ -49,7 +49,14 @@ suite('useDecisions hook', () => {
       },
     ];
     useTreeStore.setState({ path: currentPath });
-    const { result } = renderHook(() => useDecisions());
-    expect(result.current.getDecision('1')).toBe(firstDecision);
+    const { result } = renderHook(() => useDecisions(firstDecision.nodeId));
+    expect(result.current.decision).toBe(firstDecision);
+  });
+  test('decision is undefined if a not made for the node ID', () => {
+    const onlyDecision = { nodeId: '1', selected: 'yes' };
+    const currentPath: DecisionPath = [onlyDecision];
+    useTreeStore.setState({ path: currentPath });
+    const { result } = renderHook(() => useDecisions('other-id'));
+    expect(result.current.decision).toBe(undefined);
   });
 });

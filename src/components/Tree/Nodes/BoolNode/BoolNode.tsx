@@ -21,9 +21,7 @@ export const BoolNode = ({
 }: NodeProps<BoolNodeData>) => {
   const { showHelp } = useHelp();
   const { retractDecision, makeDecision } = useDecisionTree();
-  const { decisionIsInPath, getDecision, isCurrentDecision } = useDecisions(id);
-
-  const decision = getDecision(id);
+  const { decisionIsInPath, decision, isCurrentDecision } = useDecisions(id);
 
   const handleHelpClick: MouseEventHandler = (event) => {
     showHelp(help);
