@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 export interface UsesPathReturn {
-  pathQueryParam: string;
+  pathParam: string;
+  setPathParam: (pathId: string) => void;
 }
 
 /**
@@ -10,9 +11,16 @@ export interface UsesPathReturn {
  */
 export const useUrl = () => {
   const [urlQueryParams, setUrlQueryParams] = useSearchParams();
-  const [pathQueryParam] = useState<string | null | undefined>(urlQueryParams.get('path'));
+  const [pathParam, setPathParam] = useState<string | null | undefined>(urlQueryParams.get('path'));
+
+  const setUrlPathId = (pathId: string) => {
+    urlQueryParams.set('path', pathId);
+    setUrlQueryParams(urlQueryParams);
+    setPathParam(pathId);
+  };
 
   return {
-    pathQueryParam,
+    pathParam,
+    setPathParam: setUrlPathId,
   } as UsesPathReturn;
 };
