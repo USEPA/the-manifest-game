@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 export interface UsesPathReturn {
   pathQueryParam: string;
@@ -8,7 +9,8 @@ export interface UsesPathReturn {
  * custom hook for interacting with the path taken through the decision tree
  */
 export const useUrl = () => {
-  const [pathQueryParam] = useState<string | null | undefined>();
+  const [urlQueryParams, setUrlQueryParams] = useSearchParams();
+  const [pathQueryParam] = useState<string | null | undefined>(urlQueryParams.get('path'));
 
   return {
     pathQueryParam,
