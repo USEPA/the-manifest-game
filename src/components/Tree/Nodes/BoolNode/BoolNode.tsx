@@ -2,7 +2,7 @@ import { HelpIcon } from 'components/Help/HelpIcon/HelpIcon';
 import { BaseNode } from 'components/Tree/Nodes/BaseNode/BaseNode';
 import { BoolButton } from 'components/Tree/Nodes/BoolNode/BoolButton/BoolButton';
 import { useDecisionTree, useHelp } from 'hooks';
-import { usePath } from 'hooks/usePath/usePath';
+import { useDecisions } from 'hooks/useDecisions/useDecisions';
 import React, { MouseEventHandler } from 'react';
 import { NodeProps } from 'reactflow';
 import { VertexData } from 'store/TreeSlice/treeSlice';
@@ -21,7 +21,7 @@ export const BoolNode = ({
 }: NodeProps<BoolNodeData>) => {
   const { showHelp } = useHelp();
   const { retractDecision, makeDecision } = useDecisionTree();
-  const { decisionIsInPath, getDecision } = usePath();
+  const { decisionIsInPath, getDecision } = useDecisions();
 
   const decision = getDecision(id);
 

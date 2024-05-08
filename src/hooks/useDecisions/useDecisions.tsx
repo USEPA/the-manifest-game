@@ -11,7 +11,7 @@ export interface UsesPathReturn {
 /**
  * custom hook for interacting with the path taken through the decision tree
  */
-export const usePath = (initialPath?: DecisionPath) => {
+export const useDecisions = (initialPath?: DecisionPath) => {
   const { path, setPath } = useTreeStore((state) => state);
 
   useEffect(() => {
