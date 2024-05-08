@@ -7,16 +7,21 @@ import App from './App';
 import 'reactflow/dist/style.css';
 import './index.css';
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <App />,
+    },
+    {
+      path: '*',
+      element: <Navigate to={'/'} replace />,
+    },
+  ],
   {
-    path: '/',
-    element: <App />,
-  },
-  {
-    path: '*',
-    element: <Navigate to={'/'} replace />,
-  },
-]);
+    basename: import.meta.env.BASE_URL,
+  }
+);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
