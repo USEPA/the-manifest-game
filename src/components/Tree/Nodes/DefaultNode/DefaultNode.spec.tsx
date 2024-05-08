@@ -2,11 +2,9 @@ import '@testing-library/jest-dom';
 import { cleanup, render, screen } from '@testing-library/react';
 import { DefaultNode } from 'components/Tree/Nodes/DefaultNode/DefaultNode';
 import { ReactFlowProvider } from 'reactflow';
-import { VertexStatus } from 'store/TreeSlice/treeSlice';
 import { afterEach, describe, expect, test } from 'vitest';
 
 interface TestComponentProps {
-  status?: VertexStatus;
   help?: string;
 }
 
@@ -18,7 +16,6 @@ const TestComponent = (props: TestComponentProps) => {
         data={{
           label: 'foo',
           children: [],
-          status: props.status,
           help: props.help,
         }}
         selected={false}

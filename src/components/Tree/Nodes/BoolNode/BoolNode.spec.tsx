@@ -87,7 +87,7 @@ describe('BoolNode', () => {
     render(<TestComponent />);
     expect(screen.getByTestId('bool-node-1-content')).toBeInTheDocument();
   });
-  test('By default the class contains no status styling', () => {
+  test('By default the class contains to animations', () => {
     render(<TestComponent />);
     expect(screen.getByTestId('bool-node-1-content')).not.toHaveClass(/animated/i);
   });
@@ -109,7 +109,6 @@ describe('BoolNode', () => {
               yesId: '2',
               noId: '3',
               children: [],
-              status: 'chosen',
             }}
           />
         </ReactFlowProvider>
@@ -133,7 +132,6 @@ describe('BoolNode', () => {
               yesId: '2',
               noId: '3',
               children: [],
-              status: 'chosen',
               help: 'root.json',
             }}
           />
@@ -160,7 +158,6 @@ describe('BoolNode', () => {
               yesId: '2',
               noId: '3',
               children: [],
-              status: 'chosen',
               help: 'foo.json',
             }}
           />

@@ -19,14 +19,11 @@ export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree) => {
     hideNiblings,
     onNodesChange,
     onEdgesChange,
-    setDecisionMade,
-    setDecisionFocused,
     addDecisionToPath,
     removeDecisionFromPath,
   } = useDecTreeStore((state) => state);
 
   const focusNode = (nodeId: string) => {
-    setDecisionFocused(nodeId);
     setCenter(tree[nodeId].position.x + 50, tree[nodeId].position.y + 50, {
       zoom: getZoom(),
       duration: 1000,
@@ -48,7 +45,6 @@ export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree) => {
     focusNode(target);
     showChildren(target);
     hideNiblings(source);
-    setDecisionMade(source);
     addDecisionToPath(source, target);
   };
 
