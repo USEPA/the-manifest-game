@@ -1,5 +1,6 @@
 import { HelpIcon } from 'components/Help/HelpIcon/HelpIcon';
 import { BaseNode } from 'components/Tree/Nodes/BaseNode/BaseNode';
+import { useDecisions } from 'hooks/useDecisions/useDecisions';
 import { useHelp } from 'hooks/useHelp/useHelp';
 import { MouseEventHandler } from 'react';
 import { NodeProps } from 'reactflow';
@@ -7,6 +8,9 @@ import { VertexData } from 'store/TreeSlice/treeSlice';
 
 export const DefaultNode = ({ data, ...props }: NodeProps<VertexData>) => {
   const { showHelp } = useHelp();
+  const { isCurrentDecision } = useDecisions();
+
+  const isCurrent = isCurrentDecision(props.id);
 
   const handleHelpClick: MouseEventHandler = (event) => {
     showHelp(props.id);
@@ -17,7 +21,7 @@ export const DefaultNode = ({ data, ...props }: NodeProps<VertexData>) => {
     ? 'bg-teal-700'
     : 'bg-gradient-to-b from-sky-700 to-sky-900';
 
-  const nodeFocusedClasses = data.status === 'focused' ? 'animate-pulse' : '';
+  const nodeFocusedClasses = isCurrent ? 'animate-pulse' : '';
 
   return (
     <BaseNode {...props}>

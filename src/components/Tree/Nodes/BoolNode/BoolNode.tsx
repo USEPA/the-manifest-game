@@ -15,15 +15,16 @@ export interface BoolNodeData extends VertexData {
 }
 
 export const BoolNode = ({
-  data: { yesId, noId, label, status, help },
+  data: { yesId, noId, label, help },
   id,
   ...props
 }: NodeProps<BoolNodeData>) => {
   const { showHelp } = useHelp();
   const { retractDecision, makeDecision } = useDecisionTree();
-  const { decisionIsInPath, getDecision } = useDecisions();
+  const { decisionIsInPath, getDecision, isCurrentDecision } = useDecisions();
 
   const decision = getDecision(id);
+  const isCurrent = isCurrentDecision(id);
 
   const handleHelpClick: MouseEventHandler = (event) => {
     showHelp(help);
@@ -43,7 +44,7 @@ export const BoolNode = ({
         className={`flex min-w-80 flex-col items-center justify-center rounded-xl
           p-6 text-xl text-white
           ${decisionIsInPath(id) ? 'bg-gradient-to-b from-teal-700 to-teal-800' : 'bg-gradient-to-b from-sky-700 to-sky-900'}
-          ${status === 'focused' ? 'animate-pulse' : ''}`}
+          ${isCurrent ? 'animate-pulse' : ''}`}
       >
         {help && (
           <div className="absolute right-3 top-3">
