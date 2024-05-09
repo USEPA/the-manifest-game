@@ -8,6 +8,7 @@ import { Tree } from 'components/Tree/Tree';
 import { useDecisionTree } from 'hooks';
 import { useFetchConfig } from 'hooks/useFetchConfig/useFetchConfig';
 import { useHelp } from 'hooks/useHelp/useHelp';
+import { useUrl } from 'hooks/useUrl/useUrl';
 
 /**
  * App - responsible for rendering the decision tree
@@ -16,7 +17,8 @@ import { useHelp } from 'hooks/useHelp/useHelp';
 export default function App() {
   const title = import.meta.env.VITE_APP_TITLE ?? 'The Manifest Game';
   const { config, isLoading: configIsLoading, error: configError } = useFetchConfig(defaultTree);
-  const { nodes, edges } = useDecisionTree(config);
+  const { pathParam } = useUrl();
+  const { nodes, edges } = useDecisionTree(config, pathParam);
   const { helpIsOpen, hideHelp } = useHelp();
 
   return (
