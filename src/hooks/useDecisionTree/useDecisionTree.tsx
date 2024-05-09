@@ -22,7 +22,6 @@ export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree, pathP
     onEdgesChange,
     addDecisionToPath,
     removeDecisionFromPath,
-    buildPathToNode,
     getParentVertexId,
     getPath,
   } = useDecTreeStore((state) => state);
@@ -55,9 +54,9 @@ export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree, pathP
     addDecisionToPath,
     initialTree,
     pathParam,
-    buildPathToNode,
     setDecisionTree,
     showNode,
+    getParentVertexId,
   ]);
 
   const makeDecision = (source: string, target: string) => {
