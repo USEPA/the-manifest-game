@@ -23,6 +23,8 @@ export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree, pathP
     addDecisionToPath,
     removeDecisionFromPath,
     buildPathToNode,
+    getParentVertexId,
+    getPath,
   } = useDecTreeStore((state) => state);
 
   const focusNode = (nodeId: string) => {
@@ -40,10 +42,23 @@ export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree, pathP
         if (!node.hidden) showNode(node.id);
       });
       if (pathParam) {
-        buildPathToNode(pathParam);
+        const parent = getParentVertexId(pathParam);
+        if (parent) addDecisionToPath(parent, pathParam);
+        getPath().forEach((decision) => {
+          showChildren(decision.nodeId);
+        });
       }
     }
-  }, [initialTree, pathParam, buildPathToNode, setDecisionTree, showNode]);
+  }, [
+    getPath,
+    showChildren,
+    addDecisionToPath,
+    initialTree,
+    pathParam,
+    buildPathToNode,
+    setDecisionTree,
+    showNode,
+  ]);
 
   const makeDecision = (source: string, target: string) => {
     showNode(target, { parentId: source });

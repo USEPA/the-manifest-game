@@ -37,3 +37,9 @@ export const buildAncestorDecisions = (tree: DecisionTree, ancestorIds: string[]
   });
   return decisions;
 };
+
+/** find the ID of the parent node */
+export const getParentId = (tree: DecisionTree, nodeId: string): string | undefined => {
+  const parent = Object.values(tree).find((node) => node.data.children?.includes(nodeId));
+  return parent?.id;
+};

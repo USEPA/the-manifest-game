@@ -3,10 +3,57 @@ import { DecisionTree } from 'store/DagNodeSlice/dagNodeSlice';
 import {
   buildAncestorDecisions,
   getAncestorIds,
+  getParentId,
   setNodesHidden,
   setNodeVisible,
 } from 'store/TreeSlice/treeSliceUtils';
 import { describe, expect, suite, test } from 'vitest';
+
+const treeFactory = (overwrites?: Partial<DecisionTree>): DecisionTree => {
+  const parent = 'parent';
+  const child = 'child';
+  const grandparent = 'grandparent';
+  const uncle = 'uncle';
+  return {
+    [grandparent]: {
+      id: grandparent,
+      hidden: false,
+      data: { label: grandparent, children: [parent, uncle] },
+      position: {
+        x: 0,
+        y: 0,
+      },
+    },
+    [parent]: {
+      id: parent,
+      hidden: false,
+      data: { label: parent, children: [child] },
+      position: {
+        x: 0,
+        y: 0,
+      },
+    },
+    [uncle]: {
+      id: uncle,
+      hidden: false,
+      data: { label: uncle, children: [] },
+      position: {
+        x: 0,
+        y: 0,
+      },
+    },
+    [child]: {
+      id: child,
+      hidden: false,
+      data: { label: child, children: [] },
+      position: {
+        x: 0,
+        y: 0,
+      },
+    },
+    ...overwrites,
+  };
+};
 
 suite('Tree Slice internals', () => {
   describe('Set Node Visible', () => {
@@ -34,100 +81,38 @@ suite('Tree Slice internals', () => {
     });
   });
   describe('Get Ancestor IDs', () => {
-    const parent = 'foo';
-    const child = 'bar';
-    const grandparent = 'baz';
-    const data: DecisionTree = {
-      [grandparent]: {
-        id: grandparent,
-        hidden: false,
-        data: { label: grandparent, children: [parent] },
-        position: {
-          x: 0,
-          y: 0,
-        },
-      },
-      [parent]: {
-        id: parent,
-        hidden: false,
-        data: { label: parent, children: [child] },
-        position: {
-          x: 0,
-          y: 0,
-        },
-      },
-      child: {
-        id: child,
-        hidden: false,
-        data: { label: child, children: [] },
-        position: {
-          x: 0,
-          y: 0,
-        },
-      },
-    };
     test('Returns an array', () => {
-      expect(getAncestorIds(data, parent)).toBeInstanceOf(Array);
+      expect(getAncestorIds(treeFactory(), 'parent')).toBeInstanceOf(Array);
     });
     test('Returns an empty array if the node has no ancestors', () => {
-      expect(getAncestorIds(data, grandparent)).toEqual([]);
+      expect(getAncestorIds(treeFactory(), 'grandparent')).toEqual([]);
     });
     test('Returns the parent and grandparent node IDs', () => {
-      expect(getAncestorIds(data, child)).toEqual([parent, grandparent]);
+      expect(getAncestorIds(treeFactory(), 'child')).toEqual(['parent', 'grandparent']);
     });
   });
   describe('build ancestor decisions', () => {
-    const parent = 'foo';
-    const child = 'bar';
-    const grandparent = 'baz';
-    const uncle = 'uncle';
-    const data: DecisionTree = {
-      [grandparent]: {
-        id: grandparent,
-        hidden: false,
-        data: { label: grandparent, children: [parent, uncle] },
-        position: {
-          x: 0,
-          y: 0,
-        },
-      },
-      [parent]: {
-        id: parent,
-        hidden: false,
-        data: { label: parent, children: [child] },
-        position: {
-          x: 0,
-          y: 0,
-        },
-      },
-      [uncle]: {
-        id: uncle,
-        hidden: false,
-        data: { label: uncle, children: [] },
-        position: {
-          x: 0,
-          y: 0,
-        },
-      },
-      child: {
-        id: child,
-        hidden: false,
-        data: { label: child, children: [] },
-        position: {
-          x: 0,
-          y: 0,
-        },
-      },
-    };
     test('Returns an array', () => {
-      expect(buildAncestorDecisions(data, [parent, grandparent])).toBeInstanceOf(Array);
+      expect(buildAncestorDecisions(treeFactory(), ['parent', 'grandparent'])).toBeInstanceOf(
+        Array
+      );
     });
     test('returns an array of objects with the decisions', () => {
-      const decisions = buildAncestorDecisions(data, [parent, grandparent]);
+      const decisions = buildAncestorDecisions(treeFactory(), ['parent', 'grandparent']);
       decisions.map((decision) => {
         expect(decision.nodeId).toBeDefined();
         expect(decision.selected).toBeDefined();
       });
+    });
+  });
+  describe('Get Parent ID', () => {
+    test('Returns the parent ID', () => {
+      const retrievedParentId = getParentId(treeFactory(), 'child');
+      expect(retrievedParentId).toBe('parent');
+    });
+    test('Returns undefined if root node', () => {
+      const retrievedParentId = getParentId(treeFactory(), 'grandparent');
+      expect(retrievedParentId).toBeUndefined();
     });
   });
 });
