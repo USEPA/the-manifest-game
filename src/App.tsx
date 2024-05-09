@@ -19,10 +19,6 @@ export default function App() {
   const { nodes, edges } = useDecisionTree(config);
   const { helpIsOpen, hideHelp } = useHelp();
 
-  const handleHelpClose = () => {
-    hideHelp();
-  };
-
   return (
     <>
       <BackgroundImage />
@@ -36,7 +32,7 @@ export default function App() {
           <Tree nodes={nodes} edges={edges} />
         </>
       )}
-      <OffCanvas isOpen={helpIsOpen} handleClose={handleHelpClose} />
+      <OffCanvas isOpen={helpIsOpen} onClose={hideHelp} />
     </>
   );
 }
