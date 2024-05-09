@@ -4,29 +4,29 @@ import { FaX } from 'react-icons/fa6';
 
 interface OffCanvasProps {
   isOpen: boolean;
-  handleClose: () => void;
+  onClose: () => void;
 }
 
 /**
  * Sidebar for displaying content and help
  * @constructor
  */
-export const OffCanvas = ({ isOpen, handleClose }: OffCanvasProps) => {
+export const OffCanvas = ({ isOpen, onClose }: OffCanvasProps) => {
   /** handle when user clicks outside the off canvas component*/
   const onClickOutside = useCallback(() => {
     if (isOpen) {
-      if (handleClose) handleClose();
+      if (onClose) onClose();
     }
-  }, [isOpen, handleClose]);
+  }, [isOpen, onClose]);
 
   /** handle when user presses the escape key */
   const onEscKey = useCallback(
     (event: KeyboardEvent) => {
       if (event.key === 'Escape' && isOpen) {
-        if (handleClose) handleClose();
+        if (onClose) onClose();
       }
     },
-    [isOpen, handleClose]
+    [isOpen, onClose]
   );
 
   /** add event listeners for escape key keydown*/
@@ -62,7 +62,7 @@ export const OffCanvas = ({ isOpen, handleClose }: OffCanvasProps) => {
             className="text-gray800 rounded-full p-1 transition-colors duration-200 ease-in-out
             hover:text-gray-900 focus:outline-none focus:ring
             focus:ring-gray-800 active:text-gray-900"
-            onClick={handleClose}
+            onClick={onClose}
             type="button"
             tabIndex={0}
             aria-label="Close"

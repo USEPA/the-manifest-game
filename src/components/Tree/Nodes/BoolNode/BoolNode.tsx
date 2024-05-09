@@ -24,8 +24,12 @@ export const BoolNode = ({
   const { decisionIsInPath, decision, isCurrentDecision } = useDecisions(id);
 
   const handleHelpClick: MouseEventHandler = (event) => {
-    showHelp(help);
-    event.stopPropagation();
+    try {
+      showHelp(help);
+      event.stopPropagation();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleAnswer = (answer: boolean) => (event: React.MouseEvent<HTMLButtonElement>) => {

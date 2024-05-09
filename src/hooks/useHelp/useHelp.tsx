@@ -19,7 +19,7 @@ export const useHelp = () => {
   } = useTreeStore((state) => state);
 
   const showHelp = (contentId: string | undefined) => {
-    if (!contentId) return;
+    if (!contentId) throw new Error('contentId is required');
     storeShowHelp(contentId);
   };
 

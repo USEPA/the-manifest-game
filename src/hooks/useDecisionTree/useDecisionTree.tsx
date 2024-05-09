@@ -1,13 +1,13 @@
 import { useTreeViewport } from 'hooks/useTreeViewport/useTreeViewport';
-import { useUrl } from 'hooks/useUrl/useUrl';
 import { useEffect } from 'react';
 import useDecTreeStore, { PositionUnawareDecisionTree } from 'store';
 
 /**
  * custom hook that wraps around the tree store to provide a simplified interface for common tasks
  * @param initialTree
+ * @param pathParam
  */
-export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree) => {
+export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree, pathParam?: string) => {
   const { setCenter, getZoom } = useTreeViewport();
   const {
     tree,
@@ -22,8 +22,9 @@ export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree) => {
     onEdgesChange,
     addDecisionToPath,
     removeDecisionFromPath,
+    getParentVertexId,
+    getPath,
   } = useDecTreeStore((state) => state);
-  const { setPathParam } = useUrl();
 
   const focusNode = (nodeId: string) => {
     setCenter(tree[nodeId].position.x + 50, tree[nodeId].position.y + 50, {
@@ -39,8 +40,24 @@ export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree) => {
       Object.values(initialTree).forEach((node) => {
         if (!node.hidden) showNode(node.id);
       });
+      if (pathParam) {
+        const parent = getParentVertexId(pathParam);
+        if (parent) addDecisionToPath(parent, pathParam);
+        getPath().forEach((decision) => {
+          showChildren(decision.nodeId);
+        });
+      }
     }
-  }, [initialTree, setDecisionTree, showNode]);
+  }, [
+    getPath,
+    showChildren,
+    addDecisionToPath,
+    initialTree,
+    pathParam,
+    setDecisionTree,
+    showNode,
+    getParentVertexId,
+  ]);
 
   const makeDecision = (source: string, target: string) => {
     showNode(target, { parentId: source });
@@ -48,7 +65,6 @@ export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree) => {
     showChildren(target);
     hideNiblings(source);
     addDecisionToPath(source, target);
-    setPathParam(target);
   };
 
   const retractDecision = (target: string) => {

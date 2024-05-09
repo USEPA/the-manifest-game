@@ -11,8 +11,12 @@ export const DefaultNode = ({ data, ...props }: NodeProps<VertexData>) => {
   const { isCurrentDecision } = useDecisions(props.id);
 
   const handleHelpClick: MouseEventHandler = (event) => {
-    showHelp(props.id);
-    event.stopPropagation();
+    try {
+      showHelp(props.id);
+      event.stopPropagation();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const nodeBackgroundColor = isCurrentDecision

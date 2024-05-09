@@ -1,6 +1,11 @@
 import { Node } from 'reactflow';
 import { layoutTree } from 'store/TreeSlice/layout';
-import { getAncestorIds, setNodesHidden, setNodeVisible } from 'store/TreeSlice/treeSliceUtils';
+import {
+  getAncestorIds,
+  getParentId,
+  setNodesHidden,
+  setNodeVisible,
+} from 'store/TreeSlice/treeSliceUtils';
 import { StateCreator } from 'zustand';
 
 /** Data needed by all nodes in our tree*/
@@ -62,6 +67,8 @@ interface TreeSliceActions {
   removePathDecision: (nodeId: string) => void;
   /** get ancestor IDs */
   getAncestorDecisions: (nodeId: string) => string[];
+  /** get a node's parent ID */
+  getParentVertexId: (nodeId: string) => string | undefined;
 }
 
 export interface TreeSlice extends TreeSliceActions, TreeSliceState {}
@@ -140,5 +147,9 @@ export const createTreeSlice: StateCreator<
   getAncestorDecisions: (nodeId: string) => {
     const tree = get().tree;
     return getAncestorIds(tree, nodeId);
+  },
+  getParentVertexId: (nodeId: string) => {
+    const tree = get().tree;
+    return getParentId(tree, nodeId);
   },
 });
