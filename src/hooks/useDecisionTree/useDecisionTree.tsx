@@ -1,4 +1,5 @@
 import { useTreeViewport } from 'hooks/useTreeViewport/useTreeViewport';
+import { useUrl } from 'hooks/useUrl/useUrl';
 import { useEffect } from 'react';
 import useDecTreeStore, { PositionUnawareDecisionTree } from 'store';
 
@@ -22,6 +23,7 @@ export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree) => {
     addDecisionToPath,
     removeDecisionFromPath,
   } = useDecTreeStore((state) => state);
+  const { setPathParam } = useUrl();
 
   const focusNode = (nodeId: string) => {
     setCenter(tree[nodeId].position.x + 50, tree[nodeId].position.y + 50, {
@@ -46,6 +48,7 @@ export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree) => {
     showChildren(target);
     hideNiblings(source);
     addDecisionToPath(source, target);
+    setPathParam(target);
   };
 
   const retractDecision = (target: string) => {

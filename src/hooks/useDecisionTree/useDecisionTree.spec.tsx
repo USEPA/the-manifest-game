@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom';
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useDecisionTree } from 'hooks/useDecisionTree/useDecisionTree';
-import { ReactFlowProvider } from 'reactflow';
 import { DecisionTree } from 'store';
+import { renderWithProviders } from 'test-utils';
 import { afterEach, describe, expect, test } from 'vitest';
 
 afterEach(() => cleanup());
@@ -40,11 +40,7 @@ describe('useDecisionTree', () => {
         position: { x: 0, y: 0, rank: 0 },
       },
     };
-    render(
-      <ReactFlowProvider>
-        <TestComponent initialTree={initialTree} />
-      </ReactFlowProvider>
-    );
+    renderWithProviders(<TestComponent initialTree={initialTree} />);
     expect(screen.getByText(/node id: 1/i)).toBeInTheDocument();
   });
   test('un-hides nodes based on the user input', async () => {
@@ -65,11 +61,7 @@ describe('useDecisionTree', () => {
         position: { x: 0, y: 0, rank: 0 },
       },
     };
-    render(
-      <ReactFlowProvider>
-        <TestComponent initialTree={initialTree} showNodeId={childId} />
-      </ReactFlowProvider>
-    );
+    renderWithProviders(<TestComponent initialTree={initialTree} showNodeId={childId} />);
     expect(screen.queryByText(/node id: 2/i)).not.toBeInTheDocument();
     await user.click(screen.getByText(/show node/i));
     expect(screen.queryByText(/node id: 2/i)).toBeInTheDocument();

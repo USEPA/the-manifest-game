@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Tree } from 'components/Tree/Tree';
 import { useDecisionTree } from 'hooks';
-import { ReactFlowProvider } from 'reactflow';
 import useTreeStore, { PositionUnawareDecisionTree } from 'store';
+import { renderWithProviders } from 'test-utils';
 import { beforeEach, describe, expect, test } from 'vitest';
 
 //                     parent
@@ -106,11 +106,7 @@ describe('Tree Component', () => {
       const myTree = createTestPositionUnawareDecisionTree({
         showIds: [YES_CHILD_ID, NO_CHILD_ID, YES_YES_ID, YES_NO_ID],
       });
-      render(
-        <ReactFlowProvider>
-          <TestComponent tree={myTree} />
-        </ReactFlowProvider>
-      );
+      renderWithProviders(<TestComponent tree={myTree} />);
       [YES_CHILD_ID, NO_CHILD_ID, YES_YES_ID, YES_NO_ID].forEach((nodeId: string) => {
         expect(screen.queryByTestId(`node-${nodeId}`)).toBeInTheDocument();
       });
