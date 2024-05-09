@@ -19,6 +19,7 @@ export interface DecisionTreeStore {
   hideNiblings: (nodeId: string) => void;
   addDecisionToPath: (source: string, target: string) => void;
   removeDecisionFromPath: (nodeId: string) => void;
+  buildPathToNode: (nodeId: string) => void;
 }
 
 /** The state of the decision tree, implemented as a shared slice that builds on concrete slices
@@ -79,5 +80,10 @@ export const createDecisionTreeStore: StateCreator<
       .getPath()
       .filter((decision) => !decisionIdsToRemove.includes(decision.nodeId));
     get().setPath(pathWithoutDescendants);
+  },
+  buildPathToNode: (nodeId: string) => {
+    const ancestorIds = get().getAncestorDecisions(nodeId);
+    const newDecisions = buildAncestorDecisions(get().tree, [...ancestorIds, nodeId]);
+    get().setPath(newDecisions);
   },
 });

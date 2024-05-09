@@ -22,9 +22,8 @@ export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree, pathP
     onEdgesChange,
     addDecisionToPath,
     removeDecisionFromPath,
+    buildPathToNode,
   } = useDecTreeStore((state) => state);
-
-  console.log(pathParam);
 
   const focusNode = (nodeId: string) => {
     setCenter(tree[nodeId].position.x + 50, tree[nodeId].position.y + 50, {
@@ -40,8 +39,11 @@ export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree, pathP
       Object.values(initialTree).forEach((node) => {
         if (!node.hidden) showNode(node.id);
       });
+      if (pathParam) {
+        buildPathToNode(pathParam);
+      }
     }
-  }, [initialTree, setDecisionTree, showNode]);
+  }, [initialTree, pathParam, buildPathToNode, setDecisionTree, showNode]);
 
   const makeDecision = (source: string, target: string) => {
     showNode(target, { parentId: source });
