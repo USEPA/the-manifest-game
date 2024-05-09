@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from 'App';
 import { delay, http, HttpResponse } from 'msw';
@@ -7,6 +7,7 @@ import { setupServer } from 'msw/node';
 import React from 'react';
 import { ReactFlowProvider } from 'reactflow';
 import useTreeStore from 'store';
+import { renderWithProviders } from 'test-utils';
 import { afterAll, afterEach, beforeAll, describe, expect, test, vi } from 'vitest';
 
 const TestComponent = () => {
@@ -65,36 +66,36 @@ describe('App', () => {
         });
       })
     );
-    render(<TestComponent />);
+    renderWithProviders(<TestComponent />);
     expect(screen.getByTestId('spinner')).toBeInTheDocument();
   });
   test('renders a title if provided', async () => {
     const title = 'Zee bananas';
     vi.stubEnv('VITE_APP_TITLE', title);
-    render(<TestComponent />);
+    renderWithProviders(<TestComponent />);
     await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
     expect(screen.getByText(title)).toBeInTheDocument();
   });
   test('defaults title to "The Manifest Game"', async () => {
-    render(<TestComponent />);
+    renderWithProviders(<TestComponent />);
     await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
     expect(screen.getByText('The Manifest Game')).toBeInTheDocument();
   });
   test('minimap is visible by default', async () => {
-    render(<TestComponent />);
+    renderWithProviders(<TestComponent />);
     await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
     expect(screen.getByTestId(/minimap/i)).toBeInTheDocument();
   });
   test('Throws an error if there is an error fetching the config', async () => {
     server.use(http.get('/default.json', async () => HttpResponse.error()));
-    render(<TestComponent />);
+    renderWithProviders(<TestComponent />);
     await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
     expect(screen.getByText(/Error/i)).toBeInTheDocument();
   });
   test('the help content is closed onClicking the close button', async () => {
     const user = userEvent.setup();
     useTreeStore.setState({ helpIsOpen: true });
-    render(<TestComponent />);
+    renderWithProviders(<TestComponent />);
     await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
     expect(screen.getByTestId('offcanvas')).toBeInTheDocument();
     const closeButton = screen.getByRole('button', { name: /close/i });

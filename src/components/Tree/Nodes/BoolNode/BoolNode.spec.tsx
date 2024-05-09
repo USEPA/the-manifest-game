@@ -1,9 +1,10 @@
 import '@testing-library/jest-dom';
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BoolNode, BoolNodeData } from 'components/Tree/Nodes/BoolNode/BoolNode';
 import { NodeProps, ReactFlowProvider } from 'reactflow';
 import useTreeStore from 'store';
+import { renderWithProviders } from 'test-utils';
 import { afterEach, describe, expect, test } from 'vitest';
 
 afterEach(() => cleanup());
@@ -71,97 +72,91 @@ describe('BoolNode', () => {
   test('renders a node', () => {
     const label = 'what site type?';
     // @ts-expect-error - don't need to pass all props
-    render(<TestComponent overwrites={{ data: { label } }} />);
+    renderWithProviders(<TestComponent overwrites={{ data: { label } }} />);
     expect(screen.getByText(label)).toBeInTheDocument();
   });
   test('renders a yes and no button', () => {
-    render(<TestComponent />);
+    renderWithProviders(<TestComponent />);
     expect(screen.getByRole('button', { name: /yes/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /no/i })).toBeInTheDocument();
   });
   test('yes and no initially do not have selected class name', () => {
-    render(<TestComponent />);
+    renderWithProviders(<TestComponent />);
     expect(screen.getByRole('button', { name: /yes/i })).not.toHaveClass(/selected/i);
   });
   test('renders an id we can use during testing', () => {
-    render(<TestComponent />);
+    renderWithProviders(<TestComponent />);
     expect(screen.getByTestId('bool-node-1-content')).toBeInTheDocument();
   });
   test('By default the class contains to animations', () => {
-    render(<TestComponent />);
+    renderWithProviders(<TestComponent />);
     expect(screen.getByTestId('bool-node-1-content')).not.toHaveClass(/animated/i);
   });
   describe('Help Icon', () => {
     test('not displayed when falsy', () => {
-      render(
-        <ReactFlowProvider>
-          <BoolNode
-            id={'1'}
-            dragging={false}
-            selected={false}
-            type={''}
-            zIndex={0}
-            isConnectable={false}
-            xPos={0}
-            yPos={0}
-            data={{
-              label: 'this is a question?',
-              yesId: '2',
-              noId: '3',
-              children: [],
-            }}
-          />
-        </ReactFlowProvider>
+      renderWithProviders(
+        <BoolNode
+          id={'1'}
+          dragging={false}
+          selected={false}
+          type={''}
+          zIndex={0}
+          isConnectable={false}
+          xPos={0}
+          yPos={0}
+          data={{
+            label: 'this is a question?',
+            yesId: '2',
+            noId: '3',
+            children: [],
+          }}
+        />
       );
       expect(screen.queryByLabelText(/help/i)).not.toBeInTheDocument();
     });
     test('displayed icon when truthy', () => {
-      render(
-        <ReactFlowProvider>
-          <BoolNode
-            id={'1'}
-            dragging={false}
-            selected={false}
-            type={''}
-            zIndex={0}
-            isConnectable={false}
-            xPos={0}
-            yPos={0}
-            data={{
-              label: 'this is a question?',
-              yesId: '2',
-              noId: '3',
-              children: [],
-              help: 'root.json',
-            }}
-          />
-        </ReactFlowProvider>
+      renderWithProviders(
+        <BoolNode
+          id={'1'}
+          dragging={false}
+          selected={false}
+          type={''}
+          zIndex={0}
+          isConnectable={false}
+          xPos={0}
+          yPos={0}
+          data={{
+            label: 'this is a question?',
+            yesId: '2',
+            noId: '3',
+            children: [],
+            help: 'root.json',
+          }}
+        />
       );
       expect(screen.queryByLabelText(/more information/i)).toBeInTheDocument();
     });
     test('ToDo: handles onClick events', async () => {
       // ToDo: This test does not assert anything
       const user = userEvent.setup();
-      render(
-        <ReactFlowProvider>
-          <BoolNode
-            id={'1'}
-            dragging={false}
-            selected={false}
-            type={''}
-            zIndex={0}
-            isConnectable={false}
-            xPos={0}
-            yPos={0}
-            data={{
-              label: 'this is a question?',
-              yesId: '2',
-              noId: '3',
-              children: [],
-              help: 'foo.json',
-            }}
-          />
-        </ReactFlowProvider>
+      renderWithProviders(
+        <BoolNode
+          id={'1'}
+          dragging={false}
+          selected={false}
+          type={''}
+          zIndex={0}
+          isConnectable={false}
+          xPos={0}
+          yPos={0}
+          data={{
+            label: 'this is a question?',
+            yesId: '2',
+            noId: '3',
+            children: [],
+            help: 'foo.json',
+          }}
+        />
       );
       const helpIcon = screen.getByLabelText(/more information/i);
       await user.click(helpIcon);
