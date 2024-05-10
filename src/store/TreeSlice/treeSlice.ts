@@ -39,7 +39,7 @@ export type TreeDirection = 'TB' | 'LR';
 
 export interface Decision {
   nodeId: string;
-  selected: string | boolean;
+  selected: string;
 }
 
 export type DecisionPath = Array<Decision>;

@@ -1,9 +1,10 @@
 import '@testing-library/jest-dom';
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ControlCenter } from 'components/Tree/ControlCenter/index';
 import { ReactFlowProvider } from 'reactflow';
 import { TreeDirection } from 'store';
+import { renderWithProviders } from 'test-utils';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 
 interface TestComponentProps {
@@ -36,17 +37,19 @@ afterEach(() => cleanup());
 
 describe('ControlCenter', () => {
   test('renders', () => {
-    render(<TestComponent />);
+    renderWithProviders(<TestComponent />);
     expect(screen.getByTestId('controlCenter')).toBeInTheDocument();
   });
   test('renders a map toggle button', () => {
-    render(<TestComponent />);
+    renderWithProviders(<TestComponent />);
     expect(screen.getByRole('button', { name: /minimap/i })).toBeInTheDocument();
   });
   test('toggles the minimap visibility', async () => {
     const user = userEvent.setup();
     const setMapVisible = vi.fn();
-    const { rerender } = render(<TestComponent mapVisible={true} setMapVisible={setMapVisible} />);
+    const { rerender } = renderWithProviders(
+      <TestComponent mapVisible={true} setMapVisible={setMapVisible} />
+    );
     await user.click(screen.getByRole('button', { name: /minimap/i }));
     expect(setMapVisible).toHaveBeenCalled();
     rerender(<TestComponent setMapVisible={setMapVisible} />);
@@ -54,17 +57,23 @@ describe('ControlCenter', () => {
     expect(setMapVisible).toHaveBeenCalled();
   });
   test('renders a layout toggle button', () => {
-    render(<TestComponent />);
+    renderWithProviders(<TestComponent />);
     expect(screen.getByRole('button', { name: /layout/i })).toBeInTheDocument();
   });
   test('toggles the layout direction', async () => {
     const user = userEvent.setup();
     const setDirection = vi.fn();
-    const { rerender } = render(<TestComponent setDirection={setDirection} direction={'LR'} />);
+    const { rerender } = renderWithProviders(
+      <TestComponent setDirection={setDirection} direction={'LR'} />
+    );
     await user.click(screen.getByRole('button', { name: /layout/i }));
     expect(setDirection).toHaveBeenCalled();
     rerender(<TestComponent setDirection={setDirection} />);
     await user.click(screen.getByRole('button', { name: /layout/i }));
     expect(setDirection).toHaveBeenCalled();
+  });
+  test('renders a share button', () => {
+    renderWithProviders(<TestComponent />);
+    expect(screen.getByRole('button', { name: /share/i })).toBeInTheDocument();
   });
 });
