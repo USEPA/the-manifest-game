@@ -1,5 +1,6 @@
 import { LayoutBtn } from 'components/Tree/ControlCenter/Controls/LayoutBtn/LayoutBtn';
 import { MiniMapBtn } from 'components/Tree/ControlCenter/Controls/MiniMapBtn/MiniMapBtn';
+import { ShareBtn } from 'components/Tree/ControlCenter/Controls/ShareBtn/ShareBtn';
 import { Controls } from 'reactflow';
 import { TreeDirection } from 'store';
 
@@ -29,6 +30,7 @@ export const ControlCenter = ({
   return (
     <div data-testid="controlCenter">
       <Controls showInteractive={false}>
+        <ShareBtn />
         <MiniMapBtn visible={mapVisible} onClick={toggleMap} />
         <LayoutBtn isHorizontal={isHorizontal} toggleDirection={toggleDirection} />
       </Controls>

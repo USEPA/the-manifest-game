@@ -67,4 +67,8 @@ describe('ControlCenter', () => {
     await user.click(screen.getByRole('button', { name: /layout/i }));
     expect(setDirection).toHaveBeenCalled();
   });
+  test('renders a share button', () => {
+    render(<TestComponent />);
+    expect(screen.getByRole('button', { name: /share/i })).toBeInTheDocument();
+  });
 });

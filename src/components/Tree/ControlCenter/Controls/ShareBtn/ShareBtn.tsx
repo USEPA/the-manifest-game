@@ -5,7 +5,7 @@ import { ControlButton } from 'reactflow';
 export const ShareBtn = () => {
   return (
     <ControlButton aria-label="share diagram" onClick={() => console.log('share')}>
-      <LuShare color={'000'} />
+      <LuShare className="font-bold" />
     </ControlButton>
   );
 };
