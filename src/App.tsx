@@ -30,9 +30,7 @@ export default function App() {
       ) : configError ? (
         <ErrorMsg message={'Error parsing the Decision Tree'} />
       ) : (
-        <>
-          <Tree nodes={nodes} edges={edges} />
-        </>
+        <Tree nodes={nodes} edges={edges} />
       )}
       <OffCanvas isOpen={helpIsOpen} onClose={hideHelp} />
     </>

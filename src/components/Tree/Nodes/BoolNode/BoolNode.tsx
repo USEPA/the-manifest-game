@@ -21,7 +21,7 @@ export const BoolNode = ({
 }: NodeProps<BoolNodeData>) => {
   const { showHelp } = useHelp();
   const { retractDecision, makeDecision } = useDecisionTree();
-  const { decisionIsInPath, decision, isCurrentDecision } = useDecisions(id);
+  const { decisionIsInPath, decision } = useDecisions(id);
 
   const handleHelpClick: MouseEventHandler = (event) => {
     try {
@@ -44,8 +44,7 @@ export const BoolNode = ({
         data-testid={`bool-node-${id}-content`}
         className={`flex min-w-80 flex-col items-center justify-center rounded-xl
           p-6 text-xl text-white
-          ${decisionIsInPath(id) ? 'bg-gradient-to-b from-teal-700 to-teal-800' : 'bg-gradient-to-b from-sky-700 to-sky-900'}
-          ${isCurrentDecision ? 'animate-pulse' : ''}`}
+          ${decisionIsInPath(id) ? 'bg-gradient-to-b from-teal-700 to-teal-800' : 'bg-gradient-to-b from-sky-700 to-sky-900'}`}
       >
         {help && (
           <div className="absolute right-3 top-3">

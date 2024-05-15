@@ -2,6 +2,7 @@ import { render, RenderOptions } from '@testing-library/react';
 import React, { PropsWithChildren, ReactElement } from 'react';
 import { MemoryRouter, MemoryRouterProps } from 'react-router-dom';
 import { ReactFlowProvider } from 'reactflow';
+import { afterEach, beforeEach, vi } from 'vitest';
 
 interface DecisionTreeRenderOptions extends RenderOptions {
   memoryRouterProps?: MemoryRouterProps;
@@ -30,3 +31,18 @@ export function renderWithProviders(
 
   return { ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
 }
+
+export const notFirstTimeMock = () => {
+  const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
+  const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
+
+  afterEach(() => {
+    localStorage.clear();
+    getItemSpy.mockClear();
+    setItemSpy.mockClear();
+  });
+
+  beforeEach(() => {
+    localStorage.setItem('tmg-first-time', 'false');
+  });
+};

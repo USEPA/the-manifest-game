@@ -9,7 +9,11 @@ interface MiniMapBtnProps {
 /** LayoutBtn toggles the layout direction of the tree.*/
 export const MiniMapBtn = ({ visible, onClick }: MiniMapBtnProps) => {
   return (
-    <ControlButton aria-label={`${visible ? 'hide minimap' : 'show minimap'}`} onClick={onClick}>
+    <ControlButton
+      aria-label={`${visible ? 'hide minimap' : 'show minimap'}`}
+      onClick={onClick}
+      className="text-black"
+    >
       {visible ? <LuMapPinOff color={'000'} /> : <LuMapPin color={'000'} />}
     </ControlButton>
   );

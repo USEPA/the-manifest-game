@@ -4,6 +4,7 @@ import { Help } from 'components/Help/Help';
 import { delay, http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 import useTreeStore from 'store';
+import { notFirstTimeMock } from 'test-utils';
 import { afterAll, afterEach, beforeAll, describe, expect, test } from 'vitest';
 
 const handlers = [
@@ -37,6 +38,7 @@ beforeAll(() => server.listen());
 afterAll(() => server.close());
 
 describe('Help', () => {
+  notFirstTimeMock();
   test('renders error message when help content ID is undefined', () => {
     render(<Help />);
     expect(screen.getByText(/problem/i)).toBeInTheDocument();
