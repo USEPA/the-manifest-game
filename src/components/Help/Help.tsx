@@ -35,7 +35,6 @@ export const Help = () => {
 
   return (
     <>
-      <h2 className="text-xl font-semibold text-black">More Information</h2>
       {help?.type === 'text' && <TextualHelp content={help.content} />}
       {help?.type === 'html' && <HtmlHelp html={help.content} />}
     </>

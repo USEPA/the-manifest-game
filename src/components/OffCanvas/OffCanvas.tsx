@@ -1,5 +1,5 @@
 import { Help } from 'components/Help/Help';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { FaX } from 'react-icons/fa6';
 
 interface OffCanvasProps {
@@ -13,6 +13,8 @@ interface OffCanvasProps {
  */
 export const OffCanvas = ({ isOpen, onClose }: OffCanvasProps) => {
   /** handle when user clicks outside the off canvas component*/
+  const contentRef = useRef<HTMLDivElement | null>(null);
+
   const onClickOutside = useCallback(() => {
     if (isOpen) {
       if (onClose) onClose();
@@ -40,6 +42,12 @@ export const OffCanvas = ({ isOpen, onClose }: OffCanvasProps) => {
     document.addEventListener('click', onClickOutside, false);
     return () => document.removeEventListener('click', onClickOutside);
   }, [onClickOutside]);
+
+  useEffect(() => {
+    if (isOpen) {
+      contentRef.current?.focus();
+    }
+  }, [contentRef, isOpen]);
 
   return (
     <>
@@ -70,13 +78,13 @@ export const OffCanvas = ({ isOpen, onClose }: OffCanvasProps) => {
             <FaX size={20} />
           </button>
         </div>
-        <div className="offcanvas-scrollbar max-h-full overflow-x-hidden px-6 hover:overflow-y-scroll">
+        <div className="max-h-full overflow-x-hidden overflow-y-scroll px-6" ref={contentRef}>
           <Help />
         </div>
       </div>
       {/* backdrop while open*/}
       <div
-        className={`fixed bottom-0 left-0 right-0 top-0 bg-black  transition-opacity duration-200 ease-in-out ${isOpen ? 'visible opacity-60' : 'invisible opacity-0'}`}
+        className={`fixed bottom-0 left-0 right-0 top-0 bg-black transition-opacity duration-200 ease-in-out ${isOpen ? 'visible opacity-60' : 'invisible opacity-0'}`}
       />
     </>
   );

@@ -3,13 +3,14 @@ import { FaQuestionCircle } from 'react-icons/fa';
 
 interface HelpIconProps {
   onClick?: React.MouseEventHandler;
+  size?: number;
 }
 
 /**
  * icon to help users make decisions or direct them to more information
  * @constructor
  */
-export const HelpIcon = ({ onClick }: HelpIconProps) => {
+export const HelpIcon = ({ onClick, size = 30 }: HelpIconProps) => {
   return (
     <div>
       <button
@@ -18,7 +19,7 @@ export const HelpIcon = ({ onClick }: HelpIconProps) => {
         className="rounded-full border-2 border-transparent bg-transparent focus:outline-none focus:ring focus:ring-white"
       >
         <FaQuestionCircle
-          size={30}
+          size={size}
           className="rounded-full text-slate-50 transition-all duration-200 ease-in-out hover:text-slate-400"
         />
       </button>
