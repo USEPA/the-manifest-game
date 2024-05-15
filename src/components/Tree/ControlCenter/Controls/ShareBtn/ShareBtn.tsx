@@ -7,7 +7,11 @@ export const ShareBtn = () => {
   const { copyTreeUrlToClipboard } = useUrl();
 
   return (
-    <ControlButton aria-label="share diagram" onClick={copyTreeUrlToClipboard}>
+    <ControlButton
+      aria-label="share diagram"
+      className="text-black"
+      onClick={copyTreeUrlToClipboard}
+    >
       <LuShare className="font-bold" />
     </ControlButton>
   );
