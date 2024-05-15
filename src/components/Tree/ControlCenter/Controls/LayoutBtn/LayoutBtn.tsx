@@ -12,6 +12,7 @@ export const LayoutBtn = ({ isHorizontal, toggleDirection }: LayoutBtnProps) => 
     <ControlButton
       aria-label={`switch to ${isHorizontal ? 'vertical' : 'horizontal'} layout`}
       onClick={toggleDirection}
+      className="text-black"
     >
       {isHorizontal ? <LuMoveVertical color={'000'} /> : <LuMoveHorizontal color={'000'} />}
     </ControlButton>
