@@ -23,13 +23,11 @@ export const DefaultNode = ({ data, ...props }: NodeProps<VertexData>) => {
     ? 'bg-teal-700'
     : 'bg-gradient-to-b from-sky-700 to-sky-900';
 
-  const nodeFocusedClasses = isCurrentDecision ? 'animate-pulse' : '';
-
   return (
     <BaseNode {...props}>
       <div
         data-testid={`default-node-${props.id}-content`}
-        className={`flex min-w-full justify-center rounded-xl p-6 text-xl text-white ${nodeBackgroundColor} ${nodeFocusedClasses}`}
+        className={`flex min-w-full justify-center rounded-xl p-6 text-xl text-white ${nodeBackgroundColor}`}
       >
         {data.help && (
           <div className="absolute right-3 top-3">
