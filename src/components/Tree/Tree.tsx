@@ -39,17 +39,18 @@ export const Tree = ({ nodes, edges }: TreeProps) => {
           onNodesChange={onNodesChange}
           fitView
           edgesFocusable={false}
-          fitViewOptions={{ padding: 5, minZoom: 0, maxZoom: 5 }}
+          fitViewOptions={{ padding: 5, minZoom: 0, maxZoom: 2 }}
           proOptions={{ hideAttribution: true }}
         >
           {mapVisible && (
             <MiniMap
-              nodeStrokeWidth={3}
+              ariaLabel="Mini Map"
+              offsetScale={50}
               data-testid="tree-mini-map"
               nodeColor="#3E6D9BAA"
               zoomable={true}
               onClick={(_event: React.MouseEvent, position: XYPosition) =>
-                setCenter(position.x, position.y, { zoom: zoom, duration: 1.5 })
+                setCenter(position.x, position.y, { zoom: zoom })
               }
             />
           )}

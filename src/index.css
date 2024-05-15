@@ -45,24 +45,19 @@ body,
 .react-flow__controls button {
     border-radius: 10px;
     border: 2px solid #fff;
-    margin-top: 5px;
+    margin-top: 2px;
     background: #fefefe !important;
 }
 
 .react-flow__node {
     border-radius: 15px;
-    border: 2px solid #333333;
+    border: 3px solid #333333;
 }
 
 .react-flow__node:focus {
-    border: white 2px solid;
+    border: white 3px solid;
     border-radius: 15px;
 }
-
-.offcanvas-scrollbar {
-    scrollbar-color: #333333 transparent;
-}
-
 
 @layer components {
     .z-top {
