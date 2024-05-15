@@ -7,7 +7,7 @@ import { setupServer } from 'msw/node';
 import React from 'react';
 import { ReactFlowProvider } from 'reactflow';
 import useTreeStore from 'store';
-import { renderWithProviders } from 'test-utils';
+import { notFirstTimeMock, renderWithProviders } from 'test-utils';
 import { afterAll, afterEach, beforeAll, describe, expect, test, vi } from 'vitest';
 
 const TestComponent = () => {
@@ -48,6 +48,7 @@ afterAll(() => {
 });
 
 describe('App', () => {
+  notFirstTimeMock();
   test('shows a spinner while waiting for config', () => {
     server.use(
       http.get('/default.json', async () => {

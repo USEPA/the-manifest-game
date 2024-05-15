@@ -25,7 +25,6 @@ export const BoolNode = ({
 
   const handleHelpClick: MouseEventHandler = (event) => {
     try {
-      console.log('help', help);
       showHelp(help);
       event.stopPropagation();
     } catch (error) {

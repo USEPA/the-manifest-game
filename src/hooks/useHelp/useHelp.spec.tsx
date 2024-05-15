@@ -1,12 +1,26 @@
 import '@testing-library/jest-dom';
 import { renderHook } from '@testing-library/react';
 import { useHelp } from 'hooks/useHelp/useHelp';
-import { describe, expect, test } from 'vitest';
+import { afterEach, describe, expect, test, vi } from 'vitest';
 
 describe('useHelp hook', () => {
-  test('helpIsOpen is initially false', () => {
+  const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
+  const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
+
+  afterEach(() => {
+    localStorage.clear();
+    getItemSpy.mockClear();
+    setItemSpy.mockClear();
+  });
+
+  test('helpIsOpen is true on a user first visit', () => {
     const { result } = renderHook(() => useHelp());
-    expect(result.current.helpIsOpen).toBe(false);
+    expect(result.current.helpIsOpen).toBeTruthy();
+  });
+  test('helpIsOpen is initially false', () => {
+    localStorage.setItem('tmg-first-time', 'true');
+    const { result } = renderHook(() => useHelp());
+    expect(result.current.helpIsOpen).toBeFalsy();
   });
   test('showHelp returns if arg is undefined', () => {
     const { result } = renderHook(() => useHelp());
