@@ -1,7 +1,6 @@
 # The Manifest Game
 
 [![Tests](https://github.com/USEPA/the-manifest-game/actions/workflows/test.yaml/badge.svg)](https://github.com/USEPA/the-manifest-game/actions/workflows/test.yaml)
-[![Build](https://github.com/USEPA/the-manifest-game/actions/workflows/build.yaml/badge.svg)](https://github.com/USEPA/the-manifest-game/actions/workflows/build.yaml/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 An interactive decision tree to assist e-Manifest users determine the necessary course of action.
@@ -10,8 +9,9 @@ For additional information, see the [project documentation](./docs).
 
 ## Getting Started
 
-This project is built with the [NPM](https://www.npmjs.com/) package manager and [vite](https://vitejs.dev/) toolchain.
-To build the project, you will need Node.js installed, or Docker.
+To build the project, you will need Node.js installed, or Docker. This project uses the Node.js package manager, [NPM](https://www.npmjs.com/), and the [vite](https://vitejs.dev/) build toolchain.
+
+### Starting a local development environment
 
 ```shell
 # Install dependencies
@@ -31,30 +31,30 @@ docker run -p 3000:3000 the-manifest-game
 docker compose up
 ```
 
-## Testing
+For a list of available commands, see the `scripts` section of the [package.json](./package.json).
+For more information on (configuration, building for production, etc.) see the [documentation](./docs).
 
-To run the tests, use the following command:
+## Testing
 
 ```shell
 npm run test
 ```
 
-If you're contributing, we recommend to run the tests in watch mode and
+If you're contributing, we recommend to run the tests in [watch mode](https://vitest.dev/guide/features#watch-mode) and
 practice [TDD](https://www.google.com/search?q=test+driven+development)
 
 ```shell
 npm run test:watch
 ```
 
-To run the tests with coverage, the following command will generate a html/json report in the `coverage` directory
+To run the tests with coverage, the following command will run the test suite and generate an html/json report in the `coverage` directory
 as well as print a summary to the standard out.
 
 ```shell
 npm run coverage
 ```
 
-We aim to keep all metrics (statements, branches, & functions) above 90% coverage, however please do not submit dummy
-tests to meet this goal.
+We aim to keep all test coverage metrics (statements, branches, & functions) above 90%.
 
 ## Disclaimer
 
