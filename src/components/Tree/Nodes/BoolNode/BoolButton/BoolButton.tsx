@@ -21,12 +21,7 @@ export const BoolButton = ({ onClick, id, response, selected }: BoolButtonProps)
           selected ? 'selected response ' + (response ? 'Yes' : 'No') : response ? 'Yes' : 'No'
         }
         data-testid={`${id}-${response ? 'yes' : 'no'}-button`}
-        className={
-          ' mb-1 rounded-xl  px-2 py-1 text-2xl font-semibold text-white ' +
-          ' transition-colors duration-200 ease-in-out ' +
-          ' focus:outline-none focus:ring-2 focus:ring-slate-50 active:bg-slate-800 ' +
-          (selected ? ' bg-green-600 hover:bg-green-700 ' : ' bg-slate-600 hover:bg-slate-700 ')
-        }
+        className={`mb-1 rounded-xl px-2 py-1 text-2xl font-semibold text-white transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-slate-50 active:bg-slate-800 ${selected ? 'bg-green-600 hover:bg-green-700' : 'bg-slate-600 hover:bg-slate-700'}`}
       >
         <div className="flex min-w-20 items-center">
           {response ? 'Yes' : 'No'}

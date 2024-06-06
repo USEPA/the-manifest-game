@@ -54,10 +54,7 @@ export const OffCanvas = ({ isOpen, onClose }: OffCanvasProps) => {
       <div
         data-testid="offcanvas"
         id={'offcanvas'}
-        className={`z-top fixed bottom-0 right-0 top-20 z-50 flex w-3/4 translate-x-full
-        flex-col rounded-2xl bg-gray-200 outline-none transition-all
-        ease-in-out sm:w-10/12 md:w-6/12 lg:w-5/12
-        ${isOpen ? 'mb-2 mr-2 ms-0 mt-0 transform-none' : ''} pb-10`}
+        className={`z-top fixed bottom-0 right-0 top-20 z-50 flex w-3/4 translate-x-full flex-col rounded-2xl bg-gray-200 outline-none transition-all ease-in-out sm:w-10/12 md:w-6/12 lg:w-5/12 ${isOpen ? 'mb-2 mr-2 ms-0 mt-0 transform-none' : ''} pb-10`}
         tabIndex={-1}
         role="dialog"
         aria-label="Off Canvas"
@@ -67,9 +64,7 @@ export const OffCanvas = ({ isOpen, onClose }: OffCanvasProps) => {
       >
         <div className="flex justify-end p-3">
           <button
-            className="text-gray800 rounded-full p-1 transition-colors duration-200 ease-in-out
-            hover:text-gray-900 focus:outline-none focus:ring
-            focus:ring-gray-800 active:text-gray-900"
+            className="text-gray800 rounded-full p-1 transition-colors duration-200 ease-in-out hover:text-gray-900 focus:outline-none focus:ring focus:ring-gray-800 active:text-gray-900"
             onClick={onClose}
             type="button"
             tabIndex={0}
