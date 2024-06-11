@@ -5,7 +5,7 @@ export default {
     extend: {
       colors: {
         rcraBlue: '#337AB7',
-        rcraGreen: '#2C882C',
+        rcraGreen: 'forestgreen',
       },
     },
   },

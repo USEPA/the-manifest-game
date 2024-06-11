@@ -29,13 +29,20 @@ body,
     cursor: auto;
     background-color: transparent;
     min-width: 20rem;
-    border: none;
     box-shadow: none;
+    border: theme('borderWidth.4') solid theme('colors.transparent');
+    border-radius: theme('borderRadius.2xl');
+}
+
+.react-flow__node:focus {
+    border: theme('borderWidth.4') solid theme('colors.rcraGreen');
+    border-radius: theme('borderRadius.2xl');
 }
 
 .react-flow__minimap,
 .react-flow__minimap svg {
-    border-radius: 20px;
+    border-radius: theme('borderRadius.2xl');
+    border: theme('borderWidth.2') solid theme('colors.gray.500');
 }
 
 .react-flow__controls {
@@ -43,21 +50,12 @@ body,
 }
 
 .react-flow__controls button {
-    border-radius: 10px;
-    border: 2px solid #fff;
+    border-radius: theme('borderRadius.lg');
+    border: 2px solid #333333;
     margin-top: 2px;
-    background: #fefefe !important;
+    background: theme('colors.gray.200') !important;
 }
 
-.react-flow__node {
-    border-radius: 15px;
-    border: 3px solid #333333;
-}
-
-.react-flow__node:focus {
-    border: white 3px solid;
-    border-radius: 15px;
-}
 
 @layer components {
     .z-top {
