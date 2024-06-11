@@ -21,10 +21,10 @@ suite('useUrl hook', () => {
     const { result } = renderHook(() => useUrl(), { wrapper });
     expect(result.current.pathParam).toBe(pathQueryParam);
   });
-  test('returns the path URL query param', async () => {
+  test('returns the path URL query param', () => {
     const pathQueryParam = 'foo';
     const { result } = renderHook(() => useUrl(), { wrapper });
-    await act(async () => {
+    act(() => {
       result.current.setPathParam(pathQueryParam);
     });
     expect(result.current.pathParam).toBe(pathQueryParam);

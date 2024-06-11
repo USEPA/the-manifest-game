@@ -27,7 +27,7 @@ export const useUrl = () => {
   const copyUrl = () => {
     if (path.length < 1) return;
     setUrlPathId(path[path.length - 1].selected);
-    navigator.clipboard
+    void navigator.clipboard
       .writeText(window.location.href)
       .then(() => window.alert('URL copied to clipboard'));
   };
