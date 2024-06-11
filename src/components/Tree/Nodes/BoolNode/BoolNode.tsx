@@ -42,7 +42,7 @@ export const BoolNode = ({
     <BaseNode {...props} id={id}>
       <div
         data-testid={`bool-node-${id}-content`}
-        className={`flex min-w-80 flex-col items-center justify-center rounded-xl p-6 text-xl text-white ${decisionIsInPath(id) ? 'bg-gradient-to-b from-teal-700 to-teal-800' : 'bg-rcraBlue'}`}
+        className={`flex min-w-80 flex-col items-center justify-center rounded-xl p-6 text-xl text-white ${decisionIsInPath(id) ? 'bg-teal-800' : 'bg-rcraBlue'}`}
       >
         {help && (
           <div className="absolute right-3 top-3">

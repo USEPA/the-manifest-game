@@ -19,7 +19,7 @@ export const DefaultNode = ({ data, ...props }: NodeProps<VertexData>) => {
     }
   };
 
-  const nodeBackgroundColor = isCurrentDecision ? 'bg-teal-700' : 'bg-rcraBlue';
+  const nodeBackgroundColor = isCurrentDecision ? 'bg-teal-800' : 'bg-rcraBlue';
 
   return (
     <BaseNode {...props}>
