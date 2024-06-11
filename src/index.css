@@ -24,7 +24,6 @@ body,
 }
 
 .react-flow__node {
-    padding: 0;
     color: transparent;
     cursor: auto;
     background-color: transparent;
@@ -32,11 +31,12 @@ body,
     box-shadow: none;
     border: theme('borderWidth.4') solid theme('colors.transparent');
     border-radius: theme('borderRadius.2xl');
+    padding: 0.1rem;
 }
 
 .react-flow__node:focus {
-    border: theme('borderWidth.4') solid theme('colors.rcraGreen');
-    border-radius: theme('borderRadius.2xl');
+    border: theme('borderWidth.4') solid theme('colors.blue.500');
+    padding: 0.1rem;
 }
 
 .react-flow__minimap,
