@@ -7,7 +7,7 @@
   line-height: 1.2;
   --card-color: linear-gradient(150deg, #3e6d9b 0%, #2b5d8f 100%);
   --card-color-hover: linear-gradient(150deg, #346391 0%, #215385 100%);
-  color-scheme: light dark;
+  color-scheme: light;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
   font-synthesis: none;
@@ -24,18 +24,25 @@ body,
 }
 
 .react-flow__node {
-  padding: 0;
   color: transparent;
   cursor: auto;
   background-color: transparent;
   min-width: 20rem;
-  border: none;
   box-shadow: none;
+  border: theme('borderWidth.4') solid theme('colors.transparent');
+  border-radius: theme('borderRadius.2xl');
+  padding: 0.1rem;
+}
+
+.react-flow__node:focus {
+  border: theme('borderWidth.4') solid theme('colors.blue.500');
+  padding: 0.1rem;
 }
 
 .react-flow__minimap,
 .react-flow__minimap svg {
-  border-radius: 20px;
+  border-radius: theme('borderRadius.2xl');
+  border: theme('borderWidth.2') solid theme('colors.gray.500');
 }
 
 .react-flow__controls {
@@ -43,20 +50,10 @@ body,
 }
 
 .react-flow__controls button {
-  border-radius: 10px;
-  border: 2px solid #fff;
+  border-radius: theme('borderRadius.lg');
+  border: 2px solid #333333;
   margin-top: 2px;
-  background: #fefefe !important;
-}
-
-.react-flow__node {
-  border-radius: 15px;
-  border: 3px solid #333333;
-}
-
-.react-flow__node:focus {
-  border: white 3px solid;
-  border-radius: 15px;
+  background: theme('colors.gray.200') !important;
 }
 
 @layer components {

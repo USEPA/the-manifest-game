@@ -9,7 +9,7 @@ export const ErrorMsg = ({ message }: ErrorMsgProps) => {
   const issueURL = import.meta.env.VITE_ISSUE_URL;
 
   return (
-    <div className="flex h-full w-full justify-center align-middle">
+    <div className="flex size-full justify-center align-middle">
       <div className="my-5 flex h-1/4 w-1/2 justify-center rounded-2xl bg-red-900">
         <div className="p-2">
           <h1 className="my-2 text-center text-3xl font-bold text-white">

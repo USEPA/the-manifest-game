@@ -1,5 +1,4 @@
 import defaultTree from '/default.json?url';
-import { BackgroundImage } from 'components/Background/BackgroundImage';
 import { ErrorMsg } from 'components/Error';
 import { Header } from 'components/Header/Header';
 import { OffCanvas } from 'components/OffCanvas/OffCanvas';
@@ -23,7 +22,6 @@ export default function App() {
 
   return (
     <>
-      <BackgroundImage />
       <Header treeTitle={title} />
       {configIsLoading ? (
         <Spinner />
