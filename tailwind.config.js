@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        blue: '#337AB7',
+        rcraBlue: '#337AB7',
       },
     },
   },
