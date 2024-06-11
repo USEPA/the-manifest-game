@@ -79,7 +79,7 @@ export const OffCanvas = ({ isOpen, onClose }: OffCanvasProps) => {
       </div>
       {/* backdrop while open*/}
       <div
-        className={`fixed bottom-0 left-0 right-0 top-0 bg-black transition-opacity duration-200 ease-in-out ${isOpen ? 'visible opacity-60' : 'invisible opacity-0'}`}
+        className={`fixed inset-0 bg-black transition-opacity duration-200 ease-in-out ${isOpen ? 'visible opacity-60' : 'invisible opacity-0'}`}
       />
     </>
   );
