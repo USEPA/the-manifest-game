@@ -10,7 +10,6 @@ const { create: actualCreate, createStore: actualCreateStore } =
   // @ts-expect-error - import the actual zustand module
   await vi.importActual<typeof zustand>('zustand');
 
-// @ts-expect-error - a variable to hold reset functions for all stores declared in the app
 export const storeResetFns = new Set<() => void>();
 
 const createUncurried = <T>(stateCreator: zustand.StateCreator<T>) => {
