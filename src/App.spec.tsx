@@ -19,7 +19,7 @@ const TestComponent = () => {
 };
 
 const handlers = [
-  http.get('/default.json', async () => {
+  http.get('/default.json', () => {
     return HttpResponse.json({
       nodes: [
         {
@@ -88,7 +88,7 @@ describe('App', () => {
     expect(screen.getByTestId(/minimap/i)).toBeInTheDocument();
   });
   test('Throws an error if there is an error fetching the config', async () => {
-    server.use(http.get('/default.json', async () => HttpResponse.error()));
+    server.use(http.get('/default.json', () => HttpResponse.error()));
     renderWithProviders(<TestComponent />);
     await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
     expect(screen.getByText(/Error/i)).toBeInTheDocument();

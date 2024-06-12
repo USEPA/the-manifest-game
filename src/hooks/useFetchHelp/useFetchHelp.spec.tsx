@@ -12,6 +12,7 @@ const handlers = [
       nodes: [
         {
           type: 'text',
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           content: `Help Text ${nodeId}`,
         },
       ],
@@ -19,6 +20,7 @@ const handlers = [
   }),
   http.get('/help/:nodeId.html', (info) => {
     const nodeId = info.params.nodeId;
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     return HttpResponse.text(`<p>Help Text ${nodeId}</p>`);
   }),
 ];
@@ -32,7 +34,7 @@ afterEach(() => {
 beforeAll(() => server.listen());
 afterAll(() => server.close());
 
-describe('useFetchHelp', async () => {
+describe('useFetchHelp', () => {
   test('error, help are initially falsy, isLoading is truthy', () => {
     const { result } = renderHook(() => useFetchHelp('foo.json'));
     expect(result.current.error).toBeFalsy();

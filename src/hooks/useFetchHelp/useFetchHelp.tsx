@@ -8,7 +8,7 @@ export type HelpConfig = HelpContent;
 export const useFetchHelp = (fileName?: string) => {
   const [help, setHelp] = useState<HelpConfig | undefined>();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<unknown | undefined>();
+  const [error, setError] = useState<undefined | string>();
 
   useEffect(() => {
     setIsLoading(true);
@@ -34,21 +34,24 @@ export const useFetchHelp = (fileName?: string) => {
       })
       .then((data) => {
         if (fileName.endsWith('.json')) {
-          data = {
+          const help: HelpContent = {
             type: 'text',
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
             content: data.content,
           };
+          setHelp(help);
         } else {
-          data = {
+          const help: HelpContent = {
             type: 'html',
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             content: data,
           };
+          setHelp(help);
         }
-        setHelp(data);
         setIsLoading(false);
       })
-      .catch((e) => {
-        setError(e);
+      .catch((e: Error) => {
+        setError(e.message);
         setIsLoading(false);
       });
   }, [fileName]);

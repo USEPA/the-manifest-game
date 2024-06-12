@@ -76,7 +76,7 @@ export const useFetchConfig = (configPath: string) => {
     setConfig(undefined);
     setError(undefined);
     fetch(configPath)
-      .then((response) => response.json())
+      .then((response) => response.json() as Promise<ConfigFile>)
       .then((data) => {
         try {
           const config = parseConfig(data);

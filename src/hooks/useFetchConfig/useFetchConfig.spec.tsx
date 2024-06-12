@@ -55,7 +55,7 @@ const TestComponent = () => {
   );
 };
 
-describe('useFetchConfig', async () => {
+describe('useFetchConfig', () => {
   test('initially isLoading, error, and data are undefined', () => {
     render(<TestComponent />);
     expect(screen.queryByText(/error/i)).not.toBeInTheDocument();
