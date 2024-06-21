@@ -11,7 +11,7 @@ interface SpinnerProps {
 export const Spinner = ({ testId }: SpinnerProps) => {
   return (
     <div className="flex h-screen items-center justify-center" data-testid={testId ?? 'spinner'}>
-      <ImSpinner8 className="animate-spin font-bold" size={60} />
+      <ImSpinner8 className="animate-spin font-bold text-gray-700" size={60} />
     </div>
   );
 };
