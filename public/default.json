@@ -23,7 +23,8 @@
       "data": {
         "label": "Do you have your site's EPA ID?",
         "yesId": "doHavePreparer",
-        "noId": "areYouVSQG"
+        "noId": "areYouVSQG",
+        "help": "what-is-epa-id.html"
       }
     },
     {
@@ -38,7 +39,8 @@
     {
       "id": "iAmVSQG",
       "data": {
-        "label": "You may not have an EPA ID. You may still use the Hybrid manifest option."
+        "label": "You may not have an EPA ID. You may still use the Hybrid manifest option.",
+        "help": "what-is-epa-id.html"
       }
     },
     {
