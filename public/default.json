@@ -7,14 +7,15 @@
         "label": "Are you registered?",
         "yesId": "doYouHaveSiteId",
         "noId": "goRegister",
-        "help": "root.html"
+        "help": "register.html"
       }
     },
     {
       "id": "goRegister",
       "data": {
         "label": "Time to Register in RCRAInfo!",
-        "children": []
+        "children": [],
+        "help": "register.html"
       }
     },
     {
@@ -23,7 +24,8 @@
       "data": {
         "label": "Do you have your site's EPA ID?",
         "yesId": "doHavePreparer",
-        "noId": "areYouVSQG"
+        "noId": "areYouVSQG",
+        "help": "what-is-epa-id.html"
       }
     },
     {
@@ -38,7 +40,8 @@
     {
       "id": "iAmVSQG",
       "data": {
-        "label": "You may not have an EPA ID. You may still use the Hybrid manifest option."
+        "label": "You may not have an EPA ID. You may still use the Hybrid manifest option.",
+        "help": "what-is-epa-id.html"
       }
     },
     {
@@ -53,13 +56,15 @@
       "data": {
         "label": "Do you have a preparer level access?",
         "yesId": "isManifestDrafted",
-        "noId": "requestPreparerAccess"
+        "noId": "requestPreparerAccess",
+        "help": "site-access.html"
       }
     },
     {
       "id": "requestPreparerAccess",
       "data": {
-        "label": "Request preparer access."
+        "label": "Request preparer access.",
+        "help": "site-access.html"
       }
     },
     {
@@ -68,13 +73,15 @@
       "data": {
         "label": "Is the manifest drafted?",
         "yesId": "areYouTSDF",
-        "noId": "draftManifest"
+        "noId": "draftManifest",
+        "help": "statuses.html"
       }
     },
     {
       "id": "draftManifest",
       "data": {
-        "label": "Draft the manifest."
+        "label": "Draft the manifest.",
+        "help": "statuses.html"
       }
     },
     {
@@ -92,13 +99,15 @@
       "data": {
         "label": "Is the manifest scheduled?",
         "yesId": "isManifestReadyForSign",
-        "noId": "scheduleManifest"
+        "noId": "scheduleManifest",
+        "help": "statuses.html"
       }
     },
     {
       "id": "scheduleManifest",
       "data": {
-        "label": "Only the TSDF can set the manifest 'Scheduled'."
+        "label": "Only the TSDF can set the manifest 'Scheduled'.",
+        "help": "statuses.html"
       }
     },
     {
@@ -107,7 +116,8 @@
       "data": {
         "label": "Is the manifest ready for signature?",
         "yesId": "signAndSubmit",
-        "noId": "ensureManifestReady"
+        "noId": "ensureManifestReady",
+        "help": "statuses.html"
       }
     },
     {
@@ -119,13 +129,8 @@
     {
       "id": "signAndSubmit",
       "data": {
-        "label": "Sign the manifest and submit for invoicing."
-      }
-    },
-    {
-      "id": "test",
-      "data": {
-        "label": "Test"
+        "label": "Sign the manifest and submit for invoicing.",
+        "help": "statuses.html"
       }
     },
     {
@@ -143,7 +148,8 @@
       "data": {
         "label": "Is the manifest scheduled?",
         "yesId": "readyForGeneratorSign",
-        "noId": "haveTsdfSetToScheduled"
+        "noId": "haveTsdfSetToScheduled",
+        "help": "statuses.html"
       }
     },
     {
@@ -158,7 +164,8 @@
     {
       "id": "scheduleManifestNonTsdf",
       "data": {
-        "label": "Once a manifest is set to scheduled, it's ready for the Generator's signature, then the initial transporters."
+        "label": "Once a manifest is set to scheduled, it's ready for the Generator's signature, then the initial transporters.",
+        "help": "statuses.html"
       }
     },
     {
@@ -176,7 +183,8 @@
     {
       "id": "haveTsdfSetToScheduled",
       "data": {
-        "label": "The TSDF needs to set the manifest to 'Scheduled' before the Generator can sign."
+        "label": "The TSDF needs to set the manifest to 'Scheduled' before the Generator can sign.",
+        "help": "statuses.html"
       }
     },
     {

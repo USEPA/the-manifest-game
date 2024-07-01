@@ -11,5 +11,10 @@ interface HelpContentProps {
 export const HtmlHelp = ({ html }: HelpContentProps) => {
   if (!html) return <p>Content is unavailable.</p>;
 
-  return <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(html) }}></div>;
+  return (
+    <div
+      className="text-black"
+      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(html) }}
+    ></div>
+  );
 };

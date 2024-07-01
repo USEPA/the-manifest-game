@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Understanding Electronic Manifest Statuses in RCRAInfo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="">
+    <div class="flex flex-col space-y-4">
+      <h2 class="text-2xl font-semibold">Understanding Manifest Statuses</h2>
+      <p class="max-w-prose text-slate-800">
+        The e-Manifest module uses a series of statuses to indicate the current stage of the
+        manifest. The current status, and your role, will dictate whether you can sign, edit, or pay
+        for the manifest. Here are the key statuses you'll encounter:
+      </p>
+      <ol class="list-none space-y-4 p-3">
+        <li>
+          <h3 class="text-xl font-semibold">Draft</h3>
+          <p class="max-w-prose text-slate-800">
+            At this stage, the electronic manifest is only visible to the site that drafted the
+            electronic manifest. It does not have an “ELC” suffix manifest tracking number (MTN)
+            assigned to it by the system.
+          </p>
+        </li>
+        <li>
+          <h3 class="text-xl font-semibold">Pending</h3>
+          <p class="max-w-prose text-slate-800">
+            A manifest is in the "Pending" status when it has been created but not yet approved by
+            the designated receiving facility. The designated receiving facility needs to move the
+            status to “Scheduled” before it can be signed by the generator and initial transporter.
+            This manifest will have an MTN assigned.
+          </p>
+        </li>
+        <li>
+          <h3 class="text-xl font-semibold">Scheduled</h3>
+          <p class="max-w-prose text-slate-800">
+            Once the TSDF approves the shipment, it is ready for the generator and the initial
+            transporter to sign.
+          </p>
+        </li>
+        <li>
+          <h3 class="text-xl font-semibold">In Transit</h3>
+          <p class="max-w-prose text-slate-800">
+            Signifies that the manifest is currently being transported to the designated facility.
+            This status is skipped if there is only one transporter listed on the manifest.
+          </p>
+        </li>
+        <li>
+          <h3 class="text-xl font-semibold">Ready For Signature</h3>
+          <p class="max-w-prose text-slate-800">
+            Once all transporters listed on the manifest have signed, it is the designed receiving
+            facility’s turn to sign upon receipt. This is the first status of paper manifests
+            uploaded to the e-Manifest.
+          </p>
+        </li>
+        <li>
+          <h3 class="text-xl font-semibold">Signed</h3>
+          <p class="max-w-prose text-slate-800">
+            An electronic manifest that has been received by the designated receiving facility but
+            is not complete and has not been charged to a bill.
+          </p>
+        </li>
+        <li>
+          <h3 class="text-xl font-semibold">Signed-Complete</h3>
+          <p class="max-w-prose text-slate-800">
+            A completed electronic manifest or paper manifest that has been submitted by the
+            designated receiving facility and charged on a bill.
+          </p>
+        </li>
+        <li>
+          <h3 class="text-xl font-semibold">Under Correction</h3>
+          <p class="max-w-prose text-slate-800">
+            If any discrepancies or errors are found after a manifest has been marked as Signed, it
+            can be corrected by any party listed on the manifest or a regulator. All versions of a
+            manifest (prior to corrections) are maintained, and viewable, in the e-Manifest system.
+          </p>
+        </li>
+        <li>
+          <h3 class="text-xl font-semibold">Corrected</h3>
+          <p class="max-w-prose text-slate-800">
+            If a user or regulator submits the correction described in the previous status, it moves
+            the status to “Corrected”.
+          </p>
+        </li>
+      </ol>
+    </div>
+  </body>
+</html>
