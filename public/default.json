@@ -53,13 +53,15 @@
       "data": {
         "label": "Do you have a preparer level access?",
         "yesId": "isManifestDrafted",
-        "noId": "requestPreparerAccess"
+        "noId": "requestPreparerAccess",
+        "help": "site-access.html"
       }
     },
     {
       "id": "requestPreparerAccess",
       "data": {
-        "label": "Request preparer access."
+        "label": "Request preparer access.",
+        "help": "site-access.html"
       }
     },
     {
