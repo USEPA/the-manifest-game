@@ -7,14 +7,15 @@
         "label": "Are you registered?",
         "yesId": "doYouHaveSiteId",
         "noId": "goRegister",
-        "help": "root.html"
+        "help": "register.html"
       }
     },
     {
       "id": "goRegister",
       "data": {
         "label": "Time to Register in RCRAInfo!",
-        "children": []
+        "children": [],
+        "help": "register.html"
       }
     },
     {
