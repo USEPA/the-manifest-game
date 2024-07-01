@@ -73,13 +73,15 @@
       "data": {
         "label": "Is the manifest drafted?",
         "yesId": "areYouTSDF",
-        "noId": "draftManifest"
+        "noId": "draftManifest",
+        "help": "statuses.html"
       }
     },
     {
       "id": "draftManifest",
       "data": {
-        "label": "Draft the manifest."
+        "label": "Draft the manifest.",
+        "help": "statuses.html"
       }
     },
     {
@@ -97,13 +99,15 @@
       "data": {
         "label": "Is the manifest scheduled?",
         "yesId": "isManifestReadyForSign",
-        "noId": "scheduleManifest"
+        "noId": "scheduleManifest",
+        "help": "statuses.html"
       }
     },
     {
       "id": "scheduleManifest",
       "data": {
-        "label": "Only the TSDF can set the manifest 'Scheduled'."
+        "label": "Only the TSDF can set the manifest 'Scheduled'.",
+        "help": "statuses.html"
       }
     },
     {
@@ -112,7 +116,8 @@
       "data": {
         "label": "Is the manifest ready for signature?",
         "yesId": "signAndSubmit",
-        "noId": "ensureManifestReady"
+        "noId": "ensureManifestReady",
+        "help": "statuses.html"
       }
     },
     {
@@ -124,13 +129,8 @@
     {
       "id": "signAndSubmit",
       "data": {
-        "label": "Sign the manifest and submit for invoicing."
-      }
-    },
-    {
-      "id": "test",
-      "data": {
-        "label": "Test"
+        "label": "Sign the manifest and submit for invoicing.",
+        "help": "statuses.html"
       }
     },
     {
@@ -148,7 +148,8 @@
       "data": {
         "label": "Is the manifest scheduled?",
         "yesId": "readyForGeneratorSign",
-        "noId": "haveTsdfSetToScheduled"
+        "noId": "haveTsdfSetToScheduled",
+        "help": "statuses.html"
       }
     },
     {
@@ -163,7 +164,8 @@
     {
       "id": "scheduleManifestNonTsdf",
       "data": {
-        "label": "Once a manifest is set to scheduled, it's ready for the Generator's signature, then the initial transporters."
+        "label": "Once a manifest is set to scheduled, it's ready for the Generator's signature, then the initial transporters.",
+        "help": "statuses.html"
       }
     },
     {
@@ -181,7 +183,8 @@
     {
       "id": "haveTsdfSetToScheduled",
       "data": {
-        "label": "The TSDF needs to set the manifest to 'Scheduled' before the Generator can sign."
+        "label": "The TSDF needs to set the manifest to 'Scheduled' before the Generator can sign.",
+        "help": "statuses.html"
       }
     },
     {
