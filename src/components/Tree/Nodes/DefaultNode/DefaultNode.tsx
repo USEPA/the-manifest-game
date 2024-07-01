@@ -12,7 +12,7 @@ export const DefaultNode = ({ data, ...props }: NodeProps<VertexData>) => {
 
   const handleHelpClick: MouseEventHandler = (event) => {
     try {
-      showHelp(props.id);
+      showHelp(data.help);
       event.stopPropagation();
     } catch (error) {
       console.error(error);
