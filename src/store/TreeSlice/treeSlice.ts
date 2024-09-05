@@ -42,7 +42,7 @@ export interface Decision {
   selected: string;
 }
 
-export type DecisionPath = Array<Decision>;
+export type DecisionPath = Decision[];
 
 interface TreeSliceState {
   tree: DecisionTree;

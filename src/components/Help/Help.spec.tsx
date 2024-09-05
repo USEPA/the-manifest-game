@@ -14,13 +14,13 @@ const handlers = [
 
     return HttpResponse.json({
       type: 'text',
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+
       content: `Help Text ${helpId}`,
     });
   }),
   http.get('/help/:helpId.html', (info) => {
     const helpId = info.params.helpId;
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+
     return HttpResponse.text(`<p>Help html ${helpId}</p>`);
   }),
 ];
