@@ -22,7 +22,7 @@ const NO_YES_ID = '6';
 const NO_NO_ID = '7';
 
 interface createTestTreeOptions {
-  showIds?: Array<string>;
+  showIds?: string[];
 }
 
 const createTestPositionUnawareDecisionTree = (
@@ -110,6 +110,7 @@ describe('Tree Component', () => {
       [YES_CHILD_ID, NO_CHILD_ID, YES_YES_ID, YES_NO_ID].forEach((nodeId: string) => {
         expect(screen.queryByTestId(`node-${nodeId}`)).toBeInTheDocument();
       });
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       await user.click(screen.queryByTestId(`${NO_CHILD_ID}-yes-button`)!);
       expect(screen.queryByTestId(`node-${YES_CHILD_ID}`)).toBeInTheDocument();
       [YES_YES_ID, YES_NO_ID].forEach((nodeId: string) => {

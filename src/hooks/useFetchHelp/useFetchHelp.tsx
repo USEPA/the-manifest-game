@@ -36,14 +36,14 @@ export const useFetchHelp = (fileName?: string) => {
         if (fileName.endsWith('.json')) {
           const help: HelpContent = {
             type: 'text',
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
+
             content: data.content,
           };
           setHelp(help);
         } else {
           const help: HelpContent = {
             type: 'html',
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
             content: data,
           };
           setHelp(help);

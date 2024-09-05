@@ -29,7 +29,7 @@ export class ErrorBoundary extends Component<ErrorProps, ErrorState> {
   }
 
   // Anything we want to error boundary to do when an error is caught
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   componentDidCatch(error: Error, _info: ErrorInfo) {
     console.error(error);
   }

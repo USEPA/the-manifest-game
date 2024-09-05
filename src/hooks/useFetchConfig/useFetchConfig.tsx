@@ -22,10 +22,10 @@ interface DefaultNodeConfig extends NodeConfig {
  * A JSON serializable array of object that contains all the position unaware
  * nodes in the decision tree, before it is loaded into the store
  */
-export type ConfigFile = {
+export interface ConfigFile {
   name: string;
-  nodes?: Array<DefaultNodeConfig | BooleanNodeConfig>;
-};
+  nodes?: (DefaultNodeConfig | BooleanNodeConfig)[];
+}
 
 interface UseFetchConfigError {
   message: string;
