@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import { useFetchConfig } from 'hooks/useFetchConfig/useFetchConfig';
-import { http, HttpResponse } from 'msw';
+import { delay, http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 import { afterAll, afterEach, beforeAll, describe, expect, test } from 'vitest';
 
@@ -61,25 +61,24 @@ describe('useFetchConfig', () => {
   });
   test('parses the config into a DecisionTree', async () => {
     render(<TestComponent />);
-    expect(screen.queryByText(/data/i)).not.toBeInTheDocument();
-    await waitFor(() => screen.queryByText(/data/i));
+    await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
     expect(screen.queryByText(/data id: 1/i)).toBeInTheDocument();
   });
   test('sets the first node in the array to visible and the rest to hidden', async () => {
     server.use(
-      http.get('/default.json', () =>
-        HttpResponse.json({
+      http.get('/default.json', () => {
+        delay();
+        return HttpResponse.json({
           nodes: [
             { id: '1', type: 'default', label: 'foo', data: { children: [] } },
             { id: '2', type: 'default', label: 'bar', data: { children: [] } },
             { id: '3', type: 'BoolNode', label: 'bool', data: { yesId: '3', noId: '5' } },
           ],
-        })
-      )
+        });
+      })
     );
     render(<TestComponent />);
-    expect(screen.queryByText(/data/i)).not.toBeInTheDocument();
-    await waitFor(() => screen.queryByText(/data/i));
+    await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
     expect(screen.queryByText('data id: 1 - visible')).toBeInTheDocument();
     expect(screen.queryByText('data id: 2 - hidden')).toBeInTheDocument();
     expect(screen.queryByText('data id: 3 - hidden')).toBeInTheDocument();
@@ -91,8 +90,7 @@ describe('useFetchConfig', () => {
       })
     );
     render(<TestComponent />);
-    expect(screen.queryByText(/data/i)).not.toBeInTheDocument();
-    await waitFor(() => screen.queryByText(/data/i));
+    await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
     expect(screen.queryByText('error')).toBeInTheDocument();
   });
   test('takes boolean node yes and no ID elements and adds them to the children array', async () => {
@@ -108,9 +106,7 @@ describe('useFetchConfig', () => {
       )
     );
     render(<TestComponent />);
-    expect(screen.queryByText(/data/i)).not.toBeInTheDocument();
-    await waitFor(() => screen.queryByText(/data/i));
-    screen.debug();
+    await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
     expect(screen.queryByText('node 1 child 2')).toBeInTheDocument();
     expect(screen.queryByText('node 1 child 3')).toBeInTheDocument();
   });
