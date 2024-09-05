@@ -37,14 +37,12 @@ const TestComponent = () => {
         {config
           ? Object.values(config).map((item) => (
               <li key={item.id}>
-                data id: {item.id} - {item.hidden ? 'hidden' : 'visible'}
+                {`data id: ${item.id} - ${item.hidden ? 'hidden' : 'visible'}`}
                 {/*List the children on the node*/}
                 <ul>
                   {item.data.children &&
                     item.data.children.map((child, index) => (
-                      <li key={index}>
-                        node {item.id} child {child}
-                      </li>
+                      <li key={index}>{`node ${item.id} child ${child}`}</li>
                     ))}
                 </ul>
               </li>
@@ -112,6 +110,7 @@ describe('useFetchConfig', () => {
     render(<TestComponent />);
     expect(screen.queryByText(/data/i)).not.toBeInTheDocument();
     await waitFor(() => screen.queryByText(/data/i));
+    screen.debug();
     expect(screen.queryByText('node 1 child 2')).toBeInTheDocument();
     expect(screen.queryByText('node 1 child 3')).toBeInTheDocument();
   });
