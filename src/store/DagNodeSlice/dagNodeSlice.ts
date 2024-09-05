@@ -22,7 +22,7 @@ export type DecisionTree = Record<string, TreeNode>;
 export type PositionUnawareDecisionTree = Record<string, Omit<TreeNode, 'position'>>;
 
 /**A wrapper for the ReactFlow Node */
-export interface DagNode extends Node {}
+export type DagNode = Node;
 
 export interface ShowDagNodeOptions {
   parentId?: string;

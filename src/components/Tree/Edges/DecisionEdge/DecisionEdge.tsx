@@ -6,7 +6,7 @@ export interface DecisionEdgeData {
   decisionMade?: boolean;
 }
 
-export interface DecisionEdgeProps extends EdgeProps<DecisionEdgeData> {}
+export type DecisionEdgeProps = EdgeProps<DecisionEdgeData>;
 
 export const DecisionEdge = (props: DecisionEdgeProps) => {
   const { id, sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition, data } = props;
