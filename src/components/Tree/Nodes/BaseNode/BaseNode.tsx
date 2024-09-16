@@ -28,7 +28,7 @@ export const BaseNode = ({ id, isConnectable, children }: BaseNodeProps) => {
         position={isHorizontal ? Position.Left : Position.Top}
         isConnectable={isConnectable}
       />
-      <div className="flex justify-evenly">{children}</div>
+      <div>{children}</div>
       <Handle
         data-testid={`${isHorizontal ? 'right' : 'bottom'}-handle`}
         type="source"

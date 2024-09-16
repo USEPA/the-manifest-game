@@ -2,9 +2,9 @@ import { HelpIcon } from '@/components/Help/HelpIcon/HelpIcon';
 import { BaseNode } from '@/components/Tree/Nodes/BaseNode/BaseNode';
 import { useDecisions } from '@/hooks/useDecisions/useDecisions';
 import { useHelp } from '@/hooks/useHelp/useHelp';
+import { VertexData } from '@/store/TreeSlice/treeSlice';
 import { MouseEventHandler } from 'react';
 import { NodeProps } from 'reactflow';
-import { VertexData } from '@/store/TreeSlice/treeSlice';
 
 export const DefaultNode = ({ data, ...props }: NodeProps<VertexData>) => {
   const { showHelp } = useHelp();
@@ -32,7 +32,7 @@ export const DefaultNode = ({ data, ...props }: NodeProps<VertexData>) => {
             <HelpIcon onClick={handleHelpClick} />
           </div>
         )}
-        <span>{data.label}</span>
+        <span className="pe-3 pt-3">{data.label}</span>
       </div>
     </BaseNode>
   );
