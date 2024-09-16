@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
+import { useHelp } from '@/hooks/useHelp/useHelp';
 import { renderHook } from '@testing-library/react';
-import { useHelp } from 'hooks/useHelp/useHelp';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 
 describe('useHelp hook', () => {

@@ -1,4 +1,4 @@
-import { Help } from 'components/Help/Help';
+import { Help } from '@/components/Help/Help';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { FaX } from 'react-icons/fa6';
 

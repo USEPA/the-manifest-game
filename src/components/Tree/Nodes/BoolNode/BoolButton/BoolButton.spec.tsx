@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { BoolButton } from 'components/Tree/Nodes/BoolNode/BoolButton/BoolButton';
+import { BoolButton } from '@/components/Tree/Nodes/BoolNode/BoolButton/BoolButton';
 import { describe, expect, test, vi } from 'vitest';
 
 describe('BoolButton', () => {

@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
+import { ControlCenter } from '@/components/Tree/ControlCenter/index';
+import { TreeDirection } from '@/store';
+import { renderWithProviders } from '@/test-utils';
 import { cleanup, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ControlCenter } from 'components/Tree/ControlCenter/index';
 import { ReactFlowProvider } from 'reactflow';
-import { TreeDirection } from 'store';
-import { renderWithProviders } from 'test-utils';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 
 interface TestComponentProps {

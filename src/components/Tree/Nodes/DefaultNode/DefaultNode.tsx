@@ -1,10 +1,10 @@
-import { HelpIcon } from 'components/Help/HelpIcon/HelpIcon';
-import { BaseNode } from 'components/Tree/Nodes/BaseNode/BaseNode';
-import { useDecisions } from 'hooks/useDecisions/useDecisions';
-import { useHelp } from 'hooks/useHelp/useHelp';
+import { HelpIcon } from '@/components/Help/HelpIcon/HelpIcon';
+import { BaseNode } from '@/components/Tree/Nodes/BaseNode/BaseNode';
+import { useDecisions } from '@/hooks/useDecisions/useDecisions';
+import { useHelp } from '@/hooks/useHelp/useHelp';
 import { MouseEventHandler } from 'react';
 import { NodeProps } from 'reactflow';
-import { VertexData } from 'store/TreeSlice/treeSlice';
+import { VertexData } from '@/store/TreeSlice/treeSlice';
 
 export const DefaultNode = ({ data, ...props }: NodeProps<VertexData>) => {
   const { showHelp } = useHelp();

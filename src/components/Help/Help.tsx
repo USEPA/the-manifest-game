@@ -1,8 +1,8 @@
-import { HtmlHelp } from 'components/Help/HtmlHelp/HtmlHelp';
-import { TextualHelp } from 'components/Help/TextHelp/TextualHelp';
-import { Spinner } from 'components/Spinner/Spinner';
-import { useFetchHelp } from 'hooks';
-import { useHelp } from 'hooks/useHelp/useHelp';
+import { HtmlHelp } from '@/components/Help/HtmlHelp/HtmlHelp';
+import { TextualHelp } from '@/components/Help/TextHelp/TextualHelp';
+import { Spinner } from '@/components/Spinner/Spinner';
+import { useFetchHelp } from '@/hooks';
+import { useHelp } from '@/hooks/useHelp/useHelp';
 import React from 'react';
 
 export interface TextContent {

@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
+import { ShareBtn } from '@/components/Tree/ControlCenter/Controls/ShareBtn/ShareBtn';
+import { renderWithProviders } from '@/test-utils';
 import { screen } from '@testing-library/react';
-import { ShareBtn } from 'components/Tree/ControlCenter/Controls/ShareBtn/ShareBtn';
-import { renderWithProviders } from 'test-utils';
 import { describe, expect, test } from 'vitest';
 
 describe('ShareBtn', () => {

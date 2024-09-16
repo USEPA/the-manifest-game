@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
+import { useUrl } from '@/hooks/useUrl/useUrl';
 import { act, renderHook } from '@testing-library/react';
-import { useUrl } from 'hooks/useUrl/useUrl';
 import React, { ReactNode } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { expect, suite, test } from 'vitest';

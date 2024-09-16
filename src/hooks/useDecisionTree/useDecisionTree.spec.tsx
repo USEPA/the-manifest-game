@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom';
+import { useDecisionTree } from '@/hooks/useDecisionTree/useDecisionTree';
+import { DecisionTree } from '@/store';
+import { renderWithProviders } from '@/test-utils';
 import { cleanup, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { useDecisionTree } from 'hooks/useDecisionTree/useDecisionTree';
-import { DecisionTree } from 'store';
-import { renderWithProviders } from 'test-utils';
 import { afterEach, describe, expect, test } from 'vitest';
 
 afterEach(() => cleanup());

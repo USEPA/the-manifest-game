@@ -1,12 +1,12 @@
-import { DagEdgeSlice } from 'store/DagEdgeSlice/dagEdgeSlice';
+import { DagEdgeSlice } from '@/store/DagEdgeSlice/dagEdgeSlice';
 import {
   DagNodeSlice,
   PositionUnawareDecisionTree,
   ShowDagNodeOptions,
-} from 'store/DagNodeSlice/dagNodeSlice';
-import { getDescendantIds, getSiblingIds } from 'store/DecisionTreeStore/decisionTreeStoreUtils';
-import { TreeDirection, TreeSlice } from 'store/TreeSlice/treeSlice';
-import { buildAncestorDecisions } from 'store/TreeSlice/treeSliceUtils';
+} from '@/store/DagNodeSlice/dagNodeSlice';
+import { getDescendantIds, getSiblingIds } from '@/store/DecisionTreeStore/decisionTreeStoreUtils';
+import { TreeDirection, TreeSlice } from '@/store/TreeSlice/treeSlice';
+import { buildAncestorDecisions } from '@/store/TreeSlice/treeSliceUtils';
 import { StateCreator } from 'zustand';
 
 /** The state and actions of the Combined slice*/

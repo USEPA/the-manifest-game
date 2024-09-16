@@ -1,5 +1,5 @@
-import { HelpIcon } from 'components/Help/HelpIcon/HelpIcon';
-import { useHelp } from 'hooks';
+import { HelpIcon } from '@/components/Help/HelpIcon/HelpIcon';
+import { useHelp } from '@/hooks';
 import React, { MouseEventHandler } from 'react';
 import { Panel } from 'reactflow';
 

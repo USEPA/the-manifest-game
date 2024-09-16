@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
-import { DagNode, DecisionTree } from 'store/DagNodeSlice/dagNodeSlice';
-import { applyPositionToNodes, filterNodesById } from 'store/DagNodeSlice/dagNodeUtils';
+import { DagNode, DecisionTree } from '@/store/DagNodeSlice/dagNodeSlice';
+import { applyPositionToNodes, filterNodesById } from '@/store/DagNodeSlice/dagNodeUtils';
 import { describe, expect, suite, test } from 'vitest';
 
 suite('Dag Node Slice internals', () => {

@@ -1,13 +1,10 @@
 import defaultTree from '/default.json?url';
-import { ErrorMsg } from 'components/Error';
-import { Header } from 'components/Header/Header';
-import { OffCanvas } from 'components/OffCanvas/OffCanvas';
-import { Spinner } from 'components/Spinner/Spinner';
-import { Tree } from 'components/Tree/Tree';
-import { useDecisionTree } from 'hooks';
-import { useFetchConfig } from 'hooks/useFetchConfig/useFetchConfig';
-import { useHelp } from 'hooks/useHelp/useHelp';
-import { useUrl } from 'hooks/useUrl/useUrl';
+import { ErrorMsg } from '@/components/Error';
+import { Header } from '@/components/Header/Header';
+import { OffCanvas } from '@/components/OffCanvas/OffCanvas';
+import { Spinner } from '@/components/Spinner/Spinner';
+import { Tree } from '@/components/Tree/Tree';
+import { useDecisionTree, useFetchConfig, useHelp, useUrl } from '@/hooks';
 
 /**
  * App - responsible for rendering the decision tree

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import useTreeStore, { TreeDirection } from 'store';
+import useTreeStore, { TreeDirection } from '@/store';
 
 /**
  * Returns the current direction of the node layout and a setter. The direction can be set to

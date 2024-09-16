@@ -1,1 +1,1 @@
-export { ControlCenter } from 'components/Tree/ControlCenter/ControlCenter';
+export { ControlCenter } from '@/components/Tree/ControlCenter/ControlCenter';

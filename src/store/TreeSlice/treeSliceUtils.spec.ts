@@ -1,12 +1,12 @@
 import '@testing-library/jest-dom';
-import { DecisionTree } from 'store/DagNodeSlice/dagNodeSlice';
+import { DecisionTree } from '@/store/DagNodeSlice/dagNodeSlice';
 import {
   buildAncestorDecisions,
   getAncestorIds,
   getParentId,
   setNodesHidden,
   setNodeVisible,
-} from 'store/TreeSlice/treeSliceUtils';
+} from '@/store/TreeSlice/treeSliceUtils';
 import { describe, expect, suite, test } from 'vitest';
 
 const treeFactory = (overwrites?: Partial<DecisionTree>): DecisionTree => {

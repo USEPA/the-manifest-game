@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { cleanup, render, screen } from '@testing-library/react';
-import { ErrorMsg } from 'components/Error/ErrorMsg';
+import { ErrorMsg } from '@/components/Error/ErrorMsg';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 
 beforeAll(() => {

@@ -1,4 +1,4 @@
-import { useTreeDirection } from 'hooks';
+import { useTreeDirection } from '@/hooks';
 import { ReactNode, useEffect } from 'react';
 import { Handle, NodeProps, Position, useUpdateNodeInternals } from 'reactflow';
 
