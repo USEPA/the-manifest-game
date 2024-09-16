@@ -1,4 +1,4 @@
-import { DecisionTree } from 'store/TreeSlice/treeSlice';
+import { DecisionTree } from '@/store/TreeSlice/treeSlice';
 
 /** Accepts a DecisionTree and node ID and returns an array of children IDs of all descendant nodes in the DAG */
 export const getDescendantIds = (tree: DecisionTree, id: string): string[] => {

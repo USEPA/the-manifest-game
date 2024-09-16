@@ -1,8 +1,8 @@
 import '@testing-library/jest-dom';
+import { useTreeDirection } from '@/hooks/useTreeDirection/useTreeDirection';
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { useTreeDirection } from 'hooks/useTreeDirection/useTreeDirection';
-import useTreeStore, { TreeDirection } from 'store';
+import useTreeStore, { TreeDirection } from '@/store';
 import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 
 afterEach(() => {

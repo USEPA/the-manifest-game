@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
-import useTreeStore from 'store';
-import { Decision, DecisionPath } from 'store/TreeSlice/treeSlice';
+import useTreeStore from '@/store';
+import { Decision, DecisionPath } from '@/store/TreeSlice/treeSlice';
 
 export interface UsesPathReturn {
   path: DecisionPath;

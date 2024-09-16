@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { cleanup, render, screen } from '@testing-library/react';
-import { HtmlHelp } from 'components/Help/HtmlHelp/HtmlHelp';
+import { HtmlHelp } from '@/components/Help/HtmlHelp/HtmlHelp';
 import { afterEach, describe, expect, test } from 'vitest';
 
 afterEach(() => cleanup());

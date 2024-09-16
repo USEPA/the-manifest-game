@@ -1,4 +1,4 @@
-import { HelpContent } from 'components/Help/Help';
+import { HelpContent } from '@/components/Help/Help';
 import { useEffect, useState } from 'react';
 
 /** Configuration for an individual node, part of the larger config*/

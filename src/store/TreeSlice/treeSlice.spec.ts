@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { renderHook } from '@testing-library/react';
-import { createTreeSlice, Decision, DecisionPath, TreeSlice } from 'store/TreeSlice/treeSlice';
+import { createTreeSlice, Decision, DecisionPath, TreeSlice } from '@/store/TreeSlice/treeSlice';
 import { describe, expect, suite, test } from 'vitest';
 import { create } from 'zustand';
 

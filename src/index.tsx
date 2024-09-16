@@ -1,4 +1,4 @@
-import { ErrorBoundary, ErrorMsg } from 'components/Error';
+import { ErrorBoundary, ErrorMsg } from '@/components/Error';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';

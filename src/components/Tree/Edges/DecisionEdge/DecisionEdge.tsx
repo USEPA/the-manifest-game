@@ -1,4 +1,4 @@
-import { CustomBaseEdge } from 'components/Tree/Edges/CustomBaseEdge';
+import { CustomBaseEdge } from '@/components/Tree/Edges/CustomBaseEdge';
 import { FaCheck } from 'react-icons/fa';
 import { EdgeLabelRenderer, EdgeProps, getSmoothStepPath } from 'reactflow';
 

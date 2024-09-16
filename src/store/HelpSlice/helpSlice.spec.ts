@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { renderHook } from '@testing-library/react';
-import { createHelpSlice, HelpSlice } from 'store/HelpSlice/helpSlice';
+import { createHelpSlice, HelpSlice } from '@/store/HelpSlice/helpSlice';
 import { describe, expect, suite, test } from 'vitest';
 import { create } from 'zustand';
 

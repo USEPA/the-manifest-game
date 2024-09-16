@@ -1,13 +1,13 @@
 import '@testing-library/jest-dom';
+import App from '@/App';
+import useTreeStore from '@/store';
+import { notFirstTimeMock, renderWithProviders } from '@/test-utils';
 import { cleanup, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import App from 'App';
 import { delay, http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 import React from 'react';
 import { ReactFlowProvider } from 'reactflow';
-import useTreeStore from 'store';
-import { notFirstTimeMock, renderWithProviders } from 'test-utils';
 import { afterAll, afterEach, beforeAll, describe, expect, test, vi } from 'vitest';
 
 const TestComponent = () => {

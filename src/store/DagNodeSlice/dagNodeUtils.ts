@@ -3,7 +3,7 @@
  * this will help maintain testability and make it easier to refactor later
  *  Do not export outside this module
  * */
-import { DagNode, DecisionTree, TreeNode } from 'store/DagNodeSlice/dagNodeSlice';
+import { DagNode, DecisionTree, TreeNode } from '@/store/DagNodeSlice/dagNodeSlice';
 
 /** create a new position unaware node with defaults applied */
 export const createDagNode = (id: string, config: Partial<TreeNode>): DagNode => {

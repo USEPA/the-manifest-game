@@ -1,6 +1,6 @@
-import { DecisionEdgeData } from 'components/Tree/Edges/DecisionEdge/DecisionEdge';
+import { DecisionEdgeData } from '@/components/Tree/Edges/DecisionEdge/DecisionEdge';
 import { applyEdgeChanges, Edge, EdgeChange, OnEdgesChange } from 'reactflow';
-import { addDagEdge } from 'store/DagEdgeSlice/dagEdgeUtils';
+import { addDagEdge } from '@/store/DagEdgeSlice/dagEdgeUtils';
 import { StateCreator } from 'zustand';
 
 interface DagEdgeSliceState {

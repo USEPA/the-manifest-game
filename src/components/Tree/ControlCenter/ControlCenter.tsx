@@ -1,8 +1,8 @@
-import { LayoutBtn } from 'components/Tree/ControlCenter/Controls/LayoutBtn/LayoutBtn';
-import { MiniMapBtn } from 'components/Tree/ControlCenter/Controls/MiniMapBtn/MiniMapBtn';
-import { ShareBtn } from 'components/Tree/ControlCenter/Controls/ShareBtn/ShareBtn';
+import { LayoutBtn } from '@/components/Tree/ControlCenter/Controls/LayoutBtn/LayoutBtn';
+import { MiniMapBtn } from '@/components/Tree/ControlCenter/Controls/MiniMapBtn/MiniMapBtn';
+import { ShareBtn } from '@/components/Tree/ControlCenter/Controls/ShareBtn/ShareBtn';
 import { Controls } from 'reactflow';
-import { TreeDirection } from 'store';
+import { TreeDirection } from '@/store';
 
 export interface ControlCenterProps {
   mapVisible: boolean;

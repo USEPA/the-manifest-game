@@ -1,11 +1,11 @@
 import { Node } from 'reactflow';
-import { layoutTree } from 'store/TreeSlice/layout';
+import { layoutTree } from '@/store/TreeSlice/layout';
 import {
   getAncestorIds,
   getParentId,
   setNodesHidden,
   setNodeVisible,
-} from 'store/TreeSlice/treeSliceUtils';
+} from '@/store/TreeSlice/treeSliceUtils';
 import { StateCreator } from 'zustand';
 
 /** Data needed by all nodes in our tree*/

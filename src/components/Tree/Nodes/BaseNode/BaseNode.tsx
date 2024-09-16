@@ -1,4 +1,4 @@
-import { useTreeDirection } from 'hooks';
+import { useTreeDirection } from '@/hooks';
 import { ReactNode, useEffect } from 'react';
 import { Handle, NodeProps, Position, useUpdateNodeInternals } from 'reactflow';
 
@@ -28,7 +28,7 @@ export const BaseNode = ({ id, isConnectable, children }: BaseNodeProps) => {
         position={isHorizontal ? Position.Left : Position.Top}
         isConnectable={isConnectable}
       />
-      <div className="flex justify-evenly">{children}</div>
+      <div>{children}</div>
       <Handle
         data-testid={`${isHorizontal ? 'right' : 'bottom'}-handle`}
         type="source"

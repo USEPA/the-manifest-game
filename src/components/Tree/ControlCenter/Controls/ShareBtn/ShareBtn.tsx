@@ -1,4 +1,4 @@
-import { useUrl } from 'hooks/useUrl/useUrl';
+import { useUrl } from '@/hooks/useUrl/useUrl';
 import { LuShare } from 'react-icons/lu';
 import { ControlButton } from 'reactflow';
 

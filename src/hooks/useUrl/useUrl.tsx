@@ -1,4 +1,4 @@
-import { useDecisions } from 'hooks/useDecisions/useDecisions';
+import { useDecisions } from '@/hooks/useDecisions/useDecisions';
 import { useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 

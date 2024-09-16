@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
+import { useTreeViewport } from '@/hooks/useTreeViewport/useTreeViewport';
 import { cleanup, render, screen } from '@testing-library/react';
-import { useTreeViewport } from 'hooks/useTreeViewport/useTreeViewport';
 import { ReactFlowProvider } from 'reactflow';
 import { afterEach, describe, expect, test } from 'vitest';
 

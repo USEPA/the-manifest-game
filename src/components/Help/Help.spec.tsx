@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
+import { Help } from '@/components/Help/Help';
+import useTreeStore from '@/store';
+import { notFirstTimeMock } from '@/test-utils';
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
-import { Help } from 'components/Help/Help';
 import { delay, http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
-import useTreeStore from 'store';
-import { notFirstTimeMock } from 'test-utils';
 import { afterAll, afterEach, beforeAll, describe, expect, test } from 'vitest';
 
 const handlers = [

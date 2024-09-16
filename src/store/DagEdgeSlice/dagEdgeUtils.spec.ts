@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { Edge } from 'reactflow';
-import { addDagEdge, createDagEdge } from 'store/DagEdgeSlice/dagEdgeUtils';
+import { addDagEdge, createDagEdge } from '@/store/DagEdgeSlice/dagEdgeUtils';
 import { describe, expect, suite, test } from 'vitest';
 
 suite('Dag Edge Slice internals', () => {

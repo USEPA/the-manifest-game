@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { cleanup, render, screen } from '@testing-library/react';
-import { Spinner } from 'components/Spinner/Spinner';
+import { Spinner } from '@/components/Spinner/Spinner';
 import { afterEach, describe, expect, test } from 'vitest';
 
 afterEach(() => cleanup());
