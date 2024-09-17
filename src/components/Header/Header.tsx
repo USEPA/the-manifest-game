@@ -33,8 +33,8 @@ export const Header = ({ treeTitle }: HeaderProps) => {
 
   return (
     <Panel position="top-center" className="mx-0 w-full">
-      <div className="mx-2 box-border min-w-80 rounded-xl bg-rcraBlue p-2 align-middle">
-        <div className="flex justify-between">
+      <div className="mx-2 box-border min-w-80 rounded-xl bg-rcraBlue p-2">
+        <div className="flex items-center justify-between">
           <h1 className="text-xl font-semibold text-white">{treeTitle}</h1>
           <div className="">
             <DropdownMenu>
