@@ -9,7 +9,7 @@ export default defineConfig({
   build: {
     sourcemap: true,
     outDir: 'build',
-    chunkSizeWarningLimit: 500,
+    chunkSizeWarningLimit: 700,
   },
   plugins: [react(), tsconfigPaths()],
   server: {
