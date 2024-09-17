@@ -1,6 +1,17 @@
-import { HelpIcon } from '@/components/Help/HelpIcon/HelpIcon';
+import { Button } from '@/components/ui/Button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/DropdownMenu';
 import { useHelp } from '@/hooks';
 import React, { MouseEventHandler } from 'react';
+import { FaQuestionCircle } from 'react-icons/fa';
+import { FaBug } from 'react-icons/fa6';
+import { LuMenu } from 'react-icons/lu';
 import { Panel } from 'reactflow';
 
 interface HeaderProps {
@@ -21,21 +32,45 @@ export const Header = ({ treeTitle }: HeaderProps) => {
   };
 
   return (
-    <Panel position="top-left" className="sm:w-5/12 md:w-4/12 lg:w-3/12">
-      <div className="box-border w-full rounded-xl bg-rcraBlue p-2 align-middle">
-        <div className="flex min-w-60 justify-between">
+    <Panel position="top-center" className="mx-0 w-full">
+      <div className="mx-2 box-border min-w-80 rounded-xl bg-rcraBlue p-2 align-middle">
+        <div className="flex justify-between">
           <h1 className="text-xl font-semibold text-white">{treeTitle}</h1>
-          <div className="absolute right-3 top-3">
-            <HelpIcon onClick={showInstructions} size={20} />
+          <div className="">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="rounded-full border-none bg-transparent p-2 text-white hover:bg-slate-400"
+                  name="menu"
+                  aria-label="menu"
+                >
+                  <LuMenu />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>Help</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={showInstructions}>
+                  <FaQuestionCircle className="mr-2 size-4" />
+                  <span>How to use</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  {issueUrl && (
+                    <>
+                      <FaBug className="mr-2 size-4" />
+                      <div>
+                        <a href={issueUrl} className="text-sm underline decoration-1">
+                          Feedback/Report and Issue
+                        </a>
+                      </div>
+                    </>
+                  )}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
-        {issueUrl && (
-          <div>
-            <a href={issueUrl} className="text-sm underline decoration-1">
-              Feedback/Report and Issue
-            </a>
-          </div>
-        )}
       </div>
     </Panel>
   );

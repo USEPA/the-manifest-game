@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
 import { cleanup, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { ReactFlowProvider } from 'reactflow';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { Header } from './Header';
@@ -28,14 +29,30 @@ describe('Header', () => {
     render(<TestComponent title={title} />);
     expect(screen.getByText(title)).toBeInTheDocument();
   });
+
   test('no feedback link rendered if no config', () => {
     vi.stubEnv('VITE_ISSUE_URL', '');
     render(<TestComponent />);
     expect(screen.queryByRole('link', { name: /feedback/i })).not.toBeInTheDocument();
   });
-  test('feedback link rendered if config present', () => {
-    vi.stubEnv('VITE_ISSUE_URL', 'mailto:foo@epa.gov');
+
+  test('renders a menu button', () => {
     render(<TestComponent />);
+    expect(screen.getByRole('button', { name: /menu/i })).toBeInTheDocument();
+  });
+
+  test('feedback link rendered if config present', async () => {
+    vi.stubEnv('VITE_ISSUE_URL', 'mailto:foo@epa.gov');
+    const user = userEvent.setup();
+    render(<TestComponent />);
+    await user.click(screen.getByRole('button', { name: /menu/i }));
     expect(screen.queryByRole('link', { name: /feedback/i })).toBeInTheDocument();
+  });
+
+  test('renders a how to help button', async () => {
+    const user = userEvent.setup();
+    render(<TestComponent />);
+    await user.click(screen.getByRole('button', { name: /menu/i }));
+    expect(screen.queryByText(/how to/i)).toBeInTheDocument();
   });
 });
