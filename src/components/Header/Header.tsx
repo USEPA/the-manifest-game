@@ -37,7 +37,7 @@ export const Header = ({ treeTitle }: HeaderProps) => {
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-semibold text-white">{treeTitle}</h1>
           <div className="">
-            <DropdownMenu>
+            <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"
@@ -48,7 +48,7 @@ export const Header = ({ treeTitle }: HeaderProps) => {
                   <LuMenu />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+              <DropdownMenuContent className="mx-4">
                 <DropdownMenuLabel>Help</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={showInstructions}>
