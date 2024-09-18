@@ -5,6 +5,8 @@ import { useLocation, useSearchParams } from 'react-router-dom';
 export interface UsesPathReturn {
   pathParam: string;
   setPathParam: (pathId: string) => void;
+  treeParam: string;
+  setTreeParam: (treeId: string) => void;
   pathname: string;
   copyTreeUrlToClipboard: () => void;
 }
@@ -15,6 +17,7 @@ export interface UsesPathReturn {
 export const useUrl = () => {
   const [urlQueryParams, setUrlQueryParams] = useSearchParams();
   const [pathParam, setPathParam] = useState<string | null | undefined>(urlQueryParams.get('path'));
+  const [treeParam, setTreeParam] = useState<string | null | undefined>(urlQueryParams.get('tree'));
   const { pathname } = useLocation();
   const { path } = useDecisions();
 
@@ -22,6 +25,12 @@ export const useUrl = () => {
     urlQueryParams.set('path', pathId);
     setUrlQueryParams(urlQueryParams);
     setPathParam(pathId);
+  };
+
+  const setUrlTreeId = (treeId: string) => {
+    urlQueryParams.set('tree', treeId);
+    setUrlQueryParams(urlQueryParams);
+    setTreeParam(treeId);
   };
 
   const copyUrl = () => {
@@ -35,6 +44,8 @@ export const useUrl = () => {
   return {
     pathParam,
     setPathParam: setUrlPathId,
+    treeParam,
+    setTreeParam: setUrlTreeId,
     pathname,
     copyTreeUrlToClipboard: copyUrl,
   } as UsesPathReturn;
