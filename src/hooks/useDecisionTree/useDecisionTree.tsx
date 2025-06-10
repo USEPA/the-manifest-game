@@ -1,6 +1,6 @@
 import { useTreeViewport } from '@/hooks/useTreeViewport/useTreeViewport';
 import { useEffect } from 'react';
-import { PositionUnawareDecisionTree,  useTreeStore } from '@/store';
+import { PositionUnawareDecisionTree, useTreeStore } from '@/store';
 
 /**
  * custom hook that wraps around the tree store to provide a simplified interface for common tasks
