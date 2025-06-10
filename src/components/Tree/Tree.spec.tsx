@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { Tree } from '@/components/Tree/Tree';
 import { useDecisionTree } from '@/hooks';
-import useTreeStore, { PositionUnawareDecisionTree } from '@/store';
+import { useTreeStore, PositionUnawareDecisionTree } from '@/store';
 import { renderWithProviders } from '@/test-utils';
 import { cleanup, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
