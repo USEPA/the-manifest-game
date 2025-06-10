@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { act, cleanup, render, screen } from '@testing-library/react';
 import { BaseNode } from '@/components/Tree/Nodes/BaseNode/BaseNode';
 import { ReactFlowProvider } from 'reactflow';
-import useTreeStore from '@/store';
+import { useTreeStore } from '@/store';
 import { afterEach, describe, expect, test } from 'vitest';
 
 const TestComponent = () => {
