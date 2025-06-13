@@ -1,8 +1,9 @@
 import { LayoutBtn } from '@/components/Tree/ControlCenter/Controls/LayoutBtn/LayoutBtn';
 import { MiniMapBtn } from '@/components/Tree/ControlCenter/Controls/MiniMapBtn/MiniMapBtn';
 import { ShareBtn } from '@/components/Tree/ControlCenter/Controls/ShareBtn/ShareBtn';
-import { Controls } from 'reactflow';
 import { TreeDirection } from '@/store';
+import { ORIENTATION } from '@/store/TreeSlice/treeSlice';
+import { Controls } from 'reactflow';
 
 export interface ControlCenterProps {
   mapVisible: boolean;
@@ -21,10 +22,12 @@ export const ControlCenter = ({
   const toggleMap = () => {
     setMapVisible(!mapVisible);
   };
-  const isHorizontal = direction === 'LR';
+  const isHorizontal = direction === ORIENTATION.leftToRight;
 
   const toggleDirection = () => {
-    setDirection(direction === 'TB' ? 'LR' : 'TB');
+    setDirection(
+      direction === ORIENTATION.topToBottom ? ORIENTATION.leftToRight : ORIENTATION.topToBottom
+    );
   };
 
   return (

@@ -1,8 +1,9 @@
 import '@testing-library/jest-dom';
 import { useTreeDirection } from '@/hooks/useTreeDirection/useTreeDirection';
+import { TreeDirection, useTreeStore } from '@/store';
+import { ORIENTATION } from '@/store/TreeSlice/treeSlice';
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { useTreeStore, TreeDirection } from '@/store';
 import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 
 afterEach(() => {
@@ -11,7 +12,7 @@ afterEach(() => {
 });
 beforeEach(() => {
   useTreeStore.setState({
-    direction: 'TB',
+    direction: ORIENTATION.topToBottom,
     tree: {
       '1': {
         id: '1',
@@ -37,26 +38,26 @@ const TestComponent = ({
     <>
       <p>{direction}</p>
       <p>{isHorizontal ? 'horizontal' : 'vertical'}</p>
-      <button onClick={() => setDirection(newDir || 'LR')}>set direction</button>
+      <button onClick={() => setDirection(newDir || ORIENTATION.leftToRight)}>set direction</button>
     </>
   );
 };
 
 describe('useTreeDirection', () => {
   test('returns the current direction', () => {
-    render(<TestComponent initialDir={'TB'} />);
-    expect(screen.getByText('TB')).toBeInTheDocument();
+    render(<TestComponent initialDir={ORIENTATION.topToBottom} />);
+    expect(screen.getByText(ORIENTATION.topToBottom)).toBeInTheDocument();
   });
   test('sets the tree direction', async () => {
     const user = userEvent.setup();
-    render(<TestComponent initialDir={'TB'} newDir={'LR'} />);
+    render(<TestComponent initialDir={ORIENTATION.topToBottom} newDir={ORIENTATION.leftToRight} />);
     const button = screen.getByText('set direction');
     await user.click(button);
-    expect(screen.queryByText('LR')).toBeInTheDocument();
+    expect(screen.queryByText(ORIENTATION.leftToRight)).toBeInTheDocument();
   });
   test('exposes a boolean that indicates whether the tree layout is horizontal', async () => {
     const user = userEvent.setup();
-    render(<TestComponent initialDir={'LR'} newDir={'TB'} />);
+    render(<TestComponent initialDir={ORIENTATION.leftToRight} newDir={ORIENTATION.topToBottom} />);
     expect(screen.queryByText('horizontal')).toBeInTheDocument();
     await user.click(screen.getByText('set direction'));
     expect(screen.queryByText('vertical')).toBeInTheDocument();

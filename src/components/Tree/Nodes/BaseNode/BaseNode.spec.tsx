@@ -1,8 +1,9 @@
 import '@testing-library/jest-dom';
-import { act, cleanup, render, screen } from '@testing-library/react';
 import { BaseNode } from '@/components/Tree/Nodes/BaseNode/BaseNode';
-import { ReactFlowProvider } from 'reactflow';
 import { useTreeStore } from '@/store';
+import { ORIENTATION } from '@/store/TreeSlice/treeSlice';
+import { act, cleanup, render, screen } from '@testing-library/react';
+import { ReactFlowProvider } from 'reactflow';
 import { afterEach, describe, expect, test } from 'vitest';
 
 const TestComponent = () => {
@@ -31,12 +32,12 @@ describe('BaseNode', () => {
     expect(screen.getByTestId('node-1')).toBeInTheDocument();
   });
   test('handles changes in tree layout', () => {
-    useTreeStore.setState({ direction: 'LR' });
+    useTreeStore.setState({ direction: ORIENTATION.leftToRight });
     const { rerender } = render(<TestComponent />);
     expect(screen.getByTestId('left-handle')).toBeInTheDocument();
     expect(screen.getByTestId('right-handle')).toBeInTheDocument();
     act(() => {
-      useTreeStore.setState({ direction: 'TB' });
+      useTreeStore.setState({ direction: ORIENTATION.topToBottom });
     });
     rerender(<TestComponent />);
     expect(screen.getByTestId('top-handle')).toBeInTheDocument();

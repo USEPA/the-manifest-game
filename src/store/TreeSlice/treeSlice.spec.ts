@@ -1,5 +1,11 @@
 import '@testing-library/jest-dom';
-import { createTreeSlice, Decision, DecisionPath, TreeSlice } from '@/store/TreeSlice/treeSlice';
+import {
+  createTreeSlice,
+  Decision,
+  DecisionPath,
+  ORIENTATION,
+  TreeSlice,
+} from '@/store/TreeSlice/treeSlice';
 import { renderHook } from '@testing-library/react';
 import { describe, expect, suite, test } from 'vitest';
 import { create } from 'zustand';
@@ -14,7 +20,7 @@ suite('Tree Slice', () => {
     test('Default direction is left-to-right', () => {
       // @ts-expect-error -- relaxing types for testing
       const { result } = renderHook(() => create(createTreeSlice));
-      expect(result.current.getState().direction).toEqual('LR');
+      expect(result.current.getState().direction).toEqual(ORIENTATION.leftToRight);
     });
   });
   describe('Decision path', () => {

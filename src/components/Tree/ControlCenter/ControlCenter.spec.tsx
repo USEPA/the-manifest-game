@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 import { ControlCenter } from '@/components/Tree/ControlCenter/index';
 import { TreeDirection } from '@/store';
+import { ORIENTATION } from '@/store/TreeSlice/treeSlice';
 import { renderWithProviders } from '@/test-utils';
 import { cleanup, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -19,7 +20,7 @@ const TestComponent = ({ ...props }: TestComponentProps) => {
   const mapVisible = props?.mapVisible ?? true;
   const onClick = props?.setMapVisible ?? dummyFunc;
   const setDirection = props?.setDirection ?? dummyFunc;
-  const direction = props?.direction ?? 'TB';
+  const direction = props?.direction ?? ORIENTATION.topToBottom;
 
   return (
     <ReactFlowProvider>
@@ -64,7 +65,7 @@ describe('ControlCenter', () => {
     const user = userEvent.setup();
     const setDirection = vi.fn();
     const { rerender } = renderWithProviders(
-      <TestComponent setDirection={setDirection} direction={'LR'} />
+      <TestComponent setDirection={setDirection} direction={ORIENTATION.leftToRight} />
     );
     await user.click(screen.getByRole('button', { name: /layout/i }));
     expect(setDirection).toHaveBeenCalled();
