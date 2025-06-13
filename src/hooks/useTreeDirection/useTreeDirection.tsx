@@ -1,5 +1,6 @@
+import { TreeDirection, useTreeStore } from '@/store';
+import { ORIENTATION } from '@/store/TreeSlice/treeSlice';
 import { useEffect } from 'react';
-import { useTreeStore, TreeDirection } from '@/store';
 
 /**
  * Returns the current direction of the node layout and a setter. The direction can be set to
@@ -17,7 +18,7 @@ export const useTreeDirection = (initialDir?: TreeDirection) => {
     if (initialDir) setStoreDirection(initialDir);
   }, [initialDir, setStoreDirection]);
 
-  const isHorizontal: boolean = direction === 'LR';
+  const isHorizontal: boolean = direction === ORIENTATION.leftToRight;
 
   return [direction, setDirection, isHorizontal] as const;
 };

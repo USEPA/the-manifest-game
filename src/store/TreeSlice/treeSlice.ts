@@ -1,4 +1,3 @@
-import { Node } from 'reactflow';
 import { layoutTree } from '@/store/TreeSlice/layout';
 import {
   getAncestorIds,
@@ -6,6 +5,7 @@ import {
   setNodesHidden,
   setNodeVisible,
 } from '@/store/TreeSlice/treeSliceUtils';
+import { Node } from 'reactflow';
 import { StateCreator } from 'zustand';
 
 /** Data needed by all nodes in our tree*/
@@ -35,7 +35,12 @@ export type DecisionTree = Record<string, Vertex>;
 
 export type PositionUnawareDecisionTree = Record<string, Omit<Vertex, 'position'>>;
 
-export type TreeDirection = 'TB' | 'LR';
+export const ORIENTATION = {
+  leftToRight: 'LR',
+  topToBottom: 'TB',
+};
+
+export type TreeDirection = (typeof ORIENTATION)[keyof typeof ORIENTATION];
 
 export interface Decision {
   nodeId: string;
@@ -79,7 +84,7 @@ export const createTreeSlice: StateCreator<
   [],
   TreeSlice
 > = (set, get) => ({
-  direction: 'LR',
+  direction: ORIENTATION.leftToRight,
   tree: {},
   path: [],
   setTreeDirection: (direction: TreeDirection) => {

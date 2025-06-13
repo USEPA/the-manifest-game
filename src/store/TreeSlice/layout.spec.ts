@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 import { PositionUnawareDecisionTree } from '@/store/DagNodeSlice/dagNodeSlice';
 import { layoutTree } from '@/store/TreeSlice/layout';
+import { ORIENTATION } from '@/store/TreeSlice/treeSlice';
 import { describe, expect, test } from 'vitest';
 
 describe('DAG layout', () => {
@@ -40,7 +41,7 @@ describe('DAG layout', () => {
         },
       },
     };
-    const direction = 'LR';
+    const direction = ORIENTATION.leftToRight;
     const horizontalTree = layoutTree(positionUnawareTree, direction);
     const verticalTree = layoutTree(positionUnawareTree);
     expect(horizontalTree[parentId].position.x).toBeLessThanOrEqual(
