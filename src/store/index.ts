@@ -33,4 +33,4 @@ const useTreeStore = create<
   )
 );
 
-export default useTreeStore;
+export { useTreeStore };

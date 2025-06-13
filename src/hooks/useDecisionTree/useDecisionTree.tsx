@@ -1,6 +1,6 @@
 import { useTreeViewport } from '@/hooks/useTreeViewport/useTreeViewport';
 import { useEffect } from 'react';
-import useDecTreeStore, { PositionUnawareDecisionTree } from '@/store';
+import { PositionUnawareDecisionTree, useTreeStore } from '@/store';
 
 /**
  * custom hook that wraps around the tree store to provide a simplified interface for common tasks
@@ -24,7 +24,7 @@ export const useDecisionTree = (initialTree?: PositionUnawareDecisionTree, pathP
     removeDecisionFromPath,
     getParentVertexId,
     getPath,
-  } = useDecTreeStore((state) => state);
+  } = useTreeStore((state) => state);
 
   const focusNode = (nodeId: string) => {
     setCenter(tree[nodeId].position.x + 50, tree[nodeId].position.y + 50, {

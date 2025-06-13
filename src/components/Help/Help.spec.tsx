@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { Help } from '@/components/Help/Help';
-import useTreeStore from '@/store';
+import { useTreeStore } from '@/store';
 import { notFirstTimeMock } from '@/test-utils';
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import { delay, http, HttpResponse } from 'msw';

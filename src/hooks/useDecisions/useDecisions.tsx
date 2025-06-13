@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import useTreeStore from '@/store';
+import { useTreeStore } from '@/store';
 import { Decision, DecisionPath } from '@/store/TreeSlice/treeSlice';
 
 export interface UsesPathReturn {

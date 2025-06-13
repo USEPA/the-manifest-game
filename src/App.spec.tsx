@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import App from '@/App';
 import { useUrl } from '@/hooks';
-import useTreeStore from '@/store';
+import { useTreeStore } from '@/store';
 import { notFirstTimeMock, renderWithProviders } from '@/test-utils';
 import { cleanup, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';

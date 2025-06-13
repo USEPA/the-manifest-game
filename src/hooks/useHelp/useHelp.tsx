@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import useTreeStore from '@/store';
+import { useTreeStore } from '@/store';
 
 export interface UseHelpReturn {
   helpIsOpen: boolean;

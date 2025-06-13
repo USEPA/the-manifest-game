@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { BoolNode, BoolNodeData } from '@/components/Tree/Nodes/BoolNode/BoolNode';
-import useTreeStore from '@/store';
+import { useTreeStore } from '@/store';
 import { renderWithProviders } from '@/test-utils';
 import { cleanup, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
