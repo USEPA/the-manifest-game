@@ -1,29 +1,33 @@
 import '@testing-library/jest-dom';
-import { renderHook } from '@testing-library/react';
 import { createTreeSlice, Decision, DecisionPath, TreeSlice } from '@/store/TreeSlice/treeSlice';
+import { renderHook } from '@testing-library/react';
 import { describe, expect, suite, test } from 'vitest';
 import { create } from 'zustand';
 
 suite('Tree Slice', () => {
   describe('Initial State', () => {
     test('Path is initially empty ', () => {
-      const { result } = renderHook(() => create<TreeSlice>(createTreeSlice));
+      // @ts-expect-error -- relaxing types for testing
+      const { result } = renderHook(() => create(createTreeSlice));
       expect(result.current.getState().path).toEqual([]);
     });
     test('Default direction is left-to-right', () => {
-      const { result } = renderHook(() => create<TreeSlice>(createTreeSlice));
+      // @ts-expect-error -- relaxing types for testing
+      const { result } = renderHook(() => create(createTreeSlice));
       expect(result.current.getState().direction).toEqual('LR');
     });
   });
   describe('Decision path', () => {
     test('setter', () => {
-      const { result } = renderHook(() => create<TreeSlice>(createTreeSlice));
+      // @ts-expect-error -- relaxing types for testing
+      const { result } = renderHook(() => create(createTreeSlice));
       const decision: Decision = { nodeId: 'foo', selected: 'bar' };
       const path: DecisionPath = [decision];
       result.current.getState().setPath(path);
       expect(result.current.getState().path).toContain(decision);
     });
     test('getter', () => {
+      // @ts-expect-error -- relaxing types for testing
       const { result } = renderHook(() => create<TreeSlice>(createTreeSlice));
       const decision: Decision = { nodeId: 'foo', selected: 'bar' };
       const path: DecisionPath = [decision];
@@ -31,6 +35,7 @@ suite('Tree Slice', () => {
       expect(result.current.getState().getPath()).toEqual(path);
     });
     test('can remove decisions from the path with the node ID', () => {
+      // @ts-expect-error -- relaxing types for testing
       const { result } = renderHook(() => create<TreeSlice>(createTreeSlice));
       const foo: Decision = { nodeId: 'foo', selected: 'bar' };
       const bar: Decision = { nodeId: 'bar', selected: 'foobar' };
@@ -40,6 +45,7 @@ suite('Tree Slice', () => {
       expect(result.current.getState().path).not.toContain(bar);
     });
     test('no changes if node ID not in path', () => {
+      // @ts-expect-error -- relaxing types for testing
       const { result } = renderHook(() => create<TreeSlice>(createTreeSlice));
       const foo: Decision = { nodeId: 'foo', selected: 'bar' };
       const bar: Decision = { nodeId: 'bar', selected: 'foobar' };
@@ -51,6 +57,7 @@ suite('Tree Slice', () => {
   });
   describe('Get Ancestor IDs', () => {
     test('returns ancestor IDs', () => {
+      // @ts-expect-error -- relaxing types for testing
       const { result } = renderHook(() => create<TreeSlice>(createTreeSlice));
       const tree = {
         foo: {

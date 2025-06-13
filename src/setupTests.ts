@@ -8,7 +8,8 @@ global.ResizeObserver = vi.fn().mockImplementation(() => ({
   disconnect: vi.fn(),
 }));
 
-vi.mock('zustand'); // to make it works like Jest (auto-mocking)
+// https://zustand.docs.pmnd.rs/guides/testing#vitest
+vi.mock('zustand');
 
 class DOMMatrixReadOnly {
   m22: number;
