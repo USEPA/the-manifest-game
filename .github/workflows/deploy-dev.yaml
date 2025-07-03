@@ -8,6 +8,9 @@ on:
     branches:
       - main
 
+env:
+  VITE_IS_DEMO: 'true'
+
 jobs:
   deploy:
     if: github.repository == 'usepa/the-manifest-game'
