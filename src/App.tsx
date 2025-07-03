@@ -12,7 +12,7 @@ import { useEffect } from 'react';
  * @constructor
  */
 export default function App() {
-  const title = import.meta.env.VITE_APP_TITLE ?? 'The Manifest Decision Tree';
+  const title = import.meta.env.VITE_APP_TITLE ?? 'The Manifest Game';
   const { config, isLoading: configIsLoading, error: configError } = useFetchConfig(defaultTree);
   const { pathParam, treeParam, setTreeParam } = useUrl();
   const { nodes, edges } = useDecisionTree(config, pathParam);
