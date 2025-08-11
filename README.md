@@ -3,9 +3,12 @@
 [![Tests](https://github.com/USEPA/the-manifest-game/actions/workflows/test.yaml/badge.svg)](https://github.com/USEPA/the-manifest-game/actions/workflows/test.yaml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-An interactive decision tree to assist e-Manifest users determine the necessary course of action.
+An interactive decision tree to help [e-Manifest](https://epa.gov/e-manifest) user understand the electronic hazardous waste manifesting process. 
+Since e-Manifest is used by individuals from different backgrounds (e.g., generators, regulators, the public, developers, etc.), 
+it can be difficult for users to find information relevant to their situation. 
+The Manifest Game guides users to the where they need to go so they can, and cuts down on the time spent by regulators answering cascading chains of question.
 
-For additional information, see the [project documentation](./docs).
+For additional information, see the [project docs](./docs).
 
 ## Getting Started
 
