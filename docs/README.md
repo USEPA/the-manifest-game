@@ -34,7 +34,6 @@ user's specific use case. It's intended to be a publicly available tool to assis
 displayed or authentication is required).
 
 
-
 ## Specification
 
 The decision tree is a series of questions that will guide the user to the appropriate help content, or answer
