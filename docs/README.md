@@ -3,15 +3,10 @@
 ## Table of Contents
 
 1. [Introduction](#introduction)
-2. [specification](#specification)
+2. [specification](#requirements)
 3. [Nomenclature](#nomenclature)
 4. [Implementation Notes](#implementation-notes)
-5. [Configuration](#configuration)
-6. [The Manifest Game Docs](#the-manifest-game-docs)
-    - [Table of Contents](#table-of-contents)
-    - [Introduction](#introduction)
-    - [Specification](#specification)
-    - [Nomenclature](#nomenclature)
+5. [The Manifest Game Docs](#the-manifest-game-docs)
     - [Implementation Notes](#implementation-notes)
     - [Configuration](#configuration)
         - [Shared Node Properties](#shared-node-properties)
@@ -19,10 +14,8 @@
         - [BoolNode](#boolnode)
         - [Help Content](#help-content)
         - [Environment Variables](#environment-variables)
-    - [Deployment](#deployment)
-    - [Future Work](#future-work)
-7. [Deployment](#deployment)
-8. [Future Work](#future-work)
+6. [Deployment](#deployment)
+7. [Future Work](#future-work)
 
 ## Introduction
 
@@ -65,7 +58,7 @@ The following terms are used throughout the source:
 3. **Edge**: An edge is a connection between two nodes. The edge is directed from the parent node to the child node.
 4. **Decision Tree**: The decision tree is the graph of choices. The decision tree must be a directed
    acyclic graph (DAG) to prevent infinite loops.
-5. **Children**: The children of a node are the nodes that are **_directly_** connected to the parent node by a
+5. **Children**: The children of a node are the nodes that are **_directly_** connected to the parent node by an
    edge such that in the topological order `f(u, v)` of the DAG, for every edge `(u, v)`, where `u` is the parent
    of `v`, `u` comes before `v`. (also see "Descendant")
 6. **Descendant**: The nodes that are connected to the parent node
