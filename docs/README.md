@@ -7,8 +7,7 @@
 3. [Nomenclature](#nomenclature)
 4. [Implementation Notes](#implementation-notes)
 5. [Configuration](#configuration)
-
-- [The Manifest Game Docs](#the-manifest-game-docs)
+6. [The Manifest Game Docs](#the-manifest-game-docs)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Specification](#specification)
@@ -22,9 +21,8 @@
     - [Environment Variables](#environment-variables)
   - [Deployment](#deployment)
   - [Future Work](#future-work)
-
-6. [Deployment](#deployment)
-7. [Future Work](#future-work)
+7. [Deployment](#deployment)
+8. [Future Work](#future-work)
 
 ## Introduction
 
@@ -38,21 +36,25 @@ displayed or authentication is required).
 The decision tree is a series of questions that will guide the user to the appropriate help content, or answer
 the user's questions directly in the graph.
 
-The decision tree (hereafter referred to as "the tree") should meet the following requirements for a minimum viable product (MVP):
+The decision tree (hereafter referred to as "the tree") should meet the following requirements for a minimum viable
+product (MVP):
 
-1. The tree MUST be interactive, allowing the user to navigate the tree and show information relevant to them while hiding information that does not directly answer their inquiry.
-   - Leaf nodes SHOULD, where appropriate, link to more information on [EPA.gov/e-manifest](https://epa.gov/e-manifest)
+1. The tree MUST be interactive, allowing the user to navigate the tree and show information relevant to them while
+   hiding information that does not directly answer their inquiry.
+  - Leaf nodes SHOULD, where appropriate, link to more information on [EPA.gov/e-manifest](https://epa.gov/e-manifest)
 2. The tree MUST be accessible through a modern web browser.
 3. The tree MUST be configurable through a via text file using a common format (e.g., JSON, yaml).
 4. The tree SHOULD be deployable as a static site.
 5. The tree COULD allow users to share decision trees deep linked to a specific node.
 6. The tree COULD support showing help content in a modal window where information cannot fit onto a tree node.
 7. The tree SHOULD support showing multiple decision tree on separate pages of the site.
-8. The tree COULD support loops in the decision tree to indicate that the user should repeat these steps until a certain criteria is met.
+8. The tree COULD support loops in the decision tree to indicate that the user should repeat these steps until a certain
+   criteria is met.
 
 ## Nomenclature
 
-Before reading the docs or code, it is helpful to be familiar with [Directed Acyclic Graphs](https://en.wikipedia.org/wiki/Directed_acyclic_graph).
+Before reading the docs or code, it is helpful to be familiar
+with [Directed Acyclic Graphs](https://en.wikipedia.org/wiki/Directed_acyclic_graph).
 
 The following terms are used throughout the source:
 
@@ -83,13 +85,15 @@ This project is implemented using the [React](https://reactjs.org/) library and 
 which made prototyping possible in a short amount of time.
 
 Another dependency of note is [zustand](https://github.com/pmndrs/zustand), a popular state management
-library. We use this library to manage the global state of the decision tree to make sure that the logic for updating to tree was centralized and the tree remains in a acceptable state on change.
+library. We use this library to manage the global state of the decision tree to make sure that the logic for updating to
+tree was centralized and the tree remains in a acceptable state on change.
 
 ## Configuration
 
 The decision tree is read from a JSON configuration file that contains all choices in the
 tree, and any accompanying metadata. The decision tree config files are stored in the `public/` directory,
-which is included in the bundled artifact at build time. Configs are fetched from the server, read, and parsed at runtime to
+which is included in the bundled artifact at build time. Configs are fetched from the server, read, and parsed at
+runtime to
 build the decision tree. In particular the `public/default.json` tree config file is loaded by default
 when the user first visits the page.
 
@@ -146,7 +150,10 @@ There are different types of nodes which vary in their expected schema.
   "id": "goRegister",
   "data": {
     "label": "You have options",
-    "children": ["option1", "option2"]
+    "children": [
+      "option1",
+      "option2"
+    ]
   }
 }
 ```
@@ -200,7 +207,7 @@ The project is a static site, any method of deploying static files will work (e.
 basement, etc.).
 
 This project also include a Dockerfile and a docker-compose file, both of which are fairly straightforward.
-The containerized project exposes the site on port 3000 behind [Nginx](https://www.nginx.com/). 
+The containerized project exposes the site on port 3000 behind [Nginx](https://www.nginx.com/).
 The docker-compose just makes it easier to locally develop/build/run the site.
 
 ```shell
@@ -209,7 +216,10 @@ docker compose up
 
 ## Future Work
 
-- [x] It should be possible to link to a specific node in the decision tree so that the tree starts at that node open upon visiting the page.
-- [ ] A node type for multiple choice questions (e.g., what type of site are you? A generator, a TSDF, or a transporter).
+- [x] It should be possible to link to a specific node in the decision tree so that the tree starts at that node open
+  upon visiting the page.
+- [ ] A node type for multiple choice questions (e.g., what type of site are you? A generator, a TSDF, or a
+  transporter).
 - [ ] Allow EPA to configure multiple trees/subtrees.
-- [x] Markup help text. Currently, we only support text based help content, stored in a JSON encoded file. Being able to provide more complex help content could make the tool more useful as it would allow linking to other resources.
+- [x] Markup help text. Currently, we only support text based help content, stored in a JSON encoded file. Being able to
+  provide more complex help content could make the tool more useful as it would allow linking to other resources.
