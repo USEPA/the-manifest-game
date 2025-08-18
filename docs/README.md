@@ -8,19 +8,19 @@
 4. [Implementation Notes](#implementation-notes)
 5. [Configuration](#configuration)
 6. [The Manifest Game Docs](#the-manifest-game-docs)
-  - [Table of Contents](#table-of-contents)
-  - [Introduction](#introduction)
-  - [Specification](#specification)
-  - [Nomenclature](#nomenclature)
-  - [Implementation Notes](#implementation-notes)
-  - [Configuration](#configuration)
-    - [Shared Node Properties](#shared-node-properties)
-    - [DefaultNode](#defaultnode)
-    - [BoolNode](#boolnode)
-    - [Help Content](#help-content)
-    - [Environment Variables](#environment-variables)
-  - [Deployment](#deployment)
-  - [Future Work](#future-work)
+    - [Table of Contents](#table-of-contents)
+    - [Introduction](#introduction)
+    - [Specification](#specification)
+    - [Nomenclature](#nomenclature)
+    - [Implementation Notes](#implementation-notes)
+    - [Configuration](#configuration)
+        - [Shared Node Properties](#shared-node-properties)
+        - [DefaultNode](#defaultnode)
+        - [BoolNode](#boolnode)
+        - [Help Content](#help-content)
+        - [Environment Variables](#environment-variables)
+    - [Deployment](#deployment)
+    - [Future Work](#future-work)
 7. [Deployment](#deployment)
 8. [Future Work](#future-work)
 
@@ -41,7 +41,7 @@ product (MVP):
 
 1. The tree MUST be interactive, allowing the user to navigate the tree and show information relevant to them while
    hiding information that does not directly answer their inquiry.
-  - Leaf nodes SHOULD, where appropriate, link to more information on [EPA.gov/e-manifest](https://epa.gov/e-manifest)
+    - Leaf nodes SHOULD, where appropriate, link to more information on [EPA.gov/e-manifest](https://epa.gov/e-manifest)
 2. The tree MUST be accessible through a modern web browser.
 3. The tree MUST be configurable through a via text file using a common format (e.g., JSON, yaml).
 4. The tree SHOULD be deployable as a static site.
@@ -101,26 +101,26 @@ The decision tree config should follow a schema illustrated by the below example
 
 ```json
 {
-  "nodes": [
-    {
-      "id": "root",
-      "type": "BoolNode",
-      "data": {
-        "label": "Are you registered?",
-        "yesId": "doYouHaveSiteId",
-        "noId": "goRegister",
-        "help": "welcome.html"
-      }
-    },
-    {
-      "id": "goRegister",
-      "data": {
-        "label": "Time to Register in RCRAInfo!",
-        "children": [],
-        "help": "register.json"
-      }
-    }
-  ]
+    "nodes": [
+        {
+            "id": "root",
+            "type": "BoolNode",
+            "data": {
+                "label": "Are you registered?",
+                "yesId": "doYouHaveSiteId",
+                "noId": "goRegister",
+                "help": "welcome.html"
+            }
+        },
+        {
+            "id": "goRegister",
+            "data": {
+                "label": "Time to Register in RCRAInfo!",
+                "children": [],
+                "help": "register.json"
+            }
+        }
+    ]
 }
 ```
 
@@ -133,7 +133,7 @@ There are different types of nodes which vary in their expected schema.
   short descriptive name (e.g., `goRegister`).
 - **type**: The optional type of the node. If no value specified, a default node will be created. The type determines
   the behavior of the node. The type is a string that corresponds to the name of the node class (e.g., `BoolNode`).
-  - Possible values: `"BoolNode"`, `"Default"`, or left blank.
+    - Possible values: `"BoolNode"`, `"Default"`, or left blank.
 - **data**: An object that contains the node's metadata. including the children of a node.
 - **data.label**: The text that will be displayed on the node. This is the question or statement that the node
   represents.
@@ -147,14 +147,14 @@ There are different types of nodes which vary in their expected schema.
 
 ```json
 {
-  "id": "goRegister",
-  "data": {
-    "label": "You have options",
-    "children": [
-      "option1",
-      "option2"
-    ]
-  }
+    "id": "goRegister",
+    "data": {
+        "label": "You have options",
+        "children": [
+            "option1",
+            "option2"
+        ]
+    }
 }
 ```
 
@@ -165,14 +165,14 @@ There are different types of nodes which vary in their expected schema.
 
 ```json
 {
-  "id": "wouldULikeToPlayAGame",
-  "type": "BoolNode",
-  "data": {
-    "label": "Would you like to play a game?",
-    "yesId": "sureWhyNot",
-    "noId": "noThankYou",
-    "help": "game-instructions.html"
-  }
+    "id": "wouldULikeToPlayAGame",
+    "type": "BoolNode",
+    "data": {
+        "label": "Would you like to play a game?",
+        "yesId": "sureWhyNot",
+        "noId": "noThankYou",
+        "help": "game-instructions.html"
+    }
 }
 ```
 
@@ -185,8 +185,8 @@ JSON encoded content should follow the below schema.
 
 ```json
 {
-  "type": "text",
-  "content": "Welcome to the Manifest Game!\n\n This decision tree will help you..."
+    "type": "text",
+    "content": "Welcome to the Manifest Game!\n\n This decision tree will help you..."
 }
 ```
 
