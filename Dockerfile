@@ -20,7 +20,7 @@ EXPOSE 3000
 CMD ["npm", "run", "dev"]
 
 # Production
-FROM nginx:1.29-alpine-slim as production
+FROM nginx:1.31-alpine-slim as production
 WORKDIR /app
 ENV NODE_ENV production
 # copy build from builder stage
